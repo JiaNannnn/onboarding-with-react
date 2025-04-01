@@ -35,7 +35,7 @@
         "shortName": "CT",
         "parent": "HVAC",
         "enos_model": "EnOS_HVAC_CT",
-        "points": {
+        "points": [
             "CT_raw_status",
             "CT_raw_on_off_command",
             "CT_raw_trip",
@@ -45,13 +45,13 @@
             "CT_raw_valve_status_cwl",
             "CT_raw_power_active_total",
             "CT_raw_energy_active_total"
-        }
+        ]
     },
     "Chiller Plant": {
         "shortName": "CHPL",
         "parent": "HVAC",
         "enos_model": "EnOS_HVAC_CHPL",
-        "points": {
+        "points": [
             "CHPL_raw_load_building",
             "CHPL_raw_temp_chws_header",
             "CHPL_raw_temp_chwr_header",
@@ -61,7 +61,7 @@
             "CHPL_raw_flow_chwr_header",
             "CHPL_raw_power_active_total",
             "CHPL_raw_energy_active_total"
-        }
+        ]
     },
     "Air Handing Unit": {
         "shortName": "AHU",

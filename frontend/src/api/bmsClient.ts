@@ -192,7 +192,7 @@ export interface GroupPointsResponse {
 export interface PointMapping {
   pointName: string;
   deviceType: string;
-  enosPath?: string;
+  enosPoint?: string;
   status?: string;
 }
 
@@ -208,16 +208,18 @@ export interface MapPointsRequest {
  * Point mapping response
  */
 export interface MapPointsResponse {
-  message: string;
+  success: boolean;
+  message?: string;
   mappings: PointMapping[];
-  statistics: {
+  statistics?: {
     total: number;
     mapped: number;
     unmapped: number;
     errors: number;
     timeouts: number;
   };
-  method: string;
+  method?: string;
+  error?: string;
 }
 
 /**
@@ -267,7 +269,7 @@ export interface MapPointsToEnOSResponse {
     pointId: string;
     pointName: string;
     pointType: string;
-    enosPath: string;
+    enosPoint: string;
     confidence: number;
     status: 'mapped' | 'error';
     error?: string;
@@ -748,227 +750,19 @@ export class BMSClient {
     points: BMSPoint[],
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
-    // Retry configuration
-    const maxRetries = 2;
-    let currentTry = 0;
-    
-    while (currentTry <= maxRetries) {
-      // Capture current retry count for closures
-      const tryNumber = currentTry;
-      
-      try {
-        // Use relative URL to ensure it goes through React proxy middleware
-        const url = '/api/bms/map-points';
-        
-        // Build simple request body
-        const requestBody = {
-          points: points.map(p => ({
-            id: p.id || '',
-            pointName: p.pointName,
-            pointType: p.pointType || p.deviceType || ''
-          })),
-          targetSchema: mappingConfig.targetSchema || 'default',
-          transformationRules: mappingConfig.transformationRules || {},
-          matchingStrategy: mappingConfig.matchingStrategy || 'ai',
-          confidence: mappingConfig.confidence || 0.7
-        };
-        
-        // Use API client for request with longer timeout
-        const response = await this.apiClient.post<MapPointsToEnOSResponse>(
-          url, 
-          requestBody, 
-          { 
-            timeout: 60000, // 60-second timeout
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          }
-        );
-        
-        // Check if response was successful
-        if (response && response.success) {
-          console.log(`Mapping successful, mapped ${response.mappings?.length || 0} points`);
-          return response;
-        } else {
-          // Response unsuccessful but we got a response
-          const errorMessage = response?.error || 'Unknown error';
-          console.warn(`Point mapping failed: ${errorMessage}`);
-          
-          if (tryNumber < maxRetries) {
-            // More retry attempts available
-            currentTry++;
-            console.log(`Attempting to remap points (${currentTry}/${maxRetries})`);
-            continue;
-          }
-          
-          return {
-            success: false,
-            error: `Point mapping failed: ${errorMessage}`,
-            mappings: []
-          };
+    try {
+      const response = await this.apiClient.post<MapPointsToEnOSResponse>(
+        `${API_V1_PATH}/map-points`,
+        {
+          points,
+          mappingConfig
         }
-      } catch (error) {
-        console.error('Point mapping error:', error);
-        
-        // Extract detailed error information
-        let errorMessage = 'Unknown error';
-        let status = 0;
-        
-        if (error instanceof Error) {
-          errorMessage = error.message;
-          
-          // Check if it's a network error
-          if (error.message.includes('Network Error') || 
-              error.message.includes('timeout') || 
-              error.message.includes('Connection refused')) {
-            
-            if (tryNumber < maxRetries) {
-              // Network error with more retry attempts available
-              currentTry++;
-              console.log(`Network error, attempting to remap points (${currentTry}/${maxRetries})`);
-              // Add delay between retries - use delay proportional to the try number
-              const delay = 1000 * tryNumber + 1;
-              await new Promise(resolve => setTimeout(resolve, delay));
-              continue;
-            }
-            
-            errorMessage = `Network connection error: ${error.message}. Please check if backend service is running.`;
-          }
-        } else if (typeof error === 'object' && error !== null) {
-          // Extract more error information
-          const apiError = error as any;
-          errorMessage = apiError.message || apiError.error || 'Unknown API error';
-          status = apiError.status || apiError.statusCode || 0;
-          
-          if (status === 500) {
-            errorMessage = `Server internal error (500): ${errorMessage}`;
-          } else if (status === 404) {
-            errorMessage = `API endpoint not found (404): Please verify backend service configuration`;
-          } else if (status === 400) {
-            errorMessage = `Invalid request format (400): ${errorMessage}`;
-          }
-        }
-        
-        // Check if retry is needed
-        if (tryNumber < maxRetries) {
-          currentTry++;
-          console.log(`Attempting to remap points (${currentTry}/${maxRetries})`);
-          // Add delay between retries - use delay proportional to the try number
-          const delay = 1000 * tryNumber + 1;
-          await new Promise(resolve => setTimeout(resolve, delay));
-          continue;
-        }
-        
-        // Return failure response
-        return {
-          success: false,
-          error: `Point mapping failed: ${errorMessage}`,
-          mappings: [],
-          stats: {
-            total: points.length,
-            mapped: 0,
-            errors: points.length
-          }
-        };
-      }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error mapping points to EnOS:', error);
+      throw error;
     }
-    
-    // 所有重试都失败的情况，使用本地映射作为后备方案
-    console.warn('所有远程映射尝试均失败，使用本地映射作为后备方案');
-    
-    // 使用简单的本地映射逻辑
-    const localMappings = points.map(point => {
-      // 基本信息
-      const result: {
-        pointId: string;
-        pointName: string;
-        pointType: string;
-        status: 'mapped' | 'error';
-        confidence: number;
-        enosPath: string;
-        deviceType?: string;
-      } = {
-        pointId: point.id || '',
-        pointName: point.pointName,
-        pointType: point.pointType || '',
-        status: 'mapped',
-        confidence: 0.8,
-        enosPath: ''
-      };
-      
-      // 提取设备类型（假设格式为 "AHU-1.SupplyTemp" 或类似）
-      const pointParts = point.pointName.split(/[-_.]/);
-      const deviceTypeRaw = pointParts[0].toUpperCase();
-      let deviceType = 'UNKNOWN';
-      
-      // 标准化设备类型
-      if (['AHU', 'MAU', 'RTU'].includes(deviceTypeRaw)) {
-        deviceType = 'AHU';
-      } else if (['FCU', 'FAN'].includes(deviceTypeRaw)) {
-        deviceType = 'FCU';
-      } else if (['VAV', 'CAV'].includes(deviceTypeRaw)) {
-        deviceType = 'VAV';
-      } else if (['CH', 'CHILLER', 'CHL'].includes(deviceTypeRaw)) {
-        deviceType = 'CHILLER';
-      } else if (['BLR', 'BOILER'].includes(deviceTypeRaw)) {
-        deviceType = 'BOILER';
-      } else if (['PMP', 'PUMP', 'CWP', 'CHWP', 'HWP'].includes(deviceTypeRaw)) {
-        deviceType = 'PUMP';
-      }
-      
-      // 提取点位名称关键字
-      const pointNameLower = point.pointName.toLowerCase();
-      let pointType = 'unknown';
-      
-      // 根据点位名称确定EnOS路径
-      if (pointNameLower.includes('temp') || pointNameLower.includes('tmp')) {
-        if (pointNameLower.includes('supply') || pointNameLower.includes('sa')) {
-          pointType = 'supplyTemperature';
-        } else if (pointNameLower.includes('return') || pointNameLower.includes('ra')) {
-          pointType = 'returnTemperature';
-        } else if (pointNameLower.includes('zone') || pointNameLower.includes('room')) {
-          pointType = 'zoneTemperature';
-        } else {
-          pointType = 'temperature';
-        }
-      } else if (pointNameLower.includes('hum') || pointNameLower.includes('rh')) {
-        pointType = 'humidity';
-      } else if (pointNameLower.includes('pres') || pointNameLower.includes('pressure')) {
-        pointType = 'pressure';
-      } else if (pointNameLower.includes('flow') || pointNameLower.includes('cfm')) {
-        pointType = 'airflow';
-      } else if (pointNameLower.includes('valve') || pointNameLower.includes('damper')) {
-        pointType = 'valvePosition';
-      } else if (pointNameLower.includes('status') || pointNameLower.includes('state')) {
-        pointType = 'status';
-      } else if (pointNameLower.includes('setpoint') || pointNameLower.includes('sp')) {
-        pointType = 'setpoint';
-      } else if (pointNameLower.includes('mode')) {
-        pointType = 'mode';
-      } else if (pointNameLower.includes('speed') || pointNameLower.includes('freq')) {
-        pointType = 'speed';
-      } else {
-        pointType = 'generic';
-      }
-      
-      // 构建EnOS路径
-      result.enosPath = `${deviceType}/points/${pointType}`;
-      result.deviceType = deviceType;
-      
-      return result;
-    });
-    
-    return {
-      success: true,
-      error: '使用本地映射作为后备方案',
-      mappings: localMappings,
-      stats: {
-        total: points.length,
-        mapped: localMappings.length,
-        errors: 0
-      }
-    };
   }
 
   /**

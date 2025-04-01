@@ -392,7 +392,7 @@ module.exports = function(app) {
           deviceId,
           deviceType: equipmentType,
           pointCategory,
-          enosPath,
+          enosPoint,
           confidence: Math.min(mappingConfidence, confidence || 0.85),
           mappingSource: matchingStrategy || 'ai',
           status: 'mapped'
@@ -948,37 +948,26 @@ module.exports = function(app) {
       pathRewrite: {
         '^/api': '/api'
       },
-      // Don't proxy these endpoints - use our mock handlers instead
-      filter: function(path, req) {
-        return !path.includes('/api/bms/map-points');
-      },
+      // Remove the filter to allow all API endpoints
       onProxyReq: function(proxyReq, req, res) {
+        // Log the request for debugging
+        console.log('Proxying request:', req.method, req.path);
         // Remove the Access-Control-Allow-Origin header from the request as it's invalid
         proxyReq.removeHeader('Access-Control-Allow-Origin');
       },
       onProxyRes: function (proxyRes, req, res) {
+        // Add CORS headers to all responses
         proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+        proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
         proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, x-access-key, x-secret-key, AccessKey, SecretKey, Access-Control-Allow-Origin';
+        proxyRes.headers['Access-Control-Max-Age'] = '3600';
       },
       onError: function(err, req, res) {
-        console.log('Proxy error:', err);
-        
-        // If the target connection fails, we need to handle it gracefully
-        // Check which endpoint was requested
-        if (req.path.includes('/bms/map-points')) {
-          // Return a helpful error
-          res.status(500).json({
-            success: false,
-            error: `Backend connection failed: ${err.message}`,
-            message: "Using mock data instead"
-          });
-        } else {
-          // Default error response
-          res.status(500).json({
-            success: false,
-            error: `Proxy error: ${err.message}`
-          });
-        }
+        console.error('Proxy error:', err);
+        res.status(500).json({
+          success: false,
+          error: `Backend connection failed: ${err.message}`
+        });
       }
     })
   );

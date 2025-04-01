@@ -384,7 +384,7 @@ export const mapPointsToEnOS = async (
     pointId: string;
     pointName: string;
     pointType: string;
-    enosPath: string;
+    enosPoints: string;
     confidence: number;
     status: 'mapped' | 'error';
     error?: string;

@@ -74,6 +74,9 @@ export interface BMSPoint {
   otDeviceInst?: string;
   deviceType?: string;
   deviceId?: string;
+  enosPoint?: string;   // Legacy EnOS point mapping
+  enosPoints?: string;  // New EnOS point mapping
+  confidence?: number;  // Mapping confidence score
 }
 
 /**
@@ -178,7 +181,7 @@ export interface PointMapping {
   pointName?: string;          // Extracted point name (without device prefix)
   rawUnit?: string;            // Original unit of measurement
   rawFactor?: number;          // Conversion factor if needed
-  enosPath?: string;           // Full EnOS model path
+  enosPoints?: string;         // EnOS point mapping (new field)
   deviceId?: string;           // Device identifier
   confidence?: number;         // AI confidence score for the mapping
   pointCategory?: string;      // EnOS point category
@@ -230,4 +233,29 @@ export interface LoadCSVRequest {
  */
 export interface LoadCSVResponse extends ApiResponse<unknown[]> {
   data?: unknown[];
+}
+
+export interface MapPointsResponse {
+  success: boolean;
+  mappings: Array<{
+    pointId: string;
+    pointName: string;
+    pointType: string;
+    enosPoint: string;
+    enosPoints?: string;
+    confidence: number;
+    status: "error" | "mapped";
+    error?: string;
+    deviceType?: string;
+    deviceId?: string;
+    unit?: string;
+    pointCategory?: string;
+    mappingSource?: string;
+  }>;
+  stats: {
+    total: number;
+    mapped: number;
+    errors: number;
+  };
+  error?: string; // Adding error property to fix the TS error
 } 

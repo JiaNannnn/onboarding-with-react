@@ -61,10 +61,12 @@ def create_app(config_class=None):
              r"/*": {
                  "origins": ["http://localhost:3000", "http://10.230.80.86:3000"],
                  "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                 "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin"],
+                 "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin", 
+                                 "x-access-key", "x-secret-key", "AccessKey", "SecretKey"],
                  "expose_headers": ["Content-Type", "Authorization"],
                  "supports_credentials": True,
-                 "send_wildcard": False
+                 "send_wildcard": False,
+                 "max_age": 3600
              }
          })
 

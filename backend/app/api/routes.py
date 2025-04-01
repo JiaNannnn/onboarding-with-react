@@ -16,6 +16,7 @@ import concurrent.futures
 from poseidon import poseidon
 import traceback
 import time
+import json
 
 # API Version prefix
 API_VERSION = 'v1'
@@ -581,177 +582,65 @@ def group_points():
                 "code": "PROCESSING_ERROR"
             }), 500
 
-@bp.route(f'/{API_VERSION}/points/map', methods=['POST'])
-def map_points():
+@bp.route(f'/{API_VERSION}/map-points', methods=['POST', 'OPTIONS'])
+async def bms_map_points():
     """
-    Map BMS points to EnOS schema using AI-based semantic analysis.
+    Map BMS points to EnOS schema using AI.
     
     Expected request format:
     {
         "points": [
-            {"pointName": "FCU_01_25.RoomTemp", "deviceType": "FCU"},
-            {"pointName": "CH-SYS-1.CH.ChwSt", "deviceType": "CHILLER"}
+            {
+                "pointId": "CH1.chwst",
+                "pointName": "chwst",
+                "pointType": "analog-input",
+                "unit": "degrees-Celsius",
+                "deviceType": "CH",
+                "deviceId": "1"
+            }
         ],
-        "useAi": true  // Optional, defaults to true
+        "mappingConfig": {
+            "targetSchema": "enos",
+            "matchingStrategy": "ai"
+        }
     }
-    
-    Or file upload:
-    - CSV file with 'pointName' and 'deviceType' columns
-    
-    Returns:
-        JSON response with mapped points to EnOS schema
     """
-    current_app.logger.info("=== MAP POINTS API CALLED ===")
-    
-    # Check if this is a form data submission with a file
-    if 'file' in request.files:
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({
-                "error": "No file selected", 
-                "code": "NO_FILE"
-            }), 400
-            
-        # Save the file to a temporary location
-        _, temp_path = tempfile.mkstemp(suffix='.csv')
-        file.save(temp_path)
-        
-        try:
-            # Read the CSV file
-            df = pd.read_csv(temp_path)
-            if 'pointName' not in df.columns or 'deviceType' not in df.columns:
-                return jsonify({
-                    "error": "CSV file must contain 'pointName' and 'deviceType' columns", 
-                    "code": "INVALID_FORMAT"
-                }), 400
-                
-            # Extract the point data
-            points = []
-            for _, row in df.iterrows():
-                points.append({
-                    "pointName": row['pointName'],
-                    "deviceType": row['deviceType']
-                })
-        except Exception as e:
-            current_app.logger.error(f"Error processing CSV file: {str(e)}")
-            return jsonify({
-                "error": f"Error processing CSV file: {str(e)}", 
-                "code": "PROCESSING_ERROR"
-            }), 400
-        finally:
-            # Clean up temporary file
-            os.unlink(temp_path)
-    else:
-        # Get points from JSON data
+    if request.method == 'OPTIONS':
+        return handle_options()
+
+    try:
         data = request.json
         if not data or 'points' not in data:
             return jsonify({
-                "error": "Missing 'points' array in request body", 
-                "code": "MISSING_PARAMS"
+                "success": False,
+                "error": "Missing points data"
             }), 400
-            
-        points = data.get('points', [])
-        if not points or not isinstance(points, list):
-            return jsonify({
-                "error": "Points must be a non-empty array", 
-                "code": "INVALID_FORMAT"
-            }), 400
-    
-    # Check if AI should be used (default is True)
-    use_ai = True
-    if request.json and 'useAi' in request.json:
-        use_ai = bool(request.json.get('useAi'))
-    
-    # Log parameters
-    current_app.logger.info(f"Points count: {len(points)}")
-    current_app.logger.info(f"Using AI: {use_ai}")
-    
-    # Enforce maximum points limit for batch processing
-    MAX_POINTS = int(os.getenv("MAX_POINTS_LIMIT", "200"))
-    if len(points) > MAX_POINTS:
-        current_app.logger.warning(f"Number of points ({len(points)}) exceeds maximum allowed ({MAX_POINTS}). Truncating.")
-        points = points[:MAX_POINTS]
-    
-    try:
+
+        points = data['points']
+        mapping_config = data.get('mappingConfig', {})
+        
         # Initialize the mapper
         mapper = EnOSMapper()
         
-        # Set a timeout for each point mapping
-        timeout_per_point = int(os.getenv("POINT_MAPPING_TIMEOUT", "5"))
+        # Map the points
+        result = await mapper.map_points(points)
         
-        # Use thread pool to process points with timeout
-        results = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            future_to_point = {}
-            
-            # Submit all points for mapping
-            for i, point in enumerate(points):
-                point_name = point.get('pointName')
-                device_type = point.get('deviceType')
-                
-                if not point_name or not device_type:
-                    continue
-                
-                future = executor.submit(mapper.map_point, point_name, device_type)
-                future_to_point[future] = {"pointName": point_name, "deviceType": device_type, "index": i}
-            
-            # Process completed futures as they complete
-            for future in concurrent.futures.as_completed(future_to_point):
-                point_info = future_to_point[future]
-                try:
-                    enos_path = future.result(timeout=timeout_per_point)
-                    results.append({
-                        "pointName": point_info["pointName"],
-                        "deviceType": point_info["deviceType"],
-                        "enosPath": enos_path,
-                        "status": "mapped" if enos_path else "unmapped"
-                    })
-                except concurrent.futures.TimeoutError:
-                    current_app.logger.warning(f"Mapping timed out for point {point_info['pointName']}")
-                    results.append({
-                        "pointName": point_info["pointName"],
-                        "deviceType": point_info["deviceType"],
-                        "enosPath": None,
-                        "status": "timeout"
-                    })
-                except Exception as e:
-                    current_app.logger.error(f"Error mapping point {point_info['pointName']}: {str(e)}")
-                    results.append({
-                        "pointName": point_info["pointName"],
-                        "deviceType": point_info["deviceType"],
-                        "enosPath": None,
-                        "status": "error",
-                        "error": str(e)
-                    })
+        # Add CORS headers
+        response = jsonify(result)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
         
-        # Return the results
-        return jsonify({
-            "message": "Points mapped successfully",
-            "mappings": results,
-            "statistics": {
-                "total": len(results),
-                "mapped": sum(1 for r in results if r['status'] == 'mapped'),
-                "unmapped": sum(1 for r in results if r['status'] == 'unmapped'),
-                "errors": sum(1 for r in results if r['status'] == 'error'),
-                "timeouts": sum(1 for r in results if r['status'] == 'timeout')
-            },
-            "method": "ai" if use_ai else "fallback"
-        }), 200
-        
+        return response
+
     except Exception as e:
-        current_app.logger.error(f"Error in map_points endpoint: {str(e)}")
-        # Check if it's an OpenAI API error
-        if "openai" in str(e).lower():
-            return jsonify({
-                "error": "OpenAI API error occurred. Please check your API key or try again later.",
-                "details": str(e),
-                "code": "OPENAI_API_ERROR"
-            }), 502  # Bad Gateway
-        else:
-            return jsonify({
-                "error": f"Error mapping points: {str(e)}",
-                "code": "PROCESSING_ERROR"
-            }), 500
+        current_app.logger.error(f"Error in map_points: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e),
+            "mappings": [],
+            "stats": {"total": 0, "mapped": 0, "errors": 1}
+        }), 500
 
 # ============ API Information Endpoints ============
 
@@ -930,211 +819,6 @@ def map_points_alias():
 def ping():
     """Ping endpoint"""
     return jsonify({"status": "ok"})
-
-# ============ BMS Test Routes (for testing compatibility) ============
-
-@bp.route('/bms/map-points', methods=['POST', 'OPTIONS'])
-def bms_map_points():
-    """
-    Map BMS points to EnOS points with advanced configuration.
-    This endpoint supports the frontend's BMSClient.mapPointsToEnOS method.
-    
-    Expected request format:
-    {
-        "points": [
-            {
-                "id": "point1",
-                "pointName": "AHU1_SAT",
-                "pointType": "Temperature",
-                "unit": "°C",
-                "description": "Supply Air Temperature"
-            }
-        ],
-        "targetSchema": "default",
-        "transformationRules": {},
-        "matchingStrategy": "ai",
-        "confidence": 0.7
-    }
-    
-    Returns:
-        JSON response with mapping results or error
-    """
-    current_app.logger.info("=== BMS MAP POINTS API CALLED ===")
-    
-    # For OPTIONS requests (CORS preflight)
-    if request.method == 'OPTIONS':
-        response = make_response()
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        return response
-    
-    try:
-        # Get request parameters
-        data = request.json
-        if not data or 'points' not in data:
-            error_response = jsonify({
-                "success": False,
-                "error": "Missing 'points' array in request body"
-            })
-            error_response.headers.add('Access-Control-Allow-Origin', '*')
-            return error_response, 400
-        
-        points = data.get('points', [])
-        
-        # Log parameters
-        current_app.logger.info(f"Points count: {len(points)}")
-        
-        # Create mock mapping result - this is the simplified version
-        mappings = []
-        total = len(points)
-        mapped = 0
-        errors = 0
-        
-        # Process points with simplified rule-based mapping
-        for point in points:
-            try:
-                point_id = point.get('id', '')
-                point_name = point.get('pointName', '')
-                point_type = point.get('pointType', '')
-                
-                if not point_name:
-                    continue
-                
-                # Simple rules to determine device type
-                device_type = "AHU"  # Default
-                point_lower = point_name.lower()
-                
-                if "fcu" in point_lower or "fan coil" in point_lower:
-                    device_type = "FCU"
-                elif "ahu" in point_lower or "air handler" in point_lower:
-                    device_type = "AHU"
-                elif "vav" in point_lower:
-                    device_type = "VAV"
-                elif "ch" in point_lower or "chiller" in point_lower:
-                    device_type = "CHILLER"
-                elif "boiler" in point_lower or "blr" in point_lower:
-                    device_type = "BOILER"
-                elif "pump" in point_lower or "cwp" in point_lower or "chwp" in point_lower:
-                    device_type = "PUMP"
-                
-                # Determine mapping based on point name
-                enos_path = None
-                confidence = 0.0
-                
-                if "temp" in point_lower or "tmp" in point_lower:
-                    if "supply" in point_lower or "sa" in point_lower:
-                        enos_path = f"{device_type}/points/supplyTemperature"
-                    elif "return" in point_lower or "ra" in point_lower:
-                        enos_path = f"{device_type}/points/returnTemperature"
-                    elif "zone" in point_lower or "space" in point_lower or "room" in point_lower:
-                        enos_path = f"{device_type}/points/zoneTemperature"
-                    else:
-                        enos_path = f"{device_type}/points/temperature"
-                    confidence = 0.95
-                elif "hum" in point_lower or "rh" in point_lower:
-                    enos_path = f"{device_type}/points/humidity"
-                    confidence = 0.93
-                elif "press" in point_lower or "pres" in point_lower:
-                    enos_path = f"{device_type}/points/pressure"
-                    confidence = 0.92
-                elif "flow" in point_lower or "cfm" in point_lower:
-                    enos_path = f"{device_type}/points/airflow"
-                    confidence = 0.91
-                elif "valve" in point_lower or "vpos" in point_lower:
-                    enos_path = f"{device_type}/points/valvePosition"
-                    confidence = 0.91
-                elif "damper" in point_lower or "dpos" in point_lower:
-                    enos_path = f"{device_type}/points/damperPosition"
-                    confidence = 0.91
-                elif "status" in point_lower or "state" in point_lower:
-                    enos_path = f"{device_type}/points/status"
-                    confidence = 0.94
-                elif "alarm" in point_lower or "fault" in point_lower:
-                    enos_path = f"{device_type}/points/alarmStatus"
-                    confidence = 0.94
-                elif "setpoint" in point_lower or "sp" in point_lower:
-                    enos_path = f"{device_type}/points/setpoint"
-                    confidence = 0.92
-                elif "mode" in point_lower:
-                    enos_path = f"{device_type}/points/mode"
-                    confidence = 0.90
-                elif "power" in point_lower or "kw" in point_lower:
-                    enos_path = f"{device_type}/points/power"
-                    confidence = 0.92
-                elif "energy" in point_lower or "kwh" in point_lower:
-                    enos_path = f"{device_type}/points/energy"
-                    confidence = 0.92
-                elif "speed" in point_lower or "freq" in point_lower:
-                    enos_path = f"{device_type}/points/speed"
-                    confidence = 0.91
-                else:
-                    # Fallback to generic
-                    enos_path = f"{device_type}/points/generic"
-                    confidence = 0.70
-                
-                if enos_path:
-                    mapped += 1
-                else:
-                    errors += 1
-                    
-                mapping_result = {
-                    "pointId": point_id,
-                    "pointName": point_name,
-                    "pointType": point_type,
-                    "enosPath": enos_path,
-                    "confidence": confidence,
-                    "status": "mapped" if enos_path else "error",
-                    "deviceType": device_type
-                }
-                
-                mappings.append(mapping_result)
-                
-            except Exception as e:
-                current_app.logger.error(f"Error mapping point {point_name if 'point_name' in locals() else 'unknown'}: {str(e)}")
-                errors += 1
-                mapping_result = {
-                    "pointId": point.get('id', ''),
-                    "pointName": point.get('pointName', ''),
-                    "pointType": point.get('pointType', ''),
-                    "enosPath": None,
-                    "confidence": 0.0,
-                    "status": "error",
-                    "error": str(e)
-                }
-                mappings.append(mapping_result)
-        
-        # Create success response
-        response_data = {
-            "success": True,
-            "mappings": mappings,
-            "stats": {
-                "total": total,
-                "mapped": mapped,
-                "errors": errors
-            }
-        }
-        
-        # Create response with CORS headers
-        response = jsonify(response_data)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        
-        current_app.logger.info(f"Successfully mapped {mapped} points out of {total}")
-        return response, 200
-        
-    except Exception as e:
-        current_app.logger.error(f"Error in bms_map_points endpoint: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        
-        # Create error response with CORS headers
-        error_response = jsonify({
-            "success": False,
-            "error": f"Failed to map points: {str(e)}"
-        })
-        error_response.headers.add('Access-Control-Allow-Origin', '*')
-        
-        return error_response, 500
 
 @bp.route('/bms/network-config/<asset_id>', methods=['GET'])
 def bms_network_config(asset_id):

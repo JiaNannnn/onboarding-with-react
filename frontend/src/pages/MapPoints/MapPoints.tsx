@@ -8,7 +8,7 @@ import Handsontable from 'handsontable';
 import type { CellProperties } from 'handsontable/settings';
 import 'handsontable/dist/handsontable.full.css';
 import { useMappingContext } from '../../contexts/MappingContext';
-import { BMSPoint, PointMapping } from '../../types/apiTypes';
+import { BMSPoint, PointMapping, MapPointsResponse } from '../../types/apiTypes';
 import { useBMSClient } from '../../hooks/useBMSClient';
 import './MapPoints.css';
 
@@ -175,397 +175,44 @@ const MapPoints: React.FC = () => {
       setIsMapping(true);
       setError(null);
       
-      // Use the backend API for mapping which refers to backend/enos.json
-      console.log(`Sending ${points.length} points to backend for EnOS mapping using enos.json definitions`);
+      console.log(`Sending ${points.length} points to backend for EnOS mapping using AI`);
 
-      // Call the backend API to map points with special options to use the enos.json file
       const response = await bmsClient.mapPointsToEnOS(points, {
-        targetSchema: 'enos', // Specify to use the EnOS schema from backend/enos.json
-        matchingStrategy: 'ai' // Use AI-powered matching for best results
-      });
+        targetSchema: 'enos',
+        matchingStrategy: 'ai'
+      }) as MapPointsResponse;
       
       if (response.success && response.mappings && response.mappings.length > 0) {
-        // Convert API response to PointMapping format for the UI
-        const newMappings: PointMapping[] = response.mappings.map(mapping => {
-          // Extract just the point name without device prefixes
-          const pointNameParts = mapping.pointName.split('.');
-          const pointName = pointNameParts.length > 1 ? pointNameParts[pointNameParts.length - 1] : mapping.pointName;
-          
-          return {
-            enosEntity: mapping.deviceType || 'hvac',
-            enosPoint: mapping.pointCategory || 'unknown',
-            rawPoint: mapping.pointName,
-            pointName: pointName,
-            rawUnit: mapping.unit || '',
-            rawFactor: 1,
-            enosPath: mapping.enosPath || '',
-            deviceId: mapping.deviceId || '',
-            confidence: mapping.confidence || 0.5
-          };
-        });
+        // Use the mappings directly from the API response
+        const tableData = response.mappings.map(mapping => ({
+          id: mapping.pointId,
+          deviceType: mapping.deviceType,
+          deviceId: mapping.deviceId,
+          pointName: mapping.pointName,
+          pointType: mapping.pointType || '',
+          unit: mapping.unit || '',
+          description: mapping.error || '',  // Use error message as description if available
+          enosPoint: mapping.enosPoint,
+          confidence: mapping.confidence,
+          status: mapping.status
+        }));
         
-        console.log(`Backend mapped ${newMappings.length} points successfully to EnOS schema`);
-        setMappings(newMappings);
+        setPoints(tableData);
+        console.log(`Mapped ${tableData.length} points successfully`);
         
-        // If the mapping succeeded but no points were returned, display a warning
-        if (newMappings.length === 0) {
-          setError('No points could be mapped. Check your data or try again.');
+        // Display mapping statistics
+        const stats = response.stats;
+        console.log(`Mapping stats: Total=${stats.total}, Mapped=${stats.mapped}, Errors=${stats.errors}`);
+        
+        if (stats.errors > 0) {
+          setError(`${stats.errors} point(s) could not be mapped. Check the status column for details.`);
         }
       } else {
-        // Handle mapping failure
-        const errorMsg = response.error || 'Failed to map points with backend service';
-        throw new Error(errorMsg);
+        throw new Error(response.error || 'Failed to map points with backend service');
       }
     } catch (err) {
       console.error('EnOS mapping error:', err);
       setError(err instanceof Error ? err.message : 'Failed to map points to EnOS');
-      
-      // In case of an error, we can still try to use local mapping as a fallback
-      try {
-        console.log('Attempting local mapping as fallback due to backend error');
-        
-        // Local mapping logic using knowledge of enos.json structure
-        const fallbackMappings: PointMapping[] = points.map(point => {
-          // Extract device type from point name
-          const pointNameParts = point.pointName.split(/[-_.]/);
-          let deviceType = pointNameParts[0].toUpperCase() || 'UNKNOWN';
-          
-          // Normalize device types to match enos.json
-          if (deviceType === 'AHU' || deviceType === 'MAU' || deviceType === 'RTU') {
-            deviceType = 'AHU'; // Map to Air Handling Unit
-          } else if (deviceType === 'FCU' || deviceType === 'FAN') {
-            deviceType = 'FCU'; // Map to Fan Coil Unit
-          } else if (deviceType === 'CH' || deviceType === 'CHLR') {
-            deviceType = 'CH'; // Map to Chiller
-          } else if (deviceType === 'CT') {
-            deviceType = 'CT'; // Cooling Tower
-          } else if (deviceType.includes('PUMP') || deviceType === 'PMP') {
-            deviceType = 'PUMP'; // Map to Pump
-          }
-          
-          // Extract device ID if available
-          let deviceId = '';
-          if (pointNameParts.length > 1) {
-            deviceId = pointNameParts[1];
-            if (pointNameParts.length > 2 && !pointNameParts[1].match(/^\d+$/)) {
-              deviceId += '-' + pointNameParts[2];
-            }
-          }
-          
-          // Determine point category and EnOS path based on the point name
-          const pointNameLower = point.pointName.toLowerCase();
-          let pointCategory = 'generic';
-          let enosPath = '';
-          let confidence = 0.75;
-          
-          // Extract the actual point name from the full string (e.g., "CTL_FanSpeed" from "FCU_01_26.27_3.CTL_FanSpeed")
-          let specificPointName = '';
-          if (pointNameParts.length > 1) {
-            // Assuming the actual point identifier is the last part after the last dot or underscore
-            const lastPartMatch = point.pointName.match(/[._]([^._]+)$/);
-            if (lastPartMatch && lastPartMatch[1]) {
-              specificPointName = lastPartMatch[1].toLowerCase();
-            } else {
-              specificPointName = pointNameParts[pointNameParts.length - 1].toLowerCase();
-            }
-          }
-          
-          // Extract actual point name for more accurate mapping
-          
-          // Map to specific EnOS paths from the enos.json file
-          if (deviceType === 'AHU') {
-            // Handle specific AHU point naming patterns
-            if (specificPointName.includes('status') || specificPointName === 'on' || specificPointName === 'off' || specificPointName === 'run') {
-              enosPath = 'AHU_raw_status';
-              pointCategory = 'status';
-              confidence = 0.95;
-            } else if (specificPointName.includes('supplytemp') || specificPointName.includes('satemp') || specificPointName === 'sat') {
-              enosPath = 'AHU_raw_supply_air_temp';
-              pointCategory = 'supplyTemperature';
-              confidence = 0.95;
-            } else if (specificPointName.includes('returntemp') || specificPointName.includes('ratemp') || specificPointName === 'rat') {
-              enosPath = 'AHU_raw_return_air_temp';
-              pointCategory = 'returnTemperature';
-              confidence = 0.95;
-            } else if (specificPointName.includes('staticpressure') || specificPointName.includes('statpr') || specificPointName === 'sp') {
-              enosPath = 'AHU_raw_static_pressure';
-              pointCategory = 'staticPressure';
-              confidence = 0.95;
-            } else if (specificPointName.includes('fanspeed') || specificPointName === 'speed' || specificPointName === 'safspeed') {
-              enosPath = 'AHU_raw_supply_air_fan_speed';
-              pointCategory = 'fanSpeed';
-              confidence = 0.95;
-            } else if (specificPointName.includes('damper') || specificPointName === 'dmpr' || specificPointName === 'oadmpr') {
-              enosPath = 'AHU_raw_oa_damper_position';
-              pointCategory = 'damperPosition';
-              confidence = 0.95;
-            } else if (specificPointName.includes('valve') || specificPointName === 'vlv') {
-              enosPath = 'AHU_raw_valve_position';
-              pointCategory = 'valvePosition';
-              confidence = 0.95;
-            } else if (specificPointName.includes('fancommand') || specificPointName === 'fanctrl') {
-              enosPath = 'AHU_write_fan_speed';
-              pointCategory = 'fanControl';
-              confidence = 0.95;
-            }
-            // Fall back to checking the full name if specific point name didn't match
-            else if (pointNameLower.includes('status') || pointNameLower.includes('on_off')) {
-              enosPath = 'AHU_raw_status';
-              pointCategory = 'status';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && pointNameLower.includes('supply')) {
-              enosPath = 'AHU_raw_supply_air_temp';
-              pointCategory = 'supplyTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && pointNameLower.includes('return')) {
-              enosPath = 'AHU_raw_return_air_temp';
-              pointCategory = 'returnTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('static') && pointNameLower.includes('pressure')) {
-              enosPath = 'AHU_raw_static_pressure';
-              pointCategory = 'staticPressure';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('fan') && pointNameLower.includes('speed')) {
-              enosPath = 'AHU_raw_supply_air_fan_speed';
-              pointCategory = 'fanSpeed';
-              confidence = 0.85;
-            }
-          } else if (deviceType === 'FCU') {
-            // Handle specific FCU point naming patterns like FCU_01_26.27_3.CTL_FanSpeed -> FCU_write_fan_speed
-            if (specificPointName === 'fanspeed' || specificPointName === 'ctl_fanspeed') {
-              enosPath = 'FCU_write_fan_speed';
-              pointCategory = 'fanControl';
-              confidence = 0.98;
-            } else if (specificPointName === 'roomtemp' || specificPointName === 'zonetemp') {
-              enosPath = 'FCU_raw_zone_air_temp';
-              pointCategory = 'zoneTemperature';
-              confidence = 0.98;
-            } else if (specificPointName === 'status' || specificPointName === 'run') {
-              enosPath = 'FCU_raw_status';
-              pointCategory = 'status';
-              confidence = 0.98;
-            } else if (specificPointName === 'setpoint' || specificPointName === 'sp' || specificPointName === 'tempsp') {
-              enosPath = 'FCU_raw_sp_zone_air_temp';
-              pointCategory = 'temperatureSetpoint';
-              confidence = 0.98;
-            } else if (specificPointName === 'chwvalve' || specificPointName === 'coolingvalve') {
-              enosPath = 'FCU_raw_chw_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.98;
-            } else if (specificPointName === 'hwvalve' || specificPointName === 'heatingvalve') {
-              enosPath = 'FCU_raw_hw_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.98;
-            } else if (specificPointName === 'mode' || specificPointName === 'coolheatmode') {
-              enosPath = 'FCU_raw_cooling_heating_mode';
-              pointCategory = 'mode';
-              confidence = 0.98;
-            } else if (specificPointName === 'command' || specificPointName === 'onoffcmd') {
-              enosPath = 'FCU_raw_on_off_command';
-              pointCategory = 'command';
-              confidence = 0.98;
-            }
-            // Fall back to checking the full name if specific point name didn't match
-            else if (pointNameLower.includes('status') || pointNameLower.includes('on_off')) {
-              enosPath = 'FCU_raw_status';
-              pointCategory = 'status';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && (pointNameLower.includes('zone') || pointNameLower.includes('room'))) {
-              enosPath = 'FCU_raw_zone_air_temp';
-              pointCategory = 'zoneTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('setpoint') || pointNameLower.includes('sp')) {
-              enosPath = 'FCU_raw_sp_zone_air_temp';
-              pointCategory = 'temperatureSetpoint';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('valve') && (pointNameLower.includes('cool') || pointNameLower.includes('chw'))) {
-              enosPath = 'FCU_raw_chw_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('valve') && (pointNameLower.includes('heat') || pointNameLower.includes('hw'))) {
-              enosPath = 'FCU_raw_hw_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('fan') && pointNameLower.includes('speed') && !pointNameLower.includes('cmd') && !pointNameLower.includes('ctl')) {
-              enosPath = 'FCU_raw_fan_speed';
-              pointCategory = 'fanSpeed';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('fan') && (pointNameLower.includes('cmd') || pointNameLower.includes('ctl') || pointNameLower.includes('command'))) {
-              enosPath = 'FCU_write_fan_speed';
-              pointCategory = 'fanControl';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('mode')) {
-              enosPath = 'FCU_raw_cooling_heating_mode';
-              pointCategory = 'mode';
-              confidence = 0.8;
-            }
-          } else if (deviceType === 'CH') {
-            // Handle specific Chiller point naming patterns
-            if (specificPointName === 'status' || specificPointName === 'run') {
-              enosPath = 'CH_raw_status';
-              pointCategory = 'status';
-              confidence = 0.98;
-            } else if (specificPointName === 'trip' || specificPointName === 'fault' || specificPointName === 'alarm') {
-              enosPath = 'CH_raw_trip';
-              pointCategory = 'trip';
-              confidence = 0.98;
-            } else if (specificPointName === 'chwstemp' || specificPointName === 'supplytemp') {
-              enosPath = 'CH_raw_temp_chws';
-              pointCategory = 'supplyTemperature';
-              confidence = 0.98;
-            } else if (specificPointName === 'chwrtemp' || specificPointName === 'returntemp') {
-              enosPath = 'CH_raw_temp_chwr';
-              pointCategory = 'returnTemperature';
-              confidence = 0.98;
-            } else if (specificPointName === 'power' || specificPointName === 'kw') {
-              enosPath = 'CH_raw_power_active_total';
-              pointCategory = 'power';
-              confidence = 0.98;
-            } else if (specificPointName === 'energy' || specificPointName === 'kwh') {
-              enosPath = 'CH_raw_energy_active_total';
-              pointCategory = 'energy';
-              confidence = 0.98;
-            } else if (specificPointName === 'valve' || specificPointName === 'chwvalve') {
-              enosPath = 'CH_raw_chilled_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.98;
-            } else if (specificPointName === 'evaptemp') {
-              enosPath = 'CH_raw_temp_evap';
-              pointCategory = 'evaporatorTemperature';
-              confidence = 0.98;
-            } else if (specificPointName === 'condtemp') {
-              enosPath = 'CH_raw_temp_cond';
-              pointCategory = 'condenserTemperature';
-              confidence = 0.98;
-            }
-            // Fall back to checking the full name if specific point name didn't match
-            else if (pointNameLower.includes('status')) {
-              enosPath = 'CH_raw_status';
-              pointCategory = 'status';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('trip') || pointNameLower.includes('fault')) {
-              enosPath = 'CH_raw_trip';
-              pointCategory = 'trip';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('temp') && (pointNameLower.includes('chws') || pointNameLower.includes('supply'))) {
-              enosPath = 'CH_raw_temp_chws';
-              pointCategory = 'supplyTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && (pointNameLower.includes('chwr') || pointNameLower.includes('return'))) {
-              enosPath = 'CH_raw_temp_chwr';
-              pointCategory = 'returnTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && pointNameLower.includes('evap')) {
-              enosPath = 'CH_raw_temp_evap';
-              pointCategory = 'evaporatorTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('temp') && pointNameLower.includes('cond')) {
-              enosPath = 'CH_raw_temp_cond';
-              pointCategory = 'condenserTemperature';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('power')) {
-              enosPath = 'CH_raw_power_active_total';
-              pointCategory = 'power';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('energy')) {
-              enosPath = 'CH_raw_energy_active_total';
-              pointCategory = 'energy';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('valve')) {
-              enosPath = 'CH_raw_chilled_valve_status';
-              pointCategory = 'valvePosition';
-              confidence = 0.8;
-            }
-          } else if (deviceType === 'PUMP') {
-            // Handle specific Pump point naming patterns
-            if (specificPointName === 'status' || specificPointName === 'run') {
-              enosPath = 'PUMP_raw_status';
-              pointCategory = 'status';
-              confidence = 0.98;
-            } else if (specificPointName === 'trip' || specificPointName === 'fault' || specificPointName === 'alarm') {
-              enosPath = 'PUMP_raw_trip';
-              pointCategory = 'trip';
-              confidence = 0.98;
-            } else if (specificPointName === 'power' || specificPointName === 'kw') {
-              enosPath = 'PUMP_raw_power_active_total';
-              pointCategory = 'power';
-              confidence = 0.98;
-            } else if (specificPointName === 'energy' || specificPointName === 'kwh') {
-              enosPath = 'PUMP_raw_energy_active_total'; 
-              pointCategory = 'energy';
-              confidence = 0.98;
-            } else if (specificPointName === 'flow' || specificPointName === 'flowrate') {
-              enosPath = 'PUMP_raw_flow';
-              pointCategory = 'flow';
-              confidence = 0.98;
-            } else if (specificPointName === 'pressure' || specificPointName === 'press') {
-              enosPath = 'PUMP_raw_pressure';
-              pointCategory = 'pressure';
-              confidence = 0.98;
-            }
-            // Fall back to checking the full name if specific point name didn't match
-            else if (pointNameLower.includes('status')) {
-              enosPath = 'PUMP_raw_status';
-              pointCategory = 'status';
-              confidence = 0.9;
-            } else if (pointNameLower.includes('trip') || pointNameLower.includes('fault')) {
-              enosPath = 'PUMP_raw_trip';
-              pointCategory = 'trip';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('power')) {
-              enosPath = 'PUMP_raw_power_active_total';
-              pointCategory = 'power';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('energy')) {
-              enosPath = 'PUMP_raw_energy_active_total';
-              pointCategory = 'energy';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('flow')) {
-              enosPath = 'PUMP_raw_flow';
-              pointCategory = 'flow';
-              confidence = 0.85;
-            } else if (pointNameLower.includes('pressure')) {
-              enosPath = 'PUMP_raw_pressure';
-              pointCategory = 'pressure';
-              confidence = 0.85;
-            }
-          }
-          
-          // If no specific mapping was found, create a generic one based on device type
-          if (!enosPath) {
-            if (deviceType === 'AHU') {
-              enosPath = `AHU_raw_${pointCategory}`;
-            } else if (deviceType === 'FCU') {
-              enosPath = `FCU_raw_${pointCategory}`;
-            } else if (deviceType === 'CH') {
-              enosPath = `CH_raw_${pointCategory}`;
-            } else if (deviceType === 'PUMP') {
-              enosPath = `PUMP_raw_${pointCategory}`;
-            } else {
-              enosPath = `${deviceType}_raw_${pointCategory}`;
-            }
-            confidence = 0.5; // Lower confidence for generic mappings
-          }
-          
-          return {
-            enosEntity: deviceType,
-            enosPoint: pointCategory,
-            rawPoint: point.pointName,
-            pointName: pointNameParts.length > 1 ? pointNameParts[pointNameParts.length - 1] : point.pointName,
-            rawUnit: point.unit || '',
-            rawFactor: 1,
-            enosPath: enosPath,
-            deviceId: deviceId,
-            confidence: confidence
-          };
-        });
-        
-        setMappings(fallbackMappings);
-        setError('Warning: Using local fallback mapping based on enos.json knowledge');
-      } catch (fallbackErr) {
-        console.error('Fallback mapping also failed:', fallbackErr);
-        // If even the fallback fails, keep the original error message
-      }
     } finally {
       setIsMapping(false);
     }
@@ -632,90 +279,165 @@ const MapPoints: React.FC = () => {
 
   // Get table columns and settings
   const getSettings = (): GridSettings => {
-    const columns = [
-      { data: 'pointName', title: 'Point Name', width: 200 },
-      { data: 'pointType', title: 'Type', width: 100 },
-      { data: 'deviceType', title: 'Device Type', width: 120 },
-      { data: 'deviceId', title: 'Device ID', width: 120 },
-      { data: 'unit', title: 'Unit', width: 80 },
-      { data: 'description', title: 'Description', width: 200 },
-      { 
-        data: 'enosPath', 
-        title: 'EnOS Mapping',
-        width: 200,
-        renderer: function(
-          instance: Handsontable, 
-          td: HTMLTableCellElement, 
-          row: number, 
-          col: number, 
-          prop: string | number, 
-          value: any, 
-          cellProperties: CellProperties
-        ) {
-          if (value) {
-            td.innerHTML = `<span class="mapping-badge">${value}</span>`;
-          } else {
-            td.innerHTML = '<span class="unmapped-badge">Unmapped</span>';
-          }
-          return td;
-        }
-      },
-      { 
-        data: 'confidence', 
-        title: 'Confidence',
-        width: 100,
-        type: 'numeric',
-        numericFormat: {
-          pattern: '0.00'
-        },
-        renderer: function(
-          instance: Handsontable, 
-          td: HTMLTableCellElement, 
-          row: number, 
-          col: number, 
-          prop: string | number, 
-          value: any, 
-          cellProperties: CellProperties
-        ) {
-          if (value) {
-            const confValue = parseFloat(value);
-            let className = 'low-confidence';
-            
-            if (confValue >= 0.9) {
-              className = 'high-confidence';
-            } else if (confValue >= 0.75) {
-              className = 'medium-confidence';
-            }
-            
-            td.innerHTML = `<span class="${className}">${(confValue * 100).toFixed(0)}%</span>`;
-          } else {
-            td.innerHTML = '-';
-          }
-          return td;
-        }
-      }
-    ];
-
-    // Get paginated data
-    const paginatedData = getPagedData();
-
     return {
-      data: paginatedData,
-      columns,
-      colHeaders: true,
+      data: getPagedData(),
       rowHeaders: true,
-      height: 500,
-      width: '100%',
-      licenseKey: 'non-commercial-and-evaluation',
+      colHeaders: [
+        'Device Type',
+        'Device ID',
+        'Point Name',
+        'Point Type',
+        'Unit',
+        'Present Value',
+        'Description',
+        'Object Type',
+        'Object Instance',
+        'EnOS Point',
+        'Confidence',
+        'Status',
+        'Error Message'
+      ],
+      columns: [
+        { data: 'deviceType', readOnly: true },
+        { data: 'deviceId', readOnly: true },
+        { data: 'pointName', readOnly: true },
+        { data: 'pointType', readOnly: true },
+        { data: 'unit', readOnly: true },
+        { 
+          data: 'presentValue',
+          readOnly: true,
+          renderer: (instance, td, row, col, prop, value, cellProperties) => {
+            td.innerHTML = value !== undefined ? String(value) : '-';
+            return td;
+          }
+        },
+        { data: 'description', readOnly: true },
+        { data: 'objectType', readOnly: true },
+        { data: 'objectInst', readOnly: true },
+        { 
+          data: 'enosPoint',
+          readOnly: true,
+          renderer: (instance, td, row, col, prop, value, cellProperties) => {
+            if (!value) {
+              td.innerHTML = '<span class="unmapped">Not mapped</span>';
+              return td;
+            }
+            td.innerHTML = `<span class="mapped-point">${value}</span>`;
+            return td;
+          }
+        },
+        { 
+          data: 'confidence',
+          readOnly: true,
+          renderer: (instance, td, row, col, prop, value, cellProperties) => {
+            const confidence = parseFloat(value);
+            if (isNaN(confidence)) {
+              td.innerHTML = '-';
+              return td;
+            }
+            const percentage = (confidence * 100).toFixed(1);
+            const colorClass = confidence >= 0.7 ? 'high-confidence' : 
+                             confidence >= 0.4 ? 'medium-confidence' : 
+                             'low-confidence';
+            td.innerHTML = `<span class="confidence-score ${colorClass}">${percentage}%</span>`;
+            return td;
+          }
+        },
+        {
+          data: 'status',
+          readOnly: true,
+          renderer: (instance, td, row, col, prop, value, cellProperties) => {
+            const statusClass = value === 'mapped' ? 'status-mapped' : 'status-error';
+            td.innerHTML = `<span class="status-indicator ${statusClass}">${value}</span>`;
+            return td;
+          }
+        },
+        {
+          data: 'error',
+          readOnly: true,
+          renderer: (instance, td, row, col, prop, value, cellProperties) => {
+            if (!value) {
+              td.innerHTML = '-';
+              return td;
+            }
+            td.innerHTML = `<span class="error-message-cell">${value}</span>`;
+            return td;
+          }
+        }
+      ],
       stretchH: 'all',
+      autoWrapRow: true,
+      height: 'auto',
+      licenseKey: 'non-commercial-and-evaluation',
       columnSorting: true,
       filters: true,
       dropdownMenu: true,
-      readOnly: true,
-      manualRowMove: false,
-      contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo'],
-      wordWrap: true,
-      className: 'htCenter'
+      hiddenColumns: {
+        indicators: true
+      },
+      afterGetColHeader: function(col: number, TH: HTMLTableCellElement) {
+        const menu = document.createElement('div');
+        menu.className = 'column-menu';
+        menu.innerHTML = '⋮';
+        menu.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (hotInstanceRef.current) {
+            const columnData = hotInstanceRef.current.getDataAtCol(col);
+            const uniqueValues = [...new Set(columnData)].filter(Boolean);
+            
+            // Create filter menu
+            const filterMenu = document.createElement('div');
+            filterMenu.className = 'column-filter-menu';
+            filterMenu.style.position = 'absolute';
+            filterMenu.style.right = '0';
+            filterMenu.style.top = '100%';
+            filterMenu.style.backgroundColor = '#fff';
+            filterMenu.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            filterMenu.style.borderRadius = '4px';
+            filterMenu.style.padding = '8px 0';
+            filterMenu.style.zIndex = '1000';
+
+            // Add filter options
+            uniqueValues.forEach(value => {
+              const option = document.createElement('div');
+              option.className = 'filter-option';
+              option.textContent = String(value);
+              option.addEventListener('click', () => {
+                if (hotInstanceRef.current) {
+                  hotInstanceRef.current.getPlugin('filters').addCondition(col, 'eq', [value]);
+                  hotInstanceRef.current.getPlugin('filters').filter();
+                }
+              });
+              filterMenu.appendChild(option);
+            });
+
+            // Add clear filter option
+            const clearOption = document.createElement('div');
+            clearOption.className = 'filter-option clear-filter';
+            clearOption.textContent = 'Clear filter';
+            clearOption.addEventListener('click', () => {
+              if (hotInstanceRef.current) {
+                hotInstanceRef.current.getPlugin('filters').clearConditions(col);
+                hotInstanceRef.current.getPlugin('filters').filter();
+              }
+            });
+            filterMenu.appendChild(clearOption);
+
+            // Show menu
+            TH.appendChild(filterMenu);
+
+            // Close menu when clicking outside
+            const closeMenu = (e: MouseEvent) => {
+              if (!filterMenu.contains(e.target as Node)) {
+                filterMenu.remove();
+                document.removeEventListener('click', closeMenu);
+              }
+            };
+            document.addEventListener('click', closeMenu);
+          }
+        });
+        TH.appendChild(menu);
+      }
     };
   };
 
@@ -730,6 +452,7 @@ const MapPoints: React.FC = () => {
       hotInstanceRef.current.loadData(getPagedData());
     }
   };
+
 
   // Update page size
   const handlePageSizeChange = (size: number) => {

@@ -14,42 +14,65 @@ from ..bms.grouping import performance_monitor
 
 logger = logging.getLogger(__name__)
 
-# 使用与grouping.py相同的API响应存储目录
+# Directory for API responses
 API_RESPONSES_DIR = Path(os.path.join(os.path.dirname(__file__), '..', '..', 'api_responses'))
 API_RESPONSES_DIR.mkdir(exist_ok=True, parents=True)
 
-# 创建缓存目录
+# Cache directory
 CACHE_DIR = Path(os.path.join(os.path.dirname(__file__), '..', '..', 'cache', 'mapper'))
 CACHE_DIR.mkdir(exist_ok=True, parents=True)
+
+MAPPING_PROMPT = """
+You are an expert in mapping Building Management System (BMS) points to EnOS schema points.
+
+Device Point Context:
+- Device Type: {device_type}
+- Device ID: {device_id}
+- Point Name: {point_name}
+- Point Type: {point_type}
+- Unit: {unit}
+- Value Example: {value}
+- Related points in same device: {related_points}
+
+Task: Map this BMS point to the corresponding EnOS point name.
+The EnOS point name should follow the format: DEVICE_TYPE_CATEGORY_MEASUREMENT_TYPE_POINT
+
+Examples:
+- Chiller supply temperature → CH_raw_temp_chws
+- AHU return temperature → AHU_raw_temp_rt
+- Fan power measurement → FCU_raw_power_fan
+
+Provide:
+1. EnOS point name (exact format as shown in examples)
+2. Confidence score (0-1)
+3. Brief explanation of mapping
+"""
 
 class EnOSMapper:
     def __init__(self):
         # Initialize OpenAI client with API key from environment
         api_key = os.getenv("OPENAI_API_KEY")
         self.client = OpenAI(api_key=api_key)
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4")
         self.enos_schema = self._load_enos_schema()
-        self.max_retries = 5  # Increased from 3 to 5
-        self.confidence_threshold = 0.4  # Lowered threshold to accept more mappings
+        self.max_retries = 5
+        self.confidence_threshold = 0.4
         
-        # 内存缓存大小配置
+        # Cache configuration
         self.cache_size = int(os.getenv("ENOS_MAPPER_CACHE_SIZE", "1000"))
-        self.mem_cache = {}  # Simple in-memory cache for API responses
+        self.mem_cache = {}
         
-        # 文件缓存配置
         self.enable_file_cache = True
         if os.getenv("DISABLE_MAPPING_CACHE", "").lower() in ("true", "1", "yes"):
             self.enable_file_cache = False
         
-        # 缓存超时时间（默认：7天）
         self.cache_timeout = int(os.getenv("MAPPING_CACHE_TIMEOUT", 604800))
         
-        # 统计信息
+        # Statistics
         self.cache_hits = 0
         self.cache_misses = 0
         self.api_calls = 0
         
-        # For debugging purposes, log if we're using a placeholder key
         if api_key and api_key.startswith("sk-"):
             if len(api_key) < 10 or api_key == "sk-xxxx":
                 logger.warning("Using placeholder OpenAI API key. AI-based mapping may not work correctly.")
@@ -611,4 +634,205 @@ class EnOSMapper:
                 current_row.append(min(insertions, deletions, substitutions))
             previous_row = current_row
         
-        return previous_row[-1] 
+        return previous_row[-1]
+
+    def group_points_by_device(self, points: List[Dict]) -> Dict[str, Dict]:
+        """Group points by their device identifier."""
+        devices = {}
+        for point in points:
+            device_key = f"{point['deviceType']}.{point['deviceId']}"
+            if device_key not in devices:
+                devices[device_key] = {
+                    'type': point['deviceType'],
+                    'id': point['deviceId'],
+                    'points': []
+                }
+            devices[device_key]['points'].append(point)
+        return devices
+
+    def create_mapping_context(self, point: Dict, device_group: Dict) -> str:
+        """Create context for a single point using its device group."""
+        related_points = [
+            p['pointName'].split('.')[-1]
+            for p in device_group['points']
+            if p['pointId'] != point['pointId']
+        ]
+        
+        return MAPPING_PROMPT.format(
+            device_type=device_group['type'],
+            device_id=device_group['id'],
+            related_points=", ".join(related_points),
+            point_name=point['pointName'],
+            point_type=point.get('pointType', 'unknown'),
+            unit=point.get('unit', 'no-units'),
+            value=point.get('presentValue', 'N/A')
+        )
+
+    def _validate_enos_format(self, enos_point: str) -> bool:
+        """Validate that the EnOS point name follows the correct format."""
+        if not enos_point:
+            return False
+            
+        parts = enos_point.split('_')
+        if len(parts) < 3:
+            return False
+            
+        # Check device type matches expected format
+        if parts[0] not in {'CH', 'AHU', 'FCU', 'PAU', 'CHWP', 'CWP', 'WST'}:
+            return False
+            
+        # Check category (usually 'raw')
+        if parts[1] not in {'raw', 'calc'}:
+            return False
+            
+        # Check measurement type
+        if parts[2] not in {'temp', 'power', 'status', 'speed', 'pressure', 'flow'}:
+            return False
+            
+        return True
+
+    def process_ai_response(self, response: str, point: Dict) -> Dict:
+        """Process AI response to extract standardized EnOS point name."""
+        try:
+            lines = response.strip().split('\n')
+            enos_point = None
+            confidence = 0.0
+            
+            for line in lines:
+                if line.startswith('1.'):
+                    enos_point = line.split('→')[-1].strip()
+                elif line.startswith('2.'):
+                    confidence = float(line.split(':')[-1].strip())
+            
+            if not self._validate_enos_format(enos_point):
+                raise ValueError(f"Invalid EnOS point format: {enos_point}")
+            
+            return {
+                "pointId": point['pointId'],
+                "pointName": point['pointName'],
+                "deviceType": point['deviceType'],
+                "deviceId": point['deviceId'],
+                "enosPoint": enos_point,
+                "confidence": confidence,
+                "status": "mapped"
+            }
+        except Exception as e:
+            return {
+                "pointId": point['pointId'],
+                "pointName": point['pointName'],
+                "deviceType": point['deviceType'],
+                "deviceId": point['deviceId'],
+                "enosPoint": None,
+                "confidence": 0.0,
+                "status": "error",
+                "error": str(e)
+            }
+
+    @performance_monitor
+    async def map_points(self, points: List[Dict]) -> Dict:
+        """Map points with device context awareness."""
+        try:
+            # 1. Group points by device
+            device_groups = self.group_points_by_device(points)
+            
+            all_mappings = []
+            stats = {"total": 0, "mapped": 0, "errors": 0}
+            
+            # 2. Process each device group
+            for device_key, device_group in device_groups.items():
+                logger.info(f"Processing device group: {device_key} with {len(device_group['points'])} points")
+                
+                for point in device_group['points']:
+                    stats["total"] += 1
+                    
+                    # Check cache first
+                    cache_key = self._generate_cache_key(point['pointName'], point['deviceType'])
+                    cached_mapping = self._get_from_cache(cache_key)
+                    
+                    if cached_mapping:
+                        mapping = {
+                            "pointId": point['pointId'],
+                            "pointName": point['pointName'],
+                            "deviceType": point['deviceType'],
+                            "deviceId": point['deviceId'],
+                            "enosPoint": cached_mapping,
+                            "confidence": 1.0,  # High confidence for cached mappings
+                            "status": "mapped"
+                        }
+                    else:
+                        # Create context-aware prompt
+                        prompt = self.create_mapping_context(point, device_group)
+                        
+                        # Get mapping from AI
+                        try:
+                            response = await self._get_ai_mapping(prompt)
+                            mapping = self.process_ai_response(response, point)
+                            
+                            # Cache successful mappings
+                            if mapping['status'] == "mapped" and mapping['confidence'] >= self.confidence_threshold:
+                                self._save_to_cache(cache_key, mapping['enosPoint'], point['pointName'], point['deviceType'])
+                        except Exception as e:
+                            logger.error(f"Error mapping point {point['pointName']}: {str(e)}")
+                            mapping = {
+                                "pointId": point['pointId'],
+                                "pointName": point['pointName'],
+                                "deviceType": point['deviceType'],
+                                "deviceId": point['deviceId'],
+                                "enosPoint": None,
+                                "confidence": 0.0,
+                                "status": "error",
+                                "error": str(e)
+                            }
+                    
+                    # Update statistics
+                    if mapping['status'] == "mapped":
+                        stats["mapped"] += 1
+                    else:
+                        stats["errors"] += 1
+                    
+                    all_mappings.append(mapping)
+            
+            return {
+                "success": True,
+                "mappings": all_mappings,
+                "stats": stats
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in map_points: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e),
+                "mappings": [],
+                "stats": {"total": 0, "mapped": 0, "errors": 0}
+            }
+
+    async def _get_ai_mapping(self, prompt: str) -> str:
+        """Get mapping from OpenAI API with retries."""
+        for attempt in range(self.max_retries):
+            try:
+                self.api_calls += 1
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": "You are an expert in mapping BMS points to EnOS schema."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.1  # Low temperature for consistent results
+                )
+                
+                # Save response for analysis
+                self._save_api_response({
+                    "prompt": prompt,
+                    "response": response.choices[0].message.content,
+                    "model": self.model,
+                    "timestamp": datetime.datetime.now().isoformat()
+                })
+                
+                return response.choices[0].message.content
+                
+            except Exception as e:
+                logger.warning(f"AI mapping attempt {attempt + 1} failed: {str(e)}")
+                if attempt == self.max_retries - 1:
+                    raise
+                time.sleep(2 ** attempt)  # Exponential backoff 

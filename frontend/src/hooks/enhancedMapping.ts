@@ -520,17 +520,23 @@ export function enhancedMapPointsToEnOS(
     };
   });
 
+  // Update mappedPoints to include the required enosPoint field
+  const formattedMappings = mappedPoints.map(point => ({
+    ...point,
+    enosPoint: point.pointCategory || 'unknown' // Add enosPoint from pointCategory for compatibility
+  }));
+
   // Create a success response
   const response: MapPointsToEnOSResponse = {
     success: true,
-    mappings: mappedPoints,
+    mappings: formattedMappings,
     stats: {
       total: points.length,
-      mapped: mappedPoints.length,
+      mapped: formattedMappings.length,
       errors: 0,
-      deviceCount: Array.from(new Set(mappedPoints.map(p => p.deviceId))).length,
-      deviceTypes: Array.from(new Set(mappedPoints.map(p => p.deviceType))).length,
-      confidenceAvg: mappedPoints.reduce((sum, p) => sum + p.confidence, 0) / mappedPoints.length
+      deviceCount: Array.from(new Set(formattedMappings.map(p => p.deviceId))).length,
+      deviceTypes: Array.from(new Set(formattedMappings.map(p => p.deviceType))).length,
+      confidenceAvg: formattedMappings.reduce((sum, p) => sum + p.confidence, 0) / formattedMappings.length
     }
   };
 

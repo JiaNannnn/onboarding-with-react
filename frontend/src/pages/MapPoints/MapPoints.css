@@ -221,3 +221,235 @@
 .handsontable .htCore tbody tr:hover {
   background-color: #e9f7fe;
 }
+
+/* Mapping table styles */
+.mapped-point {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+  font-weight: 500;
+}
+
+.unmapped {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #feeee8;
+  color: #d93025;
+  font-style: italic;
+}
+
+.confidence-score {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.high-confidence {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.medium-confidence {
+  background-color: #fff7e6;
+  color: #b06000;
+}
+
+.low-confidence {
+  background-color: #feeee8;
+  color: #d93025;
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status-mapped {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.status-error {
+  background-color: #feeee8;
+  color: #d93025;
+}
+
+/* Table header styles */
+.handsontable th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #202124;
+}
+
+/* Alternating row colors */
+.handsontable tr:nth-child(even) td {
+  background-color: #f8f9fa;
+}
+
+/* Cell hover effect */
+.handsontable td:hover {
+  background-color: #f1f3f4 !important;
+}
+
+/* Read-only cells */
+.handsontable td[readonly] {
+  background-color: #f8f9fa;
+}
+
+/* New column styles */
+.error-message-cell {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #feeee8;
+  color: #d93025;
+  font-size: 12px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Column menu styles */
+.column-menu {
+  float: right;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+.column-menu:hover {
+  color: #333;
+  background-color: #e9ecef;
+  border-radius: 2px;
+}
+
+/* Value cell styles */
+.present-value {
+  font-family: monospace;
+  color: #444;
+}
+
+/* Object information styles */
+.object-info {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Improve table header readability */
+.handsontable th {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+  padding: 4px 6px;
+}
+
+/* Column specific widths */
+.handsontable .htCore td.device-type-cell {
+  min-width: 100px;
+}
+
+.handsontable .htCore td.point-name-cell {
+  min-width: 150px;
+}
+
+.handsontable .htCore td.description-cell {
+  min-width: 200px;
+}
+
+.handsontable .htCore td.error-cell {
+  min-width: 200px;
+}
+
+/* Dropdown menu styles */
+.handsontable .htDropdownMenu {
+  padding: 4px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.handsontable .htDropdownMenu .htCore {
+  border: none;
+}
+
+.handsontable .htDropdownMenu .htCore td {
+  padding: 4px 8px;
+  color: #333;
+}
+
+.handsontable .htDropdownMenu .htCore td:hover {
+  background-color: #f1f3f4;
+}
+
+/* Filter indicator styles */
+.handsontable th .htCore .columnSorting.ascending::after {
+  content: '↑';
+  color: #666;
+  margin-left: 4px;
+}
+
+.handsontable th .htCore .columnSorting.descending::after {
+  content: '↓';
+  color: #666;
+  margin-left: 4px;
+}
+
+/* Column filter menu styles */
+.column-filter-menu {
+  min-width: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.filter-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 13px;
+}
+
+.filter-option:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-option.clear-filter {
+  border-top: 1px solid #e0e0e0;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.filter-option.clear-filter:hover {
+  background-color: #fef5f5;
+}
+
+/* Active filter indicator */
+.column-menu.has-filter::after {
+  content: '•';
+  color: #3498db;
+  font-size: 18px;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}
+
+/* Improve dropdown positioning */
+.handsontable th {
+  position: relative;
+}
+
+.column-menu {
+  position: relative;
+}

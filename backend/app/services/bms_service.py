@@ -1063,7 +1063,7 @@ class BMSService:
                             "deviceId": device_id,
                             "deviceType": equipment_type,
                             "pointCategory": point_category,
-                            "enosPath": enos_path,
+                            "enosPoints": enos_path.split('/')[-1] if enos_path else None,
                             "confidence": mapping_confidence,
                             "mappingSource": matching_strategy,
                             "status": "mapped"
