@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_energy_active_total",
+  "point": "FCUEnergy.Daily-tRh",
+  "device_type": "FCU",
+  "timestamp": "2025-03-28T15:17:27.641636",
+  "model": "gpt-4o"
+}

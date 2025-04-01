@@ -1,0 +1,21 @@
+id,name,path,type,value,unit
+p001,Zone Temp,/building1/ahu1/temp,temperature,72.5,°F
+p002,Zone Humidity,/building1/ahu1/humidity,humidity,45.2,%
+p003,Supply Fan Status,/building1/ahu1/fan/status,binary,1,on/off
+p004,Return Air Temp,/building1/ahu1/return/temp,temperature,74.1,°F
+p005,Supply Air Temp,/building1/ahu1/supply/temp,temperature,55.3,°F
+p006,CO2 Level,/building1/ahu1/co2,co2,612,ppm
+p007,Occupancy,/building1/ahu1/occupancy,binary,1,occupied/unoccupied
+p008,Setpoint,/building1/ahu1/setpoint,setpoint,72,°F
+p009,Damper Position,/building1/ahu1/damper,percentage,35,%
+p010,Valve Position,/building1/ahu1/valve,percentage,80,%
+p011,Static Pressure,/building1/ahu1/static,pressure,1.2,inWC
+p012,Filter Status,/building1/ahu1/filter,binary,0,clean/dirty
+p013,Zone Temp,/building1/ahu2/temp,temperature,71.8,°F
+p014,Zone Humidity,/building1/ahu2/humidity,humidity,46.3,%
+p015,Supply Fan Status,/building1/ahu2/fan/status,binary,1,on/off
+p016,Return Air Temp,/building1/ahu2/return/temp,temperature,73.5,°F
+p017,Supply Air Temp,/building1/ahu2/supply/temp,temperature,54.7,°F
+p018,CO2 Level,/building1/ahu2/co2,co2,580,ppm
+p019,Occupancy,/building1/ahu2/occupancy,binary,0,occupied/unoccupied
+p020,Setpoint,/building1/ahu2/setpoint,setpoint,72,°F

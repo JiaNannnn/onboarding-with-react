@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+      <html>
+      <head>
+      <title>HVAC</title>
+      <meta charset="utf-8" />
+      <style>@charset "UTF-8";
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  font-size: 13px;
+  line-height: 25px;
+  color: #393838;
+  position: relative;
+}
+
+table {
+  margin: 10px 0 15px 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 3px 10px;
+}
+
+th {
+  padding: 5px 10px;
+}
+
+a, a:link, a:visited {
+  color: #34495e;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #59d69d;
+  text-decoration: none;
+}
+
+a img {
+  border: none;
+}
+
+p {
+  padding-left: 10px;
+  margin-bottom: 9px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #404040;
+  line-height: 36px;
+}
+
+h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-size: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  line-height: 50px;
+}
+
+h2 {
+  font-size: 28px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+h3 {
+  clear: both;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-left: 3px solid #59d69d;
+  padding-left: 8px;
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 13px;
+}
+
+hr {
+  margin: 0 0 19px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+blockquote {
+  padding: 13px 13px 21px 15px;
+  margin-bottom: 18px;
+  font-family: georgia, serif;
+  font-style: italic;
+}
+
+blockquote:before {
+  font-size: 40px;
+  margin-left: -10px;
+  font-family: georgia, serif;
+  color: #eee;
+}
+
+blockquote p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+code,
+pre {
+  font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+
+code {
+  background-color: #fee9cc;
+  color: rgba(0, 0, 0, 0.75);
+  padding: 1px 3px;
+  font-size: 12px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+pre {
+  display: block;
+  padding: 14px;
+  margin: 0 0 18px;
+  line-height: 16px;
+  font-size: 11px;
+  border: 1px solid #d9d9d9;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #f6f6f6;
+}
+
+pre code {
+  background-color: #f6f6f6;
+  color: #737373;
+  font-size: 11px;
+  padding: 0;
+}
+
+sup {
+  font-size: 0.83em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+* {
+  -webkit-print-color-adjust: exact;
+}
+
+@media print {
+  body,
+  code,
+  pre code,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black;
+  }
+
+  table,
+  pre {
+    page-break-inside: avoid;
+  }
+}
+html,
+body {
+  height: 100%;
+}
+
+.table-of-contents {
+  position: fixed;
+  top: 61px;
+  left: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 260px;
+}
+
+.table-of-contents > ul > li > a {
+  font-size: 20px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.table-of-contents ul {
+  overflow: auto;
+  margin: 0px;
+  height: 100%;
+  padding: 0px 0px;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+.table-of-contents ul li {
+  padding-left: 20px;
+}
+
+.table-of-contents a {
+  padding: 2px 0px;
+  display: block;
+  text-decoration: none;
+}
+
+.content-right {
+  max-width: 700px;
+  margin-left: 290px;
+  padding-left: 70px;
+  flex-grow: 1;
+}
+.content-right h2:target {
+  padding-top: 80px;
+}
+
+body > p {
+  margin-left: 30px;
+}
+
+body > table {
+  margin-left: 30px;
+}
+
+body > pre {
+  margin-left: 30px;
+}
+
+.curProject {
+  position: fixed;
+  top: 20px;
+  font-size: 25px;
+  color: black;
+  margin-left: -240px;
+  width: 240px;
+  padding: 5px;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+
+.g-doc {
+  margin-top: 56px;
+  padding-top: 24px;
+  display: flex;
+}
+
+.curproject-name {
+  font-size: 42px;
+}
+
+.m-header {
+  background: #32363a;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 60px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.m-header .title {
+  font-size: 22px;
+  color: #fff;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  margin-left: 16px;
+  padding: 0;
+  line-height: 56px;
+  border: none;
+}
+.m-header .nav {
+  color: #fff;
+  font-size: 16px;
+  position: absolute;
+  right: 32px;
+  top: 0;
+}
+.m-header .nav a {
+  color: #fff;
+  margin-left: 16px;
+  padding: 8px;
+  transition: color .2s;
+}
+.m-header .nav a:hover {
+  color: #59d69d;
+}
+
+.m-footer {
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+/*# sourceMappingURL=defaultTheme.css.map */
+</style>
+      </head>
+      <body>
+        <div class="m-header">
+          <a href="#" style="display: inherit;"><svg class="svg" width="32px" height="32px" viewBox="0 0 64 64" version="1.1"><title>Icon</title><desc>Created with Sketch.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#F2F2F2" offset="100%"></stop></linearGradient><circle id="path-2" cx="31.9988602" cy="31.9988602" r="2.92886048"></circle><filter x="-85.4%" y="-68.3%" width="270.7%" height="270.7%" filterUnits="objectBoundingBox" id="filter-3"><feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.159703351 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix></filter></defs><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="大屏幕"><g id="Icon"><circle id="Oval-1" fill="url(#linearGradient-1)" cx="32" cy="32" r="32"></circle><path d="M36.7078009,31.8054514 L36.7078009,51.7110548 C36.7078009,54.2844537 34.6258634,56.3695395 32.0579205,56.3695395 C29.4899777,56.3695395 27.4099998,54.0704461 27.4099998,51.7941246 L27.4099998,31.8061972 C27.4099998,29.528395 29.4909575,27.218453 32.0589004,27.230043 C34.6268432,27.241633 36.7078009,29.528395 36.7078009,31.8054514 Z" id="blue" fill="#2359F1" fill-rule="nonzero"></path><path d="M45.2586091,17.1026914 C45.2586091,17.1026914 45.5657231,34.0524383 45.2345291,37.01141 C44.9033351,39.9703817 43.1767091,41.6667796 40.6088126,41.6667796 C38.040916,41.6667796 35.9609757,39.3676862 35.9609757,37.0913646 L35.9609757,17.1034372 C35.9609757,14.825635 38.0418959,12.515693 40.6097924,12.527283 C43.177689,12.538873 45.2586091,14.825635 45.2586091,17.1026914 Z" id="green" fill="#57CF27" fill-rule="nonzero" transform="translate(40.674608, 27.097010) rotate(60.000000) translate(-40.674608, -27.097010) "></path><path d="M28.0410158,17.0465598 L28.0410158,36.9521632 C28.0410158,39.525562 25.9591158,41.6106479 23.3912193,41.6106479 C20.8233227,41.6106479 18.7433824,39.3115545 18.7433824,37.035233 L18.7433824,17.0473055 C18.7433824,14.7695034 20.8243026,12.4595614 23.3921991,12.4711513 C25.9600956,12.4827413 28.0410158,14.7695034 28.0410158,17.0465598 Z" id="red" fill="#FF561B" fill-rule="nonzero" transform="translate(23.392199, 27.040878) rotate(-60.000000) translate(-23.392199, -27.040878) "></path><g id="inner-round"><use fill="black" fill-opacity="1" filter="url(#filter-3)" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#path-2"></use><use fill="#F7F7F7" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#path-2"></use></g></g></g></g></svg></a>
+          <a href="#"><h1 class="title">YAPI 接口文档</h1></a>
+          <div class="nav">
+            <a href="https://hellosean1025.github.io/yapi/">YApi</a>
+          </div>
+        </div>
+        <div class="g-doc">
+          <div class="table-of-contents"><ul><li><a href="#hvac">hvac</a><ul><li><a href="#getnetconfig0a3ca20id3dgetnetconfig3e203ca3e">getNetConfig
+<a id=getNetConfig> </a></a></li><li><a href="#autoconfig0a3ca20id3dautoconfig3e203ca3e">autoConfig
+<a id=autoConfig> </a></a></li><li><a href="#autoconfigv2-modbus0a3ca20id3dautoconfigv2-modbus3e203ca3e">autoConfigV2-modbus
+<a id=autoConfigV2-modbus> </a></a></li><li><a href="#autoconfigv2-bacnet0a3ca20id3dautoconfigv2-bacnet3e203ca3e">autoConfigV2_bacnet
+<a id=autoConfigV2_bacnet> </a></a></li><li><a href="#configprogress0a3ca20id3dconfigprogress3e203ca3e">configProgress
+<a id=configProgress> </a></a></li><li><a href="#deviceresponse0a3ca20id3ddeviceresponse3e203ca3e">deviceResponse
+<a id=deviceResponse> </a></a></li><li><a href="#autoconfigv20a3ca20id3dautoconfigv23e203ca3e">autoConfigV2
+<a id=autoConfigV2> </a></a></li><li><a href="#getprogress0a3ca20id3dgetprogress3e203ca3e">getProgress
+<a id=getProgress> </a></a></li><li><a href="#pointresponse0a3ca20id3dpointresponse3e203ca3e">pointResponse
+<a id=pointResponse> </a></a></li><li><a href="#pointvaluerefresh0a3ca20id3dpointvaluerefresh3e203ca3e">pointValueRefresh
+<a id=pointValueRefresh> </a></a></li><li><a href="#querypointvalues0a3ca20id3dquerypointvalues3e203ca3e">queryPointValues
+<a id=queryPointValues> </a></a></li><li><a href="#search0a3ca20id3dsearch3e203ca3e">search
+<a id=search> </a></a></li></ul></li></ul></div>
+          <div id="right" class="content-right">
+           <h1 class="curproject-name"> HVAC </h1> 
+ hvac auto search openapi
+<h1 id="hvac">hvac</h1>
+<p></p>
+<h2 id="getnetconfig0a3ca20id3dgetnetconfig3e203ca3e">getNetConfig
+<a id=getNetConfig> </a></h2>
+<p></p>
+<h3 id="">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/getNetConfig</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<p><span class="colour" style="color: rgb(0, 0, 0);">返回空数组表示设备未连过云上报网卡信息</span></p>
+<h3 id="-2">请求参数</h3>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orgId</td>
+<td>是</td>
+<td>o15427722038191</td>
+<td>Edge网关设备所在组织Id</td>
+</tr>
+<tr>
+<td>assetId</td>
+<td>是</td>
+<td>TLhQtJrH</td>
+<td>Edge网关设备资产id</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-3">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-19><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">eth1(192.168.0.194)</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="autoconfig0a3ca20id3dautoconfig3e203ca3e">autoConfig
+<a id=autoConfig> </a></h2>
+<p></p>
+<h3 id="-4">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/autoConfig</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>一：点表中baseValue和<span class="colour" style="color:rgb(23, 43, 77)">coefficient说明：</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">1、如若需要对原始点进行转换，即需要执行ax+b的操作，则需要使用“系数”及“基值”两个参数，其中a是系数（coefficient），b是基值（base-value）；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">2、通常情况下不需要修改，直接使用默认值；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">3、例如：逆变器电量原始测点数据单位KW，转换为单位W，系数efficiency可以填1000；</span><br>
+二：分连接逻辑：<br>
+分连接策略：<br>
+1）相同的otDeviceInst由多个enos设备接入，可以在相同的链接下，采集的原始点不允许重复<br>
+2）不同的otDeviceInst对接多个enos设备可以在相同的链接下，采集点没有限制，类似otDevice1对1enos设备<br>
+3)不同的otDeviceInst被同一个enos设备接入，需要分链接，且不同链接下相同设备的映射模型点不允许重复<br>
+入参中deviceConfigs为二维数组，每一个数组元素为同一个连接下的所有设备集合，尽可能的将可以放到同一个连接下的设备放在一起<br>
+三：此接口为覆盖式添加接口，每次调用都是全量的接入单个Edge下的所有设备，覆盖删除上次由本接口创建的接入连接和设备，模板(如果没有被其他设备使用的话)</p>
+<h3 id="-5">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> configs</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> assetId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">Edge网关设备assetId</span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> deviceConfigs</span></td><td key=1><span>array []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">连接分组信息，每个数组元素代表一个连接下接入的批量设备</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>array</span></p></td></tr><tr key=array-20><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">连接下设备与模板的分组关系，每个数组元素代表使用相同模板的一批设备</span></td><td key=5></td></tr><tr key=0-0-1-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> devices</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">使用相同模板的所有设备列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-1-0-0><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> assetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网管接入子设备assetId</span></td><td key=5></td></tr><tr key=0-0-1-0-1><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">otaDeviceInst，例如：10001</span></td><td key=5></td></tr><tr key=0-0-1-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> modelId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1-2><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> pointMappings</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">模板的点表映射关系信息</span></td><td key=5></td></tr><tr key=0-0-1-2-0><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> baseValue</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点表基值，用于模板点表配置</span></td><td key=5></td></tr><tr key=0-0-1-2-1><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> coefficient</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点表系数，用于模板点表配置</span></td><td key=5></td></tr><tr key=0-0-1-2-2><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> identifier</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">MeasurePoint identifier</span></td><td key=5></td></tr><tr key=0-0-1-2-3><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> objectId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">bacnet搜索测点结果的objectId，eg:(analog-input:1001)，用于原始点表中的扩展列object-id用于识别测点</span></td><td key=5></td></tr><tr key=0-0-1-2-4><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> objectName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点表中扩展列objectname,用于识别测点，需要规约配置文件中配置USE_OBJ_NAME=1</span></td><td key=5></td></tr><tr key=0-0-1-2-5><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> pointType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点表中对点类型的设置 ：AI,DI,PI,AO,DO</span></td><td key=5></td></tr><tr key=0-0-1-2-6><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> rawPointName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">bacnet搜索测点点名</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> edgeType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-6">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="autoconfigv2-modbus0a3ca20id3dautoconfigv2-modbus3e203ca3e">autoConfigV2-modbus
+<a id=autoConfigV2-modbus> </a></h2>
+<p></p>
+<h3 id="-7">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/autoConfigV2_1</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>一：点表中baseValue和<span class="colour" style="color:rgb(23, 43, 77)">coefficient说明：</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">1、如若需要对原始点进行转换，即需要执行ax+b的操作，则需要使用“系数”及“基值”两个参数，其中a是系数（coefficient），b是基值（base-value）；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">2、通常情况下不需要修改，直接使用默认值；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">3、例如：逆变器电量原始测点数据单位KW，转换为单位W，系数efficiency可以填1000；</span><br>
+二：数据采集频率配置<br>
+uploadType：测点上送频率，<br>
+REALTIME:实时上送、<br>
+CHANGE：变化上送、<br>
+TIMER:定时上送、<br>
+NOT_UPLOAD：不上送、<br>
+CHANGE_TIMER：变化定时上送<br>
+uploadInterval：定时时间间隔，当uploadType为TIMER、CHANGE_TIMER时有效<br>
+三：对于规约配置中的registerByteOrder和点表中的valueType配置示例如下<br>
+registerByteOrder：寄存器字节序，0大端模式，1小端模式,默认0大端模式<br>
+valueType举例INT 和 SW_INT<br>
+读取两个寄存器，数据int类型为例：<br>
+edge查询：00 00 00 00<br>
+00 06 01 03 00 00 00 02<br>
+设备应答：00 00 00 00 00 07 01 03 04 11 22 33 44<br>
+其中数据段是11 22 33 44</p>
+<table>
+<thead>
+<tr>
+<th>规约配置寄存器字节序registerByteOrder</th>
+<th>点表配置数据类型配置valueType</th>
+<th>解析后的实际值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大端模式(0)</td>
+<td>SW_INT</td>
+<td>0x11223344</td>
+<td>纯大端，高字在前高字节在前<span lang="EN-US"></span></td>
+</tr>
+<tr>
+<td>大端模式(0)<span lang="EN-US"></span></td>
+<td>INT</td>
+<td>0x33441122</td>
+<td>低字在前高字节在前<span lang="EN-US"></span></td>
+</tr>
+<tr>
+<td>小端模式(1)<span lang="EN-US"></span></td>
+<td>SW_INT</td>
+<td>0x22114433</td>
+<td>高字在前低字节在前<span lang="EN-US"></span></td>
+</tr>
+<tr>
+<td>小端模式(1)<span lang="EN-US"></span></td>
+<td>INT</td>
+<td>0x44332211</td>
+<td>纯小端，低字在前低字节在前<span lang="EN-US"></span></td>
+</tr>
+</tbody>
+</table>
+<p>四：连接配置全量参数示例<br>
+以太网连接：collectType = 0 ModbusTCP规约<br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectConfig"</span><span class="colour" style="color:rgb(0, 0, 0)">:{</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectName"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"AutoCreateModbus"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"connType"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"TCP_CLT"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectType"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">0</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"connIP"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"1.1.1.11:1101"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"protocolConfigs"</span><span class="colour" style="color:rgb(0, 0, 0)">:{</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"registerByteOrder"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">0</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"callInterval"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">10000</span><br>
+<span class="colour" style="color:rgb(0, 0, 0)">}</span><br>
+<span class="colour" style="color:rgb(0, 0, 0)">}</span><br>
+串口连接：collectType = 2<br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectConfig"</span><span class="colour" style="color:rgb(0, 0, 0)">:{</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectName"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"AutoCreateModbus"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"collectType"</span><span class="colour" style="color:rgb(0, 0, 0)">:2</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"baudRate"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">9600</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"checkDigit"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">0</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"serialNum"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"COM1"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"stopDigit"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(4, 81, 165)">"1"</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"protocolConfigs"</span><span class="colour" style="color:rgb(0, 0, 0)">:{</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"registerByteOrder"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">0</span><span class="colour" style="color:rgb(0, 0, 0)">,</span><br>
+<span class="colour" style="color:rgb(163, 21, 21)">"callInterval"</span><span class="colour" style="color:rgb(0, 0, 0)">:</span><span class="colour" style="color:rgb(9, 134, 88)">10000,</span><br>
+<span class="colour" style="color:rgb(9, 134, 88)">"</span>crcCheckBitByteOrder<span class="colour" style="color:rgb(9, 134, 88)">":0</span><br>
+<span class="colour" style="color:rgb(0, 0, 0)">}</span><br>
+<span class="colour" style="color:rgb(0, 0, 0)">}</span></p>
+<h3 id="-8">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> configs</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> collectConfig</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> collectName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">支持中文、英文、数字和特殊字符 - _ . : ()（），长度限制1至64位字符</span></td><td key=5></td></tr><tr key=0-0-0-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> connType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">连接模式：TCP_CLT(TCP客户端)</span></td><td key=5></td></tr><tr key=0-0-0-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> collectType</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">0：以太网连接 2：串口连接,MODBUSTCP仅支持以太网，MODBUSRTU既支持以太网又支持串口</span></td><td key=5></td></tr><tr key=0-0-0-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> connIP</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">格式：主地址:端口@@备地址:端口或者主地址:端口例如127.0.0.0:1234@@127.0.0.1:2345，对应ip address + port number collectType=0时使用</span></td><td key=5></td></tr><tr key=0-0-0-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> baudRate</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">波特率：300,600，1200,2400,4800,9600,19200，38400，57600，115200，230400。大部分场景使用的是9600，collectType=2时有效</span></td><td key=5></td></tr><tr key=0-0-0-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> checkDigit</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">校验位:0:无校验，1：奇校验，2偶校验，collectType=2时有效</span></td><td key=5></td></tr><tr key=0-0-0-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> dataBit</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">数据位：默认8，collectType=2时有效</span></td><td key=5></td></tr><tr key=0-0-0-7><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> serialNum</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">串口号:COM1,COM2,COM3,COM4，collectType=2时有效</span></td><td key=5></td></tr><tr key=0-0-0-8><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> stopDigit</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">停止位：1,1.5,2,collectType=2时有效</span></td><td key=5></td></tr><tr key=0-0-0-9><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> protocolConfigs</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-9-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> registerByteOrder</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">寄存器字节序，0小端模式,1大端模式，默认1大端模式</span></td><td key=5></td></tr><tr key=0-0-0-9-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> callInterval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">召唤时间间隔，单位毫秒，默认30000</span></td><td key=5></td></tr><tr key=0-0-0-9-2><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> crcCheckBitByteOrder</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">CRC校验位字节序，0小端模式,1大端模式，默认0小端模式，modbusRTU规约使用</span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> deviceConfig</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> deviceAssetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">接入设备资产ID</span></td><td key=5></td></tr><tr key=0-0-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> logicalId</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">对应DeviceID：0-65535</span></td><td key=5></td></tr><tr key=0-0-1-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> modelId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">enos设备对应的模型</span></td><td key=5></td></tr><tr key=0-0-1-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> identifier</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">映射的模型点测点标识符</span></td><td key=5></td></tr><tr key=0-0-1-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> rawPointName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点点名	</span></td><td key=5></td></tr><tr key=0-0-1-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> pointType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型：AI,DI,PI,AO,DO（AO,DO为控制点类型</span></td><td key=5></td></tr><tr key=0-0-1-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> baseValue</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点数据基值，默认0</span></td><td key=5></td></tr><tr key=0-0-1-7><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> coefficient</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">系数，默认1</span></td><td key=5></td></tr><tr key=0-0-1-8><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> registerAddress</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">寄存器起始地址，0~65535范围</span></td><td key=5></td></tr><tr key=0-0-1-9><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> functionCode</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">AI:03,04,DI:01,02,03,04,PI:03,04,AO:06,16,DO:05,15</span></td><td key=5></td></tr><tr key=0-0-1-10><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> valueType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">不同类型测点支持的数据类型如下： 原始设备点类型(DI)：BIT、SHORT、USHORT 原始设备点类型(AI)：SHORT、USHORT、INT 、SW_INT、UINT 、SW_UINT、FLOAT、 SW_FLOAT、DOUBLE 、SW_DOUBLE、LONG 、SW_LONG 原始设备点类型(PI)：SHORT、USHORT、INT 、SW_INT、UINT 、SW_UINT、FLOAT、 SW_FLOAT、DOUBLE 、SW_DOUBLE、LONG 、SW_LONG 原始设备点类型(AO)：SHORT、INT 、SW_INT、FLOAT 、SW_FLOAT、DOUBLE 、SW_DOUBLE、LONG、SW_LONG 原始设备点类型(DO)：BIT 说明： 1）其中，"SW_"用于区分大小端模式，代表数据解析顺序不同。带"SW_"数据类型为大端模式(大端在低寄存器)。</span></td><td key=5></td></tr><tr key=0-0-1-11><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> callInterval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">数据查询的时间间隔，单位为毫秒，优先级高于规约配置文件中的callInterval</span></td><td key=5></td></tr><tr key=0-0-1-12><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">测点上送频率，REALTIME、CHANGE、TIMER、NOT_UPLOAD、CHANGE_TIMER,默认REALTIME实时上送</span></td><td key=5></td></tr><tr key=0-0-1-13><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadInterval</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">定时时间间隔</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> assetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">edge网关设备资产ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">modbusRTU,modbusTCP</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> locale</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">env 默认en-US</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-9">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="autoconfigv2-bacnet0a3ca20id3dautoconfigv2-bacnet3e203ca3e">autoConfigV2_bacnet
+<a id=autoConfigV2_bacnet> </a></h2>
+<p></p>
+<h3 id="-10">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/autoConfigV2_1733799472736</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>一：点表中baseValue和<span class="colour" style="color:rgb(23, 43, 77)">coefficient说明：</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">1、如若需要对原始点进行转换，即需要执行ax+b的操作，则需要使用“系数”及“基值”两个参数，其中a是系数（coefficient），b是基值（base-value）；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">2、通常情况下不需要修改，直接使用默认值；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">3、例如：逆变器电量原始测点数据单位KW，转换为单位W，系数efficiency可以填1000；</span><br>
+二：扩展字段说明<br>
+interval:若测点需要订阅COV，或者使用sys文件中的查询周期CALL_SUM_INTERVAL，则设置为0,值&gt;0表示该测点采用该值作为查询间隔。只对AI/DI/PI生效，AO/DO测点不读值。<br>
+priority:整型，取值范围是1-16和-1，1-16表示正常优先级（默认值16），-1表示忽略优先级。Ø&nbsp;若没有设置或者超出此范围则取默认值16，仅对AO/DO生效<br>
+<span class="size">objectName:</span>如果sys中配置了USE_OBJ_NAME为1，则以逻辑编号中的devName+objName组成的字符串匹配测点与BACnet服务器中的对象<br>
+demand:字符串，取值范围“true”或者“false”，不区分大小写, 该值为true时，表示为按需采集点；为其他内容时，表示为普通采集点，按需命令不起作用；按需点用于应用侧需要即时获取数据的场景；应用可通过控制接口，下发按需读取命令<br>
+三：数据采集频率配置<br>
+uploadType：测点上送频率，<br>
+REALTIME:实时上送、<br>
+CHANGE：变化上送、<br>
+TIMER:定时上送、<br>
+NOT_UPLOAD：不上送、<br>
+CHANGE_TIMER：变化定时上送<br>
+uploadInterval：定时时间间隔，当uploadType为TIMER、CHANGE_TIMER时有效<br>
+<span class="colour" style="color:rgb(85, 85, 85)">四：分连接逻辑：</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">分连接策略：</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">1）相同的otDeviceInst由多个enos设备接入，可以在相同的链接下，采集的原始点不允许重复</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">2）不同的otDeviceInst对接多个enos设备可以在相同的链接下，采集点没有限制，类似otDevice1对1enos设备</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">3)不同的otDeviceInst被同一个enos设备接入，需要分链接，且不同链接下相同设备的映射模型点不允许重复</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">五：连接信息传参</span><br>
+collectConfig表示Edge接入连接信息，包括连接名称，连接对端地址(bacnet serverIP+port(47808))<br>
+相同的serverIp下的所有otDevice的采集映射关系放到configs的一个数组元素内，<br>
+分连接逻辑，在原来的基础上，相同的serverIp为一组设备进行连接的拆分，<br>
+校验项：<br>
+多个serverIP必须相同网段，相同端口，不允许有重复deviceInst</p>
+<h3 id="-11">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> configs</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> assetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">Edge网关设备assetId</span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pointMappings</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">单Edge下所有的设备映射关系</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> deviceAssetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">enos设备assetId</span></td><td key=5></td></tr><tr key=0-0-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> modelId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">enos设备对应的模型</span></td><td key=5></td></tr><tr key=0-0-1-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> identifier</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">映射的模型点测点标识符</span></td><td key=5></td></tr><tr key=0-0-1-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> rawPointName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点点名</span></td><td key=5></td></tr><tr key=0-0-1-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> pointType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型：AI，DI，AO,DO（ao,do为控制点类型）</span></td><td key=5></td></tr><tr key=0-0-1-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">(analog-inut,1)</span></td><td key=5></td></tr><tr key=0-0-1-7><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> baseValue</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点数据基值，默认0</span></td><td key=5></td></tr><tr key=0-0-1-8><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> coefficient</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">系数，默认1</span></td><td key=5></td></tr><tr key=0-0-1-9><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> interval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">测点读取周期</span></td><td key=5></td></tr><tr key=0-0-1-10><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> controlPriority</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">控制优先级</span></td><td key=5></td></tr><tr key=0-0-1-11><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectName</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">对象名称，当sys中USE_OBJ_NAME=1时生效</span></td><td key=5></td></tr><tr key=0-0-1-12><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> demand</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">按需采集标识，传递"true","false"</span></td><td key=5></td></tr><tr key=0-0-1-13><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">测点上送频率，REALTIME、CHANGE、TIMER、NOT_UPLOAD、CHANGE_TIMER</span></td><td key=5></td></tr><tr key=0-0-1-14><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadInterval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">定时时间间隔</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> collectConfig</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> collectName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">支持中文、英文、数字和特殊字符 - _ . : ()（），长度限制1至64位字符，仅设置默认环境和locale对应的字段</span></td><td key=5></td></tr><tr key=0-0-2-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> connType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">连接模式：TCP_CLT(TCP客户端)，默认为TCP客户端连接模式</span></td><td key=5></td></tr><tr key=0-0-2-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> collectType</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">默认为0：以太网连接</span></td><td key=5></td></tr><tr key=0-0-2-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> connIP</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">sererIp+端口配置，格式：192.168.0.110:47808</span></td><td key=5></td></tr><tr key=0-0-2-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> protocolConfigs</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2-4-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> callInterval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">总招周期</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> locale</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">env 默认en-US</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-12">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="configprogress0a3ca20id3dconfigprogress3e203ca3e">configProgress
+<a id=configProgress> </a></h2>
+<p></p>
+<h3 id="-13">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/configProgress</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-14">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">Edge网关设备所在组织Id</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetIds</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">Edge网关设备资产Id列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-21><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约信息，当前仅支持bacnet</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-15">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> result</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">-1:任务不存在  0：配置进行中  1：配置成功  2：配置失败</span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> message</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> defaultValue</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> i18nValue</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1-1-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> zh-CN</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1-1-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> en-US</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="deviceresponse0a3ca20id3ddeviceresponse3e203ca3e">deviceResponse
+<a id=deviceResponse> </a></h2>
+<p></p>
+<h3 id="-16">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/deviceResponse</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-17">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetIds</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-22><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> keyword</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">搜索类型:device,point</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> pagination</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">type=point需要传递  设备id列表  bacnet搜索传递设备的deviceInst字段</span></td><td key=5></td></tr><tr key=0-4-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pageNo</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pageSize</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sorters</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-4-2-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> field</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">deviceName,deviceType</span></td><td key=5></td></tr><tr key=0-4-2-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> order</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">ASC,DESC</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-18">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> record</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-0-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> edgeAssetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备所属Edge资产ID</span></td><td key=5></td></tr><tr key=0-3-0-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备序号</span></td><td key=5></td></tr><tr key=0-3-0-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> otDeviceName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备名称</span></td><td key=5></td></tr><tr key=0-3-0-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> deviceType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备型号</span></td><td key=5></td></tr><tr key=0-3-0-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> deviceModel</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备模式</span></td><td key=5></td></tr><tr key=0-3-0-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> address</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备地址</span></td><td key=5></td></tr><tr key=0-3-0-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> description</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">描述</span></td><td key=5></td></tr><tr key=0-3-0-7><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> vendorName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">厂商品牌名称	</span></td><td key=5></td></tr><tr key=0-3-0-8><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> systemStatus</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">系统状态</span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pageSize</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pageNo</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> recordCount</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> totalRecordCount</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pageCount</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="autoconfigv20a3ca20id3dautoconfigv23e203ca3e">autoConfigV2
+<a id=autoConfigV2> </a></h2>
+<p></p>
+<h3 id="-19">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/autoConfigV2</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>一：点表中baseValue和<span class="colour" style="color:rgb(23, 43, 77)">coefficient说明：</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">1、如若需要对原始点进行转换，即需要执行ax+b的操作，则需要使用“系数”及“基值”两个参数，其中a是系数（coefficient），b是基值（base-value）；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">2、通常情况下不需要修改，直接使用默认值；</span><br>
+<span class="colour" style="color:rgb(23, 43, 77)">3、例如：逆变器电量原始测点数据单位KW，转换为单位W，系数efficiency可以填1000；</span><br>
+二：扩展字段说明<br>
+interval:若测点需要订阅COV，或者使用sys文件中的查询周期CALL_SUM_INTERVAL，则设置为0,值&gt;0表示该测点采用该值作为查询间隔。只对AI/DI/PI生效，AO/DO测点不读值。<br>
+priority:整型，取值范围是1-16和-1，1-16表示正常优先级（默认值16），-1表示忽略优先级。Ø&nbsp;若没有设置或者超出此范围则取默认值16，仅对AO/DO生效<br>
+<span class="size">objectName:</span>如果sys中配置了USE_OBJ_NAME为1，则以逻辑编号中的devName+objName组成的字符串匹配测点与BACnet服务器中的对象<br>
+demand:字符串，取值范围“true”或者“false”，不区分大小写, 该值为true时，表示为按需采集点；为其他内容时，表示为普通采集点，按需命令不起作用；按需点用于应用侧需要即时获取数据的场景；应用可通过控制接口，下发按需读取命令<br>
+三：数据采集频率配置<br>
+uploadType：测点上送频率，<br>
+REALTIME:实时上送、<br>
+CHANGE：变化上送、<br>
+TIMER:定时上送、<br>
+NOT_UPLOAD：不上送、<br>
+CHANGE_TIMER：变化定时上送<br>
+uploadInterval：定时时间间隔，当uploadType为TIMER、CHANGE_TIMER时有效<br>
+<span class="colour" style="color:rgb(85, 85, 85)">四：分连接逻辑：</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">分连接策略：</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">1）相同的otDeviceInst由多个enos设备接入，可以在相同的链接下，采集的原始点不允许重复</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">2）不同的otDeviceInst对接多个enos设备可以在相同的链接下，采集点没有限制，类似otDevice1对1enos设备</span><br>
+<span class="colour" style="color:rgb(85, 85, 85)">3)不同的otDeviceInst被同一个enos设备接入，需要分链接，且不同链接下相同设备的映射模型点不允许重复</span></p>
+<h3 id="-20">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> configs</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> assetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">Edge网关设备assetId</span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pointMappings</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">单Edge下所有的设备映射关系</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> deviceAssetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">enos设备assetId</span></td><td key=5></td></tr><tr key=0-0-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> modelId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">enos设备对应的模型</span></td><td key=5></td></tr><tr key=0-0-1-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> identifier</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">映射的模型点测点标识符</span></td><td key=5></td></tr><tr key=0-0-1-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> rawPointName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点点名</span></td><td key=5></td></tr><tr key=0-0-1-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> pointType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型：AI，DI，AO,DO（ao,do为控制点类型）</span></td><td key=5></td></tr><tr key=0-0-1-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">(analog-inut,1)</span></td><td key=5></td></tr><tr key=0-0-1-7><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> baseValue</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点数据基值，默认0</span></td><td key=5></td></tr><tr key=0-0-1-8><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> coefficient</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">系数，默认1</span></td><td key=5></td></tr><tr key=0-0-1-9><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> interval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">测点读取周期</span></td><td key=5></td></tr><tr key=0-0-1-10><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> controlPriority</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">控制优先级</span></td><td key=5></td></tr><tr key=0-0-1-11><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectName</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">对象名称，当sys中USE_OBJ_NAME=1时生效</span></td><td key=5></td></tr><tr key=0-0-1-12><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> demand</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">按需采集标识，传递"true","false"</span></td><td key=5></td></tr><tr key=0-0-1-13><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadType</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">测点上送频率，REALTIME、CHANGE、TIMER、NOT_UPLOAD、CHANGE_TIMER</span></td><td key=5></td></tr><tr key=0-0-1-14><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> uploadInterval</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">定时时间间隔</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> locale</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">env 默认en-US</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-21">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="getprogress0a3ca20id3dgetprogress3e203ca3e">getProgress
+<a id=getProgress> </a></h2>
+<p></p>
+<h3 id="-22">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/getProgress</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-23">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID</span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> type</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">搜索类型:device,point</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> otDeviceInstList</span></td><td key=1><span>integer []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">type=point需要传递  设备id列表  bacnet搜索传递设备的deviceInst字段</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>integer</span></p></td></tr><tr key=array-23><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">otDeviceInst</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-24">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> {assetId}</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">key为入参中的传参  device搜索key为assetId  point搜索，key为otDevice的otDeviceInst</span></td><td key=5></td></tr><tr key=0-3-0-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> status</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">0:未搜索  1：搜索成功  2：搜索失败  3：搜索中  4：搜索超时</span></td><td key=5></td></tr><tr key=0-3-0-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> msg</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0-1-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> defaultValue</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0-1-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> i18nValue</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0-1-1-0><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> en_US</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-0-1-1-1><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> zh_CN</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="pointresponse0a3ca20id3dpointresponse3e203ca3e">pointResponse
+<a id=pointResponse> </a></h2>
+<p></p>
+<h3 id="-25">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/pointResponse</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-26">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID</span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约信息，当前仅支持bacnet</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> otDeviceInst</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备deviceInst</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-27">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型</span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">设备序号</span></td><td key=5></td></tr><tr key=0-3-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectInst</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点序号</span></td><td key=5></td></tr><tr key=0-3-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectIdentifier</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点标识符</span></td><td key=5></td></tr><tr key=0-3-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectName</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点名</span></td><td key=5></td></tr><tr key=0-3-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">描述信息</span></td><td key=5></td></tr><tr key=0-3-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> presentValue</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">当前值（瞬时值）</span></td><td key=5></td></tr><tr key=0-3-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> covIncrement</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">cov订阅状态</span></td><td key=5></td></tr><tr key=0-3-8><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> unit</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">单位</span></td><td key=5></td></tr><tr key=0-3-9><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> timestamp</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">时间戳（秒级）</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="pointvaluerefresh0a3ca20id3dpointvaluerefresh3e203ca3e">pointValueRefresh
+<a id=pointValueRefresh> </a></h2>
+<p></p>
+<h3 id="-28">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/pointValueRefresh</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>单个otDevcieInst最多同时支持20个objectInst（所有objectType加一起）一起刷新测点</p>
+<h3 id="-29">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID</span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约:默认bacnet</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> pointList</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">刷新的测点数，最大支持单个otDevice 20个测点一起刷新</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> points</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型：analog-input</span></td><td key=5></td></tr><tr key=0-3-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectInst</span></td><td key=1><span>integer []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点序号列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>integer</span></p></td></tr><tr key=array-24><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-30">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="querypointvalues0a3ca20id3dquerypointvalues3e203ca3e">queryPointValues
+<a id=queryPointValues> </a></h2>
+<p></p>
+<h3 id="-31">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/queryPointValues</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-32">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID</span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约:默认bacnet</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> pointList</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">刷新的测点数，最大支持单个otDevice 20个测点一起刷新</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> otDevcieInst</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> points</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-1-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点类型：analog-input</span></td><td key=5></td></tr><tr key=0-3-1-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> objectInst</span></td><td key=1><span>integer []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">原始点序号列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>integer</span></p></td></tr><tr key=array-25><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-33">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-3-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> otDeviceInst</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectType</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> objectInst</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> timestamp</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">时间戳（秒级）</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="search0a3ca20id3dsearch3e203ca3e">search
+<a id=search> </a></h2>
+<p></p>
+<h3 id="-34">基本信息</h3>
+<p><strong>Path：</strong> /enos-edge/v2.4/discovery/search</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-35">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> orgId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">组织ID</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> port</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">搜索端口，默认47808</span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> assetId</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网关设备资产ID</span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> protocol</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">规约</span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> type</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">搜索类型:device,point</span></td><td key=5></td></tr><tr key=0-5><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> net</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">网卡，type=device是需要传递</span></td><td key=5></td></tr><tr key=0-6><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> waitTime</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">响应等待时间，单位ms，为设备端搜索程序所用，非用户从发起到收到结果的等待时间</span></td><td key=5></td></tr><tr key=0-7><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> otDeviceInstList</span></td><td key=1><span>integer []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">type=point是需要传递</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>integer</span></p></td></tr><tr key=array-26><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">otDeviceInst</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h3 id="-36">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> subMsg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-4><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> args</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+
+            <footer class="m-footer">
+              <p>Build by <a href="https://ymfe.org/">YMFE</a>.</p>
+            </footer>
+          </div>
+        </div>
+      </body>
+      </html>
+      

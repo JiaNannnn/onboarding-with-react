@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "AHU-06.ModeStatus",
+  "device_type": "AHU",
+  "timestamp": "2025-03-28T15:09:15.644973",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_energy_active_total",
+  "point": "Energy.Yearly-MWh",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T14:52:17.412437",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "AHUEnergy.Ahu-Ton",
+  "device_type": "AHU",
+  "timestamp": "2025-03-28T15:16:59.539551",
+  "model": "gpt-4o"
+}

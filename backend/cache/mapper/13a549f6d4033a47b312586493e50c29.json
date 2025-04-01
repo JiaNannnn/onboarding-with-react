@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_cws",
+  "point": "CHWP4.RunStatus",
+  "device_type": "CHILLER",
+  "timestamp": "2025-03-28T15:12:07.033310",
+  "model": "gpt-4o"
+}

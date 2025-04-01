@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "PauEnergy.Monthly-kWh",
+  "device_type": "PauEnergy",
+  "timestamp": "2025-03-28T15:17:15.685789",
+  "model": "gpt-4o"
+}

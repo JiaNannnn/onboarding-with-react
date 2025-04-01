@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_evap",
+  "point": "WST1.DewPointTemp",
+  "device_type": "WST",
+  "timestamp": "2025-03-28T15:12:22.510004",
+  "model": "gpt-4o"
+}

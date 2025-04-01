@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_cond",
+  "point": "Energy.ChwpEnergyEfficiency",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T14:36:24.779256",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "CWP3.ChCtl.Ctl-Hz-Value",
+  "device_type": "PUMP",
+  "timestamp": "2025-03-28T15:13:01.322206",
+  "model": "gpt-4o"
+}

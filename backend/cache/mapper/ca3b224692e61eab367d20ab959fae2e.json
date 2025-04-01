@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_chws",
+  "point": "DPM.DPM-CHWP-2.kWh",
+  "device_type": "METER",
+  "timestamp": "2025-03-28T15:18:00.872794",
+  "model": "gpt-4o"
+}

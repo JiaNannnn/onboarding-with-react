@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_evap",
+  "point": "PAU-05-01.SupplyAirTemp",
+  "device_type": "PAU",
+  "timestamp": "2025-03-28T15:11:50.393632",
+  "model": "gpt-4o"
+}

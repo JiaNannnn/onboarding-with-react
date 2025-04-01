@@ -1,0 +1,109 @@
+{
+    "Chiller": {
+        "shortName": "CH",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CH",
+        "points": [
+            "CH_raw_status",
+            "CH_raw_trip",
+            "CH_raw_temp_chws",
+            "CH_raw_temp_chwr",
+            "CH_raw_temp_evap",
+            "CH_raw_power_active_total",
+            "CH_raw_energy_active_total",
+            "CH_raw_sp_temp_chws",
+            "CH_raw_chilled_valve_status",
+            "CH_raw_cooling_valve_status",
+            "CH_raw_chilled_water_flow",
+            "CH_raw_cooling_water_flow"
+        ]
+    },
+    "Pump":{
+        "shortName": "PU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_PU",
+        "points": [
+            "PUMP_raw_status",
+            "PUMP_raw_trip",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_energy_active_total",
+            "PUMP_raw_flow",
+            "PUMP_raw_pressure"
+        ]
+    },
+    "Cooling Tower": {
+        "shortName": "CT",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CT",
+        "points": {
+            "CT_raw_status",
+            "CT_raw_on_off_command",
+            "CT_raw_trip",
+            "CT_raw_temp_cwe",
+            "CT_raw_temp_cwl",
+            "CT_raw_valve_status_cwe",
+            "CT_raw_valve_status_cwl",
+            "CT_raw_power_active_total",
+            "CT_raw_energy_active_total"
+        }
+    },
+    "Chiller Plant": {
+        "shortName": "CHPL",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CHPL",
+        "points": {
+            "CHPL_raw_load_building",
+            "CHPL_raw_temp_chws_header",
+            "CHPL_raw_temp_chwr_header",
+            "CHPL_raw_flow_chws_header",
+            "CHPL_raw_chws_pressure",
+            "CHPL_raw_chwr_pressure",
+            "CHPL_raw_flow_chwr_header",
+            "CHPL_raw_power_active_total",
+            "CHPL_raw_energy_active_total"
+        }
+    },
+    "Air Handing Unit": {
+        "shortName": "AHU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_AHU",
+        "points": [
+            "AHU_raw_status",
+            "AHU_raw_trip",
+            "AHU_raw_cooling_heating_mode_command",
+            "AHU_raw_energy_active_total",
+            "AHU_raw_ra_damper_position",
+            "AHU_raw_return_air_co2",
+            "AHU_raw_on_off_command",
+            "AHU_raw_return_air_humidity",
+            "AHU_raw_sp_ra_damper_position"
+        ]
+    },
+    "Fan Coil Unit": {
+        "shortName": "FCU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_FCU",
+        "points": [
+            "FCU_raw_chw_valve_status",
+            "FCU_raw_cooling_heating_mode",
+            "FCU_raw_hw_valve_status",
+            "FCU_raw_local_mode",
+            "FCU_raw_local_mode_command",
+            "FCU_raw_on_off_command",
+            "FCU_raw_status",
+            "FCU_raw_trip",
+            "FCU_raw_zone_air_temp",
+            "FCU_raw_zone_occupancy",
+            "FCU_write_sp_supply_air_co2",
+            "FCU_raw_sp_supply_air_co2",
+            "FCU_write_fan_speed_command",
+            "FCU_raw_fan_speed_command",
+            "FCU_write_fan_speed",
+            "FCU_raw_fan_speed",
+            "FCU_raw_sp_zone_air_temp",
+            "FCU_write_sp_zone_air_temp_command",
+            "FCU_raw_sp_zone_air_temp_command",
+            "FCU_write_sp_zone_air_temp"
+        ]
+    }
+}

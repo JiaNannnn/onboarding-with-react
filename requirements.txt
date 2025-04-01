@@ -1,0 +1,6 @@
+flask==2.2.3
+flask-cors==3.0.10
+pandas==1.5.3
+pint==0.20.1
+poseidon==0.1.0
+psutil==7.0.0 

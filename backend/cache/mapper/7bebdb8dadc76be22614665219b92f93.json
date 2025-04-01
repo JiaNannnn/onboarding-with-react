@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "AHU-03.WattPerCMH",
+  "device_type": "AHU",
+  "timestamp": "2025-03-28T14:53:53.682191",
+  "model": "gpt-4o"
+}

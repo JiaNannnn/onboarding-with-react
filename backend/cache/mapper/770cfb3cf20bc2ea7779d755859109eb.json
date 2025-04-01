@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "AHU-05.RunStatus",
+  "device_type": "AHU",
+  "timestamp": "2025-03-28T15:08:59.623436",
+  "model": "gpt-4o"
+}

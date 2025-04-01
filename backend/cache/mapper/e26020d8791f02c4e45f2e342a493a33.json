@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_chilled_water_flow",
+  "point": "CH4.cwf-gpm",
+  "device_type": "CHILLER",
+  "timestamp": "2025-03-28T14:52:34.566913",
+  "model": "gpt-4o"
+}

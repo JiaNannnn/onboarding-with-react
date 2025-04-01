@@ -1,0 +1,48 @@
+.coming-soon,
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 800px;
+  padding: 4rem;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.coming-soon h1,
+.not-found h1 {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.coming-soon p,
+.not-found p {
+  font-size: 1.4rem;
+  color: #7f8c8d;
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+}
+
+.coming-soon button,
+.not-found button {
+  padding: 1rem 2rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.coming-soon button:hover,
+.not-found button:hover {
+  background-color: #2980b9;
+}
+
+.not-found h1 {
+  color: #e74c3c;
+} 

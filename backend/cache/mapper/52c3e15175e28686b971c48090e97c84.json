@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "PAU-05-01.Control-RunStop",
+  "device_type": "PAU",
+  "timestamp": "2025-03-28T15:11:47.131521",
+  "model": "gpt-4o"
+}

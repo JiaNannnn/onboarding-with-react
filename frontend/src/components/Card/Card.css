@@ -1,0 +1,166 @@
+/**
+ * Card component styles
+ */
+
+/* Base card styles */
+.bms-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: #fff;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Card variants */
+.bms-card--default {
+  border: 1px solid #eaeaea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.bms-card--outline {
+  border: 1px solid #eaeaea;
+  box-shadow: none;
+}
+
+.bms-card--filled {
+  border: none;
+  background-color: #f5f5f5;
+}
+
+.bms-card--elevated {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Card states */
+.bms-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.bms-card--selected {
+  border: 2px solid #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.bms-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.bms-card--clickable {
+  cursor: pointer;
+}
+
+.bms-card--clickable:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.3);
+}
+
+/* Card padding variants */
+.bms-card--padding-none .bms-card__content {
+  padding: 0;
+}
+
+.bms-card--padding-small .bms-card__content {
+  padding: 8px;
+}
+
+.bms-card--padding-medium .bms-card__content {
+  padding: 16px;
+}
+
+.bms-card--padding-large .bms-card__content {
+  padding: 24px;
+}
+
+/* Card header */
+.bms-card__header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+.bms-card__header--divider {
+  border-bottom: 1px solid #eaeaea;
+}
+
+.bms-card__icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bms-card__titles {
+  flex: 1;
+  min-width: 0; /* For text truncation */
+}
+
+.bms-card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+}
+
+.bms-card__subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.bms-card__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Card content */
+.bms-card__content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Card footer */
+.bms-card__footer {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.bms-card__footer--divider {
+  border-top: 1px solid #eaeaea;
+}
+
+/* Adjustments for small screens */
+@media (max-width: 576px) {
+  .bms-card__header,
+  .bms-card__footer {
+    padding: 12px;
+  }
+  
+  .bms-card--padding-medium .bms-card__content {
+    padding: 12px;
+  }
+  
+  .bms-card--padding-large .bms-card__content {
+    padding: 16px;
+  }
+  
+  .bms-card__title {
+    font-size: 15px;
+  }
+  
+  .bms-card__subtitle {
+    font-size: 13px;
+  }
+} 

@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_cws",
+  "point": "AHU-03.ReturnAirTempSp",
+  "device_type": "AHU",
+  "timestamp": "2025-03-28T14:53:48.845948",
+  "model": "gpt-4o"
+}

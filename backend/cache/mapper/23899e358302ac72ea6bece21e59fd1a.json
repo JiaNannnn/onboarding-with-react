@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_sp_temp_chws",
+  "point": "Energy.SystemChwTon",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T14:35:21.755030",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_chilled_water_flow",
+  "point": "PAU-02-01.AirFlow_CMH",
+  "device_type": "PAU",
+  "timestamp": "2025-03-28T15:09:59.669869",
+  "model": "gpt-4o"
+}

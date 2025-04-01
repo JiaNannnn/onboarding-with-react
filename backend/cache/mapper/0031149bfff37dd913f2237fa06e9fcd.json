@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_energy_active_total",
+  "point": "Energy.HbDailySampling",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T14:52:43.200250",
+  "model": "gpt-4o"
+}

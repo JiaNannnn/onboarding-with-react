@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_energy_active_total",
+  "point": "Energy.AirSideEff",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T15:16:57.626554",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,8 @@
+{
+  "error": "Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.schema'.\", 'type': 'invalid_request_error', 'param': 'response_format.schema', 'code': 'unknown_parameter'}}",
+  "timestamp": "2025-03-26T21:13:12.027116",
+  "request": {
+    "model": "gpt-4o",
+    "prompt": "\n        You are an HVAC domain expert and solution architect in BMS (Building Management System) point naming conventions.\n        \n        I have a list of BMS point names that need to be organized into a hierarchy:\n        1. First by device type (AHU, FCU, Chiller, etc.)\n        2. Then by specific device instance (AHU-1, AHU-2, FCU-101, etc.)\n        \n        Here's the list of point names:\n        [\n  \"ChillerPlant\",\n  \"CH-SYS-1.CH.ModeStatus\",\n  \"FCU_01_25.RoomTemp\",\n  \"DriverCH-SYS-1.CH.RunStatus\",\n  \"Fcu\",\n  \"FCU_01_25.ValveOutput\",\n  \"FCU_01_25.ModeStatus\",\n  \"FCU.FCU_01_25.TempSetpoint\",\n  \"CH-SYS-1.CH.TripStatus\",\n  \"FCU_01_26.27_1.RoomTemp\",\n  \"FCU_01_25.CTL_FanSpeed\",\n  \"CH-SYS-1.CH.FailStatus\",\n  \"CH-SYS-1.CHWV.OvrMode\",\n  \"FCU_01_26.27_1.ModeStatus\",\n  \"DPM_CH_1.kWh\",\n  \"CH-SYS-1.CHWV.OpenStatus\",\n  \"DPM_CH_1.kW\",\n  \"FCU_01_26.27_1.CTL_FanSpeed\",\n  \"FCU_01_26.27_2.ModeStatus\",\n  \"DPM_CH_2.kWh\",\n  \"CH-SYS-1.CHWP.ModeStatus\",\n  \"DPM_CH_2.kW\",\n  \"FCU_01_26.27_2.CTL_FanSpee..."
+  }
+}

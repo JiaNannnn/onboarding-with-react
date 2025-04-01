@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_status",
+  "point": "Energy.AirSideTon",
+  "device_type": "Energy",
+  "timestamp": "2025-03-28T15:16:56.557509",
+  "model": "gpt-4o"
+}

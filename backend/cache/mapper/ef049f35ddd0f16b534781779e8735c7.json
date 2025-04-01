@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_energy_active_total",
+  "point": "PAU-CN-01.Fan_kW",
+  "device_type": "PAU",
+  "timestamp": "2025-03-28T15:10:16.252726",
+  "model": "gpt-4o"
+}

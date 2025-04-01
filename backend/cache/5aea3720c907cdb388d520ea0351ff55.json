@@ -1,0 +1,929 @@
+{
+  "CH-SYS": {
+    "1": [
+      "CH-SYS-1.CH.ModeStatus",
+      "DriverCH-SYS-1.CH.RunStatus",
+      "CH-SYS-1.CH.TripStatus",
+      "CH-SYS-1.CH.FailStatus",
+      "CH-SYS-1.CHWV.OvrMode",
+      "CH-SYS-1.CHWV.OpenStatus",
+      "CH-SYS-1.CHWV.CloseStatus",
+      "CH-SYS-1.CHWV.ModeStatus",
+      "CH-SYS-1.CHWV.FailStatus",
+      "CH-SYS-1.CWV.OvrMode",
+      "CH-SYS-1.CWV.OpenCmd",
+      "CH-SYS-1.CWV.OpenStatus",
+      "CH-SYS-1.CWV.CloseStatus",
+      "CH-SYS-1.CWV.ModeStatus",
+      "CH-SYS-1.CWV.FailStatus",
+      "CH-SYS-1.CH.ChwSt",
+      "CH-SYS-1.CH.ChwRt",
+      "CH-SYS-1.CH.ChwDt",
+      "CH-SYS-1.CH.CwSt",
+      "CH-SYS-1.CH.CwRt",
+      "CH-SYS-1.CH.CwDt",
+      "CH-SYS-1.CH.ChwFls",
+      "CH-SYS-1.CH.ChwFgpm",
+      "CH-SYS-1.CH.CwFls",
+      "CH-SYS-1.CH.CwFgpm",
+      "CH-SYS-1.CH.ChwStrainerDp",
+      "CH-SYS-1.CH.CwStrainerDp",
+      "CH-SYS-1.CHWP.ModeStatus",
+      "CH-SYS-1.CHWP.RunStatus",
+      "CH-SYS-1.CHWP.TripStatus",
+      "CH-SYS-1.CHWP.FailStatus",
+      "CH-SYS-1.CHWP.VSD.Hz",
+      "CH-SYS-1.CHWP.VSD.kW",
+      "CH-SYS-1.CHWP.VSD.Volt",
+      "CH-SYS-1.CHWP.VSD.Amp",
+      "CH-SYS-1.CHWP.Dp",
+      "CH-SYS-1.CWP.ModeStatus",
+      "CH-SYS-1.CWP.RunStatus",
+      "CH-SYS-1.CWP.TripStatus",
+      "CH-SYS-1.CWP.FailStatus",
+      "CH-SYS-1.CWP.VSD.Hz",
+      "CH-SYS-1.CWP.VSD.kW",
+      "CH-SYS-1.CWP.VSD.Volt",
+      "CH-SYS-1.CWP.VSD.Amp",
+      "CH-SYS-1.ATCS.RunStatus",
+      "CH-SYS-1.ATCS.TripStatus",
+      "CH-SYS-1.ATCS.ModeStatus",
+      "CH-SYS-1.ATCS.FailStatus",
+      "CH-SYS-1.ATCS.Enabled"
+    ],
+    "2": [
+      "CH-SYS-2.CH.RunCmd",
+      "CH-SYS-2.CH.ModeStatus",
+      "CH-SYS-2.CH.RunStatus",
+      "CH-SYS-2.CH.TripStatus",
+      "CH-SYS-2.CH.FailStatus",
+      "CH-SYS-2.CHWV.OvrMode",
+      "CH-SYS-2.CHWV.OpenCmd",
+      "CH-SYS-2.CHWV.OpenStatus",
+      "CH-SYS-2.CHWV.CloseStatus",
+      "CH-SYS-2.CHWV.ModeStatus",
+      "CH-SYS-2.CHWV.FailStatus",
+      "CH-SYS-2.CWV.OvrMode",
+      "CH-SYS-2.CWV.OpenCmd",
+      "CH-SYS-2.CWV.OpenStatus",
+      "CH-SYS-2.CWV.CloseStatus",
+      "CH-SYS-2.CWV.ModeStatus",
+      "CH-SYS-2.CWV.FailStatus",
+      "CH-SYS-2.CH.ChwSt",
+      "CH-SYS-2.CH.ChwRt",
+      "CH-SYS-2.CH.ChwDt",
+      "CH-SYS-2.CH.CwSt",
+      "CH-SYS-2.CH.CwRt",
+      "CH-SYS-2.CH.CwDt",
+      "CH-SYS-2.CH.ChwFls",
+      "CH-SYS-2.CH.ChwFgpm",
+      "CH-SYS-2.CH.CwFls",
+      "CH-SYS-2.CH.CwFgpm",
+      "CH-SYS-2.CH.ChwStrainerDp",
+      "CH-SYS-2.CH.CwStrainerDp",
+      "CH-SYS-2.CHWP.ModeStatus",
+      "CH-SYS-2.CHWP.RunStatus",
+      "CH-SYS-2.CHWP.TripStatus",
+      "CH-SYS-2.CHWP.FailStatus",
+      "CH-SYS-2.CHWP.VSD.Hz",
+      "CH-SYS-2.CHWP.VSD.kW",
+      "CH-SYS-2.CHWP.VSD.Volt",
+      "CH-SYS-2.CHWP.VSD.Amp",
+      "CH-SYS-2.CHWP.Dp",
+      "CH-SYS-2.CWP.ModeStatus",
+      "CH-SYS-2.CWP.RunStatus",
+      "CH-SYS-2.CWP.TripStatus",
+      "CH-SYS-2.CWP.FailStatus",
+      "CH-SYS-2.CWP.VSD.Hz",
+      "CH-SYS-2.CWP.VSD.kW",
+      "CH-SYS-2.CWP.VSD.Volt",
+      "CH-SYS-2.CWP.VSD.Amp",
+      "CH-SYS-2.ATCS.RunStatus",
+      "CH-SYS-2.ATCS.TripStatus",
+      "CH-SYS-2.ATCS.ModeStatus",
+      "CH-SYS-2.ATCS.FailStatus",
+      "CH-SYS-2.ATCS.Enabled"
+    ],
+    "3": [
+      "CH-SYS-3.CH.RunCmd",
+      "CH-SYS-3.CH.ModeStatus",
+      "CH-SYS-3.CH.RunStatus",
+      "CH-SYS-3.CH.TripStatus",
+      "CH-SYS-3.CH.FailStatus",
+      "CH-SYS-3.CHWV.OvrMode",
+      "CH-SYS-3.CHWV.OpenCmd",
+      "CH-SYS-3.CHWV.OpenStatus",
+      "CH-SYS-3.CHWV.CloseStatus",
+      "CH-SYS-3.CHWV.ModeStatus",
+      "CH-SYS-3.CHWV.FailStatus",
+      "CH-SYS-3.CWV.OvrMode",
+      "CH-SYS-3.CWV.OpenCmd",
+      "CH-SYS-3.CWV.OpenStatus",
+      "CH-SYS-3.CWV.CloseStatus",
+      "CH-SYS-3.CWV.ModeStatus",
+      "CH-SYS-3.CWV.FailStatus",
+      "CH-SYS-3.CH.ChwSt",
+      "CH-SYS-3.CH.ChwRt",
+      "CH-SYS-3.CH.ChwDt",
+      "CH-SYS-3.CH.CwSt",
+      "CH-SYS-3.CH.CwRt",
+      "CH-SYS-3.CH.CwDt",
+      "CH-SYS-3.CH.ChwFls",
+      "CH-SYS-3.CH.ChwFgpm",
+      "CH-SYS-3.CH.CwFls",
+      "CH-SYS-3.CH.CwFgpm",
+      "CH-SYS-3.CH.ChwStrainerDp",
+      "CH-SYS-3.CH.CwStrainerDp",
+      "CH-SYS-3.CHWP.ModeStatus",
+      "CH-SYS-3.CHWP.RunStatus",
+      "CH-SYS-3.CHWP.TripStatus",
+      "CH-SYS-3.CHWP.FailStatus",
+      "CH-SYS-3.CHWP.VSD.Hz",
+      "CH-SYS-3.CHWP.VSD.kW",
+      "CH-SYS-3.CHWP.VSD.Volt",
+      "CH-SYS-3.CHWP.VSD.Amp",
+      "CH-SYS-3.CHWP.Dp",
+      "CH-SYS-3.CWP.ModeStatus",
+      "CH-SYS-3.CWP.RunStatus",
+      "CH-SYS-3.CWP.TripStatus",
+      "CH-SYS-3.CWP.FailStatus",
+      "CH-SYS-3.CWP.VSD.Hz",
+      "CH-SYS-3.CWP.VSD.kW",
+      "CH-SYS-3.CWP.VSD.Volt",
+      "CH-SYS-3.CWP.VSD.Amp",
+      "CH-SYS-3.ATCS.RunStatus",
+      "CH-SYS-3.ATCS.TripStatus",
+      "CH-SYS-3.ATCS.ModeStatus",
+      "CH-SYS-3.ATCS.FailStatus",
+      "CH-SYS-3.ATCS.Enabled"
+    ]
+  },
+  "FCU": {
+    "01_25": [
+      "FCU_01_25.RoomTemp",
+      "FCU_01_25.ValveOutput",
+      "FCU_01_25.ModeStatus",
+      "FCU_01_25.CTL_FanSpeed",
+      "FCU_01_25.TripStatus",
+      "FCU_01_25.RunStatus",
+      "FCU_01_25.ControllerStatus",
+      "FCU_01_25.CTL_RunStop"
+    ],
+    "01_26.27_1": [
+      "FCU_01_26.27_1.RoomTemp",
+      "FCU_01_26.27_1.ModeStatus",
+      "FCU_01_26.27_1.CTL_FanSpeed",
+      "FCU_01_26.27_1.TripStatus",
+      "FCU_01_26.27_1.RunStatus",
+      "FCU_01_26.27_1.ControllerStatus",
+      "FCU_01_26.27_1.CTL_RunStop",
+      "FCU_01_26.27_1.ValveOutput",
+      "FCU_01_26.27_1.TempSetpoint"
+    ],
+    "01_26.27_2": [
+      "FCU_01_26.27_2.ModeStatus",
+      "FCU_01_26.27_2.CTL_FanSpeed",
+      "FCU_01_26.27_2.TripStatus",
+      "FCU_01_26.27_2.RunStatus",
+      "FCU_01_26.27_2.ControllerStatus",
+      "FCU_01_26.27_2.CTL_RunStop",
+      "FCU_01_26.27_2.RoomTemp",
+      "FCU_01_26.27_2.ValveOutput",
+      "FCU_01_26.27_2.TempSetpoint"
+    ],
+    "01_26.27_3": [
+      "FCU_01_26.27_3.ModeStatus",
+      "FCU_01_26.27_3.CTL_FanSpeed",
+      "FCU_01_26.27_3.TripStatus",
+      "FCU_01_26.27_3.RunStatus",
+      "FCU_01_26.27_3.ControllerStatus",
+      "FCU_01_26.27_3.CTL_RunStop",
+      "FCU_01_26.27_3.RoomTemp",
+      "FCU_01_26.27_3.ValveOutput",
+      "FCU_01_26.27_3.TempSetpoint"
+    ],
+    "01_28": [
+      "FCU_01_28.ModeStatus",
+      "FCU_01_28.CTL_FanSpeed",
+      "FCU_01_28.TripStatus",
+      "FCU_01_28.RunStatus",
+      "FCU_01_28.ControllerStatus",
+      "FCU_01_28.CTL_RunStop",
+      "FCU_01_28.RoomTemp",
+      "FCU_01_28.ValveOutput",
+      "FCU_01_28.TempSetpoint"
+    ],
+    "01_29": [
+      "FCU_01_29.ModeStatus",
+      "FCU_01_29.CTL_FanSpeed",
+      "FCU_01_29.TripStatus",
+      "FCU_01_29.RunStatus",
+      "FCU_01_29.ControllerStatus",
+      "FCU_01_29.CTL_RunStop",
+      "FCU_01_29.RoomTemp",
+      "FCU_01_29.ValveOutput",
+      "FCU_01_29.TempSetpoint"
+    ],
+    "01_30.31_1": [
+      "FCU_01_30.31_1.ModeStatus",
+      "FCU_01_30.31_1.CTL_FanSpeed",
+      "FCU_01_30.31_1.TripStatus",
+      "FCU_01_30.31_1.RunStatus",
+      "FCU_01_30.31_1.ControllerStatus",
+      "FCU_01_30.31_1.CTL_RunStop",
+      "FCU_01_30.31_1.RoomTemp",
+      "FCU_01_30.31_1.ValveOutput",
+      "FCU_01_30.31_1.TempSetpoint"
+    ],
+    "01_30.31_2": [
+      "FCU_01_30.31_2.ModeStatus",
+      "FCU_01_30.31_2.CTL_FanSpeed",
+      "FCU_01_30.31_2.TripStatus",
+      "FCU_01_30.31_2.RunStatus",
+      "FCU_01_30.31_2.ControllerStatus",
+      "FCU_01_30.31_2.CTL_RunStop",
+      "FCU_01_30.31_2.RoomTemp",
+      "FCU_01_30.31_2.ValveOutput",
+      "FCU_01_30.31_2.TempSetpoint"
+    ],
+    "01_30.31_3": [
+      "FCU_01_30.31_3.ModeStatus",
+      "FCU_01_30.31_3.CTL_FanSpeed",
+      "FCU_01_30.31_3.TripStatus",
+      "FCU_01_30.31_3.RunStatus",
+      "FCU_01_30.31_3.ControllerStatus",
+      "FCU_01_30.31_3.CTL_RunStop",
+      "FCU_01_30.31_3.RoomTemp",
+      "FCU_01_30.31_3.ValveOutput",
+      "FCU_01_30.31_3.TempSetpoint"
+    ],
+    "01_32": [
+      "FCU_01_32.ModeStatus",
+      "FCU_01_32.CTL_FanSpeed",
+      "FCU_01_32.TripStatus",
+      "FCU_01_32.RunStatus",
+      "FCU_01_32.ControllerStatus",
+      "FCU_01_32.CTL_RunStop",
+      "FCU_01_32.RoomTemp",
+      "FCU_01_32.ValveOutput",
+      "FCU_01_32.TempSetpoint"
+    ],
+    "01_33.34_1": [
+      "FCU_01_33.34_1.ModeStatus",
+      "FCU_01_33.34_1.CTL_FanSpeed",
+      "FCU_01_33.34_1.TripStatus",
+      "FCU_01_33.34_1.RunStatus",
+      "FCU_01_33.34_1.ControllerStatus",
+      "FCU_01_33.34_1.CTL_RunStop",
+      "FCU_01_33.34_1.RoomTemp",
+      "FCU_01_33.34_1.ValveOutput",
+      "FCU_01_33.34_1.TempSetpoint"
+    ],
+    "01_33.34_2": [
+      "FCU_01_33.34_2.ModeStatus",
+      "FCU_01_33.34_2.FanSpeedStatus",
+      "FCU_01_33.34_2.CTL_RunStop",
+      "FCU_01_33.34_2.TripStatus",
+      "FCU_01_33.34_2.RunStatus",
+      "FCU_01_33.34_2.ControllerStatus",
+      "FCU_01_33.34_2.RoomTemp",
+      "FCU_01_33.34_2.ValveOutput",
+      "FCU_01_33.34_2.FanOutput",
+      "FCU_01_33.34_2.CTL_CoolingValve",
+      "FCU_01_33.34_2.TempSetpoint"
+    ],
+    "01_35_1": [
+      "FCU_01_35_1.FanSpeedStatus",
+      "FCU_01_35_1.CTL_RunStop",
+      "FCU_01_35_1.TripStatus",
+      "FCU_01_35_1.RunStatus",
+      "FCU_01_35_1.ControllerStatus",
+      "FCU_01_35_1.RoomTemp",
+      "FCU_01_35_1.ValveOutput",
+      "FCU_01_35_1.FanOutput",
+      "FCU_01_35_1.CTL_CoolingValve",
+      "FCU_01_35_1.TempSetpoint"
+    ],
+    "01_35_2": [
+      "FCU_01_35_2.FanSpeedStatus",
+      "FCU_01_35_2.CTL_RunStop",
+      "FCU_01_35_2.TripStatus",
+      "FCU_01_35_2.RunStatus",
+      "FCU_01_35_2.ControllerStatus",
+      "FCU_01_35_2.RoomTemp",
+      "FCU_01_35_2.ValveOutput",
+      "FCU_01_35_2.FanOutput",
+      "FCU_01_35_2.CTL_CoolingValve",
+      "FCU_01_35_2.TempSetpoint"
+    ],
+    "05_01_1": [
+      "FCU_05_01_1.FanSpeedStatus",
+      "FCU_05_01_1.CTL_RunStop",
+      "FCU_05_01_1.TripStatus",
+      "FCU_05_01_1.RunStatus",
+      "FCU_05_01_1.ControllerStatus",
+      "FCU_05_01_1.RoomTemp",
+      "FCU_05_01_1.ValveOutput",
+      "FCU_05_01_1.FanOutput",
+      "FCU_05_01_1.CTL_CoolingValve",
+      "FCU_05_01_1.TempSetpoint"
+    ],
+    "05_01_2": [
+      "FCU_05_01_2.FanSpeedStatus",
+      "FCU_05_01_2.CTL_RunStop",
+      "FCU_05_01_2.TripStatus",
+      "FCU_05_01_2.RunStatus",
+      "FCU_05_01_2.ControllerStatus",
+      "FCU_05_01_2.RoomTemp",
+      "FCU_05_01_2.ValveOutput",
+      "FCU_05_01_2.FanOutput",
+      "FCU_05_01_2.CTL_CoolingValve",
+      "FCU_05_01_2.TempSetpoint"
+    ],
+    "05_01_3": [
+      "FCU_05_01_3.FanSpeedStatus",
+      "FCU_05_01_3.CTL_RunStop",
+      "FCU_05_01_3.TripStatus",
+      "FCU_05_01_3.RunStatus",
+      "FCU_05_01_3.ControllerStatus",
+      "FCU_05_01_3.RoomTemp",
+      "FCU_05_01_3.ValveOutput",
+      "FCU_05_01_3.FanOutput",
+      "FCU_05_01_3.CTL_CoolingValve",
+      "FCU_05_01_3.TempSetpoint"
+    ],
+    "05_01_4": [
+      "FCU_05_01_4.FanSpeedStatus",
+      "FCU_05_01_4.CTL_RunStop",
+      "FCU_05_01_4.TripStatus",
+      "FCU_05_01_4.RunStatus",
+      "FCU_05_01_4.ControllerStatus",
+      "FCU_05_01_4.RoomTemp",
+      "FCU_05_01_4.ValveOutput",
+      "FCU_05_01_4.FanOutput",
+      "FCU_05_01_4.CTL_CoolingValve",
+      "FCU_05_01_4.TempSetpoint"
+    ],
+    "05_01_5": [
+      "FCU_05_01_5.ModeStatus",
+      "FCU_05_01_5.CTL_FanSpeed",
+      "FCU_05_01_5.ControllerStatus",
+      "FCU_05_01_5.CTL_RunStop",
+      "FCU_05_01_5.TripStatus",
+      "FCU_05_01_5.RunStatus",
+      "FCU_05_01_5.RoomTemp",
+      "FCU_05_01_5.ValveOutput",
+      "FCU_05_01_5.TempSetpoint"
+    ],
+    "05_01_6": [
+      "FCU_05_01_6.ModeStatus",
+      "FCU_05_01_6.CTL_FanSpeed",
+      "FCU_05_01_6.ControllerStatus",
+      "FCU_05_01_6.CTL_RunStop",
+      "FCU_05_01_6.TripStatus",
+      "FCU_05_01_6.RunStatus",
+      "FCU_05_01_6.RoomTemp",
+      "FCU_05_01_6.ValveOutput",
+      "FCU_05_01_6.TempSetpoint"
+    ],
+    "05_01_7": [
+      "FCU_05_01_7.ModeStatus",
+      "FCU_05_01_7.CTL_FanSpeed",
+      "FCU_05_01_7.ControllerStatus",
+      "FCU_05_01_7.CTL_RunStop",
+      "FCU_05_01_7.TripStatus",
+      "FCU_05_01_7.RunStatus",
+      "FCU_05_01_7.RoomTemp",
+      "FCU_05_01_7.ValveOutput",
+      "FCU_05_01_7.TempSetpoint"
+    ],
+    "05_01_8": [
+      "FCU_05_01_8.ModeStatus",
+      "FCU_05_01_8.CTL_FanSpeed",
+      "FCU_05_01_8.ControllerStatus",
+      "FCU_05_01_8.CTL_RunStop",
+      "FCU_05_01_8.TripStatus",
+      "FCU_05_01_8.RunStatus",
+      "FCU_05_01_8.RoomTemp",
+      "FCU_05_01_8.ValveOutput",
+      "FCU_05_01_8.TempSetpoint"
+    ],
+    "05_01_9": [
+      "FCU_05_01_9.ModeStatus",
+      "FCU_05_01_9.CTL_FanSpeed",
+      "FCU_05_01_9.ControllerStatus",
+      "FCU_05_01_9.CTL_RunStop",
+      "FCU_05_01_9.TripStatus",
+      "FCU_05_01_9.RunStatus",
+      "FCU_05_01_9.RoomTemp",
+      "FCU_05_01_9.ValveOutput",
+      "FCU_05_01_9.TempSetpoint"
+    ],
+    "05_04.05_1": [
+      "FCU_05_04.05_1.FanSpeedStatus",
+      "FCU_05_04.05_1.ControllerStatus",
+      "FCU_05_04.05_1.CTL_RunStop",
+      "FCU_05_04.05_1.TripStatus",
+      "FCU_05_04.05_1.RunStatus",
+      "FCU_05_04.05_1.RoomTemp",
+      "FCU_05_04.05_1.ValveOutput",
+      "FCU_05_04.05_1.FanOutput",
+      "FCU_05_04.05_1.CTL_CoolingValve",
+      "FCU_05_04.05_1.TempSetpoint"
+    ],
+    "05_04.05_2": [
+      "FCU_05_04.05_2.FanSpeedStatus",
+      "FCU_05_04.05_2.ControllerStatus",
+      "FCU_05_04.05_2.CTL_RunStop",
+      "FCU_05_04.05_2.TripStatus",
+      "FCU_05_04.05_2.RunStatus",
+      "FCU_05_04.05_2.RoomTemp",
+      "FCU_05_04.05_2.ValveOutput",
+      "FCU_05_04.05_2.FanOutput",
+      "FCU_05_04.05_2.CTL_CoolingValve",
+      "FCU_05_04.05_2.TempSetpoint"
+    ],
+    "05_06_1": [
+      "FCU_05_06_1.FanSpeedStatus",
+      "FCU_05_06_1.ControllerStatus",
+      "FCU_05_06_1.CTL_RunStop",
+      "FCU_05_06_1.TripStatus",
+      "FCU_05_06_1.RunStatus",
+      "FCU_05_06_1.RoomTemp",
+      "FCU_05_06_1.ValveOutput",
+      "FCU_05_06_1.TempSetpoint"
+    ],
+    "05_06_2": [
+      "FCU_05_06_2.FanSpeedStatus",
+      "FCU_05_06_2.ControllerStatus",
+      "FCU_05_06_2.CTL_RunStop",
+      "FCU_05_06_2.TripStatus",
+      "FCU_05_06_2.RunStatus",
+      "FCU_05_06_2.RoomTemp",
+      "FCU_05_06_2.ValveOutput",
+      "FCU_05_06_2.FanOutput",
+      "FCU_05_06_2.CTL_CoolingValve",
+      "FCU_05_06_2.TempSetpoint"
+    ],
+    "05_06_3": [
+      "FCU_05_06_3.FanSpeedStatus",
+      "FCU_05_06_3.ControllerStatus",
+      "FCU_05_06_3.CTL_RunStop",
+      "FCU_05_06_3.TripStatus",
+      "FCU_05_06_3.RunStatus",
+      "FCU_05_06_3.RoomTemp",
+      "FCU_05_06_3.ValveOutput",
+      "FCU_05_06_3.FanOutput",
+      "FCU_05_06_3.CTL_CoolingValve",
+      "FCU_05_06_3.TempSetpoint"
+    ],
+    "05_06_4": [
+      "FCU_05_06_4.FanSpeedStatus",
+      "FCU_05_06_4.ControllerStatus",
+      "FCU_05_06_4.CTL_RunStop",
+      "FCU_05_06_4.TripStatus",
+      "FCU_05_06_4.RunStatus",
+      "FCU_05_06_4.RoomTemp",
+      "FCU_05_06_4.ValveOutput",
+      "FCU_05_06_4.FanOutput",
+      "FCU_05_06_4.CTL_CoolingValve",
+      "FCU_05_06_4.TempSetpoint"
+    ],
+    "05_07_1": [
+      "FCU_05_07_1.ModeStatus",
+      "FCU_05_07_1.CTL_FanSpeed",
+      "FCU_05_07_1.ControllerStatus",
+      "FCU_05_07_1.CTL_RunStop",
+      "FCU_05_07_1.TripStatus",
+      "FCU_05_07_1.RunStatus",
+      "FCU_05_07_1.RoomTemp",
+      "FCU_05_07_1.ValveOutput",
+      "FCU_05_07_1.TempSetpoint"
+    ],
+    "05_07_2": [
+      "FCU_05_07_2.ModeStatus",
+      "FCU_05_07_2.CTL_FanSpeed",
+      "FCU_05_07_2.ControllerStatus",
+      "FCU_05_07_2.CTL_RunStop",
+      "FCU_05_07_2.TripStatus",
+      "FCU_05_07_2.RunStatus",
+      "FCU_05_07_2.RoomTemp",
+      "FCU_05_07_2.ValveOutput",
+      "FCU_05_07_2.TempSetpoint"
+    ],
+    "05_07_3": [
+      "FCU_05_07_3.FanSpeedStatus",
+      "FCU_05_07_3.ControllerStatus",
+      "FCU_05_07_3.CTL_RunStop",
+      "FCU_05_07_3.TripStatus",
+      "FCU_05_07_3.RunStatus",
+      "FCU_05_07_3.RoomTemp",
+      "FCU_05_07_3.ValveOutput",
+      "FCU_05_07_3.FanOutput",
+      "FCU_05_07_3.CTL_CoolingValve",
+      "FCU_05_07_3.TempSetpoint"
+    ],
+    "05_07_4": [
+      "FCU_05_07_4.FanSpeedStatus",
+      "FCU_05_07_4.ControllerStatus",
+      "FCU_05_07_4.CTL_RunStop",
+      "FCU_05_07_4.TripStatus",
+      "FCU_05_07_4.RunStatus",
+      "FCU_05_07_4.RoomTemp",
+      "FCU_05_07_4.ValveOutput",
+      "FCU_05_07_4.FanOutput",
+      "FCU_05_07_4.CTL_CoolingValve",
+      "FCU_05_07_4.TempSetpoint"
+    ],
+    "05_08_1": [
+      "FCU_05_08_1.FanSpeedStatus",
+      "FCU_05_08_1.ControllerStatus",
+      "FCU_05_08_1.CTL_RunStop",
+      "FCU_05_08_1.TripStatus",
+      "FCU_05_08_1.RunStatus",
+      "FCU_05_08_1.RoomTemp",
+      "FCU_05_08_1.ValveOutput",
+      "FCU_05_08_1.FanOutput",
+      "FCU_05_08_1.CTL_CoolingValve",
+      "FCU_05_08_1.TempSetpoint"
+    ],
+    "05_08_2": [
+      "FCU_05_08_2.FanSpeedStatus",
+      "FCU_05_08_2.ControllerStatus",
+      "FCU_05_08_2.CTL_RunStop",
+      "FCU_05_08_2.TripStatus",
+      "FCU_05_08_2.RunStatus",
+      "FCU_05_08_2.RoomTemp",
+      "FCU_05_08_2.ValveOutput",
+      "FCU_05_08_2.FanOutput",
+      "FCU_05_08_2.CTL_CoolingValve",
+      "FCU_05_08_2.TempSetpoint"
+    ],
+    "05_08_3": [
+      "FCU_05_08_3.FanSpeedStatus",
+      "FCU_05_08_3.ControllerStatus",
+      "FCU_05_08_3.CTL_RunStop",
+      "FCU_05_08_3.TripStatus",
+      "FCU_05_08_3.RunStatus",
+      "FCU_05_08_3.RoomTemp",
+      "FCU_05_08_3.ValveOutput",
+      "FCU_05_08_3.FanOutput",
+      "FCU_05_08_3.CTL_CoolingValve",
+      "FCU_05_08_3.TempSetpoint"
+    ],
+    "05_11_1": [
+      "FCU_05_11_1.ModeStatus",
+      "FCU_05_11_1.CTL_FanSpeed",
+      "FCU_05_11_1.ControllerStatus",
+      "FCU_05_11_1.CTL_RunStop",
+      "FCU_05_11_1.TripStatus",
+      "FCU_05_11_1.RunStatus",
+      "FCU_05_11_1.RoomTemp",
+      "FCU_05_11_1.ValveOutput",
+      "FCU_05_11_1.TempSetpoint"
+    ],
+    "05_11_2": [
+      "FCU_05_11_2.ModeStatus",
+      "FCU_05_11_2.CTL_FanSpeed",
+      "FCU_05_11_2.ControllerStatus",
+      "FCU_05_11_2.CTL_RunStop",
+      "FCU_05_11_2.TripStatus",
+      "FCU_05_11_2.RunStatus",
+      "FCU_05_11_2.RoomTemp",
+      "FCU_05_11_2.ValveOutput",
+      "FCU_05_11_2.TempSetpoint"
+    ],
+    "05_13_1": [
+      "FCU_05_13_1.ModeStatus",
+      "FCU_05_13_1.CTL_FanSpeed",
+      "FCU_05_13_1.ControllerStatus",
+      "FCU_05_13_1.CTL_RunStop",
+      "FCU_05_13_1.TripStatus",
+      "FCU_05_13_1.RunStatus",
+      "FCU_05_13_1.RoomTemp",
+      "FCU_05_13_1.ValveOutput",
+      "FCU_05_13_1.TempSetpoint"
+    ],
+    "05_13_2": [
+      "FCU_05_13_2.ModeStatus",
+      "FCU_05_13_2.CTL_FanSpeed",
+      "FCU_05_13_2.ControllerStatus",
+      "FCU_05_13_2.CTL_RunStop",
+      "FCU_05_13_2.TripStatus",
+      "FCU_05_13_2.RunStatus",
+      "FCU_05_13_2.RoomTemp",
+      "FCU_05_13_2.ValveOutput",
+      "FCU_05_13_2.TempSetpoint"
+    ],
+    "05_CMO_1": [
+      "FCU_05_CMO_1.FanSpeedStatus",
+      "FCU_05_CMO_1.ControllerStatus",
+      "FCU_05_CMO_1.CTL_RunStop",
+      "FCU_05_CMO_1.TripStatus",
+      "FCU_05_CMO_1.RunStatus",
+      "FCU_05_CMO_1.RoomTemp",
+      "FCU_05_CMO_1.ValveOutput",
+      "FCU_05_CMO_1.FanOutput",
+      "FCU_05_CMO_1.CTL_CoolingValve",
+      "FCU_05_CMO_1.TempSetpoint"
+    ],
+    "05_CMO_2": [
+      "FCU_05_CMO_2.FanSpeedStatus",
+      "FCU_05_CMO_2.ControllerStatus",
+      "FCU_05_CMO_2.CTL_RunStop",
+      "FCU_05_CMO_2.TripStatus",
+      "FCU_05_CMO_2.RunStatus",
+      "FCU_05_CMO_2.RoomTemp",
+      "FCU_05_CMO_2.ValveOutput",
+      "FCU_05_CMO_2.FanOutput",
+      "FCU_05_CMO_2.CTL_CoolingValve",
+      "FCU_05_CMO_2.TempSetpoint"
+    ],
+    "05_CMO_3": [
+      "FCU_05_CMO_3.FanSpeedStatus",
+      "FCU_05_CMO_3.ControllerStatus",
+      "FCU_05_CMO_3.CTL_RunStop",
+      "FCU_05_CMO_3.TripStatus",
+      "FCU_05_CMO_3.RunStatus",
+      "FCU_05_CMO_3.RoomTemp",
+      "FCU_05_CMO_3.ValveOutput",
+      "FCU_05_CMO_3.FanOutput",
+      "FCU_05_CMO_3.CTL_CoolingValve",
+      "FCU_05_CMO_3.TempSetpoint"
+    ]
+  },
+  "DPM": {
+    "CH_1": [
+      "DPM_CH_1.kWh",
+      "DPM_CH_1.kW"
+    ],
+    "CH_2": [
+      "DPM_CH_2.kWh",
+      "DPM_CH_2.kW"
+    ],
+    "CH_3": [
+      "DPM_CH_3.kWh",
+      "DPM_CH_3.kW"
+    ],
+    "CHWP_1": [
+      "DPM_CHWP_1.kWh",
+      "DPM_CHWP_1.kW"
+    ],
+    "CHWP_2": [
+      "DPM_CHWP_2.kWh",
+      "DPM_CHWP_2.kW"
+    ],
+    "CHWP_3": [
+      "DPM_CHWP_3.kWh",
+      "DPM_CHWP_3.kW"
+    ],
+    "CWP_1": [
+      "DPM_CWP_1.kWh",
+      "DPM_CWP_1.kW"
+    ],
+    "CWP_2": [
+      "DPM_CWP_2.kWh",
+      "DPM_CWP_2.kW"
+    ],
+    "CWP_3": [
+      "DPM_CWP_3.kWh",
+      "DPM_CWP_3.kW"
+    ],
+    "CT_1": [
+      "DPM_CT_1.kWh",
+      "DPM_CT_1.kW"
+    ],
+    "CT_2": [
+      "DPM_CT_2.kWh",
+      "DPM_CT_2.kW"
+    ],
+    "CT_3": [
+      "DPM_CT_3.kWh",
+      "DPM_CT_3.kW"
+    ],
+    "CT_4": [
+      "DPM_CT_4.kWh",
+      "DPM_CT_4.kW"
+    ],
+    "MKWP": [
+      "DPM_MKWP.kWh",
+      "DPM_MKWP.kW"
+    ]
+  },
+  "BoosterPump": {
+    "1": [
+      "BoosterPump-1.ModeStatus",
+      "BoosterPump-1.RunStatus",
+      "BoosterPump-1.TripStatus"
+    ],
+    "2": [
+      "BoosterPump-2.ModeStatus",
+      "BoosterPump-2.RunStatus"
+    ]
+  },
+  "CT": {
+    "": [
+      "CT_Cwst_Sp"
+    ],
+    "1": [
+      "CT_1_VSD_HeatSinkTemp"
+    ],
+    "2": [
+      "CT_2_VSD_HeatSinkTemp"
+    ],
+    "3": [
+      "CT_3_VSD_HeatSinkTemp"
+    ],
+    "4": [
+      "CT_4_VSD_HeatSinkTemp"
+    ]
+  },
+  "VibrationSensor": {
+    "CH_1": [
+      "VibrationSensor.CH_1.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CH_1.X_Axis_RMS_Velocity"
+    ],
+    "CH_2": [
+      "VibrationSensor.CH_2.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CH_2.X_Axis_RMS_Velocity"
+    ],
+    "CHWP_1": [
+      "VibrationSensor.CHWP_1.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CHWP_1.X_Axis_RMS_Velocity"
+    ],
+    "CHWP_2": [
+      "VibrationSensor.CHWP_2.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CHWP_2.X_Axis_RMS_Velocity"
+    ],
+    "CHWP_3": [
+      "VibrationSensor.CHWP_3.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CHWP_3.X_Axis_RMS_Velocity"
+    ],
+    "CWP_1": [
+      "VibrationSensor.CWP_1.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CWP_1.X_Axis_RMS_Velocity"
+    ],
+    "CWP_2": [
+      "VibrationSensor.CWP_2.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CWP_2.X_Axis_RMS_Velocity"
+    ],
+    "CWP_3": [
+      "VibrationSensor.CWP_3.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CWP_3.X_Axis_RMS_Velocity"
+    ],
+    "CH-3": [
+      "VibrationSensor.CH-3.Z_Axis_RMS_Velocity",
+      "VibrationSensor.CH-3.X_Axis_RMS_Velocity"
+    ]
+  },
+  "CHW-Header": {
+    "B2_L4": [
+      "CHW-Header.B2_L4.ChwSt",
+      "CHW-Header.B2_L4.ChwRt",
+      "CHW-Header.B2_L4.ChwDt",
+      "CHW-Header.B2_L4.ChwFls",
+      "CHW-Header.B2_L4.ChwFgpm",
+      "CHW-Header.B2_L4.ChwDp"
+    ],
+    "L4_L5": [
+      "CHW-Header.L4_L5.ChwSt",
+      "CHW-Header.L4_L5.ChwRt",
+      "CHW-Header.L4_L5.ChwDt",
+      "CHW-Header.L4_L5.ChwFls",
+      "CHW-Header.L4_L5.ChwFgpm"
+    ],
+    "": [
+      "CHW-Header.ChwSt",
+      "CHW-Header.ChwRt",
+      "CHW-Header.BpValveOpenStatus",
+      "CHW-Header.BpValveOpenCmd"
+    ]
+  },
+  "CW-Header": {
+    "": [
+      "CW-Header.CwSt",
+      "Header.CW-Header.CwRt",
+      "CW-Header.CwDt",
+      "CW-Header.CwFls"
+    ]
+  },
+  "MakeupWater": {
+    "MKT_3B_FM": [
+      "MakeupWater.MKT_3B_FM.Flow"
+    ],
+    "": [
+      "MakeupWater.DailyWaterUsage"
+    ]
+  },
+  "ChillerExpensionTank": {
+    "": [
+      "ChillerExpensionTank.High_Level_Alarm",
+      "ChillerExpensionTank.Low_Level_Alarm"
+    ]
+  },
+  "WTS": {
+    "": [
+      "WTS.Flow",
+      "WTS.TDS",
+      "WTS.Conductivity",
+      "WTS.ORP"
+    ],
+    "1": [
+      "WTS_1.PH",
+      "WTS_1.TDS"
+    ]
+  },
+  "WST": {
+    "1": [
+      "WST_1.DryBulbTemp",
+      "WST_1.RH",
+      "WST_1.WetBulbTemp",
+      "WST_1.DewPointTemp"
+    ],
+    "2": [
+      "WST_2.DryBulbTemp",
+      "WST_2.RH",
+      "WST_2.WetBulbTemp",
+      "WST_2.DewPointTemp"
+    ]
+  },
+  "HL_CH": {
+    "1": [
+      "HL_CH_1_CoolingLCWSetpoint",
+      "HL_CH_1_BaseDemandLimit"
+    ],
+    "2": [
+      "HL_CH_2_CoolingLCWSetpoint",
+      "HL_CH_2_BaseDemandLimit"
+    ],
+    "3": [
+      "HL_CH_3_CoolingLCWSetpoint",
+      "HL_CH_3_BaseDemandLimit"
+    ]
+  },
+  "CWP": {
+    "": [
+      "CWP_AllCwpDtSp"
+    ],
+    "1": [
+      "CWP_1_VSD_HeatSinkTemp",
+      "CWP_1_DT_SP"
+    ],
+    "2": [
+      "CWP_2_VSD-HeatSinkTemp",
+      "CWP_2_DT_SP"
+    ],
+    "3": [
+      "CWP_3_VSD_HeatSinkTemp",
+      "CWP_3_DT_SP"
+    ]
+  },
+  "StageControl": {
+    "S1": [
+      "StageControl_S1_ChwHdrDp_Sp"
+    ],
+    "S2": [
+      "StageControl_S2_ChwHdrDp_Sp"
+    ]
+  },
+  "CHWP": {
+    "1": [
+      "CHWP_1_VSD_HeatSinkTemp"
+    ],
+    "2": [
+      "CHWP_2_VSD_HeatSinkTemp"
+    ],
+    "3": [
+      "CHWP_3_VSD_HeatSinkTemp"
+    ]
+  },
+  "Energy": {
+    "": [
+      "Energy_TotalChwTon",
+      "Energy_TotalCwTon",
+      "Energy_ChEnergyEfficiency",
+      "Energy_ChwpEnergyEfficiency",
+      "Energy_CwpEnergyEfficiency",
+      "Energy_CtEnergyEfficiency",
+      "Energy_SystemEnergyEfficiency",
+      "Energy_TotalChiller_Elec_kW",
+      "Energy_TotalChwp_Elec_kW",
+      "Energy_TotalCwp_Elec_kW",
+      "Energy_TotalCt_Elec_kW",
+      "Energy_ChPlant_Elec_kW",
+      "Energy_HeatBalance"
+    ]
+  },
+  "PlantControl": {
+    "": [
+      "PlantControl_PlantRunCmd",
+      "PlantControl_StageControlCmd",
+      "PlantControl_hdrChwst"
+    ]
+  },
+  "HGM": {
+    "": [
+      "HGM_10102"
+    ]
+  }
+}

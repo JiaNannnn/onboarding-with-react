@@ -1,0 +1,137 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header-left h1 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 600;
+}
+
+.header-right .user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #2c3e50;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.header-right .user-menu:hover {
+  background-color: #f5f7fa;
+}
+
+.app-main {
+  display: flex;
+  margin-top: 64px;
+  flex: 1;
+}
+
+.app-sidebar {
+  width: 250px;
+  background: white;
+  padding: 1.5rem 0;
+  border-right: 1px solid #edf2f7;
+  height: calc(100vh - 64px);
+  position: fixed;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #4a5568;
+  text-decoration: none;
+  transition: all 0.2s;
+  gap: 0.75rem;
+}
+
+.nav-item:hover {
+  background-color: #f5f7fa;
+  color: #2c3e50;
+}
+
+.nav-item.active {
+  background-color: #ebf4ff;
+  color: #3182ce;
+  font-weight: 500;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+}
+
+.nav-label {
+  font-size: 0.95rem;
+}
+
+.app-content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 250px;
+  margin: 0 auto 0 250px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-sidebar {
+    width: 64px;
+    transition: width 0.3s;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .app-content {
+    margin-left: 64px;
+  }
+
+  .header-left h1 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Loading and transition states */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+} 

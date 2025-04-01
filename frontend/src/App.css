@@ -1,0 +1,78 @@
+/* Base styles for the entire application */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  min-width: auto;
+  background-color: #f5f7f9;
+  color: #2c3e50;
+}
+
+.App {
+  min-width: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.App-header {
+  margin-bottom: 2rem;
+}
+
+.App-header h1 {
+  color: #1976d2;
+}
+
+main {
+  text-align: left;
+}
+
+ul {
+  padding-left: 2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Set default font sizes optimized for desktop viewing */
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.8rem; }
+h4 { font-size: 1.4rem; }
+p, a, li, button, input, select, textarea { font-size: 1.1rem; }
+
+/* Desktop-optimized button sizes */
+button {
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+}
+
+/* Desktop-optimized input fields */
+input, select, textarea {
+  padding: 0.8rem;
+  font-size: 1.1rem;
+}
+
+/* Force scrollbar to always show to prevent layout shifts */
+html {
+  overflow-y: scroll;
+}
+
+/* Remove focus outlines for mouse users, keep for keyboard navigation */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+} 

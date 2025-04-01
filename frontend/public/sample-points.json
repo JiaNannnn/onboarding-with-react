@@ -1,0 +1,162 @@
+[
+  {
+    "id": "p001",
+    "name": "Zone Temp",
+    "path": "/building1/ahu1/temp",
+    "type": "temperature",
+    "value": 72.5,
+    "unit": "°F"
+  },
+  {
+    "id": "p002",
+    "name": "Zone Humidity",
+    "path": "/building1/ahu1/humidity",
+    "type": "humidity",
+    "value": 45.2,
+    "unit": "%"
+  },
+  {
+    "id": "p003",
+    "name": "Supply Fan Status",
+    "path": "/building1/ahu1/fan/status",
+    "type": "binary",
+    "value": 1,
+    "unit": "on/off"
+  },
+  {
+    "id": "p004",
+    "name": "Return Air Temp",
+    "path": "/building1/ahu1/return/temp",
+    "type": "temperature",
+    "value": 74.1,
+    "unit": "°F"
+  },
+  {
+    "id": "p005",
+    "name": "Supply Air Temp",
+    "path": "/building1/ahu1/supply/temp",
+    "type": "temperature",
+    "value": 55.3,
+    "unit": "°F"
+  },
+  {
+    "id": "p006",
+    "name": "CO2 Level",
+    "path": "/building1/ahu1/co2",
+    "type": "co2",
+    "value": 612,
+    "unit": "ppm"
+  },
+  {
+    "id": "p007",
+    "name": "Occupancy",
+    "path": "/building1/ahu1/occupancy",
+    "type": "binary",
+    "value": 1,
+    "unit": "occupied/unoccupied"
+  },
+  {
+    "id": "p008",
+    "name": "Setpoint",
+    "path": "/building1/ahu1/setpoint",
+    "type": "setpoint",
+    "value": 72,
+    "unit": "°F"
+  },
+  {
+    "id": "p009",
+    "name": "Damper Position",
+    "path": "/building1/ahu1/damper",
+    "type": "percentage",
+    "value": 35,
+    "unit": "%"
+  },
+  {
+    "id": "p010",
+    "name": "Valve Position",
+    "path": "/building1/ahu1/valve",
+    "type": "percentage",
+    "value": 80,
+    "unit": "%"
+  },
+  {
+    "id": "p011",
+    "name": "Static Pressure",
+    "path": "/building1/ahu1/static",
+    "type": "pressure",
+    "value": 1.2,
+    "unit": "inWC"
+  },
+  {
+    "id": "p012",
+    "name": "Filter Status",
+    "path": "/building1/ahu1/filter",
+    "type": "binary",
+    "value": 0,
+    "unit": "clean/dirty"
+  },
+  {
+    "id": "p013",
+    "name": "Zone Temp",
+    "path": "/building1/ahu2/temp",
+    "type": "temperature",
+    "value": 71.8,
+    "unit": "°F"
+  },
+  {
+    "id": "p014",
+    "name": "Zone Humidity",
+    "path": "/building1/ahu2/humidity",
+    "type": "humidity",
+    "value": 46.3,
+    "unit": "%"
+  },
+  {
+    "id": "p015",
+    "name": "Supply Fan Status",
+    "path": "/building1/ahu2/fan/status",
+    "type": "binary",
+    "value": 1,
+    "unit": "on/off"
+  },
+  {
+    "id": "p016",
+    "name": "Return Air Temp",
+    "path": "/building1/ahu2/return/temp",
+    "type": "temperature",
+    "value": 73.5,
+    "unit": "°F"
+  },
+  {
+    "id": "p017",
+    "name": "Supply Air Temp",
+    "path": "/building1/ahu2/supply/temp",
+    "type": "temperature",
+    "value": 54.7,
+    "unit": "°F"
+  },
+  {
+    "id": "p018",
+    "name": "CO2 Level",
+    "path": "/building1/ahu2/co2",
+    "type": "co2",
+    "value": 580,
+    "unit": "ppm"
+  },
+  {
+    "id": "p019",
+    "name": "Occupancy",
+    "path": "/building1/ahu2/occupancy",
+    "type": "binary",
+    "value": 0,
+    "unit": "occupied/unoccupied"
+  },
+  {
+    "id": "p020",
+    "name": "Setpoint",
+    "path": "/building1/ahu2/setpoint",
+    "type": "setpoint",
+    "value": 72,
+    "unit": "°F"
+  }
+]

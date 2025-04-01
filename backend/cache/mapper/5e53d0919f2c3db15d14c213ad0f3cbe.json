@@ -1,0 +1,7 @@
+{
+  "enos_path": "CH_raw_temp_cond",
+  "point": "CH1.chw-gpmPerTon",
+  "device_type": "CHILLER",
+  "timestamp": "2025-03-28T14:34:51.284516",
+  "model": "gpt-4o"
+}

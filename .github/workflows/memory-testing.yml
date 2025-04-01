@@ -1,0 +1,154 @@
+name: Memory Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  # Schedule weekly runs to track memory usage over time
+  schedule:
+    - cron: '0 0 * * 0'  # Run at midnight every Sunday
+
+jobs:
+  memory-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install additional dependencies for testing
+        pip install psutil matplotlib seaborn
+    
+    - name: Run memory tests
+      run: |
+        # Create output directory
+        mkdir -p test_output
+        
+        # Run standard memory tests
+        python -m tests.test_memory_usage test --test=test_memory_usage_with_large_dataset
+        python -m tests.test_memory_usage test --test=test_incremental_memory_usage_with_batched_generation
+        
+        # Run agent tests
+        python -m tests.test_grouping_agent
+        python -m tests.test_tagging_agent
+        python -m tests.test_mapping_agent
+        
+        # Run integration tests
+        python -m tests.test_agent_integration
+        
+        # Run benchmark to generate performance metrics
+        python -m tests.test_memory_usage benchmark --iterations=3
+    
+    - name: Generate memory dashboard
+      run: |
+        echo "Generating memory usage dashboard..."
+        # Find most recent benchmark report
+        LATEST_BENCHMARK=$(find test_output -name "benchmark_report_*.txt" | sort -r | head -n 1)
+        
+        # Generate HTML dashboard
+        cat > test_output/memory_dashboard.html << EOF
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Memory Usage Dashboard</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+                h1, h2, h3 { color: #333; }
+                .card { border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 20px; }
+                .metric { font-size: 24px; font-weight: bold; color: #0366d6; }
+                .plot { max-width: 100%; height: auto; }
+                .column { float: left; width: 50%; padding: 10px; }
+                .row:after { content: ""; display: table; clear: both; }
+                @media screen and (max-width: 600px) { .column { width: 100%; } }
+            </style>
+        </head>
+        <body>
+            <h1>Memory Usage Dashboard</h1>
+            <div class="card">
+                <h2>Latest Benchmark Results</h2>
+                <pre>$(cat $LATEST_BENCHMARK)</pre>
+            </div>
+            
+            <div class="row">
+                <div class="column">
+                    <div class="card">
+                        <h2>Memory Usage Timeline</h2>
+                        <div>
+                            <!-- Include latest memory plot -->
+                            $(find test_output -name "memory_usage_*.png" | sort -r | head -n 1 | xargs -I{} echo "<img class='plot' src='{}'/>")
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <h2>Batch Processing Memory</h2>
+                        <div>
+                            <!-- Include latest batch memory plot -->
+                            $(find test_output -name "batch_memory_*.png" | sort -r | head -n 1 | xargs -I{} echo "<img class='plot' src='{}'/>")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Integration Test Memory</h2>
+                <div>
+                    <!-- Include phase memory info from integration test -->
+                    <pre>$(find test_output -name "pipeline_memory_report_*.txt" | sort -r | head -n 1 | xargs cat)</pre>
+                </div>
+            </div>
+            
+            <footer>
+                <p>Generated: $(date)</p>
+            </footer>
+        </body>
+        </html>
+        EOF
+    
+    - name: Upload memory test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: memory-test-results
+        path: |
+          test_output/*.png
+          test_output/*.txt
+          test_output/*.html
+    
+    - name: Analyze memory trends
+      run: |
+        echo "Analyzing memory usage trends..."
+        # Find benchmark reports
+        BENCHMARK_REPORTS=$(find test_output -name "benchmark_report_*.txt" | sort)
+        
+        # If we have multiple reports, compare the latest two
+        if [ $(echo "$BENCHMARK_REPORTS" | wc -l) -gt 1 ]; then
+          PREV_REPORT=$(echo "$BENCHMARK_REPORTS" | tail -n 2 | head -n 1)
+          LATEST_REPORT=$(echo "$BENCHMARK_REPORTS" | tail -n 1)
+          
+          # Compare reports
+          python -m tests.test_memory_usage compare "$PREV_REPORT" "$LATEST_REPORT" --output="test_output/comparison_report.txt"
+          
+          # Check for significant memory regressions
+          if grep -q "⚠️" test_output/comparison_report.txt; then
+            echo "::warning::Memory usage regression detected. See comparison report for details."
+          fi
+        else
+          echo "Not enough historical data for trend analysis."
+        fi
+    
+    - name: Upload comparison report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: memory-comparison
+        path: test_output/comparison_report.txt
+        if-no-files-found: ignore
