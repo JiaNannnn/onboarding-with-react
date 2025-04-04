@@ -4,6 +4,181 @@
 
 This document provides a comprehensive overview of the frontend architecture for the BMS to EnOS Onboarding Tool. The architecture is designed with strict type safety as a fundamental principle, implemented using React with TypeScript, and following a feature-based organization approach.
 
+## C4 Model Architecture
+
+### System Context Diagram
+
+```
+┌───────────────────────────┐          ┌───────────────────────────┐
+│                           │          │                           │
+│                           │          │                           │
+│        BMS Engineer       │◄────────►│  BMS Onboarding Frontend  │
+│                           │          │                           │
+│                           │          │                           │
+└───────────────────────────┘          └─────────────┬─────────────┘
+                                                     │
+                                                     │
+                                                     │
+                                                     ▼
+                                       ┌───────────────────────────┐
+                                       │                           │
+                                       │                           │
+                                       │   BMS Onboarding Backend  │
+                                       │                           │
+                                       │                           │
+                                       └───────────────────────────┘
+```
+
+**Elements:**
+- **BMS Engineer**: The primary user who needs to onboard BMS points to the EnOS system
+- **BMS Onboarding Frontend**: The React application that provides the user interface for the onboarding workflow
+- **BMS Onboarding Backend**: The Python Flask application that processes BMS data and communicates with LLMs
+
+**Relationships:**
+- BMS Engineer interacts with the Frontend to upload, group, and map BMS points
+- Frontend communicates with Backend to process data and use AI services
+
+### Container Diagram (React Application)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                         BMS Onboarding Frontend                             │
+│                                                                             │
+│  ┌───────────────┐      ┌───────────────┐      ┌───────────────────────┐   │
+│  │               │      │               │      │                       │   │
+│  │  React Router │      │  React Contexts │    │  Type-Safe API Client │   │
+│  │               │      │               │      │                       │   │
+│  └───────┬───────┘      └───────┬───────┘      └─────────┬─────────────┘   │
+│          │                      │                        │                  │
+│          ▼                      ▼                        ▼                  │
+│  ┌───────────────┐      ┌───────────────┐      ┌───────────────────────┐   │
+│  │               │      │               │      │                       │   │
+│  │  UI Components │     │  Custom Hooks │      │  Utility Functions    │   │
+│  │               │      │               │      │                       │   │
+│  └───────────────┘      └───────────────┘      └───────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Elements:**
+- **React Router**: Handles navigation between different views
+- **React Contexts**: Global state management
+- **Type-Safe API Client**: Communication with the backend
+- **UI Components**: Reusable visual components
+- **Custom Hooks**: Business logic and data handling
+- **Utility Functions**: Helper functions for data transformation
+
+### Component Diagram (React App)
+
+```
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                                 React Application                                  │
+│                                                                                   │
+│  ┌─────────────────┐    ┌──────────────────┐    ┌───────────────────────────┐    │
+│  │                 │    │                  │    │                           │    │
+│  │  Group Points   │    │   Map Points     │    │   View/Export Results     │    │
+│  │     Page        │    │     Page         │    │         Page              │    │
+│  │                 │    │                  │    │                           │    │
+│  └────────┬────────┘    └────────┬─────────┘    └───────────────┬───────────┘    │
+│           │                      │                              │                 │
+│           │                      │                              │                 │
+│           ▼                      ▼                              ▼                 │
+│  ┌────────────────┐     ┌─────────────────┐         ┌────────────────────┐       │
+│  │                │     │                 │         │                    │       │
+│  │ Points Context │     │ Mapping Context │         │  Results Context   │       │
+│  │                │     │                 │         │                    │       │
+│  └────────┬───────┘     └────────┬────────┘         └──────────┬─────────┘       │
+│           │                      │                             │                  │
+│           │                      │                             │                  │
+│           ▼                      ▼                             ▼                  │
+│  ┌────────────────┐     ┌─────────────────┐         ┌────────────────────┐       │
+│  │                │     │                 │         │                    │       │
+│  │ API Client     │────►│  BMS Client     │─────────►  File Export       │       │
+│  │                │     │                 │         │                    │       │
+│  └────────────────┘     └─────────────────┘         └────────────────────┘       │
+│                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Elements:**
+- **Pages**: Main UI screens (Group Points, Map Points, View Results)
+- **Contexts**: State management for different domains (Points, Mapping, Results)
+- **Clients**: API communication (API Client, BMS Client)
+- **Services**: Business logic (File Export)
+
+### Code Diagram (Key Classes and Functions)
+
+```
+┌─────────────────────┐      ┌────────────────────────┐      ┌───────────────────┐
+│                     │      │                        │      │                   │
+│   useBMSClient      │◄─────┤     bmsClient.ts      │◄─────┤    apiClient.ts   │
+│                     │      │                        │      │                   │
+└─────────┬───────────┘      └────────────────────────┘      └───────────────────┘
+          │                                  ▲
+          │                                  │
+          ▼                                  │
+┌─────────────────────┐      ┌────────────────────────┐      ┌───────────────────┐
+│                     │      │                        │      │                   │
+│ enhancedMapping.ts  │─────►│    MappingContext     │─────►│  MapPoints Page   │
+│                     │      │                        │      │                   │
+└─────────────────────┘      └────────────────────────┘      └───────────────────┘
+```
+
+**Key Components:**
+
+1. **bmsClient.ts**:
+   - Handles communication with BMS-specific backend endpoints
+   - Methods for mapping points, checking mapping status, improving mapping results
+
+2. **useBMSClient Hook**:
+   - Provides React components with access to BMS client functionality
+   - Manages loading, error states, and async operations
+   - Adds device type analysis and enhanced mapping capabilities
+
+3. **enhancedMapping.ts**:
+   - Contains mapping quality assessment logic
+   - Validates EnOS point mappings against known schemas
+   - Suggests improved mappings based on patterns and known valid points
+   - Handles batch processing for more efficient mapping
+
+4. **MappingContext**:
+   - Centralizes mapping state across components
+   - Provides mapping-related functions to components
+   - Manages mapping status, results, and error states
+
+5. **MapPoints Page**:
+   - Main UI for point mapping functionality
+   - Displays mapping results with quality indicators
+   - Allows users to trigger mapping improvements
+   - Shows mapping progress and status updates
+
+### Data Flow
+
+1. **Point Mapping Flow**:
+   ```
+   User uploads CSV → Points parsed → Map button clicked → 
+   bmsClient.mapPointsToEnOS() → Backend processes → 
+   Polling for results → Mapping results displayed →
+   Quality assessment → User requests improvement →
+   bmsClient.improveMappingResults() → Enhanced results
+   ```
+
+2. **Mapping Improvement Flow**:
+   ```
+   Mapping results loaded → analyzeMappingQuality() →
+   Poor mappings identified → improveMappingResults() →
+   Backend reprocesses points → Enhanced results displayed
+   ```
+
+3. **Batch Processing Flow**:
+   ```
+   CSV analyzed → analyzeCSVDeviceTypes() → 
+   Device types identified → Points grouped by device →
+   Batch processing initiated → Progress tracking →
+   Results aggregated → Complete mapping displayed
+   ```
+
 ## Architectural Principles
 
 1. **Strong Type Safety**: No `any` types, strict null checking, and complete type definitions
@@ -19,26 +194,28 @@ frontend-architecture/
 ├── src/
 │   ├── api/              # API integration services
 │   │   ├── apiClient.ts  # Type-safe API client
-│   │   └── pointsApi.ts  # Points-related endpoints
+│   │   ├── bmsClient.ts  # BMS-specific API client
+│   │   └── index.ts      # API exports
 │   ├── components/       # UI components
 │   │   ├── common/       # Reusable UI components
 │   │   └── feature/      # Feature-specific components
 │   ├── context/          # Global state management
-│   │   ├── AppContext.tsx
-│   │   └── PointsContext.tsx
+│   │   ├── PointsContext.tsx
+│   │   └── MappingContext.tsx
 │   ├── hooks/            # Custom React hooks
-│   │   └── useTypeSafeState.ts  # Type-safe state management
+│   │   ├── useBMSClient.ts
+│   │   └── enhancedMapping.ts
 │   ├── pages/            # Main application pages
+│   │   ├── GroupPoints/
+│   │   └── MapPoints/
 │   ├── types/            # TypeScript type definitions
 │   │   ├── apiTypes.ts
-│   │   ├── commonTypes.ts
-│   │   ├── index.ts
-│   │   └── pointTypes.ts
+│   │   ├── bmsTypes.ts
+│   │   └── mappingTypes.ts
 │   ├── utils/            # Utility functions
-│   │   └── errorHandling.ts  # Type-safe error handling
-│   ├── assets/           # Static assets
 │   └── App.tsx           # Main application component
 └── docs/                 # Documentation
+    └── ARCHITECTURE.md   # This document
 ```
 
 ## Core Components
@@ -65,9 +242,8 @@ The API layer provides type-safe communication with the backend:
 
 State management is implemented using React Context API:
 
-- **AppContext**: Global application state (user, loading, errors)
 - **PointsContext**: Points-related state (fetching, selection)
-- **Future Contexts**: GroupingContext, MappingContext (to be implemented)
+- **MappingContext**: Mapping-related state (status, results, quality)
 - **Type-Safe Hooks**: Custom hooks for accessing context with proper typing
 
 ### 4. Component Architecture
@@ -92,13 +268,18 @@ Error handling follows a consistent pattern:
 
 The implementation follows a task-based approach:
 
-1. **Phase 1**: Setup and Configuration
-2. **Phase 2**: Core Components and State
-3. **Phase 3**: Feature Implementation
-4. **Phase 4**: Cross-Domain Adaptability
-5. **Phase 5**: Testing and Optimization
-
-Each phase contains specific tasks that can be independently implemented while maintaining architectural integrity.
+1. **Phase 1**: Setup and Configuration (Complete)
+2. **Phase 2**: Core Components and State (Complete)
+3. **Phase 3**: Feature Implementation (In Progress)
+   - T1: Implement mapping quality assessment (Complete)
+   - T2: Implement CSV/JSON parsing tools
+   - T3: Create the MappingPage page layout and upload button
+   - T4: Integrate Handsontable for point display
+   - T5: Implement second-round mapping improvements (Complete)
+   - T6: Add device type analysis for batch processing (Complete)
+   - T7: Implement "Export to CSV" functionality
+4. **Phase 4**: Cross-Domain Adaptability (Not Started)
+5. **Phase 5**: Testing and Optimization (Not Started)
 
 ## Key Design Decisions
 
@@ -152,13 +333,6 @@ Each phase contains specific tasks that can be independently implemented while m
 - CSRF protection
 - Authentication and authorization
 
-### Internationalization
-
-- Text externalization
-- RTL support
-- Locale-specific formatting
-- Translation loading
-
 ## Integration Points
 
 ### Backend Integration
@@ -167,18 +341,10 @@ Each phase contains specific tasks that can be independently implemented while m
 - Consistent error handling
 - Automated type validation
 
-### Authentication
-
-- Token-based authentication
-- Role-based access control
-- Protected routes
-- Login/logout flow
-
 ### Cross-Domain Adaptability
 
 - Protocol adapters for different data sources
 - Dynamic UI components
-- Integration marketplace
 - Template-based configuration
 
 ## Dependencies
@@ -188,12 +354,4 @@ Major dependencies include:
 - React
 - TypeScript
 - React Router
-- Testing Library
-
-## Future Enhancements
-
-1. Implement GroupingContext and MappingContext
-2. Add routing with React Router
-3. Implement authentication flow
-4. Create remaining UI components
-5. Add CSS/SCSS styling system 
+- Handsontable (for data grid)

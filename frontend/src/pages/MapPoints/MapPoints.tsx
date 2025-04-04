@@ -1,43 +1,87 @@
-import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Card } from '../../components';
+import React, { useState, useEffect, useRef } from 'react';
+import { BMSPoint, PointMapping } from '../../types/apiTypes';
+import { MapPointsToEnOSResponse, MappingConfig } from '../../api/bmsClient';
+import './MapPoints.css';
+import Card from '../../components/Card';
+import MappingControls from '../../components/MappingControls';
+import { useMappingContext } from '../../contexts/MappingContext';
+import useBMSClient from '../../hooks/useBMSClient';
+import useEnhancedMapping from '../../hooks/useEnhancedMapping';
 import { HotTable } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
 import type { GridSettings } from 'handsontable/settings';
-import Handsontable from 'handsontable';
-import type { CellProperties } from 'handsontable/settings';
 import 'handsontable/dist/handsontable.full.css';
-import { useMappingContext } from '../../contexts/MappingContext';
-import { BMSPoint, PointMapping, MapPointsResponse } from '../../types/apiTypes';
-import { useBMSClient } from '../../hooks/useBMSClient';
-import './MapPoints.css';
-
-// Define a custom interface for the ref to avoid TypeScript errors
-interface HotTableRefType {
-  hotInstance?: Handsontable;
-}
 
 // Register all Handsontable modules
 registerAllModules();
 
 /**
  * MapPoints page component
- * Allows users to map grouped HVAC device points to EnOS model points
+ * Allows users to map BMS points to EnOS schema
  */
 const MapPoints: React.FC = () => {
   const [points, setPoints] = useState<BMSPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isMapping, setIsMapping] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [isImproving, setIsImproving] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  // Using a mutable ref object to track the hot instance
-  const hotInstanceRef = useRef<Handsontable | null>(null);
   
-  const { mappings, setMappings, setFilename } = useMappingContext();
+  // Reference to track component mounting state
+  const isMountedRef = useRef<boolean>(true);
+  const hotTableRef = useRef<any>(null);
+  
+  // Get context and hooks
+  const { 
+    mappings, 
+    setMappings, 
+    setFilename,
+    setRawPoints,
+    setMappedPoints,
+    setDeviceTypes,
+    updateBatchProgress,
+    setQualityResults
+  } = useMappingContext();
+  
   const bmsClient = useBMSClient();
+  
+  // Use our enhanced mapping hook
+  const { 
+    isAnalyzing,
+    isImproving: hookIsImproving,
+    qualityResults,
+    batchProgress,
+    qualityStatistics,
+    analyzeQuality,
+    improveMappingResults,
+    detectDeviceTypes
+  } = useEnhancedMapping();
+
+  // Local device types state
+  const [deviceTypesLocal, setDeviceTypesLocal] = useState<string[]>([]);
+  const [activeDeviceTypeFilter, setActiveDeviceTypeFilter] = useState<string | null>(null);
+  
+  // Handler for device type filtering
+  const handleFilterByDeviceType = (deviceType: string | null) => {
+    setActiveDeviceTypeFilter(deviceType);
+    // Filter points by device type if needed
+    if (deviceType) {
+      const filtered = points.filter(point => point.deviceType === deviceType);
+      // Apply filtering logic here
+    } else {
+      // Reset to show all points
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // Handle file upload
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +94,7 @@ const MapPoints: React.FC = () => {
     setIsLoading(true);
     setSelectedFile(file);
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    setCurrentPage(1); // Reset to first page when loading new file
 
     const reader = new FileReader();
 
@@ -61,523 +106,481 @@ const MapPoints: React.FC = () => {
         if (fileExtension === 'csv') {
           parsedData = parseCSV(content);
         } else if (fileExtension === 'json') {
-          parsedData = JSON.parse(content);
-          
-          if (!Array.isArray(parsedData)) {
-            throw new Error('JSON must contain an array of points');
-          }
+          parsedData = parseJSON(content);
         } else {
-          throw new Error('Unsupported file format. Please upload CSV or JSON files only.');
+          throw new Error(`Unsupported file format: ${fileExtension}`);
         }
 
+        // Detect device types from the data
+        const detectedTypes = detectDeviceTypes(parsedData);
+        setDeviceTypesLocal(detectedTypes);
+        setDeviceTypes(detectedTypes);
+
         setPoints(parsedData);
+        setRawPoints(parsedData);
+        setFilename(file.name);
+        setMappings([]);
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Failed to parse file');
-        setPoints([]);
+        console.error("Error processing file:", error);
+        setError(error instanceof Error ? error.message : 'Error processing file');
       } finally {
         setIsLoading(false);
       }
     };
 
     reader.onerror = () => {
-      setError('Error reading file');
       setIsLoading(false);
+      setError('Error reading file');
     };
 
-    if (fileExtension === 'csv' || fileExtension === 'json') {
-      reader.readAsText(file);
-    } else {
-      setError('Unsupported file format. Please upload CSV or JSON files only.');
-      setIsLoading(false);
-    }
+    reader.readAsText(file);
   };
 
-  // Parse CSV content
-  const parseCSV = (csvText: string): BMSPoint[] => {
-    const lines = csvText.split('\n');
-    if (lines.length <= 1) {
-      throw new Error('CSV file appears to be empty or has only headers');
+  // Helper function to convert CSV to array of objects
+  function parseCSV(csvContent: string): BMSPoint[] {
+    const lines = csvContent.trim().split('\n');
+    if (lines.length < 2) {
+      throw new Error('CSV file must contain at least a header row and one data row');
     }
 
-    const headers = lines[0].split(',').map(header => header.trim());
-    
-    return lines.slice(1).filter(line => line.trim() !== '').map((line, index) => {
-      // Handle potential commas inside quoted values
-      const values: string[] = [];
-      let isInQuotes = false;
-      let currentValue = '';
-      
+    // Helper function to parse a single CSV line respecting quotes
+    const parseCSVLine = (line: string): string[] => {
+      const fields: string[] = [];
+      let currentField = '';
+      let inQuotes = false;
+
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
+
         if (char === '"') {
-          isInQuotes = !isInQuotes;
-          currentValue += char;
-        } else if (char === ',' && !isInQuotes) {
-          values.push(currentValue.trim());
-          currentValue = '';
+          // Handle quotes: check for escaped quotes ("")
+          if (inQuotes && line[i + 1] === '"') {
+            currentField += '"';
+            i++; // Skip the second quote of the pair
+          } else {
+            inQuotes = !inQuotes; // Toggle quote status
+          }
+        } else if (char === ',' && !inQuotes) {
+          // Comma outside quotes signals the end of a field
+          fields.push(currentField.trim());
+          currentField = ''; // Reset for the next field
         } else {
-          currentValue += char;
+          // Add character to the current field
+          currentField += char;
         }
       }
-      
-      // Add the last value
-      values.push(currentValue.trim());
-      
-      // Create point object from CSV values
-      const point: Record<string, any> = {};
-      
-      headers.forEach((header, idx) => {
-        const value = values[idx] || '';
-        
-        // Remove quotes if they completely wrap the value
-        let cleanValue = value;
-        if (cleanValue.startsWith('"') && cleanValue.endsWith('"') && cleanValue.length >= 2) {
-          cleanValue = cleanValue.substring(1, cleanValue.length - 1);
+      // Add the last field after the loop finishes
+      fields.push(currentField.trim());
+      return fields;
+    };
+
+    // Parse header row using the new logic
+    const headers = parseCSVLine(lines[0]);
+
+    // Validate required headers
+    const requiredHeaders = ['deviceType', 'deviceId', 'pointName'];
+    for (const required of requiredHeaders) {
+      if (!headers.includes(required)) {
+        throw new Error(`CSV missing required header: ${required}`);
+      }
+    }
+
+    const pointsData: BMSPoint[] = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue; // Skip empty lines
+
+      // Parse data row using the new logic
+      const values = parseCSVLine(line);
+
+      // Check column count AFTER parsing respecting quotes
+      if (values.length !== headers.length) {
+        console.warn(`Line ${i + 1} has ${values.length} columns after parsing, expected ${headers.length}. Skipping. Original line: "${line}"`);
+        continue;
+      }
+
+      const point: any = {};
+      headers.forEach((header, index) => {
+        // Remove surrounding quotes from the value if they exist ONLY at the start/end
+        let value = values[index];
+        if (value.startsWith('"') && value.endsWith('"')) {
+           // Be careful not to remove quotes if they are part of the actual data or escaped
+           // A simple check: only remove if quotes are exact start/end and not escaped internally
+           // (This basic removal might need refinement for complex CSVs, but covers common cases)
+           if (!value.slice(1, -1).includes('"')) { // Avoid removing if internal quotes exist
+                value = value.slice(1, -1);
+           }
+           // Handle escaped quotes "" -> "
+           value = value.replace(/""/g, '"');
         }
-        
-        point[header] = cleanValue;
+        point[header] = value;
       });
-      
-      // Ensure minimum fields for BMSPoint
-      return {
-        id: point.id || point.pointId || `point-${index}`,
-        pointName: point.pointName || point.objectName || '',
-        pointType: point.pointType || point.objectType || '',
-        unit: point.unit || '',
-        description: point.description || '',
-        deviceType: point.deviceType || '',
-        deviceId: point.deviceId || ''
-      } as BMSPoint;
-    });
+
+      // Generate a unique ID if not present
+      if (!point.id) {
+        point.id = `point-${i}-${Date.now()}`;
+      }
+
+      pointsData.push(point as BMSPoint);
+    }
+
+    // Add a check to see if any data was actually parsed
+    if (pointsData.length === 0 && lines.length > 1) {
+      console.error("CSV parsing finished, but no valid data rows were processed. Check console warnings for skipped lines.");
+      // Optionally throw an error or set an error state here
+      // setError("Failed to parse valid data rows from the CSV. Please check file format and console warnings.");
+    }
+
+
+    return pointsData;
+  }
+
+  // Helper function to parse JSON point data
+  function parseJSON(jsonContent: string): BMSPoint[] {
+    const data = JSON.parse(jsonContent);
+    
+    if (Array.isArray(data)) {
+      return data.map((item, index) => {
+        if (!item.id) {
+          item.id = `point-${index}-${Date.now()}`;
+        }
+        return item as BMSPoint;
+      });
+    } else {
+      throw new Error('JSON data must be an array of points');
+    }
+  }
+
+  // Calculate total pages
+  const totalPages = Math.ceil(points.length / pageSize);
+  
+  // Get current page data
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return points.slice(startIndex, endIndex);
+  };
+  
+  // Prepare HandsOnTable data and settings
+  const getColumns = () => {
+    return [
+      { data: 'deviceType', title: 'Device Type', readOnly: true },
+      { data: 'deviceId', title: 'Device ID', readOnly: true },
+      { data: 'pointName', title: 'Point Name', readOnly: true },
+      { data: 'pointType', title: 'Point Type', readOnly: true },
+      { data: 'enosPoint', title: 'EnOS Point', readOnly: true },
+      { data: 'status', title: 'Status', readOnly: true },
+      { data: 'description', title: 'Info', readOnly: true },
+    ];
+  };
+  
+  const hotSettings: GridSettings = {
+    data: getCurrentPageData(),
+    columns: getColumns(),
+    colHeaders: true,
+    rowHeaders: true,
+    height: 'auto',
+    width: '100%',
+    licenseKey: 'non-commercial-and-evaluation',
+    stretchH: 'all',
+    autoWrapRow: true,
+    manualRowResize: true,
+    manualColumnResize: true,
+    filters: true,
+    dropdownMenu: true,
+    multiColumnSorting: true,
+    columnSorting: true,
+    readOnly: true
   };
 
-  // Load data when component mounts
-  useEffect(() => {
-    // Set loading to false initially
-    setIsLoading(false);
-  }, []);
-  
-  // Update table data when pagination changes
-  useEffect(() => {
-    if (hotInstanceRef.current) {
-      hotInstanceRef.current.loadData(getPagedData());
-    }
-  }, [currentPage, pageSize, points.length]);
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    setCurrentPage(page);
+    
+    // Update HotTable data after state update
+    setTimeout(() => {
+      if (hotTableRef.current && hotTableRef.current.hotInstance) {
+        hotTableRef.current.hotInstance.loadData(getCurrentPageData());
+      }
+    }, 0);
+  };
 
-  // Map points to EnOS using backend enos.json definitions
+  // Handle page size change
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page
+    
+    // Update HotTable data after state update
+    setTimeout(() => {
+      if (hotTableRef.current && hotTableRef.current.hotInstance) {
+        hotTableRef.current.hotInstance.loadData(getCurrentPageData());
+      }
+    }, 0);
+  };
+
+  // Handle mapping points
   const handleMapPoints = async () => {
     if (points.length === 0) {
-      setError('Please upload points data first');
+      setError('No points to map');
       return;
     }
 
-    try {
-      setIsMapping(true);
-      setError(null);
-      
-      console.log(`Sending ${points.length} points to backend for EnOS mapping using AI`);
+    setIsMapping(true);
+    setError(null);
 
+    try {
+      // Call the API to map points
       const response = await bmsClient.mapPointsToEnOS(points, {
-        targetSchema: 'enos',
+        includeDeviceContext: true,
         matchingStrategy: 'ai'
-      }) as MapPointsResponse;
-      
-      if (response.success && response.mappings && response.mappings.length > 0) {
-        // Use the mappings directly from the API response
-        const tableData = response.mappings.map(mapping => ({
-          id: mapping.pointId,
-          deviceType: mapping.deviceType,
-          deviceId: mapping.deviceId,
-          pointName: mapping.pointName,
-          pointType: mapping.pointType || '',
-          unit: mapping.unit || '',
-          description: mapping.error || '',  // Use error message as description if available
-          enosPoint: mapping.enosPoint,
-          confidence: mapping.confidence,
-          status: mapping.status
+      });
+
+      if (response && response.mappings) {
+        // Convert the response mappings to BMSPoints
+        const mappedPoints: BMSPoint[] = response.mappings.map(mapping => ({
+          id: mapping.mapping?.pointId || mapping.pointId || '',
+          pointName: mapping.original?.pointName || mapping.pointName || '',
+          pointType: mapping.original?.pointType || mapping.pointType || '',
+          unit: mapping.original?.unit || mapping.unit || '',
+          description: mapping.mapping?.error || '',
+          deviceType: mapping.original?.deviceType || mapping.deviceType || '',
+          deviceId: mapping.original?.deviceId || mapping.deviceId || '',
+          enosPoint: mapping.mapping?.enosPoint || mapping.enosPoint || '',
+          status: mapping.mapping?.status || mapping.status || 'pending'
         }));
+
+        setPoints(mappedPoints);
+        setMappedPoints(mappedPoints);
         
-        setPoints(tableData);
-        console.log(`Mapped ${tableData.length} points successfully`);
-        
-        // Display mapping statistics
-        const stats = response.stats;
-        console.log(`Mapping stats: Total=${stats.total}, Mapped=${stats.mapped}, Errors=${stats.errors}`);
-        
-        if (stats.errors > 0) {
-          setError(`${stats.errors} point(s) could not be mapped. Check the status column for details.`);
+        // Update the HandsOnTable with new data
+        if (hotTableRef.current && hotTableRef.current.hotInstance) {
+          hotTableRef.current.hotInstance.loadData(mappedPoints.slice(0, pageSize));
         }
-      } else {
-        throw new Error(response.error || 'Failed to map points with backend service');
+        
+        // Analyze mapping quality
+        const qualityAnalysis = await analyzeQuality(response);
+        setQualityResults(qualityAnalysis);
       }
     } catch (err) {
-      console.error('EnOS mapping error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to map points to EnOS');
+      setError(err instanceof Error ? err.message : 'Failed to map points');
     } finally {
       setIsMapping(false);
     }
   };
 
-  // Export mappings to CSV and apply to EnOS
-  const exportMappingsToCSV = async () => {
-    if (mappings.length === 0) {
-      setError('No mappings to export');
+  const handleImproveMapping = async () => {
+    if (!qualityResults || !qualityResults.mappingId) {
       return;
     }
-
+    
+    setIsImproving(true);
     try {
-      setIsExporting(true);
-      setError(null);
-
-      const filename = selectedFile ? selectedFile.name.replace(/\.[^/.]+$/, '') + '_mapped' : 'points_mapping';
-      setFilename(filename);
-
-      // Convert our PointMapping objects to the format expected by the API
-      const mappingData = mappings.map(mapping => ({
-        enosEntity: mapping.enosEntity,
-        enosPoint: mapping.enosPoint,
-        rawPoint: mapping.rawPoint,
-        rawUnit: mapping.rawUnit || '',
-        rawFactor: mapping.rawFactor || 1
-      }));
-
-      // First, save the mapping to CSV
-      const saveResponse = await bmsClient.saveMappingToCSV(mappingData, filename);
-
-      if (!saveResponse.success) {
-        throw new Error(saveResponse.error || 'Failed to save mappings to CSV');
-      }
-
-      // Then, export to EnOS
-      const exportResponse = await bmsClient.exportMappingToEnOS(mappingData);
+      // Call the improve mapping function from our hook
+      const response = await improveMappingResults(qualityResults.mappingId, {
+        qualityFilter: 'all', // 改为'all'，映射所有点位，不管质量如何
+        includeDeviceContext: true,
+      });
       
-      if (!exportResponse.success) {
-        throw new Error(exportResponse.error || 'Failed to apply mappings to EnOS');
-      }
+      // Update points with improved results
+      if (response && response.mappings) {
+        const improvedPoints: BMSPoint[] = response.mappings.map(mapping => ({
+          id: mapping.mapping?.pointId || mapping.pointId || '',
+          pointName: mapping.original?.pointName || mapping.pointName || '',
+          pointType: mapping.original?.pointType || mapping.pointType || '',
+          unit: mapping.original?.unit || mapping.unit || '',
+          description: mapping.mapping?.error || '',
+          deviceType: mapping.original?.deviceType || mapping.deviceType || '',
+          deviceId: mapping.original?.deviceId || mapping.deviceId || '',
+          enosPoint: mapping.mapping?.enosPoint || mapping.enosPoint || '',
+          status: mapping.mapping?.status || mapping.status || 'pending'
+        }));
 
-      // Create a download link for the CSV
-      if (saveResponse.filepath) {
-        const downloadUrl = bmsClient.getFileDownloadURL(saveResponse.filepath);
+        setPoints(improvedPoints);
+        setMappedPoints(improvedPoints);
+        
+        // Update the HandsOnTable with new data
+        if (hotTableRef.current && hotTableRef.current.hotInstance) {
+          hotTableRef.current.hotInstance.loadData(improvedPoints.slice(0, pageSize));
+        }
+        
+        // Re-analyze quality with improved mappings
+        const newQualityAnalysis = await analyzeQuality(response);
+        setQualityResults(newQualityAnalysis);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to improve mappings');
+    } finally {
+      setIsImproving(false);
+    }
+  };
+
+  // Export mappings to CSV
+  const exportMappingsToCSV = async () => {
+    if (mappings.length === 0) {
+      setError('No mappings available to export. Please map points first.');
+      return;
+    }
+    
+    setIsExporting(true);
+    
+    try {
+      // Prepare the data for export
+      const exportData = mappings.map(mapping => ({
+        enosEntity: mapping.deviceType || 'Unknown',
+        enosPoint: mapping.enosPoint || '',
+        rawPoint: mapping.pointName || '',
+        rawUnit: mapping.unit || ''
+      }));
+      
+      // Generate a filename based on the original file and timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
+      const filename = `${selectedFile?.name.split('.')[0] || 'mapping'}_${timestamp}.csv`;
+      
+      // Call the API to export
+      const result = await bmsClient.saveMappingToCSV(exportData as unknown as PointMapping[], filename);
+      
+      if (result && result.success) {
+        // Get download URL
+        const downloadUrl = bmsClient.getFileDownloadURL(result.filepath || '');
+        
+        // Create a temporary link and trigger download
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute('download', `${filename}.csv`);
+        link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        console.log('Export completed successfully');
+      } else {
+        throw new Error(result.error || 'Failed to export mappings');
       }
-      
-      // Show success message
-      console.log(`Mappings exported to CSV and applied to EnOS successfully`);
-      setError(null);
-    } catch (err) {
-      console.error('Export error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to export mappings');
+    } catch (error) {
+      console.error('Export error:', error);
+      setError(error instanceof Error ? error.message : 'Error exporting mappings');
     } finally {
       setIsExporting(false);
     }
   };
 
-  // Get table columns and settings
-  const getSettings = (): GridSettings => {
-    return {
-      data: getPagedData(),
-      rowHeaders: true,
-      colHeaders: [
-        'Device Type',
-        'Device ID',
-        'Point Name',
-        'Point Type',
-        'Unit',
-        'Present Value',
-        'Description',
-        'Object Type',
-        'Object Instance',
-        'EnOS Point',
-        'Confidence',
-        'Status',
-        'Error Message'
-      ],
-      columns: [
-        { data: 'deviceType', readOnly: true },
-        { data: 'deviceId', readOnly: true },
-        { data: 'pointName', readOnly: true },
-        { data: 'pointType', readOnly: true },
-        { data: 'unit', readOnly: true },
-        { 
-          data: 'presentValue',
-          readOnly: true,
-          renderer: (instance, td, row, col, prop, value, cellProperties) => {
-            td.innerHTML = value !== undefined ? String(value) : '-';
-            return td;
-          }
-        },
-        { data: 'description', readOnly: true },
-        { data: 'objectType', readOnly: true },
-        { data: 'objectInst', readOnly: true },
-        { 
-          data: 'enosPoint',
-          readOnly: true,
-          renderer: (instance, td, row, col, prop, value, cellProperties) => {
-            if (!value) {
-              td.innerHTML = '<span class="unmapped">Not mapped</span>';
-              return td;
-            }
-            td.innerHTML = `<span class="mapped-point">${value}</span>`;
-            return td;
-          }
-        },
-        { 
-          data: 'confidence',
-          readOnly: true,
-          renderer: (instance, td, row, col, prop, value, cellProperties) => {
-            const confidence = parseFloat(value);
-            if (isNaN(confidence)) {
-              td.innerHTML = '-';
-              return td;
-            }
-            const percentage = (confidence * 100).toFixed(1);
-            const colorClass = confidence >= 0.7 ? 'high-confidence' : 
-                             confidence >= 0.4 ? 'medium-confidence' : 
-                             'low-confidence';
-            td.innerHTML = `<span class="confidence-score ${colorClass}">${percentage}%</span>`;
-            return td;
-          }
-        },
-        {
-          data: 'status',
-          readOnly: true,
-          renderer: (instance, td, row, col, prop, value, cellProperties) => {
-            const statusClass = value === 'mapped' ? 'status-mapped' : 'status-error';
-            td.innerHTML = `<span class="status-indicator ${statusClass}">${value}</span>`;
-            return td;
-          }
-        },
-        {
-          data: 'error',
-          readOnly: true,
-          renderer: (instance, td, row, col, prop, value, cellProperties) => {
-            if (!value) {
-              td.innerHTML = '-';
-              return td;
-            }
-            td.innerHTML = `<span class="error-message-cell">${value}</span>`;
-            return td;
-          }
-        }
-      ],
-      stretchH: 'all',
-      autoWrapRow: true,
-      height: 'auto',
-      licenseKey: 'non-commercial-and-evaluation',
-      columnSorting: true,
-      filters: true,
-      dropdownMenu: true,
-      hiddenColumns: {
-        indicators: true
-      },
-      afterGetColHeader: function(col: number, TH: HTMLTableCellElement) {
-        const menu = document.createElement('div');
-        menu.className = 'column-menu';
-        menu.innerHTML = '⋮';
-        menu.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (hotInstanceRef.current) {
-            const columnData = hotInstanceRef.current.getDataAtCol(col);
-            const uniqueValues = [...new Set(columnData)].filter(Boolean);
-            
-            // Create filter menu
-            const filterMenu = document.createElement('div');
-            filterMenu.className = 'column-filter-menu';
-            filterMenu.style.position = 'absolute';
-            filterMenu.style.right = '0';
-            filterMenu.style.top = '100%';
-            filterMenu.style.backgroundColor = '#fff';
-            filterMenu.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-            filterMenu.style.borderRadius = '4px';
-            filterMenu.style.padding = '8px 0';
-            filterMenu.style.zIndex = '1000';
-
-            // Add filter options
-            uniqueValues.forEach(value => {
-              const option = document.createElement('div');
-              option.className = 'filter-option';
-              option.textContent = String(value);
-              option.addEventListener('click', () => {
-                if (hotInstanceRef.current) {
-                  hotInstanceRef.current.getPlugin('filters').addCondition(col, 'eq', [value]);
-                  hotInstanceRef.current.getPlugin('filters').filter();
-                }
-              });
-              filterMenu.appendChild(option);
-            });
-
-            // Add clear filter option
-            const clearOption = document.createElement('div');
-            clearOption.className = 'filter-option clear-filter';
-            clearOption.textContent = 'Clear filter';
-            clearOption.addEventListener('click', () => {
-              if (hotInstanceRef.current) {
-                hotInstanceRef.current.getPlugin('filters').clearConditions(col);
-                hotInstanceRef.current.getPlugin('filters').filter();
-              }
-            });
-            filterMenu.appendChild(clearOption);
-
-            // Show menu
-            TH.appendChild(filterMenu);
-
-            // Close menu when clicking outside
-            const closeMenu = (e: MouseEvent) => {
-              if (!filterMenu.contains(e.target as Node)) {
-                filterMenu.remove();
-                document.removeEventListener('click', closeMenu);
-              }
-            };
-            document.addEventListener('click', closeMenu);
-          }
-        });
-        TH.appendChild(menu);
-      }
-    };
-  };
-
-  // Calculate total pages for pagination
-  const totalPoints = points.length;
-  const totalPages = Math.max(1, Math.ceil(totalPoints / pageSize));
-
-  // Handle page change
-  const handlePageChange = (page: number) => {
-    setCurrentPage(Math.min(Math.max(1, page), totalPages));
-    if (hotInstanceRef.current) {
-      hotInstanceRef.current.loadData(getPagedData());
-    }
-  };
-
-
-  // Update page size
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
-    if (hotInstanceRef.current) {
-      hotInstanceRef.current.loadData(getPagedData());
-    }
-  };
-  
-  // Helper to get the current page of data
-  const getPagedData = () => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    return points.slice(startIndex, endIndex);
-  };
-
   return (
-    <div className="map-points-container">
-      <h1>Map Points to EnOS</h1>
+    <div className="map-points-page">
+      <h1>Map BMS Points to EnOS</h1>
       
-      <Card className="upload-card">
-        <h2>Upload Points</h2>
-        <div className="file-upload-container">
-          <input
-            type="file"
-            id="file-upload"
-            onChange={handleFileUpload}
-            accept=".csv,.json"
-            disabled={isLoading}
-            className="file-upload-input"
-          />
-          <label htmlFor="file-upload" className="file-upload-label">
-            {isLoading ? 'Loading...' : 'Choose File'}
-          </label>
-          <span className="file-name">
-            {selectedFile ? selectedFile.name : 'No file selected'}
-          </span>
+      <section className="file-upload-section">
+        <Card className="upload-card">
+          <h2>Upload Points File</h2>
+          <p>Select a CSV or JSON file containing BMS point data.</p>
+          
+          <div className="file-input-container">
+            <input
+              type="file"
+              accept=".csv,.json"
+              onChange={handleFileUpload}
+              disabled={isLoading || isMapping}
+            />
+            <div className="file-info">
+              {selectedFile && (
+                <span>Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(2)} KB)</span>
+              )}
+            </div>
+          </div>
+        </Card>
+      </section>
+      
+      {error && (
+        <div className="error-message">
+          {error}
         </div>
-        {error && <div className="error-message">{error}</div>}
-      </Card>
-
+      )}
+      
       {points.length > 0 && (
         <Card className="points-card">
           <div className="card-header">
             <h2>Points Data</h2>
-            <div className="action-buttons">
-              <button
-                className="primary-button"
-                onClick={handleMapPoints}
-                disabled={isMapping || points.length === 0}
-              >
-                {isMapping ? 'Mapping...' : 'Map to EnOS'}
-              </button>
-              <button
-                className="secondary-button"
-                onClick={exportMappingsToCSV}
-                disabled={isExporting || mappings.length === 0}
-              >
-                {isExporting ? 'Exporting...' : 'Export & Apply to EnOS'}
-              </button>
-            </div>
+            <MappingControls
+              // Main actions
+              deviceTypes={deviceTypesLocal}
+              activeDeviceTypeFilter={activeDeviceTypeFilter}
+              onFilterByDeviceType={handleFilterByDeviceType}
+              onMapPoints={handleMapPoints}
+              onImproveMapping={handleImproveMapping}
+              onExportMapping={exportMappingsToCSV}
+              
+              // State indicators
+              isLoading={isLoading}
+              isMapping={isMapping}
+              isImproving={isImproving}
+              isExporting={isExporting}
+              
+              // Batch processing state
+              batchProgress={{
+                isInBatchMode: batchProgress.isInBatchMode,
+                totalBatches: batchProgress.totalBatches,
+                completedBatches: batchProgress.completedBatches,
+                progress: batchProgress.progress,
+                taskId: qualityResults?.mappingId || null
+              }}
+              
+              // Quality assessment
+              hasQualityAnalysis={!!qualityResults}
+              hasLowQualityMappings={!!qualityResults && (
+                (qualityResults.qualitySummary?.poor || 0) + 
+                (qualityResults.qualitySummary?.unacceptable || 0) > 0
+              )}
+              qualityStats={qualityStatistics}
+              
+              // Point counts
+              pointsCount={points.length}
+              mappedPointsCount={mappings.length}
+            />
           </div>
-
-          <div className="pagination-container">
-            <div className="pagination-controls">
-              <label>
-                Show
-                <select
-                  value={pageSize}
-                  onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-                  disabled={isLoading}
-                >
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                </select>
-                entries
-              </label>
-            </div>
-            <div className="pagination-buttons">
-              <button
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-                className="pagination-button"
-              >
-                First
-              </button>
-              <button
+          
+          <div className="table-controls">
+            <div className="pagination">
+              <button 
                 onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="pagination-button"
+                disabled={currentPage <= 1}
               >
                 Previous
               </button>
-              <span className="pagination-info">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
+              <span>Page {currentPage} of {totalPages}</span>
+              <button 
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="pagination-button"
+                disabled={currentPage >= totalPages}
               >
                 Next
               </button>
-              <button
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-                className="pagination-button"
+            </div>
+            
+            <div className="page-size-selector">
+              <label>Items per page:</label>
+              <select 
+                value={pageSize}
+                onChange={(e) => handlePageSizeChange(Number(e.target.value))}
               >
-                Last
-              </button>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
             </div>
           </div>
-
-          <div className="table-container">
-            <HotTable
-              ref={(ref: any) => { 
-                if (ref) {
-                  hotInstanceRef.current = ref.hotInstance;
-                }
-              }}
-              settings={getSettings()}
-            />
+          
+          <div className="points-table-container">
+            {isLoading ? (
+              <div className="loading-indicator">Loading...</div>
+            ) : (
+              <div className="hot-table-wrapper">
+                <HotTable
+                  ref={hotTableRef}
+                  settings={hotSettings}
+                />
+              </div>
+            )}
           </div>
         </Card>
       )}

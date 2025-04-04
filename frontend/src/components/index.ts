@@ -47,4 +47,15 @@ export type { Asset } from './AssetSelector';
 export { default as PointsFilter } from './PointsFilter';
 export type { PointsFilterProps } from './PointsFilter';
 
-export { default as ProtectedRoute } from './ProtectedRoute'; 
+export { default as ProtectedRoute } from './ProtectedRoute';
+
+// Mapping components
+export { default as MappingQualityIndicator } from './MappingQualityIndicator';
+export type { QualityLevel } from './MappingQualityIndicator';
+
+export { default as BatchProgressIndicator } from './BatchProgressIndicator';
+
+export { default as MappingControls } from './MappingControls'; 
+
+export { default as EnhancedFileUpload } from './EnhancedFileUpload';
+export type { EnhancedFileUploadProps } from './EnhancedFileUpload';

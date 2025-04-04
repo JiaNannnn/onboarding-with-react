@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_power_active_total",
-  "point": "Energy.TotalChiller-kW",
-  "device_type": "Energy",
-  "timestamp": "2025-03-28T14:35:26.111319",
-  "model": "gpt-4o"
-}

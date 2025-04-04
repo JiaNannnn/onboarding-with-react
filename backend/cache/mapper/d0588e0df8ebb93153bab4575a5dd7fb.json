@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_chilled_water_flow",
-  "point": "AHU-02.AirFlow_CMH",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T14:53:34.310675",
-  "model": "gpt-4o"
-}

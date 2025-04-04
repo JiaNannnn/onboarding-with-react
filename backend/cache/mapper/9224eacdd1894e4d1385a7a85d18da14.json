@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_energy_active_total",
-  "point": "AHUEnergy.Quarterly-Efficiency",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T15:17:10.852684",
-  "model": "gpt-4o"
-}

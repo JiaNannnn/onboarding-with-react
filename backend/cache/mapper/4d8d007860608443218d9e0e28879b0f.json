@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_cooling_water_flow",
-  "point": "CH3.cw-gpmPerTon",
-  "device_type": "CHILLER",
-  "timestamp": "2025-03-28T14:52:12.596215",
-  "model": "gpt-4o"
-}

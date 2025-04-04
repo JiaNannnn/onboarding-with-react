@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_power_active_total",
-  "point": "DPM.DPM-CT-1.kWh",
-  "device_type": "METER",
-  "timestamp": "2025-03-28T15:18:08.948310",
-  "model": "gpt-4o"
-}

@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_temp_evap",
-  "point": "FCU-B1-46A.RoomTemp",
-  "device_type": "FCU",
-  "timestamp": "2025-03-28T14:22:51.592545",
-  "model": "gpt-4o"
-}

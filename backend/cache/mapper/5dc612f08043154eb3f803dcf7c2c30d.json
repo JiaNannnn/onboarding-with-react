@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "CT4.Fan-2.Status",
-  "device_type": "COOLING_TOWER",
-  "timestamp": "2025-03-28T15:14:42.721339",
-  "model": "gpt-4o"
-}

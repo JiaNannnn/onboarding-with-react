@@ -376,7 +376,6 @@ export const mapPointsToEnOS = async (
     targetSchema?: string;
     transformationRules?: Record<string, string>;
     matchingStrategy?: 'strict' | 'fuzzy' | 'ai';
-    confidence?: number;
   }
 ): Promise<{
   success: boolean;
@@ -385,7 +384,6 @@ export const mapPointsToEnOS = async (
     pointName: string;
     pointType: string;
     enosPoints: string;
-    confidence: number;
     status: 'mapped' | 'error';
     error?: string;
   }>;
@@ -411,7 +409,6 @@ export const mapPointsToEnOS = async (
       targetSchema: mappingConfig.targetSchema || 'default',
       transformationRules: mappingConfig.transformationRules || {},
       matchingStrategy: mappingConfig.matchingStrategy || 'ai',
-      confidence: mappingConfig.confidence || 0.7
     }, {
       headers: {
         'Content-Type': 'application/json',

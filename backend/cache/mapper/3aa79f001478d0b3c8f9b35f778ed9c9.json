@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "CH3.ChCtl.cmdSys",
-  "device_type": "CHILLER",
-  "timestamp": "2025-03-28T14:52:00.053455",
-  "model": "gpt-4o"
-}

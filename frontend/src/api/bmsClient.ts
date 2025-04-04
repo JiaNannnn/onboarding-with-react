@@ -266,13 +266,26 @@ export interface GroupPointsWithAIResponse {
 export interface MapPointsToEnOSResponse {
   success: boolean;
   mappings?: Array<{
-    pointId: string;
-    pointName: string;
-    pointType: string;
-    enosPoint: string;
-    confidence: number;
-    status: 'mapped' | 'error';
-    error?: string;
+    original?: {
+      pointName: string;
+      deviceType: string;
+      deviceId: string;
+      pointType: string;
+      unit: string;
+      value: any;
+    };
+    mapping?: {
+      pointId: string;
+      enosPoint: string | null;
+      status: 'mapped' | 'error';
+      error?: string;
+    };
+    // For backward compatibility with older format
+    pointId?: string;
+    pointName?: string;
+    pointType?: string;
+    enosPoint?: string;
+    status?: 'mapped' | 'error';
     // Additional fields from enhanced implementation
     deviceType?: string;
     deviceId?: string;
@@ -286,13 +299,19 @@ export interface MapPointsToEnOSResponse {
     errors: number;
     deviceCount?: number;
     deviceTypes?: number;
-    confidenceAvg?: number;
     timeouts?: number;
     unmapped?: number;
   };
   error?: string;
+  message?: string;
   status?: string;
+  taskId?: string;
   targetSchema?: string;
+  // Batch processing fields
+  batchMode?: boolean;
+  totalBatches?: number;
+  completedBatches?: number;
+  progress?: number;
 }
 
 /**
@@ -302,7 +321,11 @@ export interface MappingConfig {
   targetSchema?: string;
   transformationRules?: Record<string, string>;
   matchingStrategy?: 'strict' | 'fuzzy' | 'ai';
-  confidence?: number;
+  includeDeviceContext?: boolean;
+  deviceTypes?: string[];
+  includeSuggestions?: boolean;
+  prioritizeFailedPatterns?: boolean;
+  includeReflectionData?: boolean;
 }
 
 /**
@@ -703,6 +726,23 @@ export class BMSClient {
     
     throw new Error(`Task did not complete after ${maxAttempts} attempts`);
   }
+  
+  /**
+   * Check mapping task status
+   * Public method for checking a mapping task's status
+   */
+  async checkPointsMappingStatus(taskId: string): Promise<MapPointsToEnOSResponse> {
+    try {
+      return await this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${taskId}`);
+    } catch (error) {
+      console.error(`Error checking mapping task status: ${error}`);
+      return {
+        success: false,
+        error: `Failed to check status: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        stats: { total: 0, mapped: 0, errors: 1 }
+      };
+    }
+  }
 
   /**
    * Update client configuration
@@ -751,16 +791,133 @@ export class BMSClient {
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
     try {
-      const response = await this.apiClient.post<MapPointsToEnOSResponse>(
+      // Step 1: Start the mapping task and get the task ID
+      const startResponse = await this.apiClient.post<{success: boolean, taskId: string, status: string}>(
         `${API_V1_PATH}/map-points`,
         {
           points,
           mappingConfig
         }
       );
-      return response.data;
+      
+      if (!startResponse.success || !startResponse.taskId) {
+        throw new Error('Failed to start mapping task');
+      }
+      
+      console.log(`Mapping task started with ID: ${startResponse.taskId}`);
+      
+      // Step 2: Poll the task status until it completes
+      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
+        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${startResponse.taskId}`),
+        (response) => {
+          // Task is complete if it doesn't have a "processing" status
+          return !response.status || response.status !== 'processing';
+        },
+        2000, // Check every 2 seconds
+        60    // Allow up to 60 attempts (2 minutes total)
+      );
+      
+      return result;
     } catch (error) {
       console.error('Error mapping points to EnOS:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Improve mapping results with a second round of AI mapping
+   * This targets specific points that had poor quality mappings
+   */
+  async improveMappingResults(
+    originalTaskId: string,
+    qualityFilter: 'poor' | 'unacceptable' | 'below_fair' | 'all' = 'below_fair',
+    mappingConfig: MappingConfig = {}
+  ): Promise<MapPointsToEnOSResponse> {
+    try {
+      // Step 1: Start the mapping improvement task
+      const enhancedConfig = {
+        ...mappingConfig,
+        prioritizeFailedPatterns: true,
+        includeReflectionData: true
+      };
+      
+      // Check if original mapping task exists and has data
+      try {
+        const originalMapping = await this.apiClient.get<MapPointsToEnOSResponse>(
+          `${API_V1_PATH}/map-points/${originalTaskId}`
+        );
+        
+        if (!originalMapping.success) {
+          throw new Error(`Original mapping task ${originalTaskId} not found or failed`);
+        }
+        
+        // Check if there are mappings to improve
+        if (!originalMapping.mappings || originalMapping.mappings.length === 0) {
+          console.warn(`Original mapping task ${originalTaskId} has no mappings to improve`);
+          return {
+            success: false,
+            error: "No mappings found in the original task to improve",
+            stats: { total: 0, mapped: 0, errors: 1 }
+          };
+        }
+        
+        console.log(`Found ${originalMapping.mappings.length} mappings in original task to potentially improve`);
+      } catch (checkError) {
+        console.error(`Error checking original mapping task: ${checkError}`);
+        // Continue with the improvement request anyway
+      }
+      
+      // Start the improvement task
+      const startResponse = await this.apiClient.post<{success: boolean, taskId: string, status: string}>(
+        `${API_V1_PATH}/map-points`,
+        {
+          original_mapping_id: originalTaskId,
+          filter_quality: qualityFilter,
+          mappingConfig: enhancedConfig
+        }
+      );
+      
+      if (!startResponse.success || !startResponse.taskId) {
+        throw new Error('Failed to start mapping improvement task');
+      }
+      
+      console.log(`Mapping improvement task started with ID: ${startResponse.taskId}`);
+      
+      // Step 2: Poll the task status until it completes with extended timeout
+      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
+        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${startResponse.taskId}`),
+        (response) => {
+          // Log progress information
+          if (response.status === 'processing') {
+            // Safely check batch processing status using optional chaining
+            if (response.batchMode && response.totalBatches && response.totalBatches > 0) {
+              console.log(`Processing ${response.completedBatches || 0} of ${response.totalBatches} batches (${Math.round((response.progress || 0) * 100)}%)`);
+            } else {
+              console.log('Task is processing, but no batch information available yet');
+            }
+            return false; // Not complete yet
+          }
+          // Complete if status is not 'processing'
+          return true;
+        },
+        5000, // Check every 5 seconds
+        120   // Allow up to 120 attempts (10 minutes total)
+      );
+      
+      // Verify we have mappings in the result
+      if (!result.mappings || result.mappings.length === 0) {
+        console.warn('Improvement task completed but no mappings were returned');
+        
+        if (result.success) {
+          // The task was successful but returned no mappings - may be normal if no points needed improvement
+          const resultWithMessage = result as MapPointsToEnOSResponse & { message?: string };
+          resultWithMessage.message = resultWithMessage.message || 'No points required improvement based on quality filter';
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Error improving mapping results:', error);
       throw error;
     }
   }

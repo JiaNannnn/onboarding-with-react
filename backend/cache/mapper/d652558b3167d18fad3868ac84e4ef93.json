@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_power_active_total",
-  "point": "AHU-06.Fan_kW",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T15:09:14.984509",
-  "model": "gpt-4o"
-}

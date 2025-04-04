@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_temp_cond",
-  "point": "Energy.TotalChTon-kW",
-  "device_type": "Energy",
-  "timestamp": "2025-03-28T14:52:40.504945",
-  "model": "gpt-4o"
-}

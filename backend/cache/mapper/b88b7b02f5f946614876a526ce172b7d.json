@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "AHU-06.SmokeAlarmStatus",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T15:09:17.655260",
-  "model": "gpt-4o"
-}

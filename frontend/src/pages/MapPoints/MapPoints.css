@@ -4,9 +4,69 @@
   margin: 0 auto;
 }
 
+.map-points-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hot-table-wrapper {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  margin-top: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
 .map-points-container h1 {
   margin-bottom: 20px;
   color: #2c3e50;
+}
+
+/* Enhanced mapping components styles */
+.batch-progress-container {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.quality-assessment-container {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.quality-assessment-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-size: 18px;
+}
+
+.quality-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.quality-improvement-note {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.quality-improvement-note p {
+  margin: 0;
+  color: #856404;
 }
 
 .upload-card {

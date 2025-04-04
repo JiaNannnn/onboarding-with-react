@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "ExpTank.Low",
-  "device_type": "ExpTank",
-  "timestamp": "2025-03-28T15:14:49.021361",
-  "model": "gpt-4o"
-}

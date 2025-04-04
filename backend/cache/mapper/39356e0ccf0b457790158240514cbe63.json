@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_chilled_valve_status",
-  "point": "AHU-03.EV.ValveOpenStatus",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T14:53:54.440055",
-  "model": "gpt-4o"
-}

@@ -16,8 +16,8 @@ class Config:
     
     # OpenAI configuration
     OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-    OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o')
-    
+    # OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o')
+    OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-3.5-turbo')
     # API configuration
     API_VERSION = '1.0.0'
 

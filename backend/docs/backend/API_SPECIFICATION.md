@@ -94,13 +94,18 @@ POST /api/bms/map-points
       "pointName": "AHU1_SAT",
       "pointType": "Temperature",
       "unit": "°C",
-      "description": "Supply Air Temperature"
+      "description": "Supply Air Temperature",
+      "deviceType": "AHU",   // 可选，如果不提供，系统会从点位名称推断
+      "deviceId": "AHU1"     // 可选
     }
   ],
-  "targetSchema": "default",
-  "transformationRules": {},
-  "matchingStrategy": "ai",
-  "confidence": 0.7
+  "mappingConfig": {
+    "targetSchema": "default",
+    "matchingStrategy": "ai",
+    "batchMode": true,        // 可选，启用批处理模式
+    "batchSize": 20,          // 可选，每批处理的点位数量
+    "deviceTypes": ["AHU", "FCU", "CH"]  // 可选，优先处理的设备类型
+  }
 }
 ```
 
@@ -110,13 +115,19 @@ POST /api/bms/map-points
   "success": true,
   "mappings": [
     {
-      "pointId": "point1",
-      "pointName": "AHU1_SAT",
-      "pointType": "Temperature",
-      "enosPath": "AHU/points/supplyTemperature",
-      "confidence": 0.95,
-      "status": "mapped",
-      "deviceType": "AHU"
+      "mapping": {
+        "pointId": "point1",
+        "enosPoint": "AHU_raw_supply_air_temp",
+        "status": "mapped"
+      },
+      "original": {
+        "pointName": "AHU1_SAT",
+        "pointType": "Temperature",
+        "deviceType": "AHU",
+        "deviceId": "AHU1",
+        "unit": "°C",
+        "value": "N/A"
+      }
     }
   ],
   "stats": {
@@ -126,6 +137,11 @@ POST /api/bms/map-points
   }
 }
 ```
+
+**注意**: 
+- 如果未提供 `deviceType`，系统会自动尝试从点位名称推断设备类型
+- 例如，从 "CT_1.TripStatus" 推断出设备类型为 "CT"（冷却塔）
+- 批处理模式允许按设备类型分批处理大量点位，减少单次API负载
 
 **错误响应**:
 ```json

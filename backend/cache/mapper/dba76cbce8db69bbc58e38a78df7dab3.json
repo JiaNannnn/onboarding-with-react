@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_energy_active_total",
-  "point": "Energy.Quarterly-MWh",
-  "device_type": "Energy",
-  "timestamp": "2025-03-28T14:52:15.383000",
-  "model": "gpt-4o"
-}

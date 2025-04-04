@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_energy_active_total",
-  "point": "Energy.PAUEff",
-  "device_type": "Energy",
-  "timestamp": "2025-03-28T15:16:53.698514",
-  "model": "gpt-4o"
-}

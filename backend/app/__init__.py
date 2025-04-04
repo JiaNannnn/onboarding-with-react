@@ -33,21 +33,33 @@ def create_app(config_class=None):
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     
-    # Create a file handler for detailed logs
-    file_handler = RotatingFileHandler(
-        os.path.join(log_dir, 'api.log'), 
-        maxBytes=10485760,  # 10MB
-        backupCount=10
-    )
+    # Create a file handler for detailed logs with UTF-8 encoding
+    try:
+        file_handler = RotatingFileHandler(
+            os.path.join(log_dir, 'api.log'), 
+            maxBytes=10485760,  # 10MB
+            backupCount=10,
+            encoding='utf-8',  # Specify UTF-8 encoding
+            delay=True  # Delay file creation until first log record is emitted
+        )
+    except Exception as e:
+        print(f"Error creating log file handler: {str(e)}")
+        # Fallback to a dummy handler if file access fails
+        file_handler = logging.NullHandler()
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))
     file_handler.setLevel(logging.INFO)
     
-    # Create a console handler for immediate feedback
+    # Create a console handler for immediate feedback with UTF-8 encoding
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
     console_handler.setLevel(logging.INFO)
+    
+    # Force UTF-8 encoding for console output
+    import sys
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
     
     # Add the handlers to the app logger
     app.logger.addHandler(file_handler)

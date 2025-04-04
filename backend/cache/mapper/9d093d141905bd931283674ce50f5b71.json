@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_chilled_valve_status",
-  "point": "PAU-03-01.FilterChokeStatus",
-  "device_type": "PAU",
-  "timestamp": "2025-03-28T15:10:45.394327",
-  "model": "gpt-4o"
-}

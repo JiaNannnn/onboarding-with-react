@@ -1,5 +1,161 @@
 # Technical Guide for Developers
 
+## Frontend System Design Document / 前端系统设计文档
+
+### 1. Technology Stack Overview / 技术栈概述
+
+#### Core Technologies / 核心技术
+- **React 18.2.0**: Modern UI library with concurrent rendering features
+- **TypeScript 4.9.5**: Static typing for enhanced development experience
+- **React Router 6.30.0**: Client-side routing solution
+- **Axios**: HTTP client for API communication
+- **Handsontable**: Advanced data grid component
+- **Zod**: Runtime type checking and validation
+
+#### Development Tools / 开发工具
+- **ESLint**: Code linting with TypeScript support
+- **Prettier**: Code formatting
+- **Jest & Testing Library**: Unit and integration testing
+- **React Scripts**: Build and development tooling
+
+### 2. Project Architecture / 项目架构
+
+#### Directory Structure / 目录结构
+```
+src/
+├── api/          # API integration and service interfaces
+├── components/   # Reusable UI components
+├── contexts/     # React Context providers
+├── hooks/        # Custom React hooks
+├── pages/        # Route-level components
+├── router/       # Routing configuration
+├── services/     # Business logic and data processing
+├── types/        # TypeScript type definitions
+└── utils/        # Utility functions and helpers
+```
+
+#### Key Components / 核心组件
+- **API Layer**: Centralized API communication
+- **Component Library**: Reusable UI building blocks
+- **Context System**: Global state management
+- **Custom Hooks**: Shared component logic
+- **Routing System**: Application navigation
+- **Type System**: TypeScript interfaces and types
+
+### 3. Data Flow / 数据流
+
+#### State Management / 状态管理
+- React Context for global state
+- Component-level state using hooks
+- Props for component communication
+
+#### API Integration / API 集成
+- Centralized API client configuration
+- Type-safe API responses
+- Error handling middleware
+
+### 4. Key Features / 核心功能
+
+#### Data Grid Integration / 数据表格集成
+- Handsontable implementation
+- Custom cell renderers
+- Data validation and formatting
+
+#### Type Safety / 类型安全
+- TypeScript for static typing
+- Zod for runtime validation
+- Type-safe API responses
+
+### 5. Development Workflow / 开发工作流
+
+#### Scripts / 脚本命令
+- `npm start`: Development server
+- `npm run build`: Production build
+- `npm run typecheck`: Type checking
+- `npm run lint`: Code linting
+- `npm run format`: Code formatting
+
+#### Code Quality / 代码质量
+- ESLint configuration
+- Prettier formatting rules
+- TypeScript strict mode
+- Unit testing requirements
+
+### 6. Performance Considerations / 性能考虑
+
+#### Optimization Strategies / 优化策略
+- Code splitting
+- Lazy loading
+- Memoization
+- Virtual scrolling for large datasets
+
+#### Build Optimization / 构建优化
+- Tree shaking
+- Bundle size optimization
+- Asset optimization
+
+### 7. Security / 安全性
+
+#### Security Measures / 安全措施
+- Input validation
+- XSS prevention
+- CSRF protection
+- Secure HTTP headers
+
+### 8. Testing Strategy / 测试策略
+
+#### Testing Levels / 测试层级
+- Unit tests
+- Integration tests
+- Component tests
+- End-to-end tests
+
+### 9. Deployment / 部署
+
+#### Build Process / 构建流程
+- Environment configuration
+- Build optimization
+- Asset management
+
+#### Environment Variables / 环境变量
+- `.env` configuration
+- Environment-specific settings
+- Sensitive data handling
+
+### 10. Future Considerations / 未来展望
+
+#### Scalability / 可扩展性
+- Component modularity
+- Performance monitoring
+- Code maintainability
+
+#### Planned Improvements / 计划改进
+- State management evolution
+- Component library expansion
+- Testing coverage improvement
+
+---
+
+## Maintenance Guidelines / 维护指南
+
+### Code Style / 代码风格
+- Follow TypeScript best practices
+- Use functional components
+- Implement proper error handling
+- Document complex logic
+
+### Documentation / 文档
+- Keep README.md updated
+- Document new features
+- Maintain API documentation
+- Update this technical guide
+
+### Version Control / 版本控制
+- Follow Git workflow
+- Write meaningful commit messages
+- Review pull requests
+- Maintain change log
+
 ## Introduction
 
 This technical guide provides detailed information and best practices for developers working on the BMS to EnOS Onboarding Tool frontend. The guide covers type safety rules, coding standards, and key implementation patterns.
@@ -563,12 +719,15 @@ interface MapPointsRequest {
     pointType: string;
     unit?: string;
     description?: string;
+    deviceType?: string;  // Optional - will be inferred from pointName if not provided
+    deviceId?: string;    // Optional
   }>;
-  config: {
+  mappingConfig: {
     targetSchema: string;
     matchingStrategy: 'strict' | 'fuzzy' | 'ai';
-    confidence: number;
-    transformationRules: Record<string, string>;
+    batchMode?: boolean;  // Optional - enables batch processing mode
+    batchSize?: number;   // Optional - number of points per batch (default: 50)
+    deviceTypes?: string[]; // Optional - device types to prioritize processing
   };
 }
 ```
@@ -577,535 +736,275 @@ interface MapPointsRequest {
 ```typescript
 interface MapPointsResponse {
   success: boolean;
+  taskId?: string;  // For async processing in batch mode
+  status?: 'processing' | 'completed' | 'error';
+  progress?: number; // Percentage complete for batch operations
   mappings?: Array<{
-    pointId: string;
-    status: 'mapped' | 'error';
-    enosPath?: string;
-    confidence?: number;
-    error?: string;
+    mapping: {
+      pointId: string;
+      enosPoint: string;
+      status: 'mapped' | 'error';
+      error?: string;
+    },
+    original: {
+      pointName: string;
+      pointType: string;
+      deviceType: string;
+      deviceId: string;
+      unit: string;
+      value: string;
+    }
   }>;
+  stats?: {
+    total: number;
+    mapped: number;
+    errors: number;
+  };
   error?: string;
 }
 ```
 
+**Batch Processing Status Check:**
+```
+GET /api/v1/map-points/{task_id}?includePartial=true
+```
+
+Check status of an ongoing batch mapping operation. The `includePartial` parameter (optional) returns partial results for completed batches.
+
 **Example Usage:**
 ```typescript
-const response = await request<MapPointsResponse>({
+// Start mapping process
+const startResponse = await request<MapPointsResponse>({
   url: '/bms/map-points',
   method: 'POST',
   data: {
     points: selectedPoints,
-    config: mappingConfig
+    mappingConfig: {
+      targetSchema: 'enos',
+      matchingStrategy: 'ai',
+      batchMode: true,
+      batchSize: 20,
+      deviceTypes: ['AHU', 'FCU', 'CH']
+    }
   }
 });
+
+// If batch mode, check status with taskId
+if (startResponse.taskId) {
+  const statusResponse = await request<MapPointsResponse>({
+    url: `/bms/map-points/${startResponse.taskId}`,
+    method: 'GET',
+    params: {
+      includePartial: true  // Include partial results from completed batches
+    }
+  });
+  
+  // Display progress to user
+  console.log(`Mapping progress: ${statusResponse.progress}%`);
+}
 ```
 
-## Component Documentation
+**Important Notes:**
+- The API now supports batch processing mode for large point sets
+- When deviceType is not provided, the system attempts to infer it from the point name
+- Example: "CT_1.TripStatus" -> Device Type: "CT"
+- Progress tracking and partial results are available for batch operations
 
-### MapPoints Component
+## Project-Specific Implementation / 项目具体实现
 
-The MapPoints component provides a comprehensive interface for mapping BMS points to EnOS schema paths. It supports multiple mapping strategies, validation rules, and preview functionality.
+### 1. BMS to EnOS Mapping Core Features / BMS到EnOS映射核心功能
 
-#### Features
+#### Point Mapping Implementation / 点位映射实现
+- **File Upload Support**: 
+  - CSV and JSON format support
+  - Automatic format detection and parsing
+  - Robust error handling for malformed data
+  - Batch processing capabilities
 
-- Point selection and filtering
-- Multiple mapping strategies (strict, fuzzy, AI-assisted)
-- Configurable confidence thresholds
-- Custom transformation rules
-- Validation rules with visual feedback
-- Preview functionality before mapping
-- Mapping statistics visualization
+- **Mapping Interface**: 
+  - Interactive data grid using Handsontable
+  - Real-time validation and feedback
+  - Custom cell renderers for different data types
+  - Pagination for large datasets
+  - Column sorting and filtering
 
-#### Component Structure
+- **AI-Assisted Mapping**:
+  - Integration with OpenAI for intelligent point mapping
+  - Multiple mapping strategies (strict/fuzzy/AI)
+  - Confidence score display
+  - Manual override capabilities
 
+#### Data Processing Features / 数据处理功能
+- **CSV Processing**:
+  ```typescript
+  const parseCSV = (csvText: string): BMSPoint[] => {
+    // Handles quoted values and special characters
+    // Supports flexible column mapping
+    // Automatic type inference
+    // Validation of required fields
+  };
+  ```
+
+- **Batch Processing**:
+  ```typescript
+  interface BatchConfig {
+    batchSize: number;
+    totalBatches: number;
+    processedBatches: number;
+    status: 'processing' | 'completed' | 'error';
+  }
+  ```
+
+### 2. Core Components / 核心组件
+
+#### MapPoints Component / 映射点位组件
+- **Features**:
+  - File upload and parsing
+  - Data grid display and editing
+  - Mapping execution and status tracking
+  - Export functionality
+  - Error handling and validation
+
+- **Key Methods**:
+  ```typescript
+  const handleMapPoints = async () => {
+    // Initiates the mapping process
+    // Handles API communication
+    // Updates UI with progress
+    // Manages error states
+  };
+
+  const exportMappingsToCSV = async () => {
+    // Formats mapped data
+    // Generates CSV file
+    // Handles download
+  };
+  ```
+
+#### GroupPoints Component / 点位分组组件
+- **Features**:
+  - Automatic grouping by device type
+  - Manual group creation and editing
+  - Drag-and-drop point management
+  - Group hierarchy visualization
+  - Search and filter capabilities
+
+### 3. State Management / 状态管理
+
+#### Mapping Context / 映射上下文
 ```typescript
-interface MappedPoint extends BMSPoint {
-  enosPath?: string;
-  mappingStatus?: 'mapped' | 'unmapped' | 'error';
-  mappingError?: string;
-  confidence?: number;
-  validationErrors?: string[];
-}
-
-interface MappingConfig {
-  targetSchema: string;
-  matchingStrategy: 'strict' | 'fuzzy' | 'ai';
-  confidence: number;
-  transformationRules: Record<string, string>;
-}
-
-interface ValidationRule {
-  id: string;
-  name: string;
-  description: string;
-  validate: (point: MappedPoint) => boolean;
-  errorMessage: string;
-}
-```
-
-#### Usage Example
-
-```typescript
-import { MapPoints } from '../pages/MapPoints';
-
-function App() {
-  return (
-    <Router>
-      <Route path="/map-points" component={MapPoints} />
-    </Router>
-  );
-}
-```
-
-#### Configuration Options
-
-1. Target Schemas:
-   - Default EnOS Schema
-   - HVAC Systems
-   - Lighting Systems
-   - Energy Management
-   - Custom Schema
-
-2. Matching Strategies:
-   - Strict Matching: Exact matches only
-   - Fuzzy Matching: Approximate string matching
-   - AI-Assisted Matching: Uses AI to determine best matches
-
-3. Validation Rules:
-   - No Special Characters: EnOS paths should not contain special characters
-   - Minimum Path Segments: EnOS paths should have at least 3 segments
-   - Maximum Path Segments: EnOS paths should have no more than 5 segments
-
-#### Styling
-
-The component uses a modular CSS approach with BEM naming convention. Key style classes:
-
-```css
-.map-points__content      // Main container
-.map-points__toolbar     // Top actions bar
-.map-points__table      // Points table
-.map-points__config     // Configuration panel
-.map-points__preview    // Preview panel
-.map-points__stats     // Statistics panel
-```
-
-Custom styling can be applied by overriding these classes in your CSS files.
-
-#### Best Practices
-
-1. Error Handling:
-   - Always validate points before mapping
-   - Display clear error messages
-   - Provide validation feedback inline
-
-2. Performance:
-   - Use pagination for large datasets
-   - Implement debounced search
-   - Cache mapping results when possible
-
-3. User Experience:
-   - Show loading states during mapping
-   - Provide clear feedback on mapping status
-   - Allow easy navigation of validation errors
-
-4. Accessibility:
-   - Include ARIA labels
-   - Ensure keyboard navigation
-   - Provide high contrast visual indicators
-
-### SavedMappings Component
-
-The SavedMappings component provides a comprehensive interface for managing, viewing, and exporting saved mappings. It allows users to browse all saved mapping files, view their contents, download them, and export them to EnOS for deployment.
-
-#### Features
-
-- Display list of saved mapping files
-- Search and filter mappings
-- Sort mappings by filename, size, or modification date
-- View detailed mapping contents
-- Download mapping files
-- Export mappings to EnOS format
-- Error handling and feedback
-
-#### Component Structure
-
-```typescript
-interface SavedMapping {
+interface MappingContextType {
+  mappings: PointMapping[];
+  setMappings: (mappings: PointMapping[]) => void;
   filename: string;
-  filepath: string;
-  size: number;
-  modified: string;
-}
-
-interface MappingData {
-  enosEntity: string;
-  enosPoint: string;
-  rawPoint: string;
-  rawUnit: string;
-  rawFactor: number;
-  [key: string]: unknown;
+  setFilename: (name: string) => void;
+  // Additional context methods
 }
 ```
 
-#### Usage Example
-
+#### Points Context / 点位上下文
 ```typescript
-import { SavedMappings } from '../pages/SavedMappings';
-
-function App() {
-  return (
-    <Router>
-      <Route path="/saved-mappings" component={SavedMappings} />
-    </Router>
-  );
-}
-```
-
-#### API Integration
-
-The component integrates with the following API endpoints:
-
-1. List Saved Files (`GET /api/bms/list-saved-files`)
-2. Load CSV (`POST /api/bms/load-csv`)
-3. Download File (`GET /api/bms/download-file`)
-4. Export Mapping (`POST /api/bms/export-mapping`)
-
-#### Styling
-
-The component uses a modular CSS approach with BEM naming convention. Key style classes:
-
-```css
-.saved-mappings__content      // Main container
-.saved-mappings__toolbar     // Top actions bar
-.saved-mappings__table      // Mappings table
-.saved-mappings__actions    // Action buttons container
-.saved-mappings__details    // Details modal content
-```
-
-Custom styling can be applied by overriding these classes in your CSS files.
-
-#### Best Practices
-
-1. Error Handling:
-   - Provide clear feedback for API failures
-   - Show appropriate messages for empty states
-   - Handle export failures gracefully
-
-2. Performance:
-   - Only load mapping details when requested
-   - Implement search filtering on the client side
-   - Use pagination for very large lists of files
-
-3. User Experience:
-   - Provide sorting capabilities for better organization
-   - Allow filtering by filename
-   - Show file size in human-readable format
-
-4. Export Workflow:
-   - Provide confirmation of successful exports
-   - Display detailed error messages for failed exports
-   - Allow downloading the original file and the exported version
-
-### AssetSelector Component
-
-The AssetSelector component provides a flexible and user-friendly interface for selecting assets from a list. It includes advanced filtering, search capabilities, pagination, and detail view functionality.
-
-#### Features
-
-- Asset listing with card-based UI
-- Search functionality for finding assets by name, type, or description
-- Filtering assets by type
-- Pagination for large asset lists
-- Detailed view of selected assets
-- Status indicators for asset health
-- Responsive design
-
-#### Component Structure
-
-```typescript
-interface Asset {
-  id: string;
-  name: string;
-  type: string;
-  deviceCount?: number;
-  description?: string;
-  location?: string;
-  status?: 'active' | 'inactive' | 'maintenance';
-  lastUpdated?: string;
-}
-
-interface AssetSelectorProps {
-  assets: Asset[];
-  selectedAssetId: string | null;
-  onAssetSelect: (assetId: string) => void;
-  isLoading?: boolean;
-  error?: string;
-  allowSearch?: boolean;
-  allowTypeFilter?: boolean;
-  pageSize?: number;
-}
-```
-
-#### Usage Example
-
-```typescript
-import { AssetSelector } from '../../components';
-import { useAssets } from '../../services/assetService';
-
-function MyComponent() {
-  const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
-  const { assets, isLoading, error } = useAssets({ mock: true });
-
-  return (
-    <AssetSelector
-      assets={assets}
-      selectedAssetId={selectedAssetId}
-      onAssetSelect={setSelectedAssetId}
-      isLoading={isLoading}
-      error={error || ''}
-      allowSearch={true}
-      allowTypeFilter={true}
-      pageSize={4}
-    />
-  );
-}
-```
-
-#### Styling
-
-The component uses a modular CSS approach with BEM naming convention. Key style classes:
-
-```css
-.asset-selector             // Main container
-.asset-selector__header     // Header with title and search
-.asset-selector__filters    // Type filters container
-.asset-selector__list       // List of asset cards
-.asset-selector__item       // Individual asset card
-.asset-selector__detail     // Detail view panel
-```
-
-Custom styling can be applied by overriding these classes in your CSS files.
-
-#### Asset Service Integration
-
-The component works seamlessly with the assetService for fetching and managing assets:
-
-```typescript
-// Using the hook
-const { assets, isLoading, error, refetch } = useAssets({
-  mock: true,                   // Use mock data for development
-  filterByStatus: 'active',     // Filter by status
-  filterByType: 'Office Building', // Filter by type
-  search: searchTerm           // Search term
-});
-
-// Direct API calls
-const fetchAssets = async () => {
-  try {
-    const assets = await fetchAssets({ 
-      mock: true,
-      orgId: 'my-organization'
-    });
-    // Do something with assets
-  } catch (error) {
-    // Handle error
-  }
-};
-```
-
-#### Best Practices
-
-1. Error Handling:
-   - Always display appropriate messages for loading states
-   - Show clear error messages when asset fetching fails
-   - Provide empty state UI when no assets are found
-
-2. Performance:
-   - Use pagination for large asset lists
-   - Implement debounced search to reduce API calls
-   - Lazily load asset details only when needed
-
-3. User Experience:
-   - Maintain selection state when filtering/searching
-   - Provide visual feedback for selected assets
-   - Use status indicators to show asset health at a glance
-
-4. Accessibility:
-   - Include proper ARIA labels for all interactive elements
-   - Ensure keyboard navigation works for all actions
-   - Maintain sufficient color contrast for status indicators
-
-### GroupPoints Component
-
-The GroupPoints component provides a powerful interface for organizing BMS points into logical groups. It supports both manual grouping and AI-assisted grouping, with drag-and-drop functionality for easily managing point assignments.
-
-#### Features
-
-- Manual creation and editing of point groups
-- AI-assisted grouping with multiple strategies
-- Drag-and-drop interface for point assignment
-- Group management (rename, delete, merge)
-- Visual representation of group hierarchies
-- Real-time filtering and search of points
-- Expandable/collapsible group view
-
-#### Component Structure
-
-```typescript
-interface GroupWithMetadata extends PointGroup {
-  expanded?: boolean;
-}
-
-// PointGroup from apiTypes.ts
-interface PointGroup {
-  id: string;
-  name: string;
-  description?: string;
+interface PointsContextType {
   points: BMSPoint[];
-  subgroups?: Record<string, PointGroup>;
+  setPoints: (points: BMSPoint[]) => void;
+  selectedPoints: string[];
+  setSelectedPoints: (ids: string[]) => void;
 }
 ```
 
-#### Usage Example
+### 4. Data Models / 数据模型
 
+#### BMS Point Structure / BMS点位结构
 ```typescript
-import GroupPoints from '../pages/GroupPoints';
-import { GroupingProvider } from '../contexts/GroupingContext';
-import { PointsProvider } from '../contexts/PointsContext';
-
-function App() {
-  return (
-    <PointsProvider>
-      <GroupingProvider>
-        <GroupPoints />
-      </GroupingProvider>
-    </PointsProvider>
-  );
+interface BMSPoint {
+  id: string;
+  pointName: string;
+  pointType: string;
+  unit?: string;
+  description?: string;
+  deviceType?: string;
+  deviceId?: string;
+  value?: string | number;
 }
 ```
 
-#### Grouping Context Integration
-
-The component relies on the GroupingContext for state management:
-
+#### Mapping Result Structure / 映射结果结构
 ```typescript
-const {
-  groups,
-  loading,
-  error,
-  addGroup,
-  removeGroup,
-  updateGroup,
-  addPointToGroup,
-  removePointFromGroup,
-  movePoint,
-  clearGroups,
-  setGroupingStrategy
-} = useGroupingContext();
-```
-
-#### AI-Assisted Grouping
-
-The component provides three grouping strategies:
-
-1. **Default Grouping**: Groups points by device type and instance
-2. **AI-Assisted Grouping**: Uses AI to analyze point names and group by equipment
-3. **Ontology-Based Grouping**: Uses industry standard ontologies to identify equipment
-
-Example of AI grouping call:
-
-```typescript
-const response = await groupPointsWithAI(points, {
-  apiGateway: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-  accessKey: '',
-  secretKey: '',
-  orgId: '',
-  assetId: ''
-});
-
-if (response.success && response.grouped_points) {
-  // Process grouped points
-  const newGroups: Record<string, PointGroup> = {};
-  
-  Object.entries(response.grouped_points).forEach(([key, value]) => {
-    const groupId = `group-${Date.now()}-${key}`;
-    newGroups[groupId] = {
-      id: groupId,
-      name: value.name,
-      description: value.description,
-      points: value.points,
-      subgroups: {} // Initialize empty subgroups
-    };
-  });
-  
-  // Clear existing groups and set the new ones
-  clearGroups();
-  Object.entries(newGroups).forEach(([key, group]) => {
-    addGroup(key, group);
-  });
+interface PointMapping {
+  mapping: {
+    pointId: string;
+    enosPoint: string;
+    status: 'mapped' | 'error';
+    error?: string;
+  };
+  original: {
+    pointName: string;
+    pointType: string;
+    deviceType: string;
+    deviceId: string;
+    unit: string;
+    value: string;
+  };
 }
 ```
 
-#### Drag and Drop Functionality
+### 5. Project Configuration / 项目配置
 
-The component implements drag-and-drop for:
+#### Environment Variables / 环境变量
+```bash
+# Required Environment Variables
+REACT_APP_API_BASE_URL=http://localhost:5000
+REACT_APP_OPENAI_API_KEY=your-api-key
+REACT_APP_ENOS_ORG_ID=your-org-id
 
-1. Moving points between groups
-2. Merging groups (by dragging one group onto another)
+# Optional Environment Variables
+REACT_APP_BATCH_SIZE=50
+REACT_APP_ENABLE_MOCK_API=false
+REACT_APP_DEBUG_MODE=false
+```
 
-Example drag handlers:
-
-```typescript
-// Point drag start
-const handlePointDragStart = (e: React.DragEvent, pointId: string) => {
-  e.dataTransfer.setData('pointId', pointId);
-  setDraggedPointId(pointId);
-  e.dataTransfer.effectAllowed = 'move';
-};
-
-// Group drop handler
-const handleGroupDrop = (e: React.DragEvent, groupId: string) => {
-  e.preventDefault();
-  const pointId = e.dataTransfer.getData('pointId');
-  const draggedGroup = e.dataTransfer.getData('groupId');
-  
-  if (pointId && !draggedGroup) {
-    // Point drop logic
-    // ...
-  } else if (draggedGroup && draggedGroup !== groupId) {
-    // Group merge logic
-    // ...
+#### Build Configuration / 构建配置
+```json
+{
+  "build": {
+    "outDir": "build",
+    "target": "es2018",
+    "sourcemap": true,
+    "optimization": {
+      "minimize": true,
+      "splitChunks": {
+        "chunks": "all"
+      }
+    }
   }
-};
+}
 ```
 
-#### Modal Dialogs
+### 6. Development Guidelines / 开发指南
 
-The component uses modal dialogs for:
+#### Code Organization / 代码组织
+- **Feature-based Structure**:
+  ```
+  src/
+  ├── features/
+  │   ├── mapping/
+  │   │   ├── components/
+  │   │   ├── hooks/
+  │   │   └── services/
+  │   └── grouping/
+  │       ├── components/
+  │       ├── hooks/
+  │       └── services/
+  ```
 
-1. Creating/editing groups
-2. Confirming group deletion
+#### Testing Strategy / 测试策略
+- Unit tests for utility functions
+- Integration tests for API services
+- Component tests for UI elements
+- End-to-end tests for critical workflows
 
-#### Best Practices
-
-1. Group Organization:
-   - Group points by equipment type
-   - Maintain consistent naming conventions
-   - Provide clear descriptions
-
-2. Performance:
-   - Use filtering to manage large point sets
-   - Expand only groups you're actively working with
-   - Use AI grouping for initial organization, then refine manually
-
-3. User Experience:
-   - Use drag-and-drop for intuitive management
-   - Provide keyboard shortcuts for common actions
-   - Use clear visual indicators for group status and selection
-
-4. Accessibility:
-   - Ensure keyboard navigation for all interactive elements
-   - Include appropriate ARIA attributes
-   - Maintain high contrast for visual indicators
-
-// ... existing code... 
+#### Performance Optimization / 性能优化
+- Implement virtual scrolling for large datasets
+- Use React.memo for expensive components
+- Implement debounced search
+- Cache API responses

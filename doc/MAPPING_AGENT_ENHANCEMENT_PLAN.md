@@ -363,6 +363,23 @@ After implementing the above changes, we expect:
 
 4. Clear validation warnings when schema issues are detected, preventing silent failures.
 
+## Implemented Enhancements
+
+The following enhancements have been implemented to improve the mapping functionality:
+
+1. **Device Type Inference**: The system now automatically infers device types from point names when not provided
+   - Example: "CT_1.TripStatus" → Device Type: "CT"
+   - Implemented in `_infer_device_type_from_name` function
+
+2. **Improved Prefix Handling**: Corrected issues with missing or incorrect prefixes in EnOS point names
+   - Added detection and fixing of missing prefixes (e.g., "_raw_generic_point")
+   - Enhanced validation to ensure device type prefixes match
+
+3. **Batch Processing Mode**: Added support for processing large point sets in batches
+   - Points grouped by device type for more focused processing
+   - Progress tracking with partial results availability
+   - Prioritization of specific device types
+
 ## Future Considerations
 
 After addressing the immediate issues, the following enhancements should be considered:
@@ -377,4 +394,6 @@ After addressing the immediate issues, the following enhancements should be cons
 
 5. **Schema Registration**: Implement formal schema versioning and management to prevent future compatibility issues.
 
-By systematically implementing these changes, we can transform the MappingAgent from a component with a 0% success rate to a reliable and adaptable part of the onboarding pipeline.
+6. **Enhanced Prefix Validation**: Expand the validation rules for prefixes based on customer feedback.
+
+By systematically implementing these changes, we have transformed the MappingAgent from a component with a 0% success rate to a reliable and adaptable part of the onboarding pipeline.

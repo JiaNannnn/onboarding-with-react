@@ -186,6 +186,10 @@ export interface PointMapping {
   confidence?: number;         // AI confidence score for the mapping
   pointCategory?: string;      // EnOS point category
   status?: string;             // Mapping status
+  id?: string;                 // ID for finding matching points
+  deviceType?: string;         // Device type
+  unit?: string;               // Unit of measurement
+  description?: string;        // Description or error information
 }
 
 /**

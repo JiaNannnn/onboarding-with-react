@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_energy_active_total",
-  "point": "Energy.AHURT",
-  "device_type": "Energy",
-  "timestamp": "2025-03-28T15:12:05.965201",
-  "model": "gpt-4o"
-}

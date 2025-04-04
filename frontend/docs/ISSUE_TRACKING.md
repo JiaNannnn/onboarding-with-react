@@ -99,49 +99,75 @@ When creating a new issue, include:
 
 ### Critical Issues (P0)
 
-*None at this time*
+1. **AI Mapping Response Format**
+   - **Description**: AI mapping responses are not following the expected format defined in enos.json
+   - **Category**: Bug
+   - **Assigned To**: David
+   - **Status**: In Progress
+   - **Impact**: Affects core mapping functionality
+   - **Solution**: Implementing structured JSON response format and validation
 
 ### High Priority Issues (P1)
 
-1. **API Client Environment Variables**
-   - **Description**: The API client uses `process.env` which is not available in browser environments without configuration
-   - **Category**: Bug
-   - **Assigned To**: Unassigned
-   - **Status**: Open
+1. **OpenAI Agents SDK Integration**
+   - **Description**: Need to integrate and properly configure OpenAI Agents SDK for mapping
+   - **Category**: Enhancement
+   - **Assigned To**: David
+   - **Status**: In Progress
+   - **Impact**: Required for AI-assisted mapping functionality
 
-2. **React Types Missing**
-   - **Description**: React type declarations are missing, causing TypeScript errors
+2. **Mapping Validation Enhancement**
+   - **Description**: Current mapping validation needs to be enhanced to handle new response format
+   - **Category**: Enhancement
+   - **Assigned To**: David
+   - **Status**: In Progress
+   - **Impact**: Affects mapping accuracy and reliability
+
+3. **Schema Validation Implementation**
+   - **Description**: Need to implement proper validation against enos.json schema
    - **Category**: Technical Debt
-   - **Assigned To**: Unassigned
-   - **Status**: Open
+   - **Assigned To**: David
+   - **Status**: In Progress
+   - **Impact**: Critical for ensuring mapping quality
 
 ### Medium Priority Issues (P2)
 
-1. **Enhanced Error Handling for API Responses**
-   - **Description**: Improve error handling for different API response scenarios
-   - **Category**: Enhancement
+1. **Batch Processing Status**
+   - **Description**: Batch processing status updates are not properly reflected in UI
+   - **Category**: Bug
    - **Assigned To**: Unassigned
    - **Status**: Open
+   - **Impact**: Affects user experience during large mapping operations
 
-2. **Type-Safe Form Validation**
-   - **Description**: Implement a comprehensive type-safe form validation system
+2. **Error Message Localization**
+   - **Description**: Error messages need to support both English and Chinese
    - **Category**: Enhancement
    - **Assigned To**: Unassigned
    - **Status**: Open
+   - **Impact**: Affects user experience for Chinese users
+
+3. **Generic Point Mapping**
+   - **Description**: System falls back to generic point mapping too frequently
+   - **Category**: Bug
+   - **Assigned To**: David
+   - **Status**: Under Investigation
+   - **Impact**: Affects mapping quality
 
 ### Low Priority Issues (P3)
 
-1. **Code Documentation Improvements**
-   - **Description**: Add more detailed JSDoc comments to utility functions
-   - **Category**: Technical Debt
+1. **Performance Optimization**
+   - **Description**: Need to optimize performance for large datasets
+   - **Category**: Enhancement
    - **Assigned To**: Unassigned
    - **Status**: Open
+   - **Impact**: Affects performance with large point sets
 
-2. **Component Test Suite**
-   - **Description**: Set up testing infrastructure for components
-   - **Category**: Technical Debt
+2. **Documentation Updates**
+   - **Description**: Need to update documentation with latest changes
+   - **Category**: Documentation
    - **Assigned To**: Unassigned
    - **Status**: Open
+   - **Impact**: Affects maintainability
 
 ## Issue Resolution Workflow
 
@@ -162,32 +188,59 @@ Technical debt is managed with the following approach:
 4. **Allocation**: 20% of development time is allocated to addressing technical debt
 5. **Tracking**: Technical debt reduction is tracked and reported
 
-## Current Technical Debt Items
+## Technical Debt Items
 
 | ID | Description | Category | Priority | Status |
 |----|-------------|----------|----------|--------|
-| TD-1 | Missing React type definitions | Type Safety | P1 | Open |
-| TD-2 | API client environment configuration | Architecture | P1 | Open |
-| TD-3 | Lack of comprehensive testing | Test Debt | P2 | Open |
-| TD-4 | Incomplete component documentation | Documentation | P3 | Open |
-
-## Quality Metrics
-
-We track the following quality metrics:
-
-1. **Open Issues**: Total number of open issues
-2. **Issue Age**: Average age of open issues
-3. **Resolution Time**: Average time to resolve issues
-4. **Regression Rate**: Frequency of reintroduced issues
-5. **Type Safety Score**: Percentage of code with proper type safety
+| TD-1 | OpenAI Agents SDK Integration | Architecture | P1 | In Progress |
+| TD-2 | Schema Validation | Type Safety | P1 | In Progress |
+| TD-3 | Error Message Localization | Architecture | P2 | Open |
+| TD-4 | Performance Optimization | Performance | P3 | Open |
+| TD-5 | Documentation Updates | Documentation | P3 | Open |
 
 ## Current Quality Metrics
 
-- **Open Issues**: 8
-- **Issue Age**: N/A (tracking just started)
-- **Resolution Time**: N/A (tracking just started)
-- **Regression Rate**: N/A (tracking just started)
-- **Type Safety Score**: 85% (estimated)
+- **Open Issues**: 9
+- **Critical Issues**: 1
+- **High Priority Issues**: 3
+- **Medium Priority Issues**: 3
+- **Low Priority Issues**: 2
+- **Technical Debt Items**: 5
+- **Type Safety Score**: 90% (improved from 85%)
+
+## Recent Challenges
+
+1. **AI Integration**:
+   - Integration with OpenAI Agents SDK requires careful configuration
+   - Need to ensure proper error handling and retry logic
+   - Response format needs standardization
+
+2. **Validation Logic**:
+   - Schema validation needs to be more robust
+   - Need to handle various edge cases in point mapping
+   - Better error reporting needed
+
+3. **Performance**:
+   - Large datasets can cause performance issues
+   - Need to implement better pagination and lazy loading
+   - Memory usage optimization needed
+
+## Action Items
+
+1. **Immediate Actions**:
+   - Complete OpenAI Agents SDK integration
+   - Implement structured response format
+   - Enhance schema validation
+
+2. **Short-term Actions**:
+   - Address batch processing status issues
+   - Implement error message localization
+   - Optimize performance for large datasets
+
+3. **Long-term Actions**:
+   - Complete documentation updates
+   - Implement comprehensive testing
+   - Address remaining technical debt
 
 ## Issue Review Meetings
 

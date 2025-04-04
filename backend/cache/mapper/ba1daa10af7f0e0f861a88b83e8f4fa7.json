@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_chilled_water_flow",
-  "point": "Header.hcwf-gpm",
-  "device_type": "Header",
-  "timestamp": "2025-03-28T15:16:40.075647",
-  "model": "gpt-4o"
-}

@@ -176,14 +176,6 @@
   font-size: 0.9em;
 }
 
-.points-table__confidence {
-  font-size: 0.8em;
-  padding: 1px 4px;
-  background-color: #e6f4ea;
-  border: 1px solid #c6e7d1;
-  border-radius: 3px;
-  color: #1e7e34;
-}
 
 .points-table__empty-value {
   color: #999;

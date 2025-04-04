@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "AHU-01.FilterChokeStatus",
-  "device_type": "AHU",
-  "timestamp": "2025-03-28T14:52:47.860297",
-  "model": "gpt-4o"
-}

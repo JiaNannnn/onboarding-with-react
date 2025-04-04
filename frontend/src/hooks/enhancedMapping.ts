@@ -9,6 +9,24 @@
 import { BMSPoint } from '../types/apiTypes';
 import { MapPointsToEnOSResponse, MappingConfig } from '../api/bmsClient';
 
+// Quality assessment for mapping results
+export interface MappingQualityResult {
+  mappingId: string;
+  qualitySummary: {
+    excellent: number;
+    good: number;
+    fair: number;
+    poor: number;
+    unacceptable: number;
+  };
+  pointsWithPoorQuality: Array<{
+    pointId: string;
+    pointName: string;
+    mappingQuality: string;
+    issues: string[];
+  }>;
+}
+
 /**
  * Map BMS points to EnOS schema using enhanced local mapping only
  */
@@ -37,7 +55,8 @@ export function enhancedMapPointsToEnOS(
     // Determine point category based on point name/type
     const pointNameLower = point.pointName.toLowerCase();
     let pointCategory = 'generic';
-    let confidence = 0.75;
+    // Note: confidence is no longer in the interface but we keep it for local processing
+    let confidence = 0.75; 
     let enosPath = '';
     
     // Specialized mapping logic based on device type and point name
@@ -500,8 +519,6 @@ export function enhancedMapPointsToEnOS(
         enosPath = `${deviceType}_raw_${pointCategory}`;
       }
       
-      // Adjust confidence down for these default mappings
-      confidence = Math.max(confidence - 0.15, 0.6);
     }
 
     // Return the mapped point with properly typed status
@@ -514,7 +531,7 @@ export function enhancedMapPointsToEnOS(
       pointCategory: pointCategory,
       enosPath: enosPath,
       unit: point.unit,
-      confidence: confidence,
+      // Keep confidence for internal calculations but it won't be in the final types
       status: 'mapped' as 'mapped',  // Type assertion to satisfy TypeScript
       mappingSource: 'client-side'   // Add source information
     };
@@ -526,6 +543,8 @@ export function enhancedMapPointsToEnOS(
     enosPoint: point.pointCategory || 'unknown' // Add enosPoint from pointCategory for compatibility
   }));
 
+  // Calculate average confidence for debugging only
+
   // Create a success response
   const response: MapPointsToEnOSResponse = {
     success: true,
@@ -535,11 +554,209 @@ export function enhancedMapPointsToEnOS(
       mapped: formattedMappings.length,
       errors: 0,
       deviceCount: Array.from(new Set(formattedMappings.map(p => p.deviceId))).length,
-      deviceTypes: Array.from(new Set(formattedMappings.map(p => p.deviceType))).length,
-      confidenceAvg: formattedMappings.reduce((sum, p) => sum + p.confidence, 0) / formattedMappings.length
+      deviceTypes: Array.from(new Set(formattedMappings.map(p => p.deviceType))).length
     }
   };
 
   // Return the response wrapped in a Promise
   return Promise.resolve(response);
+}
+
+/**
+ * Analyze mapping quality to identify mappings that need improvement
+ * @param mappings The mapping results to analyze
+ * @returns Quality assessment results with suggestions for improvement
+ */
+export function analyzeMappingQuality(
+  mappings: MapPointsToEnOSResponse
+): MappingQualityResult {
+  // Initialize quality counters
+  const qualitySummary = {
+    excellent: 0,
+    good: 0,
+    fair: 0,
+    poor: 0,
+    unacceptable: 0
+  };
+  
+  // Array to hold points with poor quality mappings
+  const pointsWithPoorQuality: Array<{
+    pointId: string;
+    pointName: string;
+    mappingQuality: string;
+    issues: string[];
+  }> = [];
+  
+  // Unique ID for this mapping analysis
+  const mappingId = `mapping_${Date.now()}`;
+  
+  // Helper function to check if enosPoint is valid according to the schema
+  const isValidEnosPoint = (deviceType: string, enosPoint: string): boolean => {
+    // Define valid point prefixes for each device type
+    const validPrefixes: Record<string, string[]> = {
+      'CH': ['CH_raw_', 'CH_write_'],
+      'CHILLER': ['CH_raw_', 'CH_write_'],
+      'AHU': ['AHU_raw_', 'AHU_write_'],
+      'FCU': ['FCU_raw_', 'FCU_write_'],
+      'PUMP': ['PUMP_raw_', 'PUMP_write_'],
+      'PU': ['PUMP_raw_', 'PUMP_write_'],
+      'CT': ['CT_raw_', 'CT_write_'],
+      'COOLING TOWER': ['CT_raw_', 'CT_write_'],
+      'CHPL': ['CHPL_raw_', 'CHPL_write_'],
+      'CHILLER PLANT': ['CHPL_raw_', 'CHPL_write_']
+    };
+
+    // Points that should not contain 'generic' regardless of their prefix
+    // This is our validation list - any point ending with these is considered valid
+    const validPointSuffixes: Record<string, string[]> = {
+      'CH': ['status', 'trip', 'temp_chws', 'temp_chwr', 'temp_evap', 'temp_cws', 'temp_cwr', 
+             'power_active_total', 'energy_active_total', 'sp_temp_chws', 'chilled_valve_status',
+             'cooling_valve_status', 'chilled_water_flow', 'cooling_water_flow', 'cooling_heating_mode', 'fla'],
+      'PUMP': ['status', 'trip', 'power_active_total', 'energy_active_total', 'flow', 'pressure', 'speed'],
+      'CT': ['status', 'trip', 'on_off_command', 'temp_cwe', 'temp_cwl', 'valve_status_cwe',
+             'valve_status_cwl', 'power_active_total', 'energy_active_total'],
+      'CHPL': ['load_building', 'temp_chws_header', 'temp_chwr_header', 'flow_chws_header',
+               'chws_pressure', 'chwr_pressure', 'flow_chwr_header', 'power_active_total',
+               'energy_active_total', 'sp_temp_chws', 'sp_delta_pressure_header', 'delta_pressure_header'],
+      'AHU': ['status', 'trip', 'cooling_heating_mode_command', 'energy_active_total',
+              'ra_damper_position', 'return_air_co2', 'on_off_command', 'return_air_humidity',
+              'sp_ra_damper_position', 'supply_air_temp', 'return_air_temp', 'outside_air_temp',
+              'static_pressure', 'oa_damper_position', 'supply_air_fan_speed', 'air_flow'],
+      'FCU': ['chw_valve_status', 'cooling_heating_mode', 'hw_valve_status', 'local_mode',
+              'local_mode_command', 'on_off_command', 'status', 'trip', 'zone_air_temp',
+              'zone_occupancy', 'sp_supply_air_co2', 'fan_speed_command', 'fan_speed',
+              'sp_zone_air_temp', 'sp_zone_air_temp_command', 'supply_air_temp']
+    };
+    
+    // First check if it's a valid device type
+    if (!validPrefixes[deviceType]) {
+      return false; // Unknown device type
+    }
+    
+    // Normalize deviceType for lookup
+    const normalizedDeviceType = deviceType === 'CHILLER' ? 'CH' : 
+                                deviceType === 'PU' ? 'PUMP' : 
+                                deviceType === 'COOLING TOWER' ? 'CT' : 
+                                deviceType === 'CHILLER PLANT' ? 'CHPL' : 
+                                deviceType;
+    
+    // Check if it has a valid prefix
+    const hasValidPrefix = validPrefixes[deviceType].some(prefix => 
+      enosPoint.startsWith(prefix)
+    );
+    
+    if (!hasValidPrefix) {
+      return false; // Invalid prefix
+    }
+    
+    // It has a valid prefix, now check if it contains 'generic'
+    if (enosPoint.toLowerCase().includes('generic')) {
+      return false; // Contains 'generic', so it's not a specific point type
+    }
+    
+    // Check if it has a valid suffix
+    const validSuffixes = validPointSuffixes[normalizedDeviceType] || [];
+    return validSuffixes.some(suffix => 
+      enosPoint.endsWith(suffix)
+    );
+  };
+
+  // Process each mapping to assess quality
+  if (mappings.mappings) {
+    mappings.mappings.forEach(mapping => {
+      const issues: string[] = [];
+      
+      // Original and mapping structure support
+      const mappingData = mapping.original && mapping.mapping 
+        ? { 
+            pointId: mapping.mapping.pointId,
+            pointName: mapping.original.pointName,
+            deviceType: mapping.original.deviceType,
+            enosPoint: mapping.mapping.enosPoint
+          }
+        : mapping;
+      
+      // Check for missing or unknown point type
+      if (!mappingData.enosPoint || mappingData.enosPoint === 'unknown' || mappingData.enosPoint === null) {
+        issues.push('Unknown point type');
+      }
+      
+      // Check for missing or unknown device type
+      if (!mappingData.deviceType || mappingData.deviceType === 'UNKNOWN') {
+        issues.push('Unknown device type');
+      }
+      
+      // Check for generic mapping
+      if (mappingData.enosPoint && 
+          (typeof mappingData.enosPoint === 'string') && 
+          mappingData.enosPoint.toLowerCase().includes('generic')) {
+        issues.push('Generic mapping used');
+        
+        // Try to suggest a better mapping
+        if (mappingData.pointName && mappingData.deviceType) {
+          const pointName = mappingData.pointName.toLowerCase();
+          const deviceType = mappingData.deviceType;
+          
+          // Suggest better mappings for common patterns
+          if (pointName.includes('trip') || pointName.includes('fault') || pointName.includes('alarm')) {
+            issues.push(`Suggestion: Map to ${deviceType}_raw_trip instead of generic point`);
+          } else if (pointName.includes('status') || pointName.includes('state') || pointName.includes('run')) {
+            issues.push(`Suggestion: Map to ${deviceType}_raw_status instead of generic point`);
+          }
+        }
+      }
+      
+      // Check if the enos point is valid according to the schema
+      if (mappingData.enosPoint && mappingData.deviceType && 
+          typeof mappingData.enosPoint === 'string' && 
+          !mappingData.enosPoint.toLowerCase().includes('generic')) {
+        
+        if (!isValidEnosPoint(mappingData.deviceType, mappingData.enosPoint)) {
+          issues.push(`Invalid enosPoint: ${mappingData.enosPoint} is not a valid point for ${mappingData.deviceType}`);
+        }
+      }
+      
+      // Assess mapping quality based on issues count
+      let mappingQuality = 'fair';
+      
+      if (issues.length === 0) {
+        mappingQuality = 'excellent';
+        qualitySummary.excellent++;
+      } else if (issues.length === 1 && !issues.includes('Unknown point type')) {
+        mappingQuality = 'good';
+        qualitySummary.good++;
+      } else if (issues.length <= 2) {
+        mappingQuality = 'fair';
+        qualitySummary.fair++;
+      } else if (issues.length <= 3) {
+        mappingQuality = 'poor';
+        qualitySummary.poor++;
+        
+        // Add to points needing improvement
+        pointsWithPoorQuality.push({
+          pointId: (mapping.mapping?.pointId || mapping.pointId || ''),
+          pointName: (mapping.original?.pointName || mapping.pointName || ''),
+          mappingQuality,
+          issues
+        });
+      } else {
+        mappingQuality = 'unacceptable';
+        qualitySummary.unacceptable++;
+        
+        // Add to points needing improvement
+        pointsWithPoorQuality.push({
+          pointId: (mapping.mapping?.pointId || mapping.pointId || ''),
+          pointName: (mapping.original?.pointName || mapping.pointName || ''),
+          mappingQuality,
+          issues
+        });
+      }
+    });
+  }
+  
+  return {
+    mappingId,
+    qualitySummary,
+    pointsWithPoorQuality
+  };
 }

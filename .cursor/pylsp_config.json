@@ -1,0 +1,60 @@
+{
+  "pylsp": {
+    "configurationSources": [
+      "pycodestyle",
+      "flake8"
+    ],
+    "plugins": {
+      "jedi": {
+        "extra_paths": [
+          "${workspaceRoot}/backend"
+        ]
+      },
+      "jedi_completion": {
+        "enabled": true,
+        "include_params": true
+      },
+      "jedi_hover": {
+        "enabled": true
+      },
+      "jedi_references": {
+        "enabled": true
+      },
+      "jedi_signature_help": {
+        "enabled": true
+      },
+      "jedi_symbols": {
+        "enabled": true,
+        "all_scopes": true
+      },
+      "pycodestyle": {
+        "enabled": true,
+        "ignore": [
+          "E501"
+        ],
+        "maxLineLength": 100
+      },
+      "pydocstyle": {
+        "enabled": false
+      },
+      "pyflakes": {
+        "enabled": true
+      },
+      "flake8": {
+        "enabled": false
+      },
+      "preload": {
+        "enabled": true,
+        "modules": [
+          "mcp_server"
+        ]
+      },
+      "rope_completion": {
+        "enabled": true
+      },
+      "yapf": {
+        "enabled": false
+      }
+    }
+  }
+} 

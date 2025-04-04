@@ -195,11 +195,6 @@ const PointsTable: React.FC<PointsTableProps> = ({
           {value ? (
             <div className="points-table__mapping">
               <span className="points-table__enos-point">{value}</span>
-              {row.confidence && (
-                <span className="points-table__confidence" title={`Confidence: ${(row.confidence * 100).toFixed(1)}%`}>
-                  {(row.confidence * 100).toFixed(0)}%
-                </span>
-              )}
             </div>
           ) : (
             <span className="points-table__empty-value">Not mapped</span>

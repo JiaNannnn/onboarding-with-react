@@ -1,0 +1,139 @@
+{
+    "ignore": [
+        "**/build/**",
+        "**/dist/**",
+        "**/__pycache__/**",
+        "**/.pytest_cache/**",
+        "**/node_modules/**",
+        "**/.next/**",
+        "**/.env",
+        "**/.env.*",
+        "**/.git/**",
+        "**/logs/**",
+        "**/cache/**",
+        "**/*.log",
+        "**/*.tmp",
+        "**/generated/**",
+        "**/api_responses/**",
+        "**/data_test/**",
+        "**/*.json",
+        "**/*.csv",
+        "**/*.xlsx",
+        "**/*.xls",
+        "**/package-lock.json",
+        "**/yarn.lock",
+        "**/poetry.lock",
+        "**/.vscode/**",
+        "**/.idea/**",
+        "**/.DS_Store"
+    ],
+    "formatOnSave": true,
+    "lintOnSave": true,
+    "organizeImportsOnSave": true,
+    "search": {
+        "excludePatterns": [
+            "**/node_modules/**",
+            "**/__pycache__/**",
+            "**/build/**",
+            "**/dist/**",
+            "**/.git/**",
+            "**/logs/**",
+            "**/cache/**"
+        ]
+    },
+    "editor": {
+        "tabSize": 2,
+        "insertSpaces": true,
+        "rulers": [80, 100],
+        "wordWrap": "off",
+        "trimTrailingWhitespace": true,
+        "insertFinalNewline": true,
+        "fontSize": 14,
+        "fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
+        "lineHeight": 1.5,
+        "cursorStyle": "line",
+        "cursorBlinking": "smooth",
+        "smoothScrolling": true,
+        "renderWhitespace": "boundary",
+        "bracketPairColorization": true,
+        "guides": {
+            "bracketPairs": true,
+            "indentation": true
+        }
+    },
+    "files": {
+        "associations": {
+            "*.tsx": "typescriptreact",
+            "*.ts": "typescript",
+            "*.py": "python",
+            "*.json": "json",
+            "*.md": "markdown",
+            "*.css": "css",
+            "*.scss": "scss",
+            "*.html": "html"
+        },
+        "autoSave": "afterDelay",
+        "autoSaveDelay": 1000
+    },
+    "terminal": {
+        "integrated": {
+            "shell": {
+                "windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+            },
+            "fontSize": 14,
+            "fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
+            "lineHeight": 1.2,
+            "cursorBlinking": true,
+            "cursorStyle": "line"
+        }
+    },
+    "workbench": {
+        "colorTheme": "One Dark Pro",
+        "iconTheme": "material-icon-theme",
+        "tree": {
+            "indent": 16,
+            "expandMode": "singleClick"
+        },
+        "list": {
+            "smoothScrolling": true
+        }
+    },
+    "git": {
+        "enabled": true,
+        "autofetch": true,
+        "confirmSync": false,
+        "enableSmartCommit": true,
+        "showPushErrorNotification": true
+    },
+    "python": {
+        "analysis": {
+            "typeCheckingMode": "basic",
+            "autoImportCompletions": true,
+            "useLibraryCodeForTypes": true
+        },
+        "formatting": {
+            "provider": "black",
+            "indentSize": 2
+        },
+        "linting": {
+            "enabled": true,
+            "pylintEnabled": true,
+            "flake8Enabled": true
+        }
+    },
+    "typescript": {
+        "preferences": {
+            "importModuleSpecifier": "non-relative",
+            "quotePreference": "single"
+        },
+        "suggest": {
+            "completeFunctionCalls": true
+        }
+    },
+    "javascript": {
+        "preferences": {
+            "importModuleSpecifier": "non-relative",
+            "quotePreference": "single"
+        }
+    }
+} 

@@ -1,7 +1,12 @@
 from flask import Blueprint, request, jsonify, current_app
 from app.bms.utils import EnOSClient
 from app.bms.tasks import fetch_points_task, search_points_task, discover_devices_task, get_network_config_task
+from app.bms.mapping import EnOSMapper
+from app.bms.reflection import ReflectionSystem, MappingMemorySystem, PatternAnalysisEngine, QualityAssessmentFramework
 from . import bp
+
+# Initialize reflection system
+reflection_system = ReflectionSystem()
 
 @bp.route('/fetch-points', methods=['POST'])
 def fetch_points():
@@ -211,3 +216,129 @@ def get_discover_devices_status(task_id):
         }
     
     return jsonify(response) 
+
+# Reflection Layer Endpoints
+
+@bp.route('/reflection/stats', methods=['GET'])
+def get_reflection_stats():
+    """Get statistics about the reflection system"""
+    try:
+        stats = reflection_system.get_reflection_stats()
+        return jsonify({
+            "success": True,
+            "stats": stats
+        })
+    except Exception as e:
+        current_app.logger.error(f"Error getting reflection stats: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@bp.route('/reflection/analyze', methods=['POST'])
+def analyze_mappings():
+    """Analyze a batch of mappings to extract patterns and insights"""
+    try:
+        data = request.json
+        mappings = data.get('mappings', [])
+        
+        if not mappings:
+            return jsonify({
+                "success": False,
+                "error": "No mappings provided"
+            }), 400
+            
+        analysis = reflection_system.analyze_mappings(mappings)
+        
+        return jsonify({
+            "success": True,
+            "analysis": analysis
+        })
+    except Exception as e:
+        current_app.logger.error(f"Error analyzing mappings: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@bp.route('/reflection/suggest', methods=['POST'])
+def suggest_mapping():
+    """Suggest a mapping for a point based on reflection data"""
+    try:
+        data = request.json
+        point = data.get('point', {})
+        
+        if not point or not point.get('pointName') or not point.get('deviceType'):
+            return jsonify({
+                "success": False,
+                "error": "Invalid or missing point data"
+            }), 400
+            
+        suggestion = reflection_system.suggest_mapping(point)
+        
+        return jsonify({
+            "success": True,
+            "suggestion": suggestion
+        })
+    except Exception as e:
+        current_app.logger.error(f"Error suggesting mapping: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@bp.route('/reflection/patterns', methods=['POST'])
+def extract_patterns():
+    """Extract patterns from a list of points"""
+    try:
+        data = request.json
+        points = data.get('points', [])
+        
+        if not points:
+            return jsonify({
+                "success": False,
+                "error": "No points provided"
+            }), 400
+            
+        patterns = reflection_system.pattern_analysis.extract_patterns(points)
+        
+        return jsonify({
+            "success": True,
+            "patterns": patterns
+        })
+    except Exception as e:
+        current_app.logger.error(f"Error extracting patterns: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@bp.route('/reflection/quality', methods=['POST'])
+def assess_quality():
+    """Assess quality of a mapping"""
+    try:
+        data = request.json
+        mapping = data.get('mapping', {})
+        reference_mappings = data.get('reference_mappings', [])
+        
+        if not mapping:
+            return jsonify({
+                "success": False,
+                "error": "No mapping provided"
+            }), 400
+            
+        quality_assessment = reflection_system.quality_assessment.assess_mapping_quality(
+            mapping, 
+            reference_mappings
+        )
+        
+        return jsonify({
+            "success": True,
+            "quality_assessment": quality_assessment
+        })
+    except Exception as e:
+        current_app.logger.error(f"Error assessing quality: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500

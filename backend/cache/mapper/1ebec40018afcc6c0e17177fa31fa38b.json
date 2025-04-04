@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_temp_evap",
-  "point": "CHWP3.ChCtl.Ctl-Hz-Value",
-  "device_type": "CHILLER",
-  "timestamp": "2025-03-28T15:11:39.407551",
-  "model": "gpt-4o"
-}

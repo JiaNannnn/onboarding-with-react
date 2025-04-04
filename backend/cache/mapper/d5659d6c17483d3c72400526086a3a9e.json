@@ -1,7 +1,0 @@
-{
-  "enos_path": "CH_raw_status",
-  "point": "FCUEnergy.Fcu-Ton",
-  "device_type": "FCU",
-  "timestamp": "2025-03-28T15:17:26.711610",
-  "model": "gpt-4o"
-}
