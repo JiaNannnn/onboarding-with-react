@@ -14,7 +14,7 @@ from functools import lru_cache
 from ..bms.grouping import performance_monitor
 from ..bms.reflection import ReflectionSystem, MappingMemorySystem, PatternAnalysisEngine, QualityAssessmentFramework, StrategySelectionSystem
 import traceback
-import re
+import re # Import re for regular expressions
 
 logger = logging.getLogger(__name__)
 
@@ -74,54 +74,72 @@ Do not include ANY other text, explanations, or formatting outside the JSON obje
 class EnOSMapper:
     # Enhance the mapping agent instructions
     _mapping_agent_instructions = """You are an expert in mapping Building Management System (BMS) points to the EnOS IoT platform schema.
-Your goal is to find the **semantically best matching** EnOS point for a given raw BMS point name and its device type.
+Your goal is to find the **semantically best matching** EnOS point for a **batch of BMS points** belonging to a single device instance.
+
+**Input:** You will receive:
+1.  The `Device Type` (e.g., AHU, Chiller).
+2.  A list of `Reference EnOS Points` valid for this device type.
+3.  A list of `BMS Points` for this device, each with `pointId`, `pointName`, and potentially `unit`, `description`.
 
 **Instructions:**
-1.  **Analyze the BMS Point Name:** Break down the name (e.g., 'AHU-01.SupplyAirTempSp') into its components (device instance 'AHU-01', measurement 'SupplyAirTemp', type 'Sp').
-2.  **Understand Abbreviations:** Interpret common HVAC/BMS abbreviations:
+1.  **Analyze Each BMS Point:** For every point in the input list, break down its `pointName` (e.g., 'AHU-01.SupplyAirTempSp') into components (measurement 'SupplyAirTemp', type 'Sp').
+2.  **Understand Abbreviations:** Interpret common HVAC/BMS abbreviations (listed below) within each `pointName`.
+3.  **Consider Device Context:** All points belong to the same device type provided. Use this context.
+4.  **Target EnOS Schema & Uniqueness:** Map each BMS point ONLY to one of the provided `Reference EnOS Points` list.
+    *   Select the best semantic match from THAT LIST ONLY for each BMS point.
+    *   **CRITICAL UNIQUENESS RULE:** Each EnOS point from the reference list can be used AT MOST ONCE for the entire batch of input BMS points. If multiple BMS points seem to map to the same target EnOS point, choose the *single BMS point* that is the *best semantic fit* for that target. All other BMS points that would have targeted the *same* EnOS point MUST be mapped to `unknown`.
+    *   If no suitable reference point is found for a BMS point (or it's a duplicate based on the uniqueness rule), map it to `unknown`.
+5.  **Output Format:** Respond ONLY with a single JSON object. The keys of this object MUST be the `pointId` strings from the input BMS points list. The value for each key MUST be the mapped EnOS point string (or `unknown`). Do not include explanations or apologies.
+
+**Common Abbreviations:**
     *   `Temp`, `T`: Temperature
     *   `Sp`: Setpoint
     *   `St`: Status
     *   `Cmd`: Command
     *   `RH`: Relative Humidity
     *   `Co2`: Carbon Dioxide Level
-    *   `Press`, `P`: Pressure (Static, Differential)
+    *   `Press`, `P`: Pressure
     *   `Flow`, `F`: Flow Rate
-    *   `Pos`, `%`: Position (e.g., Valve, Damper)
-    *   `Hz`: Frequency (Fan/Pump Speed)
+    *   `Pos`, `%`: Position
+    *   `Hz`: Frequency
     *   `kW`: Active Power
     *   `kWh`: Active Energy
-    *   `Run`, `Start`: Running Status / Command
-    *   `Stop`: Stop Command / Status
-    *   `Trip`, `Fault`, `Flt`, `Fail`: Fault or Trip Status
+    *   `Run`, `Start`: Running Status/Command
+    *   `Stop`: Stop Command/Status
+    *   `Trip`, `Fault`, `Flt`, `Fail`: Fault/Trip Status
     *   `Mode`: Operating Mode
     *   `ChW`, `CHW`: Chilled Water
-    *   `CW`, `CDW`: Condenser Water / Cooling Water
+    *   `CW`, `CDW`: Condenser/Cooling Water
     *   `SA`, `Supply`: Supply Air
     *   `RA`, `Return`: Return Air
     *   `OA`: Outside Air
     *   `MA`: Mixed Air
-    *   `EV`: Evaporator related (often cooling coil)
-    *   `Valve`: Valve Position or Status
-    *   `Damper`: Damper Position
-    *   `DP`: Differential Pressure OR Dew Point (use context)
+    *   `Valve`, `Damper`: Position/Status
+    *   `DP`: Differential Pressure/Dew Point
     *   `Occ`: Occupancy Status
     *   `Eff`: Efficiency
     *   `Stat`: Status
-3.  **Consider Device Type:** The device type (e.g., AHU, Chiller, FCU, Pump) is crucial context. A 'Temp' point on a Chiller is different from one on an AHU.
-4.  **Target EnOS Schema:** Map to a standard EnOS point format, typically like `{DeviceType}_raw_{measurement}` or `{DeviceType}_stat_{status}` or `{DeviceType}_cmd_{command}` or `{DeviceType}_sp_{setpoint}`. Rely on your knowledge of common EnOS points for the given device type. You may be provided with a list of candidate points for reference, but prioritize semantic meaning even if the exact raw point isn't listed.
-5.  **Output Format:** Respond ONLY with a JSON object containing the *best single* EnOS point mapping: `{"enosPoint": "TARGET_ENOS_POINT"}`. If no reasonable mapping exists, return `{"enosPoint": "unknown"}`. Do not include explanations or apologies in the JSON output itself.
 
-**Example:**
-BMS Point: `AHU-L5.ReturnAirTemp` (Device Type: AHU)
-Semantic Meaning: Return Air Temperature for AHU on Level 5.
-Correct EnOS Mapping: `AHU_raw_return_air_temp`
-Output: `{"enosPoint": "AHU_raw_return_air_temp"}`
+**Example Input Snippet (Conceptual - actual prompt will contain full lists):**
+Device Type: FCU
+Reference EnOS Points: ["FCU_raw_zone_air_temp", "FCU_raw_valve_status", "FCU_raw_status", "FCU_raw_trip", "FCU_write_fan_speed"]
+BMS Points:
+[
+  {"pointId": "10102:0", "pointName": "FCU_01_25.RoomTemp"},
+  {"pointId": "10102:1", "pointName": "FCU_01_25.ValveOutput"},
+  {"pointId": "10102:126", "pointName": "FCU_01_25.RunStatus"},
+  {"pointId": "10102:290", "pointName": "FCU_01_25.CTL_RunStop"} // Also seems like a status
+]
 
-BMS Point: `CHWP-01.RunSt` (Device Type: Pump)
-Semantic Meaning: Running Status for Chilled Water Pump 1.
-Correct EnOS Mapping: `PUMP_stat_device_on_off` (or similar standard status point for pumps)
-Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
+**Example Output JSON:**
+```json
+{
+  "10102:0": "FCU_raw_zone_air_temp",
+  "10102:1": "FCU_raw_valve_status",
+  "10102:126": "FCU_raw_status", // Best fit for FCU_raw_status
+  "10102:290": "unknown" // Cannot reuse FCU_raw_status, mapped to unknown
+}
+```
 """
     
     # Define quality score thresholds
@@ -1159,7 +1177,6 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
             
             if contains_enos_key:
                 # Try to extract JSON object with regex
-                import re
                 patterns = [
                     # Standard JSON format
                     r'({[^{}]*"enos_point"\s*:\s*"[^"]*"[^{}]*})',
@@ -1439,7 +1456,6 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
                 mapping_success = False
                 
                 # Make one last attempt with regex to extract {"enos_point": "..."} pattern
-                import re
                 matches = re.search(r'{"enos_point":\s*"([^"]+)"}', cleaned_response)
                 if matches:
                     enos_point_value = matches.group(1)
@@ -1687,290 +1703,307 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
 
     @performance_monitor
     def map_points(self, points: List[Dict]) -> Dict:
-        """Map points with device context awareness and reflection capabilities."""
-        stats = {"total": 0, "mapped": 0, "errors": 0}
-        all_mappings = []
-        processed_mappings = [] # For batch analysis
-        pattern_insights = []
-        
+        """Map points with device context awareness, batch processing, and reflection capabilities."""
+        stats = {"total": 0, "mapped": 0, "unmapped": 0, "errors": 0} # Added unmapped
+        all_mappings_results = [] # Changed name for clarity
+        pattern_insights = [] # Renamed for clarity
+        BATCH_SIZE_LIMIT = 50 # Define a max number of points per LLM call
+
         # Ensure schema is loaded once before processing points
-        if not hasattr(self, 'simplified_schema') or not self.simplified_schema:
-            self._load_simplified_schema()
+        if not hasattr(self, 'enos_schema') or not self.enos_schema: # Corrected check
+            logger.info("Schema not loaded in instance, attempting to load...")
+            self.enos_schema = self._load_enos_schema() # Corrected assignment
+            if not self.enos_schema:
+                logger.error("Failed to load EnOS schema. Cannot proceed with mapping.")
+                return {
+                     "success": False,
+                     "error": "EnOS Schema not loaded",
+                    "mappings": [],
+                     "stats": stats,
+                    "insights": []
+                }
 
         try:
-            # Group points by device type for context-aware mapping
-            points_by_device_type = {}
+            # Group points by a composite key of deviceType and deviceId for uniqueness context
+            points_by_device = {}
             for point in points:
-                # Improved device type extraction
+                if not isinstance(point, dict):
+                     logger.warning(f"Skipping invalid point data (not a dict): {point}")
+                     stats["errors"] += 1
+                     continue
+
                 device_type = point.get('deviceType')
                 point_name = point.get('pointName', '')
+                point_id = point.get('pointId', point_name)
+                device_id = point.get('deviceId', 'UNKNOWN_DEVICE_ID') # Use a default if missing
+
+                if not point_id:
+                     logger.warning(f"Skipping point missing 'pointId' or 'pointName': {point}")
+                     stats["errors"] += 1
+                     continue
+
                 if not device_type:
-                    device_type = self._extract_device_type_from_name(point_name)
-                if not device_type:
-                    # Attempt fallback extraction if needed (or use UNKNOWN)
+                    device_type = self._infer_device_type_from_name(point_name)
+                if not device_type or device_type == 'UNKNOWN':
                     device_type = self._fallback_device_type_extraction(point_name) or 'UNKNOWN'
-                    logger.debug(f"Used fallback device type extraction for '{point_name}', got: {device_type}")
                 
-                # Ensure device_type is a hashable type (string)
-                device_type_key = str(device_type).upper() # Use uppercase for consistency
+                device_type_upper = str(device_type).upper()
+                device_key = f"{device_type_upper}_{device_id}" # Composite key
 
-                if device_type_key not in points_by_device_type:
-                    points_by_device_type[device_type_key] = []
-                points_by_device_type[device_type_key].append(point)
+                # Standardize point structure before grouping
+                standardized_point = {
+                    "pointId": point_id,
+                    "pointName": point_name,
+                    "deviceType": device_type_upper,
+                    "deviceId": device_id,
+                    "pointType": point.get('pointType', 'unknown'),
+                    "unit": point.get('unit'),
+                    "description": point.get('description'),
+                    "presentValue": point.get('value', point.get('presentValue'))
+                }
 
-            # Process points group by group
-            for device_key, group_points in points_by_device_type.items():
-                logger.info(f"Processing mapping for device group: {device_key} ({len(group_points)} points)")
+                if device_key not in points_by_device:
+                    points_by_device[device_key] = []
+                points_by_device[device_key].append(standardized_point)
+
+            # Process points group by group (device instance)
+            for device_key, device_points in points_by_device.items():
+                device_type = device_points[0]['deviceType'] # Get type from first point in group
+                device_id_val = device_points[0]['deviceId'] # Get ID from first point
+                logger.info(f"Processing mapping for device: {device_key} ({len(device_points)} points)")
                 
-                # Optional: Pre-analyze patterns within the group (existing logic)
-                pattern_analysis_result = None
-                if self.enable_reflection and hasattr(self, 'reflection_system'):
-                    try:
-                        pattern_analysis_result = self.reflection_system.analyze_patterns(group_points)
-                        if pattern_analysis_result.get('insights'):
-                             pattern_insights.extend(pattern_analysis_result['insights'])
-                             logger.info(f"Pattern analysis generated {len(pattern_analysis_result['insights'])} insights for {device_key}.")
-                    except Exception as pattern_error:
-                         logger.warning(f"Error during pattern analysis for {device_key}: {str(pattern_error)}")
+                # --- Batching for large devices --- 
+                for i in range(0, len(device_points), BATCH_SIZE_LIMIT):
+                    batch_points = device_points[i:i+BATCH_SIZE_LIMIT]
+                    batch_number = (i // BATCH_SIZE_LIMIT) + 1
+                    logger.info(f"  Processing batch {batch_number} for device {device_key} ({len(batch_points)} points)")
+                    stats["total"] += len(batch_points) # Increment total stat here per batch
 
-                # Process each point within the group
-                for point in group_points:
-                    try:
-                        stats["total"] += 1
-                        pointName = point.get('pointName', '')
-                        # Use the already determined (and potentially improved) device_type for the group
-                        device_type = device_key 
-                        unit = point.get('unit', '')
-                        description = point.get('description', '') # Get description
-                        
-                        if not pointName:
-                            logger.warning("Skipping point with empty name.")
-                            stats["errors"] += 1
-                            continue
-                        
-                        # Normalize the group key for schema lookup and prompt consistency
-                        device_type_normalized = self._normalize_device_type(device_type)
-                        
-                        # --- Start Prompt Enhancement ---
-                        # 1. Basic Prompt Components
-                        prompt_lines = [
-                            f"BMS Point Name: {pointName}",
-                            f"Device Type: {device_type_normalized}" # Use consistent normalized type
-                        ]
-                        if unit:
-                            prompt_lines.append(f"Unit: {unit}")
-                        if description: # Add description to prompt if available
-                            prompt_lines.append(f"Description: {description}")
+                    # Normalize device type for schema lookup
+                    device_type_normalized = self._normalize_device_type(device_type)
 
-                        # 2. Add Hint about abbreviations found
-                        abbreviations_found = []
-                        # More robust checks (case-insensitive, word boundaries where applicable)
-                        p_lower = pointName.lower()
-                        if "sp" in p_lower : abbreviations_found.append("Sp (Setpoint)")
-                        if "temp" in p_lower or ".t" in p_lower or "rt" in p_lower or "st" in p_lower and "status" not in p_lower and "stpt" not in p_lower: 
-                            # Avoid matching 'st' in 'status' or 'stpt'
-                            if not any(x in p_lower for x in ['status', 'stat', 'stpt']):
-                                abbreviations_found.append("Temp (Temperature)")
-                        if "status" in p_lower or "stat" in p_lower or (p_lower.endswith(".st") and "chwst" not in p_lower and "cwst" not in p_lower) : abbreviations_found.append("St/Status (Status)")
-                        if "cmd" in p_lower : abbreviations_found.append("Cmd (Command)")
-                        if "trip" in p_lower or "flt" in p_lower or "fail" in p_lower: abbreviations_found.append("Trip/Fault (Fault Status)")
-                        if "hz" in p_lower: abbreviations_found.append("Hz (Frequency/Speed)")
-                        if "pos" in p_lower or "%" in pointName: abbreviations_found.append("Pos/% (Position)") # Check % in original name
-                        if "kw" in p_lower and "kwh" not in p_lower: abbreviations_found.append("kW (Power)")
-                        if "co2" in p_lower: abbreviations_found.append("Co2 (Carbon Dioxide)")
-                        if "flow" in p_lower or "flw" in p_lower: abbreviations_found.append("Flow (Flow Rate)")
-                        if "valve" in p_lower: abbreviations_found.append("Valve (Valve Position/Status)")
-                        if "damper" in p_lower: abbreviations_found.append("Damper (Damper Position)")
-                        # Remove duplicates
-                        abbreviations_found = list(dict.fromkeys(abbreviations_found)) 
+                    # --- Construct Batch Prompt --- 
+                    prompt_lines = [
+                        f"Device Type: {device_type_normalized}",
+                        f"Device ID: {device_id_val}" # Include Device ID in context
+                    ]
 
-                        if abbreviations_found:
-                            prompt_lines.append(f"Potential Abbreviations Detected: {', '.join(abbreviations_found)}")
+                    # Add Reference EnOS Points section
+                    reference_points_added = False
+                    candidate_points_list = []
+                    if self.enos_schema and device_type_normalized in self.enos_schema:
+                        schema_device_entry = self.enos_schema[device_type_normalized]
+                        candidate_points_dict = schema_device_entry.get("points", {})
+                        candidate_points_list = list(candidate_points_dict.keys())
+                        if candidate_points_list:
+                            prompt_lines.append("\nReference EnOS Points (map ONLY to one of these or 'unknown', each can be used only ONCE per batch):")
+                            prompt_lines.extend([f"- {p}" for p in candidate_points_list]) # Provide full list
+                            reference_points_added = True
+                    if not reference_points_added:
+                        prompt_lines.append("\nNo Reference EnOS Points found in schema for this device type. All mappings must be 'unknown'.")
 
-                        # 3. Add reference schema points (optional, limited)
-                        if device_type_normalized in self.simplified_schema:
-                            candidate_points = self.simplified_schema[device_type_normalized].get("points", [])
-                            if candidate_points:
-                                prompt_lines.append("\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):")
-                                # Check if we need to convert dict to list if it's a dictionary
-                                if isinstance(candidate_points, dict):
-                                    # Convert dictionary keys to a list
-                                    candidate_points_list = list(candidate_points.keys())
-                                    # Only include up to 20 points
-                                    for point in candidate_points_list[:20]:
-                                        prompt_lines.append(point)
-                                else:
-                                    # Handle if it's already a list
-                                    for point in candidate_points[:20]:
-                                        prompt_lines.append(point)
-                        else:
-                            prompt_lines.append("\nNo specific reference points file provided; rely on standard EnOS points for this device type.")
-
-                        # 4. Final Instruction
-                        prompt_lines.append("\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.")
-
-                        prompt = "\n".join(prompt_lines)
-                        # --- End Prompt Enhancement ---
-                        
-                        # Select strategy (existing logic, might need review)
-                        selected_strategy = None 
-                        if pattern_analysis_result and pattern_analysis_result.get('recommended_strategy'):
-                            selected_strategy = pattern_analysis_result['recommended_strategy']
-                            logger.info(f"Using pattern-analysis strategy for {pointName}: {selected_strategy}")
-                        else:
-                            selected_strategy = "direct_semantic" # Default strategy
-                            logger.debug(f"Using default strategy for {pointName}: {selected_strategy}")
-
-                        # --- Existing AI Call Logic ---                        
-                        mapping = None # Initialize mapping variable
-                        try:
-                            # logger.info(f"Attempting AI mapping for point: {pointName} using strategy: {selected_strategy}")
-                            # Use the Agent Runner
-                            result = Runner.run_sync(self.mapping_agent, prompt)
-
-                            # Extract the final output from the result
-                            content = result.final_output
-                            if not content or not isinstance(content, str):
-                                raise ValueError(f"Agent returned invalid content type: {type(content)}")
-
-                            # Basic check if content looks like JSON, try to extract if noisy
-                            if '{' not in content or '}' not in content:
-                                try:
-                                    json_start = content.index('{')
-                                    json_end = content.rindex('}') + 1
-                                    content = content[json_start:json_end]
-                                    logger.warning(f"Extracted potential JSON from noisy agent response for {pointName}: {content}")
-                                except ValueError:
-                                     raise ValueError(f"Agent response for {pointName} does not contain valid JSON object markers: {content}")
-
-                            logger.debug(f"Raw Agent SDK response for {pointName}: {content}")
-
-                            # Save response for analysis
-                            self._save_api_response({
-                                "prompt": prompt,
-                                "response": content,
-                                "model": self.model,
-                                "agent_name": self.mapping_agent.name,
-                                "timestamp": datetime.datetime.now().isoformat(),
-                                "point_name": pointName # Add point name for easier debugging
-                            })
-                            
-                            # Process AI response with reflection
-                            mapping = self.process_ai_response(content, point)
-                            
-                            logger.info(f"Mapped point {pointName} to {mapping['mapping']['enosPoint']} (Status: {mapping['mapping']['status']})")
-
-                            # Cache successful mappings
-                            if mapping['mapping']['status'] == "mapped":
-                                cache_key = self._generate_cache_key(pointName, device_type)
-                                self._save_to_cache(cache_key, mapping['mapping']['enosPoint'], pointName, device_type)
-                                
-                            processed_mappings.append(mapping) # Add to list for batch analysis
-                            stats["mapped"] += 1
-
-                        except Exception as e:
-                            logger.error(f"Error during AI mapping or processing of {pointName}: {str(e)}")
-                            stats["errors"] += 1
-                            # Create fallback mapping with error
-                            fallback_enos_point = "unknown" # Default fallback
-                             # Try reflection fallback (existing logic)
-                            if self.enable_reflection and hasattr(self, 'reflection_system'):
-                                try:
-                                    suggestion = self.reflection_system.suggest_mapping(point)
-                                    if suggestion.get('success') and suggestion.get('suggested_mapping'):
-                                        fallback_enos_point = suggestion.get('suggested_mapping')
-                                        logger.info(f"Using reflection-suggested fallback for {pointName}: {fallback_enos_point}")
-                                except Exception as reflection_error:
-                                    logger.warning(f"Error getting reflection fallback for {pointName}: {str(reflection_error)}")
-                            
-                            # Create the error mapping structure
-                            mapping = {
-                                "original": point,
-                                "mapping": {
-                                    "pointId": point.get("pointId", ""),
-                                    "enosPoint": fallback_enos_point, 
-                                    "status": "error",
-                                    "error": str(e),
-                                    "confidence": 0.1, # Low confidence for error/fallback
-                                    "source": "error_fallback"
-                                },
-                                "reflection": {
-                                    "logic_used": "error_fallback",
-                                    "confidence": 0.1,
-                                    "explanation": f"AI mapping failed for {pointName}: {str(e)}. Used fallback '{fallback_enos_point}'."
-                                }
-                            }
-                            processed_mappings.append(mapping) # Add error mapping for analysis
-                            
-                        # Append the result (either successful mapping or error fallback) to all_mappings
-                        if mapping: # Ensure mapping is not None before appending
-                            all_mappings.append(mapping)
-                        else:
-                             logger.error(f"Mapping result was None for point {pointName}, even after error handling. Skipping.")
-                             # Optionally create a different kind of error entry if needed
-
-
-                        # Log progress every N points
-                        if stats["total"] % 20 == 0: # Log every 20 points to reduce noise
-                            current_success_rate = 0 if stats["total"] == 0 else (stats['mapped']/stats['total']*100)
-                            logger.info(f"Processed {stats['mapped']}/{stats['total']} points overall ({current_success_rate:.1f}% success rate)")
+                    # Add BMS Points section
+                    prompt_lines.append("\nBMS Points to Map:")
+                    bms_points_for_prompt = []
+                    for p in batch_points:
+                         point_info = {k: v for k, v in p.items() if v is not None} # Include non-None values
+                         bms_points_for_prompt.append(point_info)
+                    prompt_lines.append(json.dumps(bms_points_for_prompt, indent=2)) # Add points as JSON list
                     
-                    except Exception as point_error:
-                        # Safe handling for any point type (dict or string)
-                        if isinstance(point, dict):
-                            point_name_safe = point.get('pointName', '[Unknown Name]')
-                            point_id = point.get('pointId', '')
-                        elif isinstance(point, str):
-                            point_name_safe = point
-                            point_id = ""
-                        else:
-                            point_name_safe = '[Unknown Name]'
-                            point_id = ""
-                            
-                        logger.error(f"Unhandled error processing point {point_name_safe}: {str(point_error)}")
-                        logger.error(traceback.format_exc()) # Log traceback for unhandled errors
-                        stats["total"] += 1 # Increment total even if point processing fails
-                        stats["errors"] += 1
+                    # Final Instruction
+                    prompt_lines.append("\nBased ONLY on the Reference EnOS Points and the Uniqueness Rule, provide the mapping. Respond ONLY with a single JSON object where keys are input 'pointId's and values are the mapped EnOS points (or 'unknown').")
+
+                    prompt = "\n".join(prompt_lines)
+                    # --- End Batch Prompt Construction --- 
+                    
+                    # --- AI Call for Batch --- 
+                    batch_mappings = {} # To store results like {"pointId1": "enosPoint1", "pointId2": "unknown", ...}
+                    ai_call_failed = False
+                    error_message = "Unknown AI call error"
+                    content = None # Initialize content
+                    
+                    try:
+                        logger.debug(f"Running Agent for batch: {device_key}, batch {batch_number}")
+                        result = Runner.run_sync(self.mapping_agent, prompt)
+                        content = result.final_output
+
+                        if not isinstance(content, str):
+                            raise ValueError(f"Agent returned non-string content type: {type(content)}")
                         
-                        # Create a minimal error entry for this point with safe handling
-                        error_mapping = {
+                        logger.debug(f"Raw Agent SDK response for batch {device_key}-{batch_number}: {content}")
+                        self._save_api_response({ # Log response before processing
+                            "prompt": prompt, "response": content, "model": self.model,
+                            "agent_name": self.mapping_agent.name, "timestamp": datetime.datetime.now().isoformat(),
+                            "device_key": device_key, "batch_number": batch_number
+                        })
+                        
+                        # Clean and parse the batch response (expects a dict)
+                        cleaned_content = self._clean_json_response(content)
+                        batch_mappings = json.loads(cleaned_content)
+                        if not isinstance(batch_mappings, dict):
+                             raise ValueError("LLM response was not a dictionary as expected.")
+                             
+                    except Exception as ai_call_error:
+                        logger.error(f"Error during AI call or initial parsing for batch {device_key}-{batch_number}: {str(ai_call_error)}\n{traceback.format_exc()}")
+                        ai_call_failed = True
+                        error_message = f"AI call/parsing failed: {str(ai_call_error)}" # Store error message
+                        # For a failed batch, all points in it will be marked as error
+                        batch_mappings = {p['pointId']: "error_state" for p in batch_points} # Use a placeholder
+
+                    # --- Process Results for Each Point in Batch --- 
+                    used_enos_points_in_batch = set() # Track usage within this batch response
+                    for point in batch_points:
+                        point_id = point['pointId']
+                        enos_point_result = "unknown" # Default
+                        mapping_status = "error" # Default status
+                        final_explanation = error_message if ai_call_failed else "Processing error"
+                        final_reason = self.REASON_FALLBACK
+                        mapping_success = False
+                        quality_score = 0.0
+                        source = "ai_call_error" if ai_call_failed else "processing_error"
+
+                        if not ai_call_failed:
+                            try:
+                                # Get the mapping from the LLM's batch response dict
+                                enos_point_llm = batch_mappings.get(point_id)
+                                
+                                if enos_point_llm is None:
+                                    logger.warning(f"LLM response missing mapping for pointId {point_id} in batch {device_key}-{batch_number}. Treating as unknown.")
+                                    enos_point_result = "unknown"
+                                    final_explanation = "Mapping missing in LLM batch response."
+                                elif not isinstance(enos_point_llm, str) or not enos_point_llm.strip():
+                                    logger.warning(f"LLM returned invalid/empty mapping for pointId {point_id}: '{enos_point_llm}'. Treating as unknown.")
+                                    enos_point_result = "unknown"
+                                    final_explanation = "Invalid/empty mapping from LLM."
+                                else:
+                                    enos_point_llm = enos_point_llm.strip()
+                                    
+                                    # Validate the format from LLM
+                                    if self._validate_enos_format(enos_point_llm, device_type):
+                                        # Check uniqueness constraint within this batch response
+                                        if enos_point_llm != "unknown":
+                                            if enos_point_llm in used_enos_points_in_batch:
+                                                 logger.warning(f"Duplicate EnOS point '{enos_point_llm}' detected for point {point_id} (used by another point in this batch). Mapping to unknown.")
+                                                 enos_point_result = "unknown"
+                                                 final_explanation = f"Duplicate assignment of '{enos_point_llm}' by LLM within batch."
+                                            else:
+                                                 # Valid, unique mapping found
+                                                 enos_point_result = enos_point_llm
+                                                 used_enos_points_in_batch.add(enos_point_llm)
+                                                 mapping_success = True
+                                                 source = "llm_agent"
+                                                 # Evaluate quality if mapping is not unknown
+                                                 quality_score, final_reason, final_explanation = self._evaluate_mapping_quality(enos_point_result, point)
+                                        else:
+                                            # LLM explicitly returned unknown
+                                            enos_point_result = "unknown"
+                                            mapping_success = False # Explicit unknown is not an error, but not mapped
+                                            source = "llm_agent"
+                                            quality_score, final_reason, final_explanation = self._evaluate_mapping_quality(enos_point_result, point)
+                                            
+                                    else:
+                                        logger.warning(f"Invalid format '{enos_point_llm}' from LLM for point {point_id}. Treating as unknown.")
+                                        enos_point_result = "unknown"
+                                        final_explanation = f"Invalid format '{enos_point_llm}' from LLM."
+                            
+                            except Exception as process_err:
+                                 logger.error(f"Error processing LLM result for point {point_id}: {str(process_err)}\n{traceback.format_exc()}")
+                                 enos_point_result = "unknown"
+                                 final_explanation = f"Error processing LLM result: {str(process_err)}" 
+                        
+                        # Determine final status based on result
+                        if enos_point_result == "unknown":
+                            mapping_status = "unmapped"
+                            stats["unmapped"] += 1
+                        elif mapping_success:
+                             mapping_status = "mapped"
+                             stats["mapped"] += 1
+                        else:
+                             # Errors that result in unknown are counted here
+                            mapping_status = "error"
+                            stats["errors"] += 1
+
+                        # Construct the final mapping dictionary for this point
+                        mapping_dict = {
                             "original": point,
-                            "mapping": {
+                                    "mapping": {
                                 "pointId": point_id,
-                                "status": "error", 
-                                "error": f"Unhandled point processing error: {str(point_error)}", 
-                                "enosPoint": "unknown"
-                            },
-                            "reflection": {
-                                "explanation": f"Critical error processing point {point_name_safe}: {str(point_error)}"
+                                "enosPoint": enos_point_result,
+                                "status": mapping_status,
+                                "confidence": quality_score,
+                                "source": source,
+                                "error": final_explanation if mapping_status == 'error' else None
+                                    },
+                                    "reflection": {
+                                "quality_score": quality_score,
+                                "reason": final_reason,
+                                "explanation": final_explanation,
+                                "success": mapping_success and enos_point_result != "unknown"
                             }
                         }
-                        all_mappings.append(error_mapping)
-                        processed_mappings.append(error_mapping) # Also add to processed for analysis
-                        # Continue with next point
+                        
+                        all_mappings_results.append(mapping_dict)
+                        self._log_mapping_reflection(point, enos_point_result, quality_score, final_reason, final_explanation, mapping_dict["reflection"]["success"])
 
-            # ... (existing batch analysis, logging, and return logic) ...
+                    # --- End Point Processing in Batch --- 
 
-        except Exception as e:
-            logger.error(f"Critical error in map_points: {str(e)}")
-            logger.error(traceback.format_exc()) # Log full traceback for critical errors
-            
-            # Provide more helpful error details if available
-            error_detail = str(e)
-            if "run_sync" in error_detail and "Runner" in error_detail:
-                error_detail = "AI agent configuration error. Ensure the Runner and Agent SDK are properly set up."
-            elif "'str' object has no attribute 'get'" in error_detail:
-                error_detail = "Data format error. Ensure points data is properly formatted as dictionaries."
-            
+                    # --- Add Delay Between Batches --- 
+                    # Introduce a small delay to avoid hitting API rate limits
+                    logger.debug(f"Finished processing batch {batch_number} for {device_key}. Pausing briefly...")
+                    time.sleep(1.1) # Sleep for 1.1 seconds to stay under ~60 reqs/min limit
+
+                # --- End Batch Loop --- 
+
+            # --- End Device Group Loop --- 
+
+            # --- Final Return --- 
+            logger.info(f"Mapping finished. Final Stats: Total={stats['total']}, Mapped={stats['mapped']}, Unmapped={stats['unmapped']}, Errors={stats['errors']}")
+            final_success_status = stats["errors"] == 0 and stats["total"] > 0 # Consider success if points processed and no errors
             return {
-                "success": False,
-                "error": error_detail,
-                "mappings": [],
-                "stats": {"total": 0, "mapped": 0, "errors": 0},
-                "insights": []
+                "success": final_success_status,
+                "mappings": all_mappings_results,
+                "stats": stats,
+                "insights": pattern_insights # Include collected insights
             }
 
-    # ... (rest of the class methods like _get_ai_mapping, process_ai_response, etc.) ...
+        except Exception as critical_error:
+            logger.error(f"Critical error in map_points execution: {str(critical_error)}\n{traceback.format_exc()}")
+            # Ensure total count reflects input if crash happens early
+            if stats["total"] == 0: stats["total"] = len(points)
+            stats["errors"] = stats["total"] - stats["mapped"] - stats["unmapped"] # Assign remaining as errors
+            return {
+                "success": False,
+                "error": f"Critical mapping failure: {str(critical_error)}",
+                "mappings": all_mappings_results, # Return any partial mappings
+                "stats": stats,
+                "insights": pattern_insights
+            }
+
+    def _fallback_device_type_extraction(self, point_name: str) -> Optional[str]:
+        """Extract device type from point name (e.g., 'CT_1.TripStatus' -> 'CT')"""
+        if not point_name:
+            return "UNKNOWN"
+            
+        # First try to extract prefix before underscore or dot
+        parts = point_name.split('_', 1)
+        if len(parts) > 1:
+            prefix = parts[0].upper()
+            # Check if this is a known device type prefix
+            if prefix in {"AHU", "FCU", "CT", "CH", "CHPL", "PUMP", "CWP", "CHWP", "HWP", "VAV", "DPM", "METER"}:
+                return prefix
+        
+        # If not found with underscore, try with dot
+        parts = point_name.split('.', 1)
+        if len(parts) > 1:
+            # Check for pattern like "CT_1" before the dot
+            prefix_parts = parts[0].split('_', 1)
+            if prefix_parts:
+                prefix = prefix_parts[0].upper()
+                if prefix in {"AHU", "FCU", "CT", "CH", "CHPL", "PUMP", "CWP", "CHWP", "HWP", "VAV", "DPM", "METER"}:
+                    return prefix
+        
+        # Fall back to the existing inference method
+        return self._infer_device_type(point_name)
 
     def _get_ai_mapping(self, prompt: str) -> str:
         """Get mapping from OpenAI using the Agents SDK Runner with retries."""

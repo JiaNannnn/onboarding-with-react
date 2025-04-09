@@ -257,9 +257,13 @@ const MapPoints: React.FC = () => {
   
   // Get current page data
   const getCurrentPageData = () => {
+    // Log input state and calculated values for debugging pagination
+    console.log(`getCurrentPageData: total points = ${points.length}, currentPage = ${currentPage}, pageSize = ${pageSize}`);
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    return points.slice(startIndex, endIndex);
+    const slicedData = points.slice(startIndex, endIndex);
+    console.log(` -> calculated startIndex = ${startIndex}, endIndex = ${endIndex}, returning ${slicedData.length} points`);
+    return slicedData;
   };
   
   // Prepare HandsOnTable data and settings
@@ -297,28 +301,30 @@ const MapPoints: React.FC = () => {
   // Handle page change
   const handlePageChange = (page: number) => {
     if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
+    // Ensure totalPages is calculated correctly before comparing
+    const calculatedTotalPages = Math.ceil(points.length / pageSize);
+    if (page > calculatedTotalPages) page = calculatedTotalPages;
     setCurrentPage(page);
     
-    // Update HotTable data after state update
-    setTimeout(() => {
-      if (hotTableRef.current && hotTableRef.current.hotInstance) {
-        hotTableRef.current.hotInstance.loadData(getCurrentPageData());
-      }
-    }, 0);
+    // Remove manual update - React re-render will handle it via hotSettings
+    // setTimeout(() => {
+    //   if (hotTableRef.current && hotTableRef.current.hotInstance) {
+    //     hotTableRef.current.hotInstance.loadData(getCurrentPageData());
+    //   }
+    // }, 0);
   };
 
   // Handle page size change
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1); // Reset to first page when size changes
     
-    // Update HotTable data after state update
-    setTimeout(() => {
-      if (hotTableRef.current && hotTableRef.current.hotInstance) {
-        hotTableRef.current.hotInstance.loadData(getCurrentPageData());
-      }
-    }, 0);
+    // Remove manual update - React re-render will handle it via hotSettings
+    // setTimeout(() => {
+    //   if (hotTableRef.current && hotTableRef.current.hotInstance) {
+    //     hotTableRef.current.hotInstance.loadData(getCurrentPageData());
+    //   }
+    // }, 0);
   };
 
   // Handle mapping points

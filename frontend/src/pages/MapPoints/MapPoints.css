@@ -13,7 +13,7 @@
 .hot-table-wrapper {
   width: 100%;
   height: 400px;
-  overflow: hidden;
+  overflow: auto;
   margin-top: 15px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -460,6 +460,15 @@
   content: '↓';
   color: #666;
   margin-left: 4px;
+}
+
+/* Enforce consistent row height for all data cells */
+.handsontable .htCore tbody tr td {
+  height: 23px; /* Adjust this value based on inspection of .htDimmed or desired height */
+  line-height: 23px; /* Match height for vertical centering */
+  padding-top: 0;
+  padding-bottom: 0;
+  vertical-align: middle; /* Ensure text is centered vertically */
 }
 
 /* Column filter menu styles */

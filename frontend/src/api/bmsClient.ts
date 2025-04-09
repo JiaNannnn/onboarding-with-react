@@ -800,8 +800,24 @@ export class BMSClient {
         }
       );
       
-      // Return the response directly
-      return response;
+      if (!response.success || !response.taskId) {
+        throw new Error('Failed to start mapping task');
+      }
+      
+      console.log(`Mapping task started with ID: ${response.taskId}`);
+      
+      // Step 2: Poll the task status until it completes
+      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
+        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${response.taskId}`),
+        (response) => {
+          // Task is complete if it doesn't have a "processing" status
+          return !response.status || response.status !== 'processing';
+        },
+        20000, // Check every 2 seconds
+        60    // Allow up to 60 attempts (2 minutes total)
+      );
+      
+      return result;
     } catch (error) {
       console.error('Error mapping points to EnOS:', error);
       
