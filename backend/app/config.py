@@ -36,4 +36,12 @@ class TestingConfig(Config):
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
     CELERY_BROKER_URL = 'memory://'
-    CELERY_RESULT_BACKEND = 'cache+memory://' 
+    CELERY_RESULT_BACKEND = 'cache+memory://'
+
+# Configuration dictionary - maps environment names to Config classes
+config_by_name = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'testing': TestingConfig,
+    'default': DevelopmentConfig
+} 

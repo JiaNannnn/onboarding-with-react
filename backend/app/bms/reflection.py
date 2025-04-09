@@ -1622,6 +1622,77 @@ class ReflectionSystem:
             'source': 'strategy_selection'
         }
     
+    def analyze_patterns(self, points: List[Dict]) -> Dict:
+        """
+        Analyze patterns in a group of points to provide insights for mapping.
+        
+        Args:
+            points: List of points to analyze
+            
+        Returns:
+            Analysis results with pattern insights and recommended strategy
+        """
+        # Safely handle empty input
+        if not points:
+            return {
+                'success': True,
+                'insights': [],
+                'patterns': {},
+                'recommended_strategy': 'direct_semantic'
+            }
+            
+        try:
+            # Extract point names for analysis
+            point_names = [p.get('pointName', '') for p in points if p.get('pointName')]
+            device_types = set(p.get('deviceType', '') for p in points if p.get('deviceType'))
+            
+            # Default device type if multiple or none found
+            primary_device_type = list(device_types)[0] if len(device_types) == 1 else "UNKNOWN"
+            
+            # Use pattern analysis to extract patterns
+            patterns_result = self.pattern_analysis.extract_patterns(points)
+            
+            # Determine recommended strategy based on pattern analysis
+            if len(point_names) >= 5:
+                # If enough points, use more sophisticated strategy
+                recommended_strategy = 'contextual_pattern'
+            else:
+                # For fewer points, use direct semantic approach
+                recommended_strategy = 'direct_semantic'
+                
+            # Generate basic insights
+            insights = [
+                f"Analyzed {len(points)} points of device type '{primary_device_type}'",
+                f"Recommended mapping strategy: {recommended_strategy}"
+            ]
+            
+            # Add pattern-based insights if available
+            if patterns_result and 'common_prefixes' in patterns_result:
+                prefixes = patterns_result.get('common_prefixes', [])
+                if prefixes:
+                    insights.append(f"Detected common prefixes: {', '.join(prefixes[:3])}")
+                    
+            if patterns_result and 'common_patterns' in patterns_result:
+                patterns = patterns_result.get('common_patterns', [])
+                if patterns:
+                    insights.append(f"Detected common patterns: {', '.join(patterns[:3])}")
+            
+            return {
+                'success': True,
+                'insights': insights,
+                'patterns': patterns_result,
+                'recommended_strategy': recommended_strategy
+            }
+            
+        except Exception as e:
+            # Safely handle errors
+            return {
+                'success': False,
+                'error': str(e),
+                'insights': [f"Error during pattern analysis: {str(e)}"],
+                'recommended_strategy': 'direct_semantic'  # Default to simplest strategy on error
+            }
+    
     def analyze_mappings(self, mappings: List[Dict]) -> Dict:
         """
         Analyze a batch of mappings to extract patterns and insights.

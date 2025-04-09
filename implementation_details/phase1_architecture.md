@@ -45,6 +45,30 @@ async def reflect_and_remap_point(
     mapper = get_mapper(request.app.state)
     result = await mapper.reflect_and_remap(point_id, point_data, previous_result)
     return result
+
+@router.post("/points/reflect-and-remap-batch")
+async def reflect_and_remap_points_batch(
+    points_data: List[PointData],
+    previous_results: List[MappingResult],
+    batch_size: Optional[int] = 20,
+    request: Request
+):
+    """Reflect on previous mapping attempts and try remapping multiple points at once.
+    
+    Args:
+        points_data: List of original point data
+        previous_results: List of previous mapping results
+        batch_size: Size of each processing batch (default: 20)
+        
+    Returns:
+        New mapping results with reflection data
+    """
+    if len(points_data) != len(previous_results):
+        raise HTTPException(status_code=400, detail="The number of points and previous results must match")
+        
+    mapper = get_mapper(request.app.state)
+    results = await mapper.reflect_and_remap_batch(points_data, previous_results, batch_size)
+    return results
 ```
 
 ## EnOSMapper Class Modifications
@@ -241,6 +265,305 @@ class EnOSMapper:
         )
         
         return new_result
+        
+    async def reflect_and_remap_batch(
+        self,
+        points_data: List[Dict[str, Any]],
+        previous_results: List[Dict[str, Any]],
+        batch_size: int = 20
+    ) -> List[Dict[str, Any]]:
+        """Reflect on multiple failed mappings and attempt remapping in batches.
+        
+        Args:
+            points_data: List of original point data
+            previous_results: List of previous mapping results
+            batch_size: Size of each processing batch
+            
+        Returns:
+            List of new mapping results with reflection data
+        """
+        # Validate input lists have same length
+        if len(points_data) != len(previous_results):
+            raise ValueError("Points data and previous results must have the same length")
+        
+        # Initialize reasoning engine
+        reasoning_engine = ReasoningEngine(self.enos_schema)
+        
+        # Process in batches
+        total_points = len(points_data)
+        results = []
+        
+        for i in range(0, total_points, batch_size):
+            batch_points = points_data[i:i+batch_size]
+            batch_results = previous_results[i:i+batch_size]
+            
+            # Process each point in the batch
+            batch_output = []
+            for j, point_data in enumerate(batch_points):
+                point_id = point_data.get("pointId", f"unknown_{i+j}")
+                previous_result = batch_results[j]
+                
+                # Process individual point with reflection
+                new_result = await self._process_reflection(point_id, point_data, previous_result)
+                batch_output.append(new_result)
+            
+            # Add batch results to overall results
+            results.extend(batch_output)
+            
+            # Optional: Add a small delay between batches to avoid rate limiting
+            if i + batch_size < total_points:
+                await asyncio.sleep(0.5)
+        
+        return results
+
+    async def _process_reflection(
+        self,
+        point_id: str,
+        point_data: Dict[str, Any],
+        previous_result: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Process reflection and remapping for a single point.
+        
+        Args:
+            point_id: ID of the point
+            point_data: Original point data
+            previous_result: Previous mapping result
+            
+        Returns:
+            New mapping result with reflection
+        """
+        # Initialize reasoning engine
+        reasoning_engine = ReasoningEngine(self.enos_schema)
+        
+        # Generate reflection
+        error_type = previous_result.get("reflection", {}).get("reason", "unknown")
+        reflection = reasoning_engine.reflect_on_mapping(
+            point_data,
+            previous_result,
+            error_type
+        )
+        
+        # Get the original reasoning chain if it exists
+        original_reasoning = previous_result.get("reasoning", {}).get("chain", [])
+        
+        # Generate refined prompt with reflection
+        device_type = point_data.get("deviceType", "unknown")
+        prompt = reasoning_engine.generate_refined_prompt(
+            point_data,
+            original_reasoning,
+            reflection
+        )
+        
+        # Run the LLM again
+        llm_response = await Runner.run_sync(self.mapping_agent, prompt)
+        
+        # Process and validate result
+        new_result = self._process_llm_response(llm_response, point_data, device_type)
+        
+        # Add reflection to result
+        new_result["reflection"] = {
+            "analysis": reflection,
+            "previous_mapping": previous_result.get("mapping", {}).get("enosPoint", "unknown"),
+            "success": new_result["mapping"]["enosPoint"] != "unknown"
+        }
+        
+        # Store reasoning and reflection data
+        reasoning_engine.store_reasoning_data(
+            point_id,
+            original_reasoning,
+            reflection,
+            new_result
+        )
+        
+        return new_result
+
+    def generate_refined_prompt(
+        self,
+        point_data: Dict[str, Any],
+        reasoning_chain: List[str],
+        reflection: Optional[Dict[str, Any]] = None
+    ) -> str:
+        """Generate refined prompt based on reasoning and reflection using OpenAI API.
+        
+        Args:
+            point_data: Point data
+            reasoning_chain: Original reasoning chain
+            reflection: Optional reflection data
+            
+        Returns:
+            Refined prompt
+        """
+        # Prepare base context for the model
+        base_context = {
+            "point_id": point_data.get("pointId", "unknown"),
+            "point_name": point_data.get("pointName", ""),
+            "device_type": point_data.get("deviceType", ""),
+            "unit": point_data.get("unit", ""),
+            "description": point_data.get("description", ""),
+            "reasoning_chain": reasoning_chain
+        }
+        
+        # Add reflection data if available
+        if reflection:
+            base_context["reflection"] = {
+                "error_type": reflection.get("error_type", "unknown"),
+                "analysis": reflection.get("analysis", []),
+                "suggestions": reflection.get("suggestions", [])
+            }
+            
+            if "closest_matches" in reflection:
+                base_context["reflection"]["closest_matches"] = reflection["closest_matches"]
+        
+        # Generate optimized prompt using OpenAI
+        try:
+            # Create input for prompt generation
+            prompt_generation_input = self._create_prompt_generation_input(base_context)
+            
+            # Call OpenAI API to generate optimized prompt
+            optimized_prompt = Runner.run_sync(self.mapping_agent, prompt_generation_input)
+            
+            # Return the optimized prompt
+            return optimized_prompt
+            
+        except Exception as e:
+            # Log error
+            logger.error(f"Error generating refined prompt with OpenAI: {str(e)}")
+            
+            # Fall back to template-based prompt generation
+            return self._generate_fallback_prompt(base_context)
+    
+    def _create_prompt_generation_input(self, context: Dict[str, Any]) -> str:
+        """Create input for prompt generation with OpenAI.
+        
+        Args:
+            context: Context for prompt generation
+            
+        Returns:
+            Input for prompt generation
+        """
+        # Create a meta-prompt that asks the model to generate a prompt
+        meta_prompt = """You are an expert prompt engineer tasked with creating an optimal prompt for mapping BMS points to EnOS schema points.
+Given the context below, create a mapping prompt that will yield the most accurate mapping possible.
+
+Context Information:
+"""
+        # Add basic point information
+        meta_prompt += f"""
+Point ID: {context['point_id']}
+Point Name: {context['point_name']}
+Device Type: {context['device_type']}
+Unit: {context['unit']}
+Description: {context['description']}
+
+Original reasoning steps:
+"""
+        
+        # Add reasoning chain
+        for step in context["reasoning_chain"]:
+            meta_prompt += f"- {step}\n"
+        
+        # Add reflection data if available
+        if "reflection" in context:
+            reflection = context["reflection"]
+            meta_prompt += f"\nReflection on previous mapping attempt (error type: {reflection['error_type']}):\n"
+            
+            if reflection["analysis"]:
+                meta_prompt += "\nAnalysis:\n"
+                for analysis in reflection["analysis"]:
+                    meta_prompt += f"- {analysis}\n"
+            
+            if reflection.get("suggestions"):
+                meta_prompt += "\nSuggestions:\n"
+                for suggestion in reflection["suggestions"]:
+                    meta_prompt += f"- {suggestion}\n"
+            
+            if reflection.get("closest_matches"):
+                meta_prompt += "\nPotential matches:\n"
+                for match in reflection["closest_matches"]:
+                    meta_prompt += f"- {match}\n"
+        
+        # Add instructions for the prompt format
+        meta_prompt += """
+Create an optimized prompt for the mapping agent that will result in the most accurate mapping.
+The prompt should:
+1. Include all relevant point information
+2. Incorporate insights from the reasoning chain
+3. Address issues identified in the reflection (if available)
+4. Provide clear instructions for the expected response format
+5. Emphasize the need for accuracy and precision
+
+Your output should be ONLY the prompt itself, with no meta-commentary or explanations.
+"""
+        
+        return meta_prompt
+    
+    def _generate_fallback_prompt(self, context: Dict[str, Any]) -> str:
+        """Generate a fallback prompt if OpenAI API fails.
+        
+        Args:
+            context: Context for prompt generation
+            
+        Returns:
+            Fallback prompt
+        """
+        # Extract context variables
+        point_id = context["point_id"]
+        point_name = context["point_name"]
+        device_type = context["device_type"]
+        unit = context["unit"]
+        description = context["description"]
+        reasoning_chain = context["reasoning_chain"]
+        
+        # Create the base prompt
+        prompt = f"""Map the following BMS point to the EnOS schema:
+
+Point ID: {point_id}
+Point Name: {point_name}
+Device Type: {device_type}
+Unit: {unit}
+Description: {description}
+
+Reasoning steps:
+{chr(10).join(reasoning_chain)}
+"""
+
+        # Add reflection data if available
+        if "reflection" in context:
+            reflection = context["reflection"]
+            prompt += f"""
+
+Previous mapping attempt failed due to: {reflection["error_type"]}
+
+Analysis:
+{chr(10).join(reflection["analysis"])}
+
+"""
+            if reflection.get("suggestions"):
+                prompt += f"""Suggestions:
+{chr(10).join(reflection["suggestions"])}
+
+"""
+            
+            if reflection.get("closest_matches"):
+                prompt += f"""Consider these potential matches:
+{chr(10).join(reflection["closest_matches"])}
+
+"""
+            
+            prompt += """Please provide a more accurate mapping in the format:
+{"enosPoint": "TARGET_POINT"}
+"""
+        else:
+            prompt += """
+
+Please provide the mapping in the format:
+{"enosPoint": "TARGET_POINT"}
+
+If you cannot determine the mapping, respond with:
+{"enosPoint": "unknown"}
+"""
+        
+        return prompt
 ```
 
 ## Logging System
@@ -561,7 +884,7 @@ class ReasoningEngine:
         return characteristics
     
     def _find_potential_matches(self, characteristics: Dict[str, Any]) -> List[str]:
-        """Find potential EnOS points matching the characteristics.
+        """Find potential EnOS points matching the characteristics using OpenAI's API.
         
         Args:
             characteristics: Point characteristics
@@ -569,79 +892,103 @@ class ReasoningEngine:
         Returns:
             List of potential EnOS points
         """
-        # This is a placeholder implementation
-        # In Phase 3, this will be replaced with a more sophisticated algorithm
-        potential_matches = []
+        # Extract relevant information for the prompt
+        point_name = characteristics["name"]
+        device_type = characteristics["device_type"]
+        unit = characteristics["unit"]
+        description = characteristics["description"]
+        abbreviations = characteristics["abbreviations"]
         
-        # Check for common patterns
-        name = characteristics["name"].lower()
-        unit = characteristics["unit"].lower()
+        # Create a prompt for the OpenAI API
+        prompt = f"""Analyze this BMS point and suggest the most appropriate EnOS point mappings:
+
+Point Name: {point_name}
+Device Type: {device_type}
+Unit: {unit}
+Description: {description}
+Detected Abbreviations: {', '.join(abbreviations)}
+
+Based on these characteristics, what are the most likely EnOS point types this could map to?
+Return your answer as a JSON array of strings, containing the top 3 most likely EnOS point types.
+Example format: ["PUMP_raw_frequency", "PUMP_status", "PUMP_command"]
+"""
         
-        if "pump" in name or "cwp" in characteristics["abbreviations"]:
-            if unit in ["hz", "hertz"]:
-                potential_matches.append("PUMP_raw_frequency")
+        try:
+            # Call the OpenAI API using the existing mapping agent
+            llm_response = Runner.run_sync(self.mapping_agent, prompt)
             
-            if "status" in name:
-                potential_matches.append("PUMP_status")
+            # Parse the response to extract the suggested mappings
+            # This handles various response formats the API might return
+            matches = self._parse_potential_matches_response(llm_response)
+            
+            # Return the top 3 matches
+            return matches[:3]
         
-        # Return potential matches (limit to 3 for now)
-        return potential_matches[:3]
+        except Exception as e:
+            # Log the error
+            logger.error(f"Error using OpenAI API for potential matches: {str(e)}")
+            
+            # Fall back to simple rule-based matching
+            fallback_matches = []
+            name = point_name.lower()
+            
+            # Simple rule-based fallback logic
+            if "pump" in name or "cwp" in abbreviations:
+                if unit.lower() in ["hz", "hertz"]:
+                    fallback_matches.append("PUMP_raw_frequency")
+                
+                if "status" in name:
+                    fallback_matches.append("PUMP_status")
+                    
+                if "command" in name or "cmd" in name:
+                    fallback_matches.append("PUMP_command")
+            
+            # Return fallback matches
+            return fallback_matches[:3]
     
-    def generate_refined_prompt(
-        self,
-        point_data: Dict[str, Any],
-        reasoning_chain: List[str],
-        reflection: Optional[Dict[str, Any]] = None
-    ) -> str:
-        """Generate refined prompt based on reasoning and reflection.
+    def _parse_potential_matches_response(self, response: str) -> List[str]:
+        """Parse the OpenAI API response to extract potential matches.
         
         Args:
-            point_data: Point data
-            reasoning_chain: Original reasoning chain
-            reflection: Optional reflection data
+            response: The response from the OpenAI API
             
         Returns:
-            Refined prompt
+            List of potential EnOS points
         """
-        # This is a placeholder implementation
-        # In Phase 3, this will be replaced with a more sophisticated algorithm
-        prompt = f"""Map the following BMS point to the EnOS schema:
-
-Point ID: {point_data.get('pointId', 'unknown')}
-Point Name: {point_data.get('pointName', '')}
-Device Type: {point_data.get('deviceType', '')}
-Unit: {point_data.get('unit', '')}
-Description: {point_data.get('description', '')}
-
-Reasoning steps:
-{chr(10).join(reasoning_chain)}
-"""
-
-        if reflection:
-            prompt += f"""
-
-Previous mapping attempt failed due to: {reflection.get('error_type', 'unknown reason')}
-
-Analysis:
-{chr(10).join(reflection.get('analysis', []))}
-
-Suggestions:
-{chr(10).join(reflection.get('suggestions', []))}
-
-Please provide a more accurate mapping in the format:
-{{"enosPoint": "TARGET_POINT"}}
-"""
-        else:
-            prompt += """
-
-Please provide the mapping in the format:
-{"enosPoint": "TARGET_POINT"}
-
-If you cannot determine the mapping, respond with:
-{"enosPoint": "unknown"}
-"""
+        try:
+            # Try to parse as JSON
+            matches = json.loads(response)
+            if isinstance(matches, list):
+                return matches
+            
+            # If the response is a dict with an array field, extract that
+            if isinstance(matches, dict):
+                for key, value in matches.items():
+                    if isinstance(value, list) and all(isinstance(item, str) for item in value):
+                        return value
+            
+            # Fall back to regex pattern matching
+            pattern = r'["\']([\w_]+)["\']'
+            regex_matches = re.findall(pattern, response)
+            if regex_matches:
+                # Filter to only keep things that look like EnOS points (uppercase with underscores)
+                enos_points = [m for m in regex_matches if re.match(r'^[A-Z][A-Z_]+$', m)]
+                return enos_points
+            
+        except json.JSONDecodeError:
+            # Not valid JSON, try regex
+            pattern = r'["\']([\w_]+)["\']'
+            regex_matches = re.findall(pattern, response)
+            if regex_matches:
+                # Filter to only keep things that look like EnOS points (uppercase with underscores)
+                enos_points = [m for m in regex_matches if re.match(r'^[A-Z][A-Z_]+$', m)]
+                return enos_points
         
-        return prompt
+        except Exception as e:
+            logger.error(f"Error parsing potential matches response: {str(e)}")
+        
+        # If all parsing attempts fail, return empty list
+        return []
     
     def store_reasoning_data(
         self,
@@ -692,6 +1039,91 @@ def _should_trigger_reflection(self, result: Dict[str, Any]) -> bool:
     # Don't trigger reflection for high-confidence mappings
     return False
 ```
+
+## Batch Reflection Processing
+
+### 1. New Endpoint and Implementation
+For processing large datasets with over 100 points that need reflection, a batch processing approach has been implemented. This allows for efficient reflection and remapping of multiple points at once, rather than requiring individual API calls for each point.
+
+```python
+@router.post("/points/reflect-and-remap-batch")
+async def reflect_and_remap_points_batch(
+    points_data: List[PointData],
+    previous_results: List[MappingResult],
+    batch_size: Optional[int] = 20,
+    request: Request
+):
+    """Reflect on previous mapping attempts and try remapping multiple points at once.
+    
+    Args:
+        points_data: List of original point data
+        previous_results: List of previous mapping results
+        batch_size: Size of each processing batch (default: 20)
+        
+    Returns:
+        New mapping results with reflection data
+    """
+    if len(points_data) != len(previous_results):
+        raise HTTPException(status_code=400, detail="The number of points and previous results must match")
+        
+    mapper = get_mapper(request.app.state)
+    results = await mapper.reflect_and_remap_batch(points_data, previous_results, batch_size)
+    return results
+```
+
+### 2. EnOSMapper Batch Method
+The EnOSMapper class has been extended with a new method to handle batch reflection and remapping:
+
+```python
+async def reflect_and_remap_batch(
+    self,
+    points_data: List[Dict[str, Any]],
+    previous_results: List[Dict[str, Any]],
+    batch_size: int = 20
+) -> List[Dict[str, Any]]:
+    """Reflect on multiple failed mappings and attempt remapping in batches.
+    
+    Args:
+        points_data: List of original point data
+        previous_results: List of previous mapping results
+        batch_size: Size of each processing batch
+        
+    Returns:
+        List of new mapping results with reflection data
+    """
+    # Process in batches with rate limiting
+    total_points = len(points_data)
+    results = []
+    
+    for i in range(0, total_points, batch_size):
+        batch_points = points_data[i:i+batch_size]
+        batch_results = previous_results[i:i+batch_size]
+        
+        # Process batch
+        batch_output = []
+        for j, point_data in enumerate(batch_points):
+            # Process individual point with reflection
+            point_id = point_data.get("pointId", f"unknown_{i+j}")
+            previous_result = batch_results[j]
+            new_result = await self._process_reflection(point_id, point_data, previous_result)
+            batch_output.append(new_result)
+        
+        # Add batch results to overall results
+        results.extend(batch_output)
+        
+        # Add delay between batches to avoid rate limiting
+        if i + batch_size < total_points:
+            await asyncio.sleep(0.5)
+    
+    return results
+```
+
+### 3. Benefits of Batch Processing
+- **Scalability**: Efficiently handles large datasets with hundreds of points
+- **Resource Optimization**: Processes points in manageable batches to avoid overwhelming the system
+- **Rate Limiting**: Includes optional delays between batches to prevent API rate limits
+- **Progress Tracking**: Can be extended to include progress tracking for long-running jobs
+- **Error Handling**: Maintains individual point processing to isolate errors
 
 ## Integration Into Existing Code
 

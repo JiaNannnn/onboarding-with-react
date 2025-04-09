@@ -791,8 +791,8 @@ export class BMSClient {
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
     try {
-      // Step 1: Start the mapping task and get the task ID
-      const startResponse = await this.apiClient.post<{success: boolean, taskId: string, status: string}>(
+      // Make a direct POST request to the endpoint
+      const response = await this.apiClient.post<MapPointsToEnOSResponse>(
         `${API_V1_PATH}/map-points`,
         {
           points,
@@ -800,27 +800,18 @@ export class BMSClient {
         }
       );
       
-      if (!startResponse.success || !startResponse.taskId) {
-        throw new Error('Failed to start mapping task');
-      }
-      
-      console.log(`Mapping task started with ID: ${startResponse.taskId}`);
-      
-      // Step 2: Poll the task status until it completes
-      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
-        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${startResponse.taskId}`),
-        (response) => {
-          // Task is complete if it doesn't have a "processing" status
-          return !response.status || response.status !== 'processing';
-        },
-        2000, // Check every 2 seconds
-        60    // Allow up to 60 attempts (2 minutes total)
-      );
-      
-      return result;
+      // Return the response directly
+      return response;
     } catch (error) {
       console.error('Error mapping points to EnOS:', error);
-      throw error;
+      
+      // Return a formatted error response
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        mappings: [],
+        stats: { total: points.length, mapped: 0, errors: points.length }
+      };
     }
   }
   

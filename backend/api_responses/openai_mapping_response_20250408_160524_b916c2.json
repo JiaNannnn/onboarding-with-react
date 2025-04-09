@@ -1,0 +1,8 @@
+{
+  "prompt": "BMS Point Name: CT_4.TripStatus\nDevice Type: COOLING_TOWER\nPotential Abbreviations Detected: St/Status (Status), Trip/Fault (Fault Status)\n\nNo specific reference points file provided; rely on standard EnOS points for this device type.\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
+  "response": "{\"enos_point\": \"unknown\"}",
+  "model": "gpt-4",
+  "agent_name": "EnOSPointMapperAgent",
+  "timestamp": "2025-04-08T16:05:24.294818",
+  "point_name": "CT_4.TripStatus"
+}

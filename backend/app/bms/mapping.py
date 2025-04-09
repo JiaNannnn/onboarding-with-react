@@ -14,6 +14,7 @@ from functools import lru_cache
 from ..bms.grouping import performance_monitor
 from ..bms.reflection import ReflectionSystem, MappingMemorySystem, PatternAnalysisEngine, QualityAssessmentFramework, StrategySelectionSystem
 import traceback
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -363,6 +364,65 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
             return {}
         except Exception as e:
             logger.error(f"Failed to load EnOS schema: {str(e)}")
+            return {}
+    
+    def _load_simplified_schema(self) -> Dict:
+        """Load the simplified EnOS schema for device types and points"""
+        try:
+            logger.info("Loading simplified schema for device types and points")
+            
+            # First try the existing schema if already loaded (optimization)
+            if hasattr(self, 'enos_schema') and self.enos_schema:
+                logger.info("Using existing schema as simplified schema")
+                self.simplified_schema = self.enos_schema
+                return self.enos_schema
+            
+            # Try loading from simplified schema files
+            possible_paths = [
+                Path(__file__).parent / 'enos_simplified.json',
+                Path(__file__).parent / 'enos_simlified.json',  # Handle possible typo
+                Path(__file__).parent.parent.parent / 'enos_simplified.json',
+                Path(__file__).parent.parent.parent / 'enos_simlified.json',
+                Path(__file__).parent / 'enos.json'
+            ]
+            
+            # Log all paths being checked
+            for path in possible_paths:
+                logger.info(f"Checking for simplified schema at: {path} (exists: {path.exists()})")
+            
+            for schema_path in possible_paths:
+                if schema_path.exists():
+                    try:
+                        with open(schema_path, 'r', encoding='utf-8') as f:
+                            raw_schema = json.load(f)
+                            
+                            # Process schema based on expected format
+                            if isinstance(raw_schema, dict):
+                                if "deviceTypes" in raw_schema:
+                                    # Handle nested format
+                                    schema = self._convert_schema_format(raw_schema.get("deviceTypes", {}))
+                                else:
+                                    # Handle direct format
+                                    schema = self._convert_schema_format(raw_schema)
+                                    
+                                logger.info(f"Successfully loaded simplified schema with {len(schema)} device types from {schema_path}")
+                                self.simplified_schema = schema
+                                return schema
+                    except Exception as e:
+                        logger.error(f"Error loading simplified schema from {schema_path}: {str(e)}")
+            
+            # If no simplified schema was found, try using _load_enos_schema as fallback
+            logger.info("No simplified schema found, attempting to use full EnOS schema")
+            schema = self._load_enos_schema()
+            
+            # Store the result as simplified schema
+            self.simplified_schema = schema
+            return schema
+            
+        except Exception as e:
+            logger.error(f"Failed to load simplified schema: {str(e)}")
+            # Create empty simplified schema to prevent further loading attempts
+            self.simplified_schema = {}
             return {}
     
     def _generate_cache_key(self, point: str, device_type: str) -> str:
@@ -1302,15 +1362,39 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
         explanation = "Default processing"
         
         try:
+            # Check if point is a dictionary or a string
+            if not isinstance(point, dict):
+                logger.warning(f"Non-dictionary point provided to process_ai_response: {type(point)}")
+                # Convert string to minimal dictionary for processing
+                if isinstance(point, str):
+                    point_name = point
+                    point = {
+                        "pointName": point_name,
+                        "deviceType": self._infer_device_type_from_name(point_name) or "UNKNOWN",
+                        "pointId": ""
+                    }
+                else:
+                    # If it's neither a dict nor a string, create a dummy point
+                    point = {
+                        "pointName": "unknown",
+                        "deviceType": "UNKNOWN",
+                        "pointId": ""
+                    }
+                reason = self.REASON_FALLBACK
+                explanation = "Invalid point data format"
+            
+            # Get point name for logging (safely)
+            point_name = point.get('pointName', 'unknown')
+            
             # Print raw response for debugging
-            logger.info(f"Raw AI response for point '{point['pointName']}': {response}")
+            logger.info(f"Raw AI response for point '{point_name}': {response}")
             
             # Check for missing device type and try to infer it
             if not point.get('deviceType'):
                 # Extract device type from point name
-                inferred_device_type = self._infer_device_type_from_name(point['pointName'])
+                inferred_device_type = self._infer_device_type_from_name(point_name)
                 point['deviceType'] = inferred_device_type
-                logger.info(f"Inferred deviceType '{inferred_device_type}' from pointName '{point['pointName']}'")
+                logger.info(f"Inferred deviceType '{inferred_device_type}' from pointName '{point_name}'")
                 reason = self.REASON_INFERRED
                 explanation = f"Device type inferred from point name"
             
@@ -1708,7 +1792,17 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
                             candidate_points = self.simplified_schema[device_type_normalized].get("points", [])
                             if candidate_points:
                                 prompt_lines.append("\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):")
-                                prompt_lines.extend(candidate_points[:20]) # Show first 20 as examples
+                                # Check if we need to convert dict to list if it's a dictionary
+                                if isinstance(candidate_points, dict):
+                                    # Convert dictionary keys to a list
+                                    candidate_points_list = list(candidate_points.keys())
+                                    # Only include up to 20 points
+                                    for point in candidate_points_list[:20]:
+                                        prompt_lines.append(point)
+                                else:
+                                    # Handle if it's already a list
+                                    for point in candidate_points[:20]:
+                                        prompt_lines.append(point)
                         else:
                             prompt_lines.append("\nNo specific reference points file provided; rely on standard EnOS points for this device type.")
 
@@ -1822,16 +1916,34 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
                             logger.info(f"Processed {stats['mapped']}/{stats['total']} points overall ({current_success_rate:.1f}% success rate)")
                     
                     except Exception as point_error:
-                        point_name_safe = point.get('pointName', '[Unknown Name]')
+                        # Safe handling for any point type (dict or string)
+                        if isinstance(point, dict):
+                            point_name_safe = point.get('pointName', '[Unknown Name]')
+                            point_id = point.get('pointId', '')
+                        elif isinstance(point, str):
+                            point_name_safe = point
+                            point_id = ""
+                        else:
+                            point_name_safe = '[Unknown Name]'
+                            point_id = ""
+                            
                         logger.error(f"Unhandled error processing point {point_name_safe}: {str(point_error)}")
                         logger.error(traceback.format_exc()) # Log traceback for unhandled errors
                         stats["total"] += 1 # Increment total even if point processing fails
                         stats["errors"] += 1
-                        # Create a minimal error entry for this point
+                        
+                        # Create a minimal error entry for this point with safe handling
                         error_mapping = {
                             "original": point,
-                             "mapping": {"pointId": point.get("pointId", ""), "status": "error", "error": f"Unhandled point processing error: {str(point_error)}", "enosPoint": "unknown"},
-                             "reflection": {"explanation": f"Critical error processing point {point_name_safe}: {str(point_error)}"}
+                            "mapping": {
+                                "pointId": point_id,
+                                "status": "error", 
+                                "error": f"Unhandled point processing error: {str(point_error)}", 
+                                "enosPoint": "unknown"
+                            },
+                            "reflection": {
+                                "explanation": f"Critical error processing point {point_name_safe}: {str(point_error)}"
+                            }
                         }
                         all_mappings.append(error_mapping)
                         processed_mappings.append(error_mapping) # Also add to processed for analysis
@@ -1842,9 +1954,17 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
         except Exception as e:
             logger.error(f"Critical error in map_points: {str(e)}")
             logger.error(traceback.format_exc()) # Log full traceback for critical errors
+            
+            # Provide more helpful error details if available
+            error_detail = str(e)
+            if "run_sync" in error_detail and "Runner" in error_detail:
+                error_detail = "AI agent configuration error. Ensure the Runner and Agent SDK are properly set up."
+            elif "'str' object has no attribute 'get'" in error_detail:
+                error_detail = "Data format error. Ensure points data is properly formatted as dictionaries."
+            
             return {
                 "success": False,
-                "error": str(e),
+                "error": error_detail,
                 "mappings": [],
                 "stats": {"total": 0, "mapped": 0, "errors": 0},
                 "insights": []
@@ -1893,3 +2013,110 @@ Output: `{"enosPoint": "PUMP_stat_device_on_off"}`
                 
         # Should not be reached
         raise Exception(f"AI mapping failed definitively after {self.max_retries} attempts.") 
+
+    def _fallback_device_type_extraction(self, point_name: str) -> str:
+        """Fallback method to extract device type from point name when other methods fail."""
+        # Try to infer device type from the point name
+        if not point_name:
+            return "UNKNOWN"
+        
+        # Common device prefixes in BMS systems
+        device_prefixes = {
+            "AHU": "AHU",
+            "VAV": "VAV",
+            "CH": "CH-SYS",
+            "CHL": "CH-SYS",
+            "CHILLER": "CH-SYS",
+            "FCU": "FCU",
+            "HX": "HEATEXCHANGER",
+            "PUMP": "PUMP",
+            "CWP": "PUMP",
+            "HWP": "PUMP",
+            "CT": "CT",
+            "CLG-TWR": "CT",
+            "COOLING-TOWER": "CT",
+            "BLR": "BOILER",
+            "BOILER": "BOILER",
+            "FAN": "FAN",
+            "METER": "METER"
+        }
+        
+        # Check for prefixes in the point name
+        point_upper = point_name.upper()
+        for prefix, device_type in device_prefixes.items():
+            if point_upper.startswith(prefix) or f".{prefix}" in point_upper or f"-{prefix}" in point_upper:
+                return device_type
+        
+        # If no matching prefix, try more general inference
+        if "TEMP" in point_upper or "TMP" in point_upper:
+            return "SENSOR" 
+        if "PRESS" in point_upper or "PRS" in point_upper:
+            return "SENSOR"
+        if "FLOW" in point_upper or "FLW" in point_upper:
+            return "SENSOR"
+        if "PWR" in point_upper or "POWER" in point_upper or "KW" in point_upper:
+            return "METER"
+        if "ENERGY" in point_upper or "KWH" in point_upper:
+            return "METER"
+        
+        # Default to unknown if no pattern matches
+        return "UNKNOWN"
+        
+    def _extract_device_type_from_name(self, point_name: str) -> str:
+        """Extract device type from a point name."""
+        if not point_name:
+            return ""
+            
+        # Try to extract device type from common patterns
+        # Pattern: DeviceType-Number (e.g., AHU-1, VAV-305)
+        pattern1 = re.match(r'^([A-Za-z\-]+)[\-\.]?(\d+)', point_name)
+        if pattern1:
+            device_prefix = pattern1.group(1).upper()
+            # Map common prefixes to standardized device types
+            device_map = {
+                "AHU": "AHU",
+                "VAV": "VAV",
+                "FCU": "FCU",
+                "CHILLER": "CH-SYS",
+                "CH": "CH-SYS",
+                "CWP": "PUMP",
+                "HWP": "PUMP",
+                "PUMP": "PUMP",
+                "CT": "CT"
+            }
+            
+            for prefix, device_type in device_map.items():
+                if device_prefix == prefix:
+                    return device_type
+            
+            # If not in map but looks like a valid device type, return the prefix
+            if re.match(r'^[A-Z]{2,}$', device_prefix):
+                return device_prefix
+                
+        # Pattern: Device.Point (e.g., AHU.SupplyTemp)
+        pattern2 = re.match(r'^([A-Za-z\-]+)\.', point_name)
+        if pattern2:
+            device_prefix = pattern2.group(1).upper()
+            # Use the same mapping as above
+            device_map = {
+                "AHU": "AHU",
+                "VAV": "VAV",
+                "FCU": "FCU",
+                "CHILLER": "CH-SYS",
+                "CH": "CH-SYS",
+                "CWP": "PUMP",
+                "HWP": "PUMP",
+                "PUMP": "PUMP",
+                "CT": "CT"
+            }
+            
+            for prefix, device_type in device_map.items():
+                if device_prefix == prefix:
+                    return device_type
+                    
+            # Return prefix if it looks like a valid device type
+            if re.match(r'^[A-Z]{2,}$', device_prefix):
+                return device_prefix
+        
+        # If no pattern matches, return empty string
+        return ""

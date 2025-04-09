@@ -79,4 +79,5 @@ uploads/
 logs/
 data/
 mappings/
-files/ 
+files/
+backend/api_responses/ 

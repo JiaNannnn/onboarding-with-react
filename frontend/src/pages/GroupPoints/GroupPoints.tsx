@@ -6,6 +6,7 @@ import type { GridSettings } from 'handsontable/settings';
 import 'handsontable/dist/handsontable.full.css';
 import './GroupPoints.css';
 import { BMSPointRaw } from '../../types/apiTypes';
+import { api } from '../../api/core/apiClient';
 
 // Register all Handsontable modules
 registerAllModules();
@@ -311,21 +312,9 @@ const GroupPoints: React.FC = () => {
       // Extract point names from the points array
       const pointNames = points.map(point => point.pointName);
 
-      const response = await fetch('http://localhost:5000/api/points/ai-grouping', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        mode: 'cors',
-        body: JSON.stringify({ points: pointNames })
-      });
-
-      const serverResponse: AIGroupingResponse = await response.json();
+      // Use the API client with the correct endpoint path
+      const serverResponse = await api.post<AIGroupingResponse>('/api/bms/points/ai-grouping', { points: pointNames });
       console.log('Server response:', serverResponse);
-
-      if (!response.ok) {
-        throw new Error(`Failed to perform AI grouping: ${response.status}`);
-      }
 
       if (serverResponse.success && serverResponse.grouped_points) {
         // Transform the grouped points back to our format

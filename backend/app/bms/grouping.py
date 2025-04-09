@@ -298,104 +298,255 @@ class DeviceGrouper:
         except Exception as e:
             logger.warning(f"Error saving to cache: {str(e)}")
 
-    def _save_api_response(self, response_data: dict, api_type: str = "openai") -> None:
-        """Save API response data as JSON for analysis and debugging"""
-        # Create timestamp for filename
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        # Create a random suffix to avoid collisions
-        suffix = ''.join(random.choices('0123456789abcdef', k=6))
-        # Create filename
-        filename = f"{api_type}_response_{timestamp}_{suffix}.json"
-        response_file = API_RESPONSES_DIR / filename
+    def _save_api_response(self, response) -> None:
+        """
+        Save API response for debugging purposes.
         
+        Args:
+            response: API response
+        """
         try:
-            with open(response_file, 'w', encoding='utf-8') as f:
-                json.dump(response_data, f, indent=2, ensure_ascii=False)
-            logger.info(f"Saved API response to: {response_file}")
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            file_path = API_RESPONSES_DIR / f"response_{timestamp}.json"
+            
+            # Extract and save relevant parts of the response
+            data = {
+                "timestamp": timestamp,
+                "model": getattr(response, "model", self.model),
+                "content": getattr(response.choices[0].message, "content", "No content"),
+                "usage": {
+                    "prompt_tokens": getattr(response.usage, "prompt_tokens", 0),
+                    "completion_tokens": getattr(response.usage, "completion_tokens", 0),
+                    "total_tokens": getattr(response.usage, "total_tokens", 0)
+                }
+            }
+            
+            with open(file_path, "w") as f:
+                json.dump(data, f, indent=2)
+                
         except Exception as e:
-            logger.warning(f"Error saving API response: {str(e)}")
+            logger.warning(f"Failed to save API response: {str(e)}")
 
     @performance_monitor
-    def _group_with_ai(self, points: List[str]) -> Dict[str, Dict[str, List[str]]]:
-        """Group points using AI-based analysis"""
+    def _group_with_ai(self, raw_points: List[str]) -> Dict[str, Dict[str, List[str]]]:
+        """Group points using the OpenAI API."""
         try:
-            # Format points for AI processing
-            points_text = "\n".join(points)
+            # Enhanced prompt with better guidance for device type identification
+            prompt = self._create_enhanced_grouping_prompt(raw_points)
             
-            # Create the prompt
-            prompt = f"""Given these BMS point names, group them by device type and instance.
-Return the result as a JSON object where:
-- Top level keys are device types (e.g., "AHU", "FCU")
-- Second level keys are device instances (e.g., "1", "2")
-- Values are arrays of point names belonging to that device
-
-Example format:
-{{
-    "AHU": {{
-        "1": ["AHU1_SAT", "AHU1_RAT"],
-        "2": ["AHU2_SAT", "AHU2_RAT"]
-    }},
-    "FCU": {{
-        "1": ["FCU1_SAT", "FCU1_RAT"]
-    }}
-}}
-
-Points to group:
-{points_text}"""
-
-            # Call OpenAI API
             response = self.client.chat.completions.create(
                 model=self.model,
+                temperature=0.1,  # Low temperature for consistent results
                 messages=[
-                    {"role": "system", "content": "You are a helpful assistant that groups BMS points."},
+                    {"role": "system", "content": "You are an expert HVAC engineer who specializes in building management systems and point naming conventions."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0,
                 response_format={"type": "json_object"}
             )
-
+            
+            # Save API response for debugging
+            self._save_api_response(response)
+            
             # Parse the response
             try:
-                result = json.loads(response.choices[0].message.content)
+                content = response.choices[0].message.content
+                result = json.loads(content)
                 
-                # Validate the result structure
+                # Validate structure
                 if not isinstance(result, dict):
-                    raise ValueError("AI response is not a dictionary")
+                    raise ValueError("API response is not a valid dictionary")
                 
-                # Validate and fix each group
-                fixed_result = {}
-                for device_type, devices in result.items():
-                    if not isinstance(devices, dict):
-                        logger.warning(f"Fixing invalid device group structure for {device_type}")
-                        if isinstance(devices, list):
-                            # If it's a list, put all points under "Unknown" instance
-                            fixed_result[device_type] = {"Unknown": devices}
-                        else:
-                            # Skip invalid entries
-                            continue
-                    else:
-                        # Validate device instances
-                        valid_devices = {}
-                        for instance, points_list in devices.items():
-                            if isinstance(points_list, list):
-                                valid_devices[instance] = points_list
-                            else:
-                                logger.warning(f"Skipping invalid points list for {device_type} {instance}")
-                        
-                        if valid_devices:
-                            fixed_result[device_type] = valid_devices
-                
-                return fixed_result
-                
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse AI response: {str(e)}")
-                raise ValueError(f"Failed to parse AI response: {str(e)}")
+                return result
+            except json.JSONDecodeError:
+                logger.error("Failed to parse API response as JSON")
+                raise ValueError("Invalid JSON format in API response")
                 
         except Exception as e:
-            logger.error(f"Error in AI grouping: {str(e)}")
+            logger.error(f"Error in _group_with_ai: {str(e)}")
             raise
 
-    @performance_monitor
+    def _create_enhanced_grouping_prompt(self, raw_points: List[str]) -> str:
+        """
+        Create an enhanced prompt for point grouping that handles measurement prefixes better.
+        This improved version recognizes when a point name starts with a measurement device/method
+        but actually refers to a different device type.
+        """
+        point_list = json.dumps(raw_points, indent=2)
+        
+        return f"""
+You are an expert in HVAC systems and BMS point naming conventions. I need you to analyze and group these building management system points by both device type and device instance (ID).
+
+IMPORTANT: Look beyond just the prefix of a point name. Many points start with measurement prefixes (DPM, VSD, etc.) 
+but actually refer to specific equipment. For example:
+- "DPM_CWP_2.kW" should be grouped as a Chilled Water Pump (CWP), not as "DPM"
+- "VSD_AHU3_Speed" should be grouped as an Air Handling Unit (AHU), not as "VSD"
+- "CT_4.TripStatus" should be grouped as a Cooling Tower (CT), not by its first letter only
+
+Common device types in HVAC:
+- AHU: Air Handling Unit
+- VAV: Variable Air Volume box
+- FCU: Fan Coil Unit 
+- CWP: Chilled Water Pump
+- CHW: Chilled Water
+- CT: Cooling Tower
+- CH: Chiller
+- HWP: Hot Water Pump
+- HW: Hot Water
+- BLR: Boiler
+- FAN: Fan
+- ZONE: Zone/Room sensor
+
+POINT LIST:
+{point_list}
+
+Please group these points by:
+1. Device Type (e.g., AHU, Chiller, Pump)
+2. Device Instance (specific ID or unit number)
+
+Format your response as a JSON object with the following structure:
+{{
+  "DEVICE_TYPE_1": {{
+    "DEVICE_ID_1": ["point1", "point2"],
+    "DEVICE_ID_2": ["point3", "point4"]
+  }},
+  "DEVICE_TYPE_2": {{
+    "DEVICE_ID_3": ["point5", "point6"]
+  }}
+}}
+
+Use your expertise to identify the actual equipment being monitored, not just prefixes in the names.
+"""
+
+    def _fallback_grouping(self, raw_points: List[str]) -> Dict[str, Dict[str, List[str]]]:
+        """Fallback method for grouping when AI fails."""
+        result = {}
+        
+        # Enhanced pattern recognition for common HVAC device types
+        device_patterns = {
+            "AHU": [r'AHU', r'RTU'],
+            "VAV": [r'VAV', r'VAVBOX'],
+            "CHILLER": [r'CH[0-9]', r'CHILLER', r'^CH_'],
+            "PUMP": [r'(?:^|\W)CWP', r'(?:^|\W)HWP', r'(?:^|\W)PUMP'],
+            "FCU": [r'FCU', r'FANCOIL'],
+            "COOLING_TOWER": [r'(?:^|\W)CT[0-9]', r'(?:^|\W)CT_', r'COOLINGTOWER', r'COOLING_TOWER'],
+            "BOILER": [r'BLR', r'BOILER'],
+            "FAN": [r'(?:^|\W)FAN[0-9]', r'(?:^|\W)FAN_'],
+            "ZONE": [r'(?:^|\W)RM[0-9]', r'(?:^|\W)ROOM', r'(?:^|\W)ZONE'],
+        }
+        
+        # Special case for handling measurement prefixes
+        measurement_prefixes = {
+            "DPM": ["CWP", "HWP", "PUMP", "CHILLER", "AHU", "CT", "FAN"],
+            "VSD": ["CWP", "HWP", "PUMP", "AHU", "FAN"],
+            "TMP": ["CWP", "HWP", "PUMP", "CHILLER", "AHU", "CT", "ZONE"],
+            "PRS": ["CWP", "HWP", "PUMP", "CHILLER", "AHU", "CT"],
+            "ALM": ["CWP", "HWP", "PUMP", "CHILLER", "AHU", "CT", "BOILER"],
+            "KW": ["CWP", "HWP", "PUMP", "CHILLER", "AHU", "CT", "BOILER"],
+        }
+        
+        for point in raw_points:
+            # Clean up the point name for processing
+            point_clean = point.replace('.', '_').strip()
+            
+            # Check if this point starts with a measurement prefix
+            assigned = False
+            for prefix, device_checks in measurement_prefixes.items():
+                if point_clean.startswith(prefix):
+                    # Extract the parts after the prefix
+                    remaining = point_clean[len(prefix):].strip("_")
+                    
+                    # Check if any known device type appears after the measurement prefix
+                    for device_type, patterns in device_patterns.items():
+                        for pattern in patterns:
+                            if re.search(pattern, remaining, re.IGNORECASE):
+                                # Create device type entry if it doesn't exist
+                                if device_type not in result:
+                                    result[device_type] = {}
+                                
+                                # Extract device ID if possible, default to 'Unknown'
+                                device_id = self._extract_device_id(remaining, device_type)
+                                if device_id not in result[device_type]:
+                                    result[device_type][device_id] = []
+                                    
+                                result[device_type][device_id].append(point)
+                                assigned = True
+                                break
+                        if assigned:
+                            break
+                if assigned:
+                    break
+            
+            # If not assigned through measurement prefix, use regular pattern matching
+            if not assigned:
+                for device_type, patterns in device_patterns.items():
+                    for pattern in patterns:
+                        if re.search(pattern, point_clean, re.IGNORECASE):
+                            # Create device type entry if it doesn't exist
+                            if device_type not in result:
+                                result[device_type] = {}
+                            
+                            # Extract device ID if possible, default to 'Unknown'
+                            device_id = self._extract_device_id(point_clean, device_type)
+                            if device_id not in result[device_type]:
+                                result[device_type][device_id] = []
+                                
+                            result[device_type][device_id].append(point)
+                            assigned = True
+                            break
+                    if assigned:
+                        break
+            
+            # If still not assigned, assign to 'Other'
+            if not assigned:
+                if 'Other' not in result:
+                    result['Other'] = {'Unknown': []}
+                result['Other']['Unknown'].append(point)
+        
+        return result
+
+    def _extract_device_id(self, point_name: str, device_type: str) -> str:
+        """
+        Extract device ID from point name based on device type.
+        
+        Args:
+            point_name: Point name to extract ID from
+            device_type: Type of device
+            
+        Returns:
+            Device ID
+        """
+        # Default extraction pattern
+        id_pattern = r'(\d+)'
+        
+        # Device-specific extraction patterns
+        if device_type == "AHU":
+            match = re.search(r'AHU[_\s-]*(\d+)', point_name, re.IGNORECASE)
+            return f"AHU_{match.group(1)}" if match else "Unknown"
+        elif device_type == "VAV":
+            match = re.search(r'VAV[_\s-]*(\d+)', point_name, re.IGNORECASE)
+            return f"VAV_{match.group(1)}" if match else "Unknown"
+        elif device_type == "CHILLER":
+            match = re.search(r'CH[_\s-]*(\d+)', point_name, re.IGNORECASE)
+            return f"CH_{match.group(1)}" if match else "Unknown" 
+        elif device_type == "PUMP":
+            # Handle different pump types (CWP, HWP, etc.)
+            if "CWP" in point_name.upper():
+                match = re.search(r'CWP[_\s-]*(\d+)', point_name, re.IGNORECASE)
+                return f"CWP_{match.group(1)}" if match else "CWP_Unknown"
+            elif "HWP" in point_name.upper():
+                match = re.search(r'HWP[_\s-]*(\d+)', point_name, re.IGNORECASE)
+                return f"HWP_{match.group(1)}" if match else "HWP_Unknown"
+            else:
+                match = re.search(r'PUMP[_\s-]*(\d+)', point_name, re.IGNORECASE)
+                return f"PUMP_{match.group(1)}" if match else "PUMP_Unknown"
+        elif device_type == "COOLING_TOWER":
+            match = re.search(r'CT[_\s-]*(\d+)', point_name, re.IGNORECASE)
+            return f"CT_{match.group(1)}" if match else "Unknown"
+        
+        # Generic extraction for other device types
+        match = re.search(id_pattern, point_name)
+        return f"{device_type}_{match.group(1)}" if match else f"{device_type}_Unknown"
+    
     def _apply_grouping_to_all_points(self, all_points: List[str], existing_groups: Dict) -> Dict:
         """Apply the discovered grouping patterns to all points, including those not in the initial batch"""
         # Extract the first 100 points that were already processed
@@ -544,144 +695,6 @@ Points to group:
                     result[device_type][device_id] = [result[device_type][device_id]] if isinstance(result[device_type][device_id], str) else []
         
         return result
-
-    def _fallback_grouping(self, points: List[str], use_ontology: bool = False) -> Dict[str, Dict[str, List[str]]]:
-        """Improved fallback grouping in case AI-based grouping fails"""
-        # More comprehensive patterns for common BMS device types
-        patterns = {
-            'AHU': ['AHU', 'AIR HANDLING UNIT', 'MAT', 'SAT', 'RAT'],
-            'FCU': ['FCU', 'FAN COIL', 'FANCOIL'],
-            'CH': ['CH', 'CHILLER', 'CHPL', 'CH-SYS'],
-            'CHP': ['CHP', 'CHILLER PLANT'],
-            'BOILER': ['BOILER', 'BOIL'],
-            'PUMP': ['PUMP', 'CWP', 'CHWP', 'HWP', 'P-'],
-            'CT': ['CT', 'COOLING TOWER'],
-            'VAV': ['VAV', 'VARIABLE AIR VOLUME', 'TERMINAL'],
-            'RTU': ['RTU', 'ROOF TOP UNIT'],
-            'EF': ['EF', 'EXHAUST FAN'],
-            'SF': ['SF', 'SUPPLY FAN'],
-            'RF': ['RF', 'RETURN FAN'],
-            'METER': ['METER', 'DPM', 'ENERGY METER'],
-            'LIGHTING': ['LIGHTING', 'LIGHT', 'LT-'],
-            'ROOM': ['ROOM', 'RM-', 'ZONE', 'SPACE'],
-            'OTHER': ['OTHER', 'UNKNOWN']
-        }
-        
-        # If ontology-based grouping is requested, use more structured rules
-        if use_ontology:
-            logger.info("Using ontology-based grouping rules")
-            return self._ontology_grouping(points)
-        
-        # Initialize the result
-        result = {}
-        
-        # 保证"Other"类别始终是字典格式
-        result["OTHER"] = {}
-        
-        for point in points:
-            # Convert to uppercase for pattern matching
-            point_upper = point.upper()
-            
-            # Try to match the point to a device type
-            matched_type = None
-            for device_type, indicators in patterns.items():
-                if any(ind in point_upper for ind in indicators):
-                    matched_type = device_type
-                    break
-            
-            # If no match was found, use 'OTHER'
-            if not matched_type:
-                matched_type = 'OTHER'
-            
-            # If this is the first point of this type, initialize the dictionary
-            if matched_type not in result:
-                result[matched_type] = {}
-            
-            # Try to extract a device ID
-            device_id = self._extract_device_id(point, matched_type)
-            
-            # If we couldn't extract a device ID, use a generic one
-            if not device_id:
-                device_id = f"Unknown_{len(result[matched_type]) + 1}"
-            
-            # Add the device ID to the result if needed
-            if device_id not in result[matched_type]:
-                result[matched_type][device_id] = []
-            
-            # Add the point to the result
-            result[matched_type][device_id].append(point)
-        
-        # 确保所有设备类型都有子字典，即使是空的
-        for device_type in list(result.keys()):
-            if not isinstance(result[device_type], dict):
-                logger.warning(f"修复设备类型 {device_type} 的数据格式，将非字典值替换为字典")
-                if isinstance(result[device_type], list):
-                    # 如果是列表，将其转换为字典
-                    result[device_type] = {"Unknown": result[device_type]}
-                else:
-                    # 如果不是列表，创建空字典
-                    result[device_type] = {}
-            
-            # 确保每个设备ID下都是列表
-            for device_id in list(result[device_type].keys()):
-                if not isinstance(result[device_type][device_id], list):
-                    logger.warning(f"修复设备 {device_id} 的点位格式，将非列表值替换为列表")
-                    if isinstance(result[device_type][device_id], str):
-                        result[device_type][device_id] = [result[device_type][device_id]]
-                    else:
-                        try:
-                            result[device_type][device_id] = list(result[device_type][device_id])
-                        except:
-                            result[device_type][device_id] = []
-        
-        # 如果OTHER类别是空的，确保有一个默认子字典
-        if not result["OTHER"]:
-            result["OTHER"]["Unknown"] = []
-        
-        return result
-
-    def _extract_device_id(self, point: str, device_type: str) -> str:
-        """Extract a device ID from a point name based on common patterns"""
-        # Convert to uppercase for consistent matching
-        point_upper = point.upper()
-        device_type_upper = device_type.upper()
-        
-        # Common regex patterns for device IDs
-        patterns = [
-            # Pattern for AHU-1, FCU-2, etc.
-            rf'{device_type_upper}[_\s-]?(\d+)',
-            # Pattern for AHU.1.SAT, etc.
-            rf'{device_type_upper}\.(\d+)',
-            # Pattern for values after underscore with the device type
-            rf'{device_type_upper}[_\s]([A-Z0-9]+)[_\s]',
-            # Pattern for numbers at the beginning
-            r'^(\d+)[_\s]',
-            # Pattern for generic ID extraction
-            r'([A-Z0-9]+\d+)[\._\s]'
-        ]
-        
-        # Try to match each pattern
-        for pattern in patterns:
-            match = re.search(pattern, point_upper)
-            if match:
-                return match.group(1)
-        
-        # If no match was found, try to extract a value with digits
-        words = re.findall(r'[A-Z]+\d+', point_upper)
-        if words:
-            for word in words:
-                if device_type_upper in word:
-                    return word
-            # Return the first word with digits
-            return words[0]
-        
-        # If still no match, split by common separators and return the first part
-        for sep in ['_', '.', '-', ' ']:
-            if sep in point:
-                return point.split(sep)[0]
-        
-        # Last resort: return the point name itself
-        return point
 
     def _ontology_grouping(self, points: List[str]) -> Dict[str, Dict[str, List[str]]]:
         """

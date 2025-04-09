@@ -451,7 +451,7 @@ def _find_similar_enos_points(
     device_type: str,
     unit: str
 ) -> List[str]:
-    """Find similar points in EnOS schema.
+    """Find similar points in EnOS schema using semantic matching with OpenAI API.
     
     Args:
         decomposition: Point name decomposition
@@ -461,44 +461,209 @@ def _find_similar_enos_points(
     Returns:
         List of similar EnOS points
     """
-    # This is a simplified version
-    # In the real implementation, this would search the EnOS schema more thoroughly
-    similar_points = []
+    # Get available points for this device type from schema
+    available_points = self._get_available_points_for_device(device_type)
     
-    # Filter by measurement type
-    if decomposition["measurement_type"] == "temperature":
-        similar_points.extend(["TEMP_supply", "TEMP_return", "TEMP_ambient", "TEMP_zone"])
-    elif decomposition["measurement_type"] == "pressure":
-        similar_points.extend(["PRESSURE_supply", "PRESSURE_return", "PRESSURE_differential"])
-    elif decomposition["measurement_type"] == "flow":
-        similar_points.extend(["FLOW_water", "FLOW_air"])
-    elif decomposition["measurement_type"] == "status":
-        similar_points.extend(["STATUS_on_off", "STATUS_alarm"])
-    elif decomposition["measurement_type"] == "frequency":
-        similar_points.extend(["PUMP_raw_frequency", "FAN_raw_frequency"])
-    elif decomposition["measurement_type"] == "power":
-        similar_points.extend(["POWER_kW", "POWER_consumption"])
+    # If no points available in schema, return empty list
+    if not available_points:
+        return []
     
-    # Further filter by device
-    if decomposition["device"] == "pump":
-        pump_points = ["PUMP_raw_frequency", "PUMP_status", "PUMP_command", "PUMP_speed"]
-        similar_points.extend([p for p in pump_points if p not in similar_points])
-    elif decomposition["device"] == "valve":
-        valve_points = ["VALVE_position", "VALVE_command", "VALVE_feedback"]
-        similar_points.extend([p for p in valve_points if p not in similar_points])
-    elif decomposition["device"] == "damper":
-        damper_points = ["DAMPER_position", "DAMPER_command", "DAMPER_feedback"]
-        similar_points.extend([p for p in damper_points if p not in similar_points])
+    # Prepare point description for semantic matching
+    point_description = self._create_point_description(decomposition, unit)
     
-    # Consider unit
-    if unit.lower() in ["hz", "hertz"]:
-        frequency_points = ["PUMP_raw_frequency", "FAN_raw_frequency", "MOTOR_frequency"]
-        similar_points.extend([p for p in frequency_points if p not in similar_points])
+    # Use OpenAI API to find semantically similar points
+    prompt = self._create_semantic_matching_prompt(point_description, available_points)
     
-    # Sort by relevance (simplified implementation)
-    # In practice, this would calculate similarity scores
+    # Call OpenAI API
+    response = self._call_openai_api(prompt)
     
-    return similar_points
+    # Parse response to get ranked matches
+    matches = self._parse_semantic_matches(response)
+    
+    return matches
+
+def _get_available_points_for_device(self, device_type: str) -> List[str]:
+    """Get available points for a device type from the EnOS schema.
+    
+    Args:
+        device_type: Device type
+        
+    Returns:
+        List of available points
+    """
+    # Try to get points from schema
+    points = []
+    
+    # Check if device type exists in schema
+    if device_type in self.enos_schema:
+        # Get points from schema
+        device_schema = self.enos_schema[device_type]
+        if "points" in device_schema:
+            points = list(device_schema["points"].keys())
+    
+    # If no points in schema, use fallback list based on common patterns
+    if not points:
+        # Fallback common points by device category
+        if device_type.startswith("AHU"):
+            points = ["AHU_temp_supply", "AHU_temp_return", "AHU_fan_status", "AHU_damper_position"]
+        elif device_type.startswith("CH") or device_type.startswith("CHILLER"):
+            points = ["CHILLER_status", "CHILLER_temp_supply", "CHILLER_temp_return", "CHILLER_power"]
+        elif device_type.startswith("PUMP"):
+            points = ["PUMP_status", "PUMP_speed", "PUMP_raw_frequency", "PUMP_power"]
+        elif device_type.startswith("VAV"):
+            points = ["VAV_flow", "VAV_temp", "VAV_damper_position", "VAV_setpoint"]
+        else:
+            # Generic points
+            points = [
+                "TEMP_supply", "TEMP_return", "TEMP_zone",
+                "PRESSURE_supply", "PRESSURE_return",
+                "FLOW_water", "FLOW_air",
+                "STATUS_on_off", "STATUS_alarm",
+                "POWER_kW", "HUMIDITY_relative"
+            ]
+    
+    return points
+
+def _create_point_description(self, decomposition: Dict[str, Any], unit: str) -> str:
+    """Create a description of the point for semantic matching.
+    
+    Args:
+        decomposition: Point name decomposition
+        unit: Unit of measurement
+        
+    Returns:
+        Point description
+    """
+    description_parts = []
+    
+    # Add device info if available
+    if decomposition["device"]:
+        description_parts.append(f"Device: {decomposition['device']}")
+    
+    # Add measurement type if available
+    if decomposition["measurement_type"]:
+        description_parts.append(f"Measurement type: {decomposition['measurement_type']}")
+    
+    # Add property if available
+    if decomposition["property"]:
+        description_parts.append(f"Property: {decomposition['property']}")
+    
+    # Add unit information
+    if unit:
+        description_parts.append(f"Unit: {unit}")
+    
+    # Add raw segments
+    segments_str = ", ".join(decomposition["segments"])
+    description_parts.append(f"Name components: {segments_str}")
+    
+    # Add abbreviations
+    if decomposition["abbreviations"]:
+        abbrs_str = ", ".join([f"{a} ({m})" for a, m in decomposition["abbreviations"].items()])
+        description_parts.append(f"Abbreviations: {abbrs_str}")
+    
+    return "; ".join(description_parts)
+
+def _create_semantic_matching_prompt(self, point_description: str, available_points: List[str]) -> str:
+    """Create a prompt for semantic matching using OpenAI API.
+    
+    Args:
+        point_description: Description of the point
+        available_points: Available EnOS points
+        
+    Returns:
+        Prompt for OpenAI API
+    """
+    points_str = "\n".join([f"- {point}" for point in available_points])
+    
+    prompt = f"""Given a BMS point description, find the most semantically similar points from the EnOS schema.
+
+Point description:
+{point_description}
+
+Available EnOS points:
+{points_str}
+
+Analyze the BMS point description and find the top 5 most semantically matching EnOS points from the available list.
+Consider the measurement type, device, property, and other characteristics.
+Provide your ranking in JSON format:
+{{
+  "matches": [
+    "FIRST_BEST_MATCH",
+    "SECOND_BEST_MATCH",
+    "THIRD_BEST_MATCH",
+    "FOURTH_BEST_MATCH",
+    "FIFTH_BEST_MATCH"
+  ],
+  "reasoning": "Your reasoning for the rankings"
+}}
+
+Only include points from the available list. Rank them by semantic similarity."""
+
+    return prompt
+
+def _call_openai_api(self, prompt: str) -> str:
+    """Call OpenAI API for semantic matching.
+    
+    Args:
+        prompt: Prompt for OpenAI API
+        
+    Returns:
+        API response
+    """
+    # In a real implementation, this would use the OpenAI client
+    # For now, we'll use Runner.run_sync with the LLM agent
+    try:
+        response = Runner.run_sync(self.mapping_agent, prompt)
+        return response
+    except Exception as e:
+        # Log error
+        logger.error(f"Error calling OpenAI API: {str(e)}")
+        # Return empty response
+        return '{}'
+
+def _parse_semantic_matches(self, response: str) -> List[str]:
+    """Parse OpenAI API response to get ranked matches.
+    
+    Args:
+        response: API response
+        
+    Returns:
+        List of ranked matches
+    """
+    try:
+        # Try to parse JSON response
+        match_data = json.loads(response)
+        
+        # Extract matches
+        if "matches" in match_data and isinstance(match_data["matches"], list):
+            # Return matches
+            return match_data["matches"]
+        
+        # Handle case where response isn't in expected format
+        logger.warning(f"Unexpected response format: {response}")
+        
+        # Try to extract any list of strings
+        if isinstance(match_data, dict):
+            for key, value in match_data.items():
+                if isinstance(value, list) and all(isinstance(item, str) for item in value):
+                    return value
+        
+        # Fallback: try regex to extract anything that looks like an EnOS point
+        matches = re.findall(r'([A-Z][A-Z_]+)', response)
+        if matches:
+            # Deduplicate while preserving order
+            unique_matches = []
+            for match in matches:
+                if match not in unique_matches:
+                    unique_matches.append(match)
+            return unique_matches
+        
+    except Exception as e:
+        # Log error
+        logger.error(f"Error parsing semantic matches: {str(e)}")
+    
+    # If all else fails, return empty list
+    return []
 ```
 
 ## Integration with Mapping Process
