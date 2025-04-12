@@ -1,4 +1,4 @@
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, Set
 import json
 import os
 import re
@@ -6,7 +6,7 @@ from datetime import datetime
 from agents import Runner
 
 # Import logging system
-from app.bms.logging import ReasoningLogger
+from .app_logging import ReasoningLogger
 
 class ReasoningEngine:
     """Engine for generating reasoning chains and reflections."""
@@ -63,7 +63,13 @@ class ReasoningEngine:
             "SP": "Setpoint",
             "SA": "Supply Air",
             "RA": "Return Air",
-            "OA": "Outside Air"
+            "OA": "Outside Air",
+            "FCU": "Fan Coil Unit",
+            "VAV": "Variable Air Volume",
+            "CH": "Chiller",
+            "METER": "Meter",
+            "LIGHTING": "Lighting",
+            "CHPL": "Chiller Plant",
         }
     
     def chain_of_thought_grouping(self, points: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
@@ -171,7 +177,7 @@ class ReasoningEngine:
         return verified_groups
     
     def extract_device_prefix(self, point_name: str) -> Optional[str]:
-        """Extract potential device type prefix from point name.
+        """Extract potential device type prefix from point name with enhanced pattern recognition.
         
         Args:
             point_name: Name of the point
@@ -179,22 +185,48 @@ class ReasoningEngine:
         Returns:
             Extracted prefix or None
         """
-        # Common patterns for device type prefixes
-        patterns = [
-            r"^([A-Z]+-[A-Z]+)-\d+",  # e.g., "CH-SYS-1"
-            r"^([A-Z]+)-\d+",         # e.g., "AHU-1"
-            r"^([A-Z]+\d+)",          # e.g., "VAV12"
-        ]
+        if not point_name:
+            return None
         
-        for pattern in patterns:
-            match = re.match(pattern, point_name)
-            if match:
-                return match.group(1)
+        # Strategy 1: Hierarchical notation (CH-SYS-1.CHWP)
+        if '.' in point_name:
+            parts = point_name.split('.')
+            if len(parts) >= 2:
+                # If first part has system identifier, return it
+                if any(sys_id in parts[0].upper() for sys_id in ["CH-SYS", "AHU", "VAV", "FCU"]):
+                    return parts[0]
+                # For cases like FCU.FCU_05_01_8, return the most specific component
+                if parts[0] == parts[1].split('_')[0]:
+                    return parts[1].split('_')[0]
+                # Return both parent and child for component identification
+                return f"{parts[0]}.{parts[1]}"
         
-        # Try a more generic pattern for detecting device prefixes
-        components = point_name.split(".")
+        # Strategy 2: Standard delimiters (AHU-1, FCU-2)
+        delimiter_match = re.search(r'^([A-Za-z\-]+)[\-_\.](\d+)', point_name)
+        if delimiter_match:
+            return delimiter_match.group(1)
+        
+        # Strategy 3: Equipment with number separator (CHWP_1, CHWP-1)
+        equipment_match = re.search(r'^([A-Za-z]+)[_\-\.]?(\d+)', point_name)
+        if equipment_match:
+            return equipment_match.group(1)
+        
+        # Strategy 4: Equipment identifier at start (CHWP_1_VSD_HeatSinkTemp)
+        if '_' in point_name:
+            parts = point_name.split('_')
+            # Check if first part is a known equipment type
+            if parts[0] in ["CHWP", "CWP", "FCU", "AHU", "VAV", "CH", "CT"]:
+                # If second part is numeric, include it in the prefix
+                if len(parts) > 1 and parts[1].isdigit():
+                    return f"{parts[0]}_{parts[1]}"
+                return parts[0]
+        
+        # Strategy 5: Generic pattern for detecting device prefixes
+        components = re.split(r'[._\-]', point_name)
         if components and components[0]:
-            # Return first component as potential prefix
+            # Check if first component matches known equipment type patterns
+            if any(eq_type in components[0].upper() for eq_type in 
+                  ["CHWP", "CWP", "FCU", "AHU", "VAV", "CH", "CT", "VSD"]):
             return components[0]
         
         return None
@@ -204,96 +236,152 @@ class ReasoningEngine:
         prefix: str,
         points: List[Dict[str, Any]]
     ) -> Tuple[List[str], str]:
-        """Reason about device type from prefix with CoT.
+        """Reason the likely device type from a prefix with enhanced hierarchical awareness.
         
         Args:
-            prefix: Extracted prefix
-            points: Points with this prefix
+            prefix: The prefix to analyze
+            points: Points with this prefix (for additional context)
             
         Returns:
-            Tuple of (reasoning chain, determined device type)
+            Tuple of (reasoning_chain, device_type)
         """
-        # Initialize reasoning chain
-        reasoning_chain = [
-            f"Analyzing prefix '{prefix}' for {len(points)} points:"
+        # Start reasoning chain
+        reasoning = [f"Analyzing prefix '{prefix}' to determine device type"]
+        
+        # Handle hierarchical prefixes (CH-SYS-1.CHWP)
+        if '.' in prefix:
+            parent, child = prefix.split('.', 1)
+            reasoning.append(f"Detected hierarchical structure: '{parent}' (parent) and '{child}' (component)")
+            
+            # Check if parent is a known system
+            parent_clean = re.sub(r'[-_]\d+', '', parent).upper()
+            if parent_clean == "CH-SYS" or parent_clean == "CHSYS":
+                reasoning.append(f"Parent '{parent}' identified as Chiller System")
+                
+                # Determine component type
+                if child.upper().startswith("CHWP") or child.upper().startswith("CWP"):
+                    reasoning.append(f"Component '{child}' identified as Chilled Water Pump")
+                    return reasoning, "CHWP"
+                elif child.upper().startswith("CH"):
+                    reasoning.append(f"Component '{child}' identified as Chiller")
+                    return reasoning, "CH"
+                elif child.upper().startswith("CT"):
+                    reasoning.append(f"Component '{child}' identified as Cooling Tower")
+                    return reasoning, "CT"
+            
+            # Check for AHU components
+            elif parent_clean.startswith("AHU"):
+                reasoning.append(f"Parent '{parent}' identified as Air Handling Unit")
+                
+                # Handle common AHU components
+                if child.upper().startswith("SF") or "SUPPLY" in child.upper():
+                    reasoning.append(f"Component '{child}' identified as Supply Fan")
+                    return reasoning, "AHU-SF"
+                elif child.upper().startswith("RF") or "RETURN" in child.upper():
+                    reasoning.append(f"Component '{child}' identified as Return Fan")
+                    return reasoning, "AHU-RF"
+                
+                # Default to parent if component can't be specifically identified
+                return reasoning, "AHU"
+        
+        # Handle compound equipment identifiers (CHWP_1, FCU_05_01)
+        if '_' in prefix:
+            base_equipment = prefix.split('_')[0].upper()
+            reasoning.append(f"Identified equipment base type: '{base_equipment}'")
+            
+            if base_equipment == "CHWP" or base_equipment == "CWP":
+                reasoning.append("Recognized as Chilled Water Pump")
+                return reasoning, "CHWP"
+            elif base_equipment == "FCU":
+                reasoning.append("Recognized as Fan Coil Unit")
+                return reasoning, "FCU"
+            elif base_equipment == "AHU":
+                reasoning.append("Recognized as Air Handling Unit")
+                return reasoning, "AHU"
+            elif base_equipment == "VAV":
+                reasoning.append("Recognized as Variable Air Volume box")
+                return reasoning, "VAV"
+        
+        # Handle direct equipment references
+        if prefix.upper().startswith("CH-SYS") or prefix.upper().startswith("CHSYS"):
+            reasoning.append("Prefix pattern matches Chiller System")
+            return reasoning, "CH-SYS"
+        elif prefix.upper().startswith("CHWP") or prefix.upper().startswith("CWP"):
+            reasoning.append("Prefix pattern matches Chilled Water Pump")
+            return reasoning, "CHWP"
+        elif prefix.upper().startswith("CH") and not (prefix.upper().startswith("CHWP") or prefix.upper().startswith("CH-SYS")):
+            reasoning.append("Prefix pattern matches Chiller")
+            return reasoning, "CH"
+        elif prefix.upper().startswith("FCU"):
+            reasoning.append("Prefix pattern matches Fan Coil Unit")
+            return reasoning, "FCU"
+        elif prefix.upper().startswith("AHU"):
+            reasoning.append("Prefix pattern matches Air Handling Unit")
+            return reasoning, "AHU"
+        elif prefix.upper().startswith("VAV"):
+            reasoning.append("Prefix pattern matches Variable Air Volume box")
+            return reasoning, "VAV"
+        elif prefix.upper().startswith("CT"):
+            reasoning.append("Prefix pattern matches Cooling Tower")
+            return reasoning, "CT"
+        
+        # If no pattern matches, analyze point names for common keywords
+        if not reasoning or len(reasoning) <= 2:
+            reasoning.append("No clear pattern match for prefix, analyzing point details")
+            
+            # Extract common words from point names
+            common_words = self._extract_common_keywords(points)
+            reasoning.append(f"Found common keywords in points: {', '.join(common_words)}")
+            
+            # Look for equipment indicators in the common words
+            if any(kw in common_words for kw in ["VSD", "PUMP", "FLOW"]):
+                reasoning.append("Keywords suggest a pump-related equipment")
+                if "CHILL" in common_words or "CHW" in common_words:
+                    reasoning.append("Keywords suggest Chilled Water Pump")
+                    return reasoning, "CHWP"
+            elif any(kw in common_words for kw in ["TEMP", "ROOM", "SPACE", "ZONE"]):
+                if "FCU" in common_words:
+                    reasoning.append("Keywords suggest Fan Coil Unit")
+                    return reasoning, "FCU"
+                else:
+                    reasoning.append("Temperature-related keywords suggest a terminal unit")
+                    return reasoning, "TU"
+        
+        # Default fallback
+        reasoning.append("Unable to determine specific type, defaulting to UNKNOWN")
+        return reasoning, "UNKNOWN"
+
+    def _extract_common_keywords(self, points: List[Dict[str, Any]]) -> List[str]:
+        """Extract common keywords from point names to aid in classification.
+        
+        Args:
+            points: List of points to analyze
+            
+        Returns:
+            List of common keywords found
+        """
+        # List of keywords to look for
+        keywords = [
+            "TEMP", "TEMPERATURE", "FLOW", "PRESSURE", "VALVE", "PUMP", 
+            "FAN", "SPEED", "STATUS", "COMMAND", "VSD", "CHILLER", "CHILL",
+            "COOLING", "HEATING", "ROOM", "SPACE", "ZONE", "SUPPLY", "RETURN",
+            "FCU", "AHU", "VAV", "CHW", "HW", "CW", "CT", "SETPOINT", "SPT"
         ]
         
-        # Analyze prefix components
-        components = re.split(r'[-_.]', prefix)
-        reasoning_chain.append(f"Prefix components: {components}")
-        
-        # Interpret abbreviations in prefix
-        abbr_meanings = []
-        for component in components:
-            if component in self.abbreviations:
-                abbr_meanings.append(f"{component} = {self.abbreviations[component]}")
-        
-        if abbr_meanings:
-            reasoning_chain.append(f"Abbreviation meanings: {', '.join(abbr_meanings)}")
-        
-        # Analyze point names to find common patterns
-        suffixes = []
-        units = set()
+        # Count occurrences of each keyword
+        keyword_counts = {kw: 0 for kw in keywords}
         
         for point in points:
-            point_name = point.get("pointName", "")
-            if point_name.startswith(prefix):
-                suffix = point_name[len(prefix):].lstrip(".-_")
-                suffixes.append(suffix)
-            
-            unit = point.get("unit", "").lower()
-            if unit:
-                units.add(unit)
+            point_name = point.get("pointName", "").upper()
+            for kw in keywords:
+                if kw in point_name:
+                    keyword_counts[kw] += 1
         
-        reasoning_chain.append(f"Common suffixes: {suffixes[:5]}{' (truncated)' if len(suffixes) > 5 else ''}")
+        # Return keywords that appear in at least 30% of points
+        threshold = max(1, len(points) * 0.3)
+        common_words = [kw for kw, count in keyword_counts.items() if count >= threshold]
         
-        if units:
-            reasoning_chain.append(f"Units in group: {', '.join(units)}")
-        
-        # Apply heuristic rules for device type identification
-        device_type = "unknown"
-        
-        # Check for common device types
-        prefix_lower = prefix.lower()
-        if "ch" in prefix_lower and "sys" in prefix_lower:
-            device_type = "CH-SYS"
-            reasoning_chain.append("Prefix contains 'CH' and 'SYS', indicating a Chiller System")
-        elif "ahu" in prefix_lower:
-            device_type = "AHU"
-            reasoning_chain.append("Prefix contains 'AHU', indicating an Air Handling Unit")
-        elif "vav" in prefix_lower:
-            device_type = "VAV"
-            reasoning_chain.append("Prefix contains 'VAV', indicating a Variable Air Volume unit")
-        elif "fcu" in prefix_lower:
-            device_type = "FCU"
-            reasoning_chain.append("Prefix contains 'FCU', indicating a Fan Coil Unit")
-        elif "cwp" in prefix_lower or ("pump" in prefix_lower and "chw" in prefix_lower):
-            device_type = "PUMP"
-            reasoning_chain.append("Prefix contains pump-related terms, indicating a Pump")
-        elif "ct" in prefix_lower or "tower" in prefix_lower:
-            device_type = "CT"
-            reasoning_chain.append("Prefix contains cooling tower terms, indicating a Cooling Tower")
-        elif "blr" in prefix_lower or "boiler" in prefix_lower:
-            device_type = "BOILER"
-            reasoning_chain.append("Prefix contains boiler terms, indicating a Boiler")
-        
-        # Analyze suffixes for additional clues
-        has_temp = any("temp" in suffix.lower() for suffix in suffixes)
-        has_flow = any("flow" in suffix.lower() for suffix in suffixes)
-        has_pressure = any("pressure" in suffix.lower() or "press" in suffix.lower() for suffix in suffixes)
-        
-        # Use suffix patterns to refine device type
-        if device_type == "unknown":
-            if has_temp and has_flow:
-                device_type = "AHU"
-                reasoning_chain.append("Points include temperature and flow measurements, likely an Air Handling Unit")
-            elif has_pressure:
-                device_type = "CH-SYS"
-                reasoning_chain.append("Points include pressure measurements, likely a Chiller System")
-        
-        reasoning_chain.append(f"Determined device type: {device_type}")
-        
-        return reasoning_chain, device_type
+        return common_words
 
     def batch_reason_device_types(
         self,
@@ -307,43 +395,224 @@ class ReasoningEngine:
         Returns:
             Dictionary mapping device types to lists of points
         """
-        # Prepare LLM prompt for batch reasoning
-        point_names = [point.get("pointName", "") for point in points]
+        if not points:
+            return {}
         
-        prompt = f"""Analyze these Building Management System (BMS) point names and group them by likely device type.
-For each point, determine the most probable device type from these categories:
+        # Check if we can use the LLM agent for better reasoning
+        if self.mapping_agent:
+            return self._llm_batch_reasoning(points)
+        
+        # Fallback to rule-based reasoning if no LLM agent is available
+        return self._rule_based_batch_reasoning(points)
+
+    def _llm_batch_reasoning(self, points: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+        """Use LLM to batch reason device types for points.
+        
+        Args:
+            points: Points to analyze
+            
+        Returns:
+            Dictionary mapping device types to lists of points
+        """
+        # Extract point names for analysis
+        point_names = []
+        for i, point in enumerate(points):
+            point_name = point.get("pointName", f"Unknown-{i}")
+            units = point.get("unit", "")
+            description = point.get("description", "")
+            
+            # Include contextual information
+            point_info = f"{point_name}"
+            if units:
+                point_info += f" (Unit: {units})"
+            if description:
+                point_info += f" - {description}"
+            
+            point_names.append(point_info)
+        
+        # Construct prompt for LLM reasoning
+        prompt = f"""Analyze these Building Management System (BMS) point names and group them by device type.
+Determine the most probable device type for each point from these categories:
 - CH-SYS: Chiller System
 - AHU: Air Handling Unit
 - VAV: Variable Air Volume unit
 - FCU: Fan Coil Unit
 - METER: Metering device
+- LIGHTING: Lighting control system
+- ZONE: Generic zone sensors or controls
 - MISC: Miscellaneous device
 
-Point names:
-{chr(10).join(point_names)}
+Explain your reasoning for each point classification, then output a JSON structure with device types 
+as keys, and lists of point indices (0-based) as values, along with reasoning for each group.
 
-Explain your reasoning for each group, then output each group in JSON format:
+Point list:
+{chr(10).join([f"{i}: {name}" for i, name in enumerate(point_names)])}
+
+Output format:
 {{
-  "device_type": (determined device type),
-  "points": [(indices of points in this group, 0-based)],
-  "reasoning": [(reasoning steps)]
+  "device_type1": {{
+    "point_indices": [list of indices],
+    "reasoning": "detailed explanation for this classification"
+  }},
+  "device_type2": {{
+    "point_indices": [list of indices],
+    "reasoning": "detailed explanation for this classification"
+  }}
 }}
 """
         
-        # Execute LLM reasoning (this could use self.mapping_agent with an appropriate wrapper)
-        # For now, we'll implement a simpler rule-based grouping as a fallback
+        # Call LLM to analyze points
+        try:
+            self.logger.log_reasoning_step("batch_reason_device_types", "Sending point batch to LLM for analysis")
+            result = self.mapping_agent.run(prompt)
+            
+            # Try to parse the response as JSON
+            try:
+                import json
+                import re
+                
+                # Extract JSON if it's embedded in a larger response
+                json_match = re.search(r'({[\s\S]*})', result)
+                if json_match:
+                    result_json = json.loads(json_match.group(1))
+                else:
+                    result_json = json.loads(result)
+                    
+                # Process the LLM reasoning results
+                device_groups = {}
+                
+                for device_type, group_data in result_json.items():
+                    # Clean up device type (trim whitespace, convert to uppercase)
+                    clean_device_type = device_type.strip().upper()
+                    
+                    # Skip if the device type is invalid
+                    if not clean_device_type:
+                        continue
+                    
+                    # Get point indices and reasoning
+                    point_indices = group_data.get("point_indices", [])
+                    reasoning = group_data.get("reasoning", "")
+                    
+                    # Initialize group if needed
+                    if clean_device_type not in device_groups:
+                        device_groups[clean_device_type] = []
+                    
+                    # Add points to group with reasoning
+                    for idx in point_indices:
+                        if 0 <= idx < len(points):
+                            # Create a copy of the point to avoid modifying the original
+                            point_copy = dict(points[idx])
+                            
+                            # Add reasoning chain
+                            point_copy["grouping_reasoning"] = [
+                                f"LLM analysis of point without clear prefix:",
+                                reasoning
+                            ]
+                            
+                            device_groups[clean_device_type].append(point_copy)
+                
+                self.logger.log_reasoning_step("batch_reason_device_types", 
+                    f"LLM successfully classified {len(points)} points into {len(device_groups)} device types")
+                    
+                return device_groups
+                
+            except Exception as json_error:
+                self.logger.log_reasoning_step("batch_reason_device_types", 
+                    f"Failed to parse LLM response as JSON: {str(json_error)}")
+                # Fallback to rule-based reasoning
+                return self._rule_based_batch_reasoning(points)
+                
+        except Exception as llm_error:
+            self.logger.log_reasoning_step("batch_reason_device_types", 
+                f"LLM reasoning failed: {str(llm_error)}")
+            # Fallback to rule-based reasoning
+            return self._rule_based_batch_reasoning(points)
+
+    def _rule_based_batch_reasoning(self, points: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+        """Use rule-based reasoning to determine device types for points without clear prefixes.
         
-        # Mock response parsing
-        groups = self._mock_batch_grouping(points)
+        Args:
+            points: Points to analyze
+            
+        Returns:
+            Dictionary mapping device types to lists of points
+        """
+        device_groups = {
+            "CH-SYS": [],
+            "AHU": [],
+            "VAV": [],
+            "FCU": [],
+            "METER": [],
+            "ZONE": [],
+            "MISC": []
+        }
         
-        return groups
+        for point in points:
+            point_name = point.get("pointName", "").lower()
+            unit = point.get("unit", "").lower()
+            description = point.get("description", "").lower()
+            
+            # Add reasoning chain
+            reasoning = [
+                f"Analyzing point without clear prefix: {point.get('pointName', '')}",
+                "Using rule-based classification since LLM is not available"
+            ]
+            
+            # Create a copy to avoid modifying the original
+            point_copy = dict(point)
+            
+            # Check for keywords in point name and description
+            if any(term in point_name or term in description for term in 
+                   ["chiller", "chw", "condenser", "cooling tower", "evaporator"]):
+                reasoning.append("Contains chiller-related terms, categorizing as CH-SYS")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["CH-SYS"].append(point_copy)
+                
+            elif any(term in point_name or term in description for term in 
+                    ["ahu", "air handler", "air handling", "supply fan", "return fan"]):
+                reasoning.append("Contains air handler terms, categorizing as AHU")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["AHU"].append(point_copy)
+                
+            elif any(term in point_name or term in description for term in 
+                    ["vav", "variable air", "terminal unit", "zone damper"]):
+                reasoning.append("Contains VAV terms, categorizing as VAV")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["VAV"].append(point_copy)
+                
+            elif any(term in point_name or term in description for term in 
+                    ["fcu", "fan coil"]):
+                reasoning.append("Contains fan coil terms, categorizing as FCU")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["FCU"].append(point_copy)
+                
+            elif any(term in point_name or term in description for term in 
+                    ["meter", "energy", "power", "kwh", "kw", "consumption"]):
+                reasoning.append("Contains metering terms, categorizing as METER")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["METER"].append(point_copy)
+                
+            elif any(term in point_name or term in description for term in 
+                    ["zone", "room", "space", "area"]) and any(term in point_name or term in description or term in unit for term in 
+                    ["temp", "humidity", "co2", "occupancy"]):
+                reasoning.append("Contains zone sensor terms, categorizing as ZONE")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["ZONE"].append(point_copy)
+                
+            else:
+                reasoning.append("No clear device type indicators, categorizing as MISC")
+                point_copy["grouping_reasoning"] = reasoning
+                device_groups["MISC"].append(point_copy)
+        
+        # Remove empty groups
+        return {k: v for k, v in device_groups.items() if v}
 
     def verify_group_assignment(
         self,
         device_type: str,
         points: List[Dict[str, Any]]
     ) -> Dict[str, List[Dict[str, Any]]]:
-        """Verify group assignments and resolve potential conflicts.
+        """Verify group assignments with enhanced semantic contradictions and equipment-specific checks.
         
         Args:
             device_type: Proposed device type
@@ -352,35 +621,125 @@ Explain your reasoning for each group, then output each group in JSON format:
         Returns:
             Dictionary of verified device types and their points
         """
-        # Initialize result with original group
+        # Initialize result with original group as default
         result = {device_type: []}
+        
+        # If there are no points to verify, return empty group
+        if not points:
+            return result
+        
+        # Log verification start
+        self.logger.log_reasoning_step("verify_group_assignment", 
+            f"Verifying {len(points)} points assigned to device type '{device_type}'")
+        
+        # Equipment-specific contradiction rules
+        contradiction_rules = {
+            "VAV": {
+                "terms": ["chiller", "compressor", "condenser", "cooling tower", "ch-sys", "chw", "pump", "boiler"],
+                "functions": ["central supply", "return fan", "mixed air", "outdoor air damper"],
+                "system": "terminal unit"
+            },
+            "CH-SYS": {
+                "terms": ["airflow", "damper", "duct", "vav", "terminal unit", "space temp", "room"],
+                "functions": ["zone control", "reheat", "discharge air"],
+                "system": "central plant"
+            },
+            "CHWP": {
+                "terms": ["airflow", "damper", "duct", "vav", "space temp", "mixing", "filter"],
+                "functions": ["zone control", "economizer", "filter", "damper position"],
+                "system": "pumping equipment"
+            },
+            "AHU": {
+                "terms": ["chiller", "compressor", "condenser", "cooling tower", "chwp", "pump status", "boiler"],
+                "functions": ["condenser", "chilled water", "refrigerant", "hot water pressure"],
+                "system": "air handling"
+            },
+            "FCU": {
+                "terms": ["chiller", "cooling tower", "chwp", "air handling", "vav terminal", "chw", "compressor"],
+                "functions": ["economizer", "static pressure", "mixed air", "system-level"],
+                "system": "terminal unit"
+            }
+        }
+        
+        # Device type specific point type expectations
+        expected_point_types = {
+            "VAV": ["AI", "AO", "BI", "BO"],
+            "CH-SYS": ["AI", "AO", "BI", "BO"],
+            "CHWP": ["AI", "BI", "BO"],
+            "AHU": ["AI", "AO", "BI", "BO"],
+            "FCU": ["AI", "AO", "BI", "BO"]
+        }
+        
+        # Device type specific function expectations
+        expected_functions = {
+            "VAV": ["temp", "flow", "damper", "setpoint", "status"],
+            "CH-SYS": ["temp", "pressure", "flow", "status", "power"],
+            "CHWP": ["status", "speed", "pressure", "flow", "power"],
+            "AHU": ["temp", "humidity", "pressure", "flow", "fan", "damper", "status"],
+            "FCU": ["temp", "fan", "valve", "setpoint", "status"]
+        }
         
         # Analyze each point in the group
         for point in points:
-            point_name = point.get("pointName", "")
+            point_name = point.get("pointName", "").lower()
+            unit = point.get("unit", "").lower()
+            description = point.get("description", "").lower()
             
             # Start verification reasoning
             verification = [
-                f"Verifying '{point_name}' as device type '{device_type}':"
+                f"Verifying '{point_name}' as device type '{device_type}'"
             ]
             
-            # Check for contradicting evidence
+            # Get contradiction rules for this device type
+            rules = contradiction_rules.get(device_type, {"terms": [], "functions": [], "system": "unknown"})
+            
+            # Check for contradicting evidence based on device type
             contradictions = []
             
-            # Example: VAV points shouldn't have chiller-specific terms
-            if device_type == "VAV" and any(term in point_name.lower() for term in ["chiller", "compressor", "condenser"]):
-                contradictions.append(f"Point name contains chiller-specific terms, inconsistent with VAV classification")
+            # Check for contradicting terms
+            for term in rules["terms"]:
+                if term in point_name or term in description:
+                    contradictions.append(f"Point contains '{term}', inconsistent with {device_type} classification")
             
-            # Example: CH-SYS points shouldn't have airflow-specific terms
-            if device_type == "CH-SYS" and any(term in point_name.lower() for term in ["airflow", "damper", "duct"]):
-                contradictions.append(f"Point name contains airflow-specific terms, inconsistent with CH-SYS classification")
+            # Check for contradicting functions
+            for function in rules["functions"]:
+                if function in point_name or function in description:
+                    contradictions.append(f"Point function '{function}' is inconsistent with {device_type} classification")
             
-            # Add more device-specific contradiction rules
-            if device_type == "AHU" and any(term in point_name.lower() for term in ["zone", "room", "space", "vav"]):
-                contradictions.append(f"Point name contains zone-specific terms, may be a VAV or FCU instead of AHU")
-                
-            if device_type == "FCU" and any(term in point_name.lower() for term in ["chw", "chiller", "cooling tower"]):
-                contradictions.append(f"Point name contains chiller system terms, inconsistent with FCU classification")
+            # Check for point type consistency
+            if device_type in expected_point_types:
+                point_type = point.get("pointType", "")
+                if point_type and point_type not in expected_point_types[device_type]:
+                    contradictions.append(f"Point type '{point_type}' is uncommon for {device_type}")
+            
+            # Check for functional consistency
+            if device_type in expected_functions:
+                point_functions = expected_functions[device_type]
+                if not any(func in point_name.lower() for func in point_functions):
+                    contradictions.append(f"Point function doesn't match common {device_type} functions")
+            
+            # Special case checks for particular device types
+            if device_type == "CHWP":
+                # CHWP points should have pump-related terms
+                if not any(term in point_name.lower() or term in description.lower() 
+                           for term in ["pump", "flow", "pressure", "vsd", "speed", "status"]):
+                    contradictions.append("Point lacks typical pump-related terms")
+                    
+                # If clearly labeled with another component type, it's a contradiction
+                for component in ["cooling tower", "condenser", "chiller", "boiler"]:
+                    if component in point_name.lower() or component in description.lower():
+                        contradictions.append(f"Point specifically mentions '{component}', not a pump component")
+            
+            elif device_type == "CH-SYS":
+                # CH-SYS points should have chiller system related terms
+                if not any(term in point_name.lower() or term in description.lower()
+                          for term in ["chiller", "chw", "cooling", "condenser", "ctwr", "ch-sys"]):
+                    contradictions.append("Point lacks typical chiller system terms")
+                    
+                # If clearly a terminal unit, it's a contradiction
+                for terminal in ["zone", "room", "space temp", "vav", "fcu"]:
+                    if terminal in point_name.lower() or terminal in description.lower():
+                        contradictions.append(f"Point specifically mentions '{terminal}', which is a terminal unit concept")
             
             # If contradictions exist, reassign point
             if contradictions:
@@ -392,106 +751,179 @@ Explain your reasoning for each group, then output each group in JSON format:
                 verification.extend([f"- {c}" for c in contradictions])
                 verification.append(f"Reassigning to device type: {correct_type}")
                 
-                # Add point to correct group
+                # Add point to correct group with verification reasoning
+                point_copy = dict(point)
+                
+                # Merge existing reasoning with verification
+                if "grouping_reasoning" in point_copy:
+                    point_copy["verification_reasoning"] = [
+                        *verification,
+                        "Original grouping reasoning:",
+                        *point_copy["grouping_reasoning"]
+                    ]
+                else:
+                    point_copy["verification_reasoning"] = verification
+                
+                # Remove grouping_reasoning to avoid duplication
+                if "grouping_reasoning" in point_copy:
+                    del point_copy["grouping_reasoning"]
+                
+                # Add to correct group
                 if correct_type not in result:
                     result[correct_type] = []
                 
-                # Store verification reasoning
-                point["verification_reasoning"] = verification
+                result[correct_type].append(point_copy)
                 
-                # Add to correct group
-                result[correct_type].append(point)
             else:
                 # No contradictions, keep in original group
                 verification.append("No contradictions found, assignment verified")
                 
+                # Create a copy to avoid modifying the original
+                point_copy = dict(point)
+                
                 # Store verification reasoning
-                point["verification_reasoning"] = verification
+                if "grouping_reasoning" in point_copy:
+                    point_copy["verification_reasoning"] = [
+                        *verification,
+                        "Original grouping reasoning:",
+                        *point_copy["grouping_reasoning"]
+                    ]
+                    # Remove grouping_reasoning to avoid duplication
+                    del point_copy["grouping_reasoning"]
+                else:
+                    point_copy["verification_reasoning"] = verification
                 
                 # Keep in original group
-                result[device_type].append(point)
+                result[device_type].append(point_copy)
         
-        return result
+        # Log verification results
+        reassignment_count = sum(len(points) for dev_type, points in result.items() if dev_type != device_type)
+        self.logger.log_reasoning_step("verify_group_assignment", 
+            f"Verification complete: {reassignment_count} points reassigned from '{device_type}'")
+        
+        # Remove empty groups
+        return {k: v for k, v in result.items() if v}
 
     def _determine_correct_device_type(
         self,
         point: Dict[str, Any],
         contradictions: List[str]
     ) -> str:
-        """Determine correct device type based on contradictions.
+        """Determine the correct device type for a point with contradictions.
         
         Args:
-            point: Point data
-            contradictions: List of contradiction explanations
+            point: The point to reassign
+            contradictions: List of contradiction reasons
             
         Returns:
-            Corrected device type
+            The corrected device type
         """
-        # This is a simplified version, real implementation would use more sophisticated rules
         point_name = point.get("pointName", "").lower()
+        description = point.get("description", "").lower()
         
-        if any(term in point_name for term in ["chiller", "compressor", "condenser", "cooling", "ch-", "ch."]):
+        # Extract key terms for classification
+        key_terms = []
+        for text in [point_name, description]:
+            key_terms.extend(re.findall(r'[a-z]+', text.lower()))
+        
+        # Check for hierarchical naming patterns
+        if '.' in point_name:
+            parts = point_name.split('.')
+            # If we have a clear parent.child structure, use the parent
+            if len(parts) >= 2 and any(sys_id in parts[0].upper() for sys_id in 
+                                      ["CH-SYS", "AHU", "VAV", "FCU"]):
+                system_id = parts[0]
+                
+                # Extract system type from hierarchical name
+                if "CH-SYS" in system_id.upper():
+                    # For CH-SYS, also check the component
+                    if len(parts) >= 2:
+                        component = parts[1].upper()
+                        if "CHWP" in component or "CWP" in component:
+                            return "CHWP"
+                        elif "CH" in component and "CHWP" not in component:
+                            return "CH"
+                        elif "CT" in component:
+                            return "CT"
             return "CH-SYS"
-        elif any(term in point_name for term in ["ahu", "air", "handling", "airflow", "damper"]):
+                elif "AHU" in system_id.upper():
             return "AHU"
-        elif any(term in point_name for term in ["vav", "variable", "air", "volume", "zone"]):
+                elif "VAV" in system_id.upper():
             return "VAV"
-        elif any(term in point_name for term in ["fcu", "fan", "coil"]):
+                elif "FCU" in system_id.upper():
             return "FCU"
-        elif any(term in point_name for term in ["meter", "consumption", "energy", "power"]):
-            return "METER"
-        else:
-            return "MISC"
-
-    def _mock_batch_grouping(
-        self, 
-        points: List[Dict[str, Any]]
-    ) -> Dict[str, List[Dict[str, Any]]]:
-        """Mock implementation of batch grouping (for development only).
         
-        Args:
-            points: Points to group
-            
-        Returns:
-            Dictionary mapping device types to lists of points
-        """
-        # Simple rule-based grouping
-        groups = {
-            "CH-SYS": [],
-            "AHU": [],
-            "VAV": [],
-            "MISC": []
-        }
+        # Heuristic patterns for specific device types
+        if any(term in point_name for term in ["chwp", "chw pump", "chilled water pump"]):
+            return "CHWP"
+        elif any(term in point_name for term in ["vav", "box", "terminal", "zone"]) and "temp" in point_name:
+            return "VAV"
+        elif any(term in point_name for term in ["ahu", "air handler", "air handling"]):
+            return "AHU"
+        elif any(term in point_name for term in ["fcu", "fan coil"]):
+            return "FCU"
+        elif any(term in point_name for term in ["ch-sys", "chiller", "chilled water"]) and not any(term in point_name for term in ["pump", "chwp"]):
+            return "CH-SYS"
         
-        for point in points:
-            point_name = point.get("pointName", "").lower()
-            
-            # Add mock reasoning chains
-            reasoning = [
-                f"Analyzing point name: {point.get('pointName', '')}",
-                "Looking for device type indicators in the name"
-            ]
-            
-            # Simple keyword matching
-            if any(term in point_name for term in ["chiller", "ch-", "cooling", "condenser"]):
-                reasoning.append("Found chiller-related terms, categorizing as CH-SYS")
-                point["grouping_reasoning"] = reasoning
-                groups["CH-SYS"].append(point)
-            elif any(term in point_name for term in ["ahu", "air", "handling"]):
-                reasoning.append("Found air handling unit terms, categorizing as AHU")
-                point["grouping_reasoning"] = reasoning
-                groups["AHU"].append(point)
-            elif any(term in point_name for term in ["vav", "variable", "zone"]):
-                reasoning.append("Found variable air volume terms, categorizing as VAV")
-                point["grouping_reasoning"] = reasoning
-                groups["VAV"].append(point)
+        # If point clearly contains VSD and pump terms, it's likely a pump
+        if ("vsd" in point_name or "variable speed" in point_name) and "pump" in point_name:
+            if "chilled" in point_name or "chw" in point_name:
+                return "CHWP"
             else:
-                reasoning.append("No clear device type indicators, categorizing as MISC")
-                point["grouping_reasoning"] = reasoning
-                groups["MISC"].append(point)
+                return "PUMP"
         
-        # Filter out empty groups
-        return {k: v for k, v in groups.items() if v}
+        # Analyze contradiction messages for clues
+        for contradiction in contradictions:
+            # If moving from VAV but contains AHU terms, assign to AHU
+            if "VAV" in contradiction and any(term in contradiction for term in ["ahu", "air handling", "central"]):
+                return "AHU"
+            # If moving from AHU but contains VAV terms, assign to VAV
+            elif "AHU" in contradiction and any(term in contradiction for term in ["vav", "terminal", "zone"]):
+                return "VAV"
+            # If moving from CH-SYS but contains air terms, assign to AHU
+            elif "CH-SYS" in contradiction and any(term in contradiction for term in ["airflow", "damper", "duct"]):
+                return "AHU"
+            # If moving from CHWP but contains other CH-SYS terms, assign to CH-SYS
+            elif "CHWP" in contradiction and any(term in contradiction for term in ["cooling tower", "condenser", "chiller"]):
+                # Check specific component mentioned
+                if "cooling tower" in contradiction or "ct" in point_name:
+                    return "CT"
+                elif "chiller" in contradiction:
+                    return "CH"
+                else:
+                    return "CH-SYS"
+        
+        # Analyze point functions for terminal vs central system classification
+        if any(term in point_name for term in ["room", "space", "zone"]) and "temp" in point_name:
+            return "TU"  # Terminal Unit
+        elif any(term in point_name for term in ["setpoint", "spt", "cmd", "command"]):
+            if "temp" in point_name:
+                if any(term in point_name for term in ["room", "space", "zone"]):
+                    return "VAV"
+                else:
+                    return "AHU"
+            elif "flow" in point_name:
+                return "CHWP"
+        
+        # Use simple keyword matching as last resort
+        if "pump" in point_name:
+            if "chilled" in point_name or "chw" in point_name:
+                return "CHWP"
+            else:
+                return "PUMP"
+        elif "fan" in point_name:
+            if "coil" in point_name:
+                return "FCU"
+            else:
+                return "AHU"
+        elif "temp" in point_name:
+            if "room" in point_name or "space" in point_name:
+                return "TU"
+            else:
+                return "SENSOR"
+        
+        # Default fallback
+        return "MISC"
         
     def calculate_group_confidence(
         self,

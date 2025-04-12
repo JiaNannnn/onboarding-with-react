@@ -65,21 +65,13 @@ def bms_map_points():
         # Generate a task ID for this operation
         task_id = str(uuid.uuid4())
         
-        # Initialize the real EnOS Mapper instead of using mock data
-        mapper = EnOSMapper()
-        
+        # For debugging - create a simplified response without using actual mapper
         # Ensure tmp directory exists
         os.makedirs("./tmp", exist_ok=True)
         
-        # Process the points using the real mapping implementation
-        mapping_result = mapper.map_points(points)
-        
-        # Extract stats and prepare result structure
-        stats = mapping_result.get("stats", {"total": len(points), "mapped": 0, "errors": 0})
-        
-        # Create result structure
+        # Create a mock result
         result = {
-            "success": mapping_result.get("success", True),
+            "success": True,
             "status": "completed",
             "taskId": task_id,
             "batchMode": True,
@@ -88,58 +80,30 @@ def bms_map_points():
             "progress": 1.0,
             "totalPoints": len(points),
             "mappings": [],
-            "stats": stats
+            "stats": {"total": len(points), "mapped": len(points), "errors": 0}
         }
         
-        # Format mappings for result
-        formatted_mappings = []
-        for mapping_item in mapping_result.get("mappings", []):
-            # Extract original point data
-            point_data = mapping_item.get("original", {})
-            mapping_data = mapping_item.get("mapping", {})
+        # Create simple mock mappings for each point
+        for point in points:
+            point_name = point.get('pointName', '')
+            device_type = point.get('deviceType', 'UNKNOWN')
             
-            # Create a properly structured mapping object that matches the frontend expected format
-            formatted_mapping = {
-                # Include fields in both flat format (for backward compatibility)
-                "pointId": point_data.get("pointId", ""),
-                "pointName": point_data.get("pointName", ""),
-                "deviceType": point_data.get("deviceType", ""),
-                "deviceId": point_data.get("deviceId", ""),
-                "pointType": point_data.get("pointType", ""),
-                "unit": point_data.get("unit", ""),
-                "enosPoint": mapping_data.get("enosPoint", "unknown"),
-                "confidence": mapping_data.get("confidence", 0.0),
-                "mapping_reason": mapping_data.get("explanation", ""),
-                "status": mapping_data.get("status", "mapped"),
-                
-                # Also include in structured format for newer frontend components
-                "original": {
-                    "pointId": point_data.get("pointId", ""),
-                    "pointName": point_data.get("pointName", ""),
-                    "deviceType": point_data.get("deviceType", ""),
-                    "deviceId": point_data.get("deviceId", ""),
-                    "pointType": point_data.get("pointType", ""),
-                    "unit": point_data.get("unit", ""),
-                    "value": point_data.get("value", None)
-                },
-                "mapping": {
-                    "pointId": point_data.get("pointId", ""),
-                    "enosPoint": mapping_data.get("enosPoint", "unknown"),
-                    "status": mapping_data.get("status", "mapped"),
-                    "confidence": mapping_data.get("confidence", 0.0),
-                    "explanation": mapping_data.get("explanation", "")
-                }
+            # Create a simple mock mapping
+            mapping = {
+                "pointName": point_name,
+                "deviceType": device_type,
+                "enosPoint": f"{device_type}_raw_value_{point_name.replace(' ', '_').lower()}",
+                "confidence": 0.95,
+                "mapping_reason": "Mock implementation for testing"
             }
-            formatted_mappings.append(formatted_mapping)
-        
-        result["mappings"] = formatted_mappings
+            result["mappings"].append(mapping)
         
         # Save the result to a file
         with open(f"./tmp/mapping_{task_id}.json", "w") as f:
             json.dump(result, f, indent=2)
             
-        print(f"Mapping task {task_id} completed with real EnOSMapper")
-        current_app.logger.info(f"Mapping task {task_id} completed with real EnOSMapper")
+        print(f"Mapping task {task_id} completed (MOCK IMPLEMENTATION)")
+        current_app.logger.info(f"Mapping task {task_id} completed (MOCK IMPLEMENTATION)")
         
         # Return immediate successful response
         return jsonify({
@@ -150,7 +114,7 @@ def bms_map_points():
             "totalBatches": 1,
             "completedBatches": 1,
             "progress": 1.0,
-            "message": f"Processed {len(points)} points with real EnOSMapper"
+            "message": f"Processed {len(points)} points (MOCK IMPLEMENTATION)"
         })
     
     except Exception as e:

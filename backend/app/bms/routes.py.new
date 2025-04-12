@@ -2,8 +2,7 @@ from flask import Blueprint, jsonify, request, current_app, send_from_directory
 import os
 import json
 from datetime import datetime
-# Import the correct tasks
-from app.bms.tasks import search_points_task, fetch_points_task, discover_devices_task, get_network_config_task, group_points_task
+from .tasks import generate_points_mapping_task
 
 # Create blueprint
 bp = Blueprint('bms', __name__)

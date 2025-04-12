@@ -74,7 +74,7 @@ def create_app(config_class=None):
                  "origins": ["http://localhost:3000", "http://10.230.80.86:3000"],
                  "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                  "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin", 
-                                 "x-access-key", "x-secret-key", "AccessKey", "SecretKey"],
+                                 "x-access-key", "x-secret-key", "AccessKey", "SecretKey", "Content-Length"],
                  "expose_headers": ["Content-Type", "Authorization"],
                  "supports_credentials": True,
                  "send_wildcard": False,
@@ -144,16 +144,30 @@ def create_app(config_class=None):
             app.logger.warning(f"Error copying swagger.yaml: {str(e)}")
 
     # Register blueprints
-    from app.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix='/api')
-
     try:
-        from app.bms import bp as bms_bp
-        # Register BMS blueprint at both '/api/bms' and '/bms' prefixes
+        from .api import bp as api_bp
+        app.register_blueprint(api_bp, url_prefix='/api')
+    except ImportError as e:
+        app.logger.warning(f"API blueprint not found or failed to import, skipping API routes: {e}")
+    except Exception as e:
+        app.logger.error(f"Unexpected error registering API blueprint: {e}", exc_info=True)
+
+    # Import and register BMS blueprint *after* app creation
+    try:
+        from .bms import bp as bms_bp # Use relative import here
         app.register_blueprint(bms_bp, url_prefix='/api/bms')
-        app.register_blueprint(bms_bp, url_prefix='/bms', name='bms_root')
-    except ImportError:
-        app.logger.warning("BMS blueprint not found, skipping BMS routes")
+    except ImportError as e:
+        app.logger.warning(f"BMS blueprint not found or failed to import, skipping BMS routes: {e}")
+    except Exception as e:
+        app.logger.error(f"Unexpected error registering BMS blueprint: {e}", exc_info=True)
 
     app.logger.info('API ready - blueprints registered')
+
+    # Add a route to handle OPTIONS requests globally
+    @app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
+    @app.route('/<path:path>', methods=['OPTIONS'])
+    def handle_options(path):
+        response = app.make_default_options_response()
+        return response
+
     return app 

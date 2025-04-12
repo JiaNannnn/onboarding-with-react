@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: FCU_05_07_1.ModeStatus\nDevice Type: FCU\nPotential Abbreviations Detected: St/Status (Status)\n\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):\nFCU_raw_chw_valve_status\nFCU_raw_cooling_heating_mode\nFCU_raw_hw_valve_status\nFCU_raw_local_mode\nFCU_raw_local_mode_command\nFCU_raw_on_off_command\nFCU_raw_status\nFCU_raw_trip\nFCU_raw_zone_air_temp\nFCU_raw_zone_occupancy\nFCU_write_sp_supply_air_co2\nFCU_raw_sp_supply_air_co2\nFCU_write_fan_speed_command\nFCU_raw_fan_speed_command\nFCU_write_fan_speed\nFCU_raw_fan_speed\nFCU_raw_sp_zone_air_temp\nFCU_write_sp_zone_air_temp_command\nFCU_raw_sp_zone_air_temp_command\nFCU_write_sp_zone_air_temp\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:05:00.677787",
-  "point_name": "FCU_05_07_1.ModeStatus"
-}

@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: DPM_CHWP_1.kW\nDevice Type: METER\nUnit: no-units\nPotential Abbreviations Detected: kW (Power)\n\nNo specific reference points file provided; rely on standard EnOS points for this device type.\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:05:21.372457",
-  "point_name": "DPM_CHWP_1.kW"
-}

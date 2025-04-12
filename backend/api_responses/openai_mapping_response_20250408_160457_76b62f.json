@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: CH-SYS-3.CHWP.VSD.Hz\nDevice Type: CHILLER\nUnit: hertz\nPotential Abbreviations Detected: Hz (Frequency/Speed)\n\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):\nCH_raw_status\nCH_raw_trip\nCH_raw_temp_chws\nCH_raw_temp_chwr\nCH_raw_temp_evap\nCH_raw_power_active_total\nCH_raw_energy_active_total\nCH_raw_sp_temp_chws\nCH_raw_chilled_valve_status\nCH_raw_cooling_valve_status\nCH_raw_chilled_water_flow\nCH_raw_cooling_water_flow\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:04:57.285604",
-  "point_name": "CH-SYS-3.CHWP.VSD.Hz"
-}

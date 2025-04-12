@@ -1,0 +1,12 @@
+# Core Dependencies
+typing; python_version < "3.5"
+
+# Development Dependencies
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
+isort>=5.0.0
+
+# Optional Dependencies (uncomment if needed)
+# openai>=1.0.0  # For integration with OpenAI models
+# anthropic>=0.5.0  # For integration with Anthropic models 

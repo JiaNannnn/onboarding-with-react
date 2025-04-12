@@ -8,11 +8,32 @@ server with various configuration options.
 import os
 import sys
 import argparse
+import signal
+import atexit
+import threading
 from app import create_app
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Track non-daemon threads for cleanup
+_threads = []
+
+def cleanup_threads():
+    """Clean up any remaining threads at exit."""
+    for thread in threading.enumerate():
+        if thread != threading.current_thread() and not thread.daemon:
+            print(f"Waiting for thread {thread.name} to complete...")
+            thread.join(timeout=2.0)
+            if thread.is_alive():
+                print(f"Thread {thread.name} did not complete in time")
+
+def signal_handler(sig, frame):
+    """Handle termination signals."""
+    print("Received shutdown signal, cleaning up...")
+    cleanup_threads()
+    sys.exit(0)
 
 def parse_args():
     """Parse command line arguments."""
@@ -34,6 +55,21 @@ def main():
     """Main function."""
     args = parse_args()
     
+    # Register signal handlers for clean shutdown
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    
+    # Register cleanup function to run at exit
+    atexit.register(cleanup_threads)
+    
+    # Override thread creation to ensure daemon=False by default
+    original_thread_init = threading.Thread.__init__
+    def patched_thread_init(self, *args, **kwargs):
+        if 'daemon' not in kwargs:
+            kwargs['daemon'] = False
+        original_thread_init(self, *args, **kwargs)
+    threading.Thread.__init__ = patched_thread_init
+    
     # Map environment to config class
     env_config_map = {
         "development": "config.DevelopmentConfig",
@@ -51,7 +87,9 @@ def main():
     app.run(
         host=args.host,
         port=args.port,
-        debug=args.debug or args.env == "development"
+        debug=args.debug or args.env == "development",
+        threaded=True,
+        request_timeout=600  # 10 minutes timeout for requests
     )
 
 if __name__ == "__main__":

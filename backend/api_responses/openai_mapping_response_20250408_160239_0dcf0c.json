@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: AHU-1.SupplyTemp\nDevice Type: AHU\nPotential Abbreviations Detected: Temp (Temperature)\n\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):\nAHU_raw_status\nAHU_raw_trip\nAHU_raw_cooling_heating_mode_command\nAHU_raw_energy_active_total\nAHU_raw_ra_damper_position\nAHU_raw_return_air_co2\nAHU_raw_return_air_humidity\nAHU_raw_sp_ra_damper_position\nAHU_raw_static_pressure\nAHU_raw_sp_supply_air_temp\nAHU_raw_supply_air_fan_frequency\nAHU_raw_temp_chwr\nAHU_raw_temp_chws\nAHU_raw_sp_return_air_co2\nAHU_raw_filter_status\nAHU_raw_operation_mode\nAHU_raw_sp_return_air_temp\nAHU_raw_supply_air_fan_speed_command\nAHU_raw_valve_position\nAHU_raw_oa_damper_position\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:02:39.765174",
-  "point_name": "AHU-1.SupplyTemp"
-}

@@ -11,9 +11,9 @@ const API_BASE_URL = 'http://localhost:5000';
 
 /**
  * Default request timeout in milliseconds
- * 5 minutes = 300,000 milliseconds
+ * 10 minutes = 600,000 milliseconds
  */
-const DEFAULT_TIMEOUT = 300000;
+const DEFAULT_TIMEOUT = 600000;
 
 /**
  * API Client configuration interface
@@ -122,6 +122,54 @@ export class APIClient {
             // If URL parsing fails, just use the original URL with warning
             logger.error('Failed to parse URL, falling back to relative path', { url: config.url });
           }
+        }
+        
+        // Special handling for problematic endpoints that might need different methods
+        if (config.url && (
+            config.url.includes('/api/bms/map-points') ||
+            config.url.includes('/bms/map-points') ||
+            config.url.includes('/api/v1/map-points') ||
+            config.url.includes('/v1/map-points')
+        )) {
+            logger.info(`Special handling for map-points URL: ${config.url}`);
+            
+            // If it's a POST request for map-points, make sure it uses the right URL format
+            if (config.method?.toLowerCase() === 'post') {
+                // Ensure we're using the format the server expects
+                if (!config.url.startsWith('/api/v1/map-points')) {
+                    config.url = '/api/v1/map-points';
+                    logger.info(`Normalized map-points URL to: ${config.url}`);
+                }
+                
+                // Check if the URL starts with a slash
+                if (!config.url.startsWith('/')) {
+                    config.url = '/' + config.url;
+                }
+                
+                // Make sure content type is set properly
+                if (config.headers) {
+                    // Use computed property to safely set the header
+                    config.headers['Content-Type'] = 'application/json';
+                }
+            } 
+            // For GET requests (status checking), make sure we use the right format
+            else if (config.method?.toLowerCase() === 'get' && (config.url.includes('/map-points/') || config.url.includes('map-points%2F'))) {
+                // Extract task ID from URL, handling both encoded and unencoded paths
+                let taskId = '';
+                const match1 = config.url.match(/\/map-points\/([^/?]+)/);
+                const match2 = config.url.match(/\/map-points%2F([^/?]+)/);
+                
+                if (match1 && match1[1]) {
+                    taskId = match1[1];
+                } else if (match2 && match2[1]) {
+                    taskId = match2[1];
+                }
+                
+                if (taskId) {
+                    config.url = `/api/v1/map-points/${taskId}`;
+                    logger.info(`Normalized map-points status URL to: ${config.url}`);
+                }
+            }
         }
         
         return config;

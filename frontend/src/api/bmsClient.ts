@@ -791,30 +791,38 @@ export class BMSClient {
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
     try {
-      // Make a direct POST request to the endpoint
+      console.log(`Starting mapping of ${points.length} points to EnOS`);
+      
+      // Make a direct POST request to the endpoint with explicit URL
       const response = await this.apiClient.post<MapPointsToEnOSResponse>(
-        `${API_V1_PATH}/map-points`,
+        `/api/v1/map-points`, // Make sure URL is exactly as expected by the backend
         {
           points,
           mappingConfig
         }
       );
       
-      if (!response.success || !response.taskId) {
-        throw new Error('Failed to start mapping task');
+      if (!response.success) {
+        console.error("Mapping response indicates failure:", response);
+        throw new Error(response.error || 'Mapping operation failed');
+      }
+      
+      if (!response.taskId) {
+        console.error("No task ID returned from mapping operation:", response);
+        throw new Error('No task ID returned from mapping operation');
       }
       
       console.log(`Mapping task started with ID: ${response.taskId}`);
       
       // Step 2: Poll the task status until it completes
       const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
-        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${response.taskId}`),
+        () => this.apiClient.get<MapPointsToEnOSResponse>(`/api/v1/map-points/${response.taskId}`),
         (response) => {
           // Task is complete if it doesn't have a "processing" status
           return !response.status || response.status !== 'processing';
         },
-        20000, // Check every 2 seconds
-        60    // Allow up to 60 attempts (2 minutes total)
+        20000, // Check every 20 seconds
+        120    // Allow up to 120 attempts (40 minutes total)
       );
       
       return result;
@@ -851,7 +859,7 @@ export class BMSClient {
       // Check if original mapping task exists and has data
       try {
         const originalMapping = await this.apiClient.get<MapPointsToEnOSResponse>(
-          `${API_V1_PATH}/map-points/${originalTaskId}`
+          `/api/v1/map-points/${originalTaskId}`
         );
         
         if (!originalMapping.success) {
@@ -876,7 +884,7 @@ export class BMSClient {
       
       // Start the improvement task
       const startResponse = await this.apiClient.post<{success: boolean, taskId: string, status: string}>(
-        `${API_V1_PATH}/map-points`,
+        `/api/v1/map-points`,
         {
           original_mapping_id: originalTaskId,
           filter_quality: qualityFilter,
@@ -892,7 +900,7 @@ export class BMSClient {
       
       // Step 2: Poll the task status until it completes with extended timeout
       const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
-        () => this.apiClient.get<MapPointsToEnOSResponse>(`${API_V1_PATH}/map-points/${startResponse.taskId}`),
+        () => this.apiClient.get<MapPointsToEnOSResponse>(`/api/v1/map-points/${startResponse.taskId}`),
         (response) => {
           // Log progress information
           if (response.status === 'processing') {

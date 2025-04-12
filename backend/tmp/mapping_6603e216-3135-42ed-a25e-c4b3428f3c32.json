@@ -1,0 +1,5429 @@
+{
+  "success": true,
+  "status": "completed",
+  "taskId": "6603e216-3135-42ed-a25e-c4b3428f3c32",
+  "batchMode": true,
+  "totalBatches": 1,
+  "completedBatches": 1,
+  "progress": 1.0,
+  "totalPoints": 773,
+  "mappings": [
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_flow_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "FCU_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "FCU_raw_power_active_total",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "FCU_raw_energy_active_total",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "FCU_raw_valve_status",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_power_active_total",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_flow_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_power_active_total",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_status",
+      "confidence": 0.4,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_chwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_temp_cwr",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "CH_raw_flow_chws",
+      "confidence": 0.6000000000000001,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    },
+    {
+      "pointName": "",
+      "deviceType": "",
+      "enosPoint": "unknown",
+      "confidence": 0.0,
+      "mapping_reason": ""
+    }
+  ],
+  "stats": {
+    "total": 773,
+    "mapped": 27,
+    "unmapped": 746,
+    "errors": 0
+  }
+}

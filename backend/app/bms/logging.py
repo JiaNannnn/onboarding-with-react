@@ -1,3 +1,6 @@
+# This file is being renamed to avoid conflicts with Python's built-in logging module.
+# All imports and references HAVE BEEN updated accordingly (in reasoning.py and routes.py).
+
 import logging
 import json
 import os

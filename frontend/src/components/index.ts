@@ -59,3 +59,6 @@ export { default as MappingControls } from './MappingControls';
 
 export { default as EnhancedFileUpload } from './EnhancedFileUpload';
 export type { EnhancedFileUploadProps } from './EnhancedFileUpload';
+
+// Group verification component
+export { default as GroupVerification } from './GroupVerification';

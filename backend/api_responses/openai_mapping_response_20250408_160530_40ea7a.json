@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: CWP_2_DT_SP\nDevice Type: PUMP\nUnit: degrees-Celsius\nPotential Abbreviations Detected: Sp (Setpoint)\n\nReference EnOS Points for this Device Type (prioritize semantic match, list may be incomplete):\nPUMP_raw_status\nPUMP_raw_trip\nPUMP_raw_power_active_total\nPUMP_raw_energy_active_total\nPUMP_raw_flow\nPUMP_raw_pressure\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:05:30.857847",
-  "point_name": "CWP_2_DT_SP"
-}

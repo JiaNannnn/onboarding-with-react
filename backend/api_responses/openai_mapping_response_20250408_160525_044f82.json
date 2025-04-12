@@ -1,8 +1,0 @@
-{
-  "prompt": "BMS Point Name: CT_2.CWST_Cell_2\nDevice Type: COOLING_TOWER\nUnit: degrees-Celsius\nPotential Abbreviations Detected: Temp (Temperature)\n\nNo specific reference points file provided; rely on standard EnOS points for this device type.\n\nBased on the above, what is the single best semantic EnOS point mapping? Respond ONLY with a JSON object like: {\"enosPoint\": \"TARGET_ENOS_POINT\"} or {\"enosPoint\": \"unknown\"}.",
-  "response": "{\"enos_point\": \"unknown\"}",
-  "model": "gpt-4",
-  "agent_name": "EnOSPointMapperAgent",
-  "timestamp": "2025-04-08T16:05:25.468473",
-  "point_name": "CT_2.CWST_Cell_2"
-}

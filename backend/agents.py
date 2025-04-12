@@ -1,87 +1,126 @@
 """
-Mock implementation of the agents module for testing purposes.
-This is a simplified version that allows the server to start without the full agent functionality.
+Real implementation of the Agents module using OpenAI Agents SDK.
+This provides the full functionality for agent-based operations.
 """
 
+from openai import OpenAI
+import os
+import json
+
+# Initialize the OpenAI client with API key from environment
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
 class Agent:
-    """Mock Agent class."""
+    """Real Agent class using OpenAI SDK."""
     
-    def __init__(self, name="MockAgent", instructions="", model="gpt-4", temperature=0.0, response_format=None):
+    def __init__(self, name="Agent", instructions="", model="gpt-4o", temperature=0.0, response_format=None):
         self.name = name
         self.instructions = instructions
         self.model = model
         self.temperature = temperature
         self.response_format = response_format
-        print(f"Mock Agent '{name}' initialized")
+        print(f"Agent '{name}' initialized with model {model}")
     
     def run(self, prompt, **kwargs):
-        """Mock run method that returns a simple response."""
-        # Extract device type and point name from prompt if possible for better mock mapping
-        device_type = 'UNKNOWN'
-        point_name = 'unknown_point'
-        
+        """Run the agent with the given prompt."""
         try:
-            if 'Device Type:' in prompt:
-                device_parts = prompt.split('Device Type:', 1)[1].strip().split('\n', 1)[0]
-                device_type = device_parts.strip().upper()
+            response_format = kwargs.get('response_format', self.response_format)
             
-            if 'BMS Point Name:' in prompt:
-                point_parts = prompt.split('BMS Point Name:', 1)[1].strip().split('\n', 1)[0]
-                point_name = point_parts.strip()
-                
-            # For temperature points, provide a more specific mapping
-            if 'temp' in point_name.lower() or 'temperature' in point_name.lower():
-                if 'supply' in point_name.lower() or 'discharge' in point_name.lower():
-                    return {"content": '{"enosPoint": "' + device_type + '_raw_supply_temp"}'}
-                elif 'return' in point_name.lower():
-                    return {"content": '{"enosPoint": "' + device_type + '_raw_return_temp"}'}
-                else:
-                    return {"content": '{"enosPoint": "' + device_type + '_raw_temp"}'}
+            # Configure the chat completion parameters
+            params = {
+                "model": self.model,
+                "temperature": self.temperature,
+                "messages": [
+                    {"role": "system", "content": self.instructions},
+                    {"role": "user", "content": prompt}
+                ]
+            }
             
-            # For status points
-            elif 'status' in point_name.lower() or 'st' in point_name.lower():
-                return {"content": '{"enosPoint": "' + device_type + '_stat_device_on_off"}'}
+            # Add response format if specified - just use type:json_object without schema
+            if response_format:
+                # Fix: Only include the type field
+                if isinstance(response_format, dict) and 'type' in response_format:
+                    params["response_format"] = {"type": response_format['type']}
+                elif isinstance(response_format, str):
+                    params["response_format"] = {"type": response_format}
                 
-            # For setpoints
-            elif 'setpoint' in point_name.lower() or 'sp' in point_name.lower():
-                return {"content": '{"enosPoint": "' + device_type + '_sp_temp"}'}
-                
-            # Default response with device type prefix if available
-            return {"content": '{"enosPoint": "' + device_type + '_raw_value"}'}
+            # Call OpenAI API
+            response = client.chat.completions.create(**params)
             
-        except Exception:
-            # Fallback to completely generic response
-            return {"content": '{"enosPoint": "unknown"}'}
+            # Return the message content from the completion
+            return {"content": response.choices[0].message.content}
+        except Exception as e:
+            print(f"Error running agent {self.name}: {str(e)}")
+            # Return an error information in the response
+            return {"content": f"Error: {str(e)}", "error": str(e)}
 
 
 class Runner:
-    """Mock Runner class."""
+    """Runner class for executing agent workflows."""
     
     def __init__(self, agents=None):
         self.agents = agents or []
-        print("Mock Runner initialized")
+        print("Runner initialized with OpenAI Agents SDK")
     
     def run(self, inputs=None):
-        """Mock run method."""
-        return {"result": "mock_result"}
+        """Run the workflow with the given inputs."""
+        if not self.agents or not inputs:
+            return {"result": "No agents or inputs provided"}
+        
+        # Simple implementation for running a sequence of agents
+        result = inputs
+        for agent in self.agents:
+            result = agent.run(result)
+        return result
         
     @classmethod
     def run_sync(cls, agent, prompt, **kwargs):
-        """Mock synchronous run method for compatibility with existing code.
+        """Synchronous run method using the OpenAI SDK.
         
-        Returns a response object with final_output containing mock JSON for mapping.
+        Returns a response object with final_output containing the agent's response.
         """
-        if isinstance(agent, Agent):
+        try:
             # If it's an actual agent instance, use its run method
-            response = agent.run(prompt, **kwargs)
-            if isinstance(response, dict) and "content" in response:
-                return type('Response', (), {'final_output': response['content']})
-            # Return a dummy response if the agent's run method doesn't return expected format
-            return type('Response', (), {'final_output': '{"enosPoint": "unknown"}'})
-        else:
-            # Create a simple response object with a callable final_output
-            return type('Response', (), {'final_output': '{"enosPoint": "unknown"}'})
+            if isinstance(agent, Agent):
+                response = agent.run(prompt, **kwargs)
+                if isinstance(response, dict) and "content" in response:
+                    return type('Response', (), {'final_output': response['content']})
+                    
+            # Handle direct calls with client
+            model = kwargs.get('model', 'gpt-4o')
+            temperature = kwargs.get('temperature', 0.0)
+            
+            # Fix for response_format
+            response_format = kwargs.get('response_format')
+            if response_format:
+                if isinstance(response_format, dict) and 'type' in response_format:
+                    response_format = {"type": response_format['type']}
+                elif isinstance(response_format, str):
+                    response_format = {"type": response_format}
+                else:
+                    response_format = {"type": "json_object"}
+            else:
+                response_format = {"type": "json_object"}
+                
+            system_prompt = kwargs.get('system_prompt', "You are a helpful assistant.")
+            
+            # Make direct call to OpenAI API
+            response = client.chat.completions.create(
+                model=model,
+                temperature=temperature,
+                response_format=response_format,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            
+            # Return a response object with final_output property
+            return type('Response', (), {'final_output': response.choices[0].message.content})
+            
+        except Exception as e:
+            print(f"Error in run_sync: {str(e)}")
+            # Return a minimal valid JSON response in case of error
+            return type('Response', (), {'final_output': '{"error": "' + str(e).replace('"', '\\"') + '"}'})
 
-
-# Print a warning to make it clear this is a mock implementation
-print("WARNING: Using mock agents implementation. Limited functionality available.") 
+print("Using real OpenAI Agents SDK implementation") 

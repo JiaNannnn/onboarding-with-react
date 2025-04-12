@@ -28,119 +28,437 @@ CACHE_DIR.mkdir(exist_ok=True, parents=True)
 
 MAPPING_PROMPT = """
 You are an expert in mapping Building Management System (BMS) points to EnOS schema.
-
-Device Point Context:
-- Device Type: {device_type}
-- Device ID: {device_id}
-- Point Name: {point_name}
-- Point Type: {point_type}
-- Unit: {unit}
-- Value Example: {value}
-- Related points in same device: {related_points}
-
-Task: Map this BMS point to the corresponding EnOS point name.
-The EnOS point name MUST follow the format: DEVICE_TYPE_CATEGORY_MEASUREMENT_TYPE_POINT
-
-IMPORTANT RULES:
-1. In the JSON response, the "enos_point" value MUST begin with a prefix that EXACTLY matches the input Device Type: {device_type} (or its standard abbreviation, such as CH for CHILLER, PUMP for PUMP, etc.). 
-2. The prefix must appear before the first underscore (_). 
-3. CATEGORY must be "raw" or "calc" or "write"
-4. Your ENTIRE RESPONSE must be a valid JSON object with no additional text.
-5. DO NOT include any explanations, commentary, or notes in your response.
-
-Examples of CORRECT responses:
-```json
-{{"enos_point": "CH_raw_temp_chws"}}
-```
-
-```json
-{{"enos_point": "AHU_raw_temp_rt"}}
-```
-
-Examples of mapping patterns:
-- Chiller supply temperature (Device Type: CH) → {{"enos_point": "CH_raw_temp_chws"}}
-- AHU return temperature (Device Type: AHU) → {{"enos_point": "AHU_raw_temp_rt"}}
-- Fan power measurement (Device Type: FCU) → {{"enos_point": "FCU_raw_power_fan"}}
-- Cooling Water Pump Run Status (Device Type: CWP) → {{"enos_point": "CWP_raw_status"}}
-- Cooling Tower Fan Power (Device Type: CT) → {{"enos_point": "CT_raw_power_fan"}}
-- Main Power Meter kWh (Device Type: DPM) → {{"enos_point": "DPM_raw_energy_active_total"}}
-
-Your response format MUST be EXACTLY:
-{{"enos_point": "DEVICE_TYPE_CATEGORY_MEASUREMENT_TYPE_POINT"}}
-
-Do not include ANY other text, explanations, or formatting outside the JSON object.
+Below is the EnOS schema:
+{
+    "Chiller": {
+        "shortName": "CH",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CH",
+        "points": [
+            "CH_raw_status",
+            "CH_raw_trip",
+            "CH_raw_temp_chws",
+            "CH_raw_temp_chwr",
+            "CH_raw_temp_evap",
+            "CH_raw_power_active_total", 
+            "CH_raw_energy_active_total",
+            "CH_raw_sp_temp_chws",
+            "CH_raw_chilled_valve_status",
+            "CH_raw_cooling_valve_status",
+            "CH_raw_chilled_water_flow",
+            "CH_raw_cooling_water_flow",
+            "CH_raw_fla",
+            "CH_raw_flow_chws",
+            "CH_raw_temp_cwr",
+            "CH_raw_temp_cws",
+            "CH_raw_temp_cond",
+            "CH_raw_load_chiller"
+        ]
+    },
+    "Chilled Water Pump":{
+        "shortName": "CHWP",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CHWP",
+        "points": [
+            "PUMP_raw_status",
+            "PUMP_raw_trip",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_energy_active_total",
+            "PUMP_raw_flow",
+            "PUMP_raw_pressure",
+            "PUMP_raw_head",
+            "PUMP_raw_water_flow",
+            "PUMP_raw_on_off_command",
+            "PUMP_raw_delta_pressure",
+            "PUMP_raw_sp_delta_pressure",
+            "PUMP_raw_frequency_command"
+        ]
+    },
+    "Condenser Water Pump":{
+        "shortName": "CWP",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CWP",
+        "points": [
+            "PUMP_raw_status",
+            "PUMP_raw_trip",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_energy_active_total",
+            "PUMP_raw_flow",
+            "PUMP_raw_pressure",
+            "PUMP_raw_head",
+            "PUMP_raw_water_flow",
+            "PUMP_raw_on_off_command",
+            "PUMP_raw_delta_pressure",
+            "PUMP_raw_sp_delta_pressure",
+            "PUMP_raw_frequency_command",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_frequency"
+        ]
+    },
+    "Cooling Tower": {
+        "shortName": "CT",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CT",
+        "points": [
+            "CT_raw_status",
+            "CT_raw_on_off_command",
+            "CT_raw_trip",
+            "CT_raw_temp_cwe",
+            "CT_raw_temp_cwl",
+            "CT_raw_valve_status_cwe",
+            "CT_raw_valve_status_cwl",
+            "CT_raw_power_active_total",
+            "CT_raw_energy_active_total",
+            "CT_raw_valve_status_cwe_command",
+            "CT_raw_sp_temp_cwl",
+            "CT_raw_valve_status_cwl_command"
+        ]
+    },
+    "Chiller Plant": {
+        "shortName": "CHPL",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CHPL",
+        "points": [
+            "CHPL_raw_load_building",
+            "CHPL_raw_temp_chws_header",
+            "CHPL_raw_temp_chwr_header",
+            "CHPL_raw_flow_chws_header",
+            "CHPL_raw_chws_pressure",
+            "CHPL_raw_chwr_pressure",
+            "CHPL_raw_flow_chwr_header",
+            "CHPL_raw_power_active_total",
+            "CHPL_raw_energy_active_total"
+        ]
+    },
+    "Air Handing Unit": {
+        "shortName": "AHU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_AHU",
+        "points": [
+            "AHU_raw_status",
+            "AHU_raw_trip",
+            "AHU_raw_cooling_heating_mode_command",
+            "AHU_raw_energy_active_total",
+            "AHU_raw_ra_damper_position",
+            "AHU_raw_return_air_co2",
+            "AHU_raw_return_air_humidity",
+            "AHU_raw_sp_ra_damper_position",
+            "AHU_raw_static_pressure",
+            "AHU_raw_sp_supply_air_temp",
+            "AHU_raw_supply_air_fan_frequency",
+            "AHU_raw_temp_chwr",
+            "AHU_raw_temp_chws",
+            "AHU_raw_sp_return_air_co2",
+            "AHU_raw_filter_status",
+            "AHU_raw_operation_mode",
+            "AHU_raw_sp_return_air_temp",
+            "AHU_raw_supply_air_fan_speed_command",
+            "AHU_raw_valve_position",
+            "AHU_raw_oa_damper_position",
+            "AHU_raw_sp_static_pressure",
+            "AHU_raw_return_air_temp",
+            "AHU_raw_supply_air_fan_frequency_command",
+            "AHU_raw_cooling_demand",
+            "AHU_raw_sp_oa_damper_position",
+            "AHU_raw_hw_valve_position",
+            "AHU_raw_supply_air_temp",
+            "AHU_raw_supply_air_fan_speed",
+            "AHU_raw_return_air_fan_frequency",
+            "AHU_opt_sp_supply_air_temp",
+            "AHU_write_sp_return_air_temp",
+            "AHU_raw_on_off_command",
+            "AHU_write_sp_static_pressure",
+            "AHU_opt_sp_return_air_temp",
+            "AHU_stat_device_on_off",
+            "AHU_write_ra_damper_position",
+            "AHU_write_on_off_command",
+            "AHU_write_sp_oa_damper_position",
+            "AHU_opt_sp_static_pressure",
+            "AHU_write_sp_return_air_co2",
+            "AHU_raw_air_flow",
+            "AHU_write_sp_supply_air_temp",
+            "AHU_raw_mix_air_velocity2",
+            "AHU_raw_mix_air_velocity1",
+            "AHU_raw_mix_air_velocity4",
+            "AHU_raw_mix_air_velocity3",
+            "AHU_raw_power_active_total",
+            "AHU_raw_outside_air_temp",
+            "AHU_write_sp_supply_air_co2",
+            "AHU_write_cooling_heating_mode_command",
+            "AHU_raw_filter_delta_pressure",
+            "AHU_schedule_output",
+            "AHU_raw_sp_supply_air_co2",
+            "AHU_write_fan_speed",
+            "AHU_ai_opt_auto_ctrl",
+            "AHU_raw_sp_offcoil_temp",
+            "AHU_write_sp_offcoil_temp",
+            "AHU_raw_room_temp",
+            "AHU_raw_return_air_temp_humidity",
+            "AHU_raw_supply_air_humidity",
+            "AHU_raw_off_coil_temp",
+            "AHU_raw_sp_off_coil_temp",
+            "AHU_ai_opt_sp_static_pressure",
+            "AHU_ai_opt_sp_supply_air_temp",
+            "AHU_write_sp_off_coil_temp",
+            "AHU_raw_sp_room_air_temp"
+        ]
+    },
+    "Fan Coil Unit": {
+        "shortName": "FCU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_FCU",
+        "points": [
+            "FCU_raw_chw_valve_status",
+            "FCU_raw_cooling_heating_mode",
+            "FCU_raw_cooling_heating_mode_command",
+            "FCU_raw_energy_active_total",
+            "FCU_raw_fan_speed",
+            "FCU_raw_fan_speed_command",
+            "FCU_raw_hw_valve_status", 
+            "FCU_raw_local_mode",
+            "FCU_raw_local_mode_command",
+            "FCU_raw_on_off_command",
+            "FCU_raw_power_active_total",
+            "FCU_raw_sp_supply_air_co2",
+            "FCU_raw_sp_zone_air_temp",
+            "FCU_raw_status",
+            "FCU_raw_trip",
+            "FCU_raw_valve_status",
+            "FCU_raw_zone_air_temp",
+            "FCU_raw_zone_occupancy",
+            "FCU_write_cooling_heating_mode_command",
+            "FCU_write_fan_speed",
+            "FCU_write_fan_speed_command",
+            "FCU_write_local_mode_command",
+            "FCU_write_on_off_command",
+            "FCU_write_sp_supply_air_co2",
+            "FCU_write_sp_zone_air_temp",
+            "FCU_write_sp_zone_air_temp_command"
+        ]
+        
+    }
+}
 """
 
 class EnOSMapper:
     # Enhance the mapping agent instructions
-    _mapping_agent_instructions = """You are an expert in mapping Building Management System (BMS) points to the EnOS IoT platform schema.
-Your goal is to find the **semantically best matching** EnOS point for a **batch of BMS points** belonging to a single device instance.
+    _mapping_agent_instructions = """
+    Map the raw BMS points to the EnOS points according to the following rules:
 
-**Input:** You will receive:
-1.  The `Device Type` (e.g., AHU, Chiller).
-2.  A list of `Reference EnOS Points` valid for this device type.
-3.  A list of `BMS Points` for this device, each with `pointId`, `pointName`, and potentially `unit`, `description`.
-
-**Instructions:**
-1.  **Analyze Each BMS Point:** For every point in the input list, break down its `pointName` (e.g., 'AHU-01.SupplyAirTempSp') into components (measurement 'SupplyAirTemp', type 'Sp').
-2.  **Understand Abbreviations:** Interpret common HVAC/BMS abbreviations (listed below) within each `pointName`.
-3.  **Consider Device Context:** All points belong to the same device type provided. Use this context.
-4.  **Target EnOS Schema & Uniqueness:** Map each BMS point ONLY to one of the provided `Reference EnOS Points` list.
-    *   Select the best semantic match from THAT LIST ONLY for each BMS point.
-    *   **CRITICAL UNIQUENESS RULE:** Each EnOS point from the reference list can be used AT MOST ONCE for the entire batch of input BMS points. If multiple BMS points seem to map to the same target EnOS point, choose the *single BMS point* that is the *best semantic fit* for that target. All other BMS points that would have targeted the *same* EnOS point MUST be mapped to `unknown`.
-    *   If no suitable reference point is found for a BMS point (or it's a duplicate based on the uniqueness rule), map it to `unknown`.
-5.  **Output Format:** Respond ONLY with a single JSON object. The keys of this object MUST be the `pointId` strings from the input BMS points list. The value for each key MUST be the mapped EnOS point string (or `unknown`). Do not include explanations or apologies.
-
-**Common Abbreviations:**
-    *   `Temp`, `T`: Temperature
-    *   `Sp`: Setpoint
-    *   `St`: Status
-    *   `Cmd`: Command
-    *   `RH`: Relative Humidity
-    *   `Co2`: Carbon Dioxide Level
-    *   `Press`, `P`: Pressure
-    *   `Flow`, `F`: Flow Rate
-    *   `Pos`, `%`: Position
-    *   `Hz`: Frequency
-    *   `kW`: Active Power
-    *   `kWh`: Active Energy
-    *   `Run`, `Start`: Running Status/Command
-    *   `Stop`: Stop Command/Status
-    *   `Trip`, `Fault`, `Flt`, `Fail`: Fault/Trip Status
-    *   `Mode`: Operating Mode
-    *   `ChW`, `CHW`: Chilled Water
-    *   `CW`, `CDW`: Condenser/Cooling Water
-    *   `SA`, `Supply`: Supply Air
-    *   `RA`, `Return`: Return Air
-    *   `OA`: Outside Air
-    *   `MA`: Mixed Air
-    *   `Valve`, `Damper`: Position/Status
-    *   `DP`: Differential Pressure/Dew Point
-    *   `Occ`: Occupancy Status
-    *   `Eff`: Efficiency
-    *   `Stat`: Status
-
-**Example Input Snippet (Conceptual - actual prompt will contain full lists):**
-Device Type: FCU
-Reference EnOS Points: ["FCU_raw_zone_air_temp", "FCU_raw_valve_status", "FCU_raw_status", "FCU_raw_trip", "FCU_write_fan_speed"]
-BMS Points:
-[
-  {"pointId": "10102:0", "pointName": "FCU_01_25.RoomTemp"},
-  {"pointId": "10102:1", "pointName": "FCU_01_25.ValveOutput"},
-  {"pointId": "10102:126", "pointName": "FCU_01_25.RunStatus"},
-  {"pointId": "10102:290", "pointName": "FCU_01_25.CTL_RunStop"} // Also seems like a status
-]
-
-**Example Output JSON:**
-```json
-{
-  "10102:0": "FCU_raw_zone_air_temp",
-  "10102:1": "FCU_raw_valve_status",
-  "10102:126": "FCU_raw_status", // Best fit for FCU_raw_status
-  "10102:290": "unknown" // Cannot reuse FCU_raw_status, mapped to unknown
+    1. Each BMS point must be mapped to a valid EnOS point name
+    The EnOS points schema is defined in:
+    {
+    "Chiller": {
+        "shortName": "CH",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CH",
+        "points": [
+            "CH_raw_status",
+            "CH_raw_trip",
+            "CH_raw_temp_chws",
+            "CH_raw_temp_chwr",
+            "CH_raw_temp_evap",
+            "CH_raw_power_active_total", 
+            "CH_raw_energy_active_total",
+            "CH_raw_sp_temp_chws",
+            "CH_raw_chilled_valve_status",
+            "CH_raw_cooling_valve_status",
+            "CH_raw_chilled_water_flow",
+            "CH_raw_cooling_water_flow",
+            "CH_raw_fla",
+            "CH_raw_flow_chws",
+            "CH_raw_temp_cwr",
+            "CH_raw_temp_cws",
+            "CH_raw_temp_cond",
+            "CH_raw_load_chiller"
+        ]
+    },
+    "Chilled Water Pump":{
+        "shortName": "CHWP",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CHWP",
+        "points": [
+            "PUMP_raw_status",
+            "PUMP_raw_trip",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_energy_active_total",
+            "PUMP_raw_flow",
+            "PUMP_raw_pressure",
+            "PUMP_raw_head",
+            "PUMP_raw_water_flow",
+            "PUMP_raw_on_off_command",
+            "PUMP_raw_delta_pressure",
+            "PUMP_raw_sp_delta_pressure",
+            "PUMP_raw_frequency_command"
+        ]
+    },
+    "Condenser Water Pump":{
+        "shortName": "CWP",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CWP",
+        "points": [
+            "PUMP_raw_status",
+            "PUMP_raw_trip",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_energy_active_total",
+            "PUMP_raw_flow",
+            "PUMP_raw_pressure",
+            "PUMP_raw_head",
+            "PUMP_raw_water_flow",
+            "PUMP_raw_on_off_command",
+            "PUMP_raw_delta_pressure",
+            "PUMP_raw_sp_delta_pressure",
+            "PUMP_raw_frequency_command",
+            "PUMP_raw_power_active_total",
+            "PUMP_raw_frequency"
+        ]
+    },
+    "Cooling Tower": {
+        "shortName": "CT",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CT",
+        "points": [
+            "CT_raw_status",
+            "CT_raw_on_off_command",
+            "CT_raw_trip",
+            "CT_raw_temp_cwe",
+            "CT_raw_temp_cwl",
+            "CT_raw_valve_status_cwe",
+            "CT_raw_valve_status_cwl",
+            "CT_raw_power_active_total",
+            "CT_raw_energy_active_total",
+            "CT_raw_valve_status_cwe_command",
+            "CT_raw_sp_temp_cwl",
+            "CT_raw_valve_status_cwl_command"
+        ]
+    },
+    "Chiller Plant": {
+        "shortName": "CHPL",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_CHPL",
+        "points": [
+            "CHPL_raw_load_building",
+            "CHPL_raw_temp_chws_header",
+            "CHPL_raw_temp_chwr_header",
+            "CHPL_raw_flow_chws_header",
+            "CHPL_raw_chws_pressure",
+            "CHPL_raw_chwr_pressure",
+            "CHPL_raw_flow_chwr_header",
+            "CHPL_raw_power_active_total",
+            "CHPL_raw_energy_active_total"
+        ]
+    },
+    "Air Handing Unit": {
+        "shortName": "AHU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_AHU",
+        "points": [
+            "AHU_raw_status",
+            "AHU_raw_trip",
+            "AHU_raw_cooling_heating_mode_command",
+            "AHU_raw_energy_active_total",
+            "AHU_raw_ra_damper_position",
+            "AHU_raw_return_air_co2",
+            "AHU_raw_return_air_humidity",
+            "AHU_raw_sp_ra_damper_position",
+            "AHU_raw_static_pressure",
+            "AHU_raw_sp_supply_air_temp",
+            "AHU_raw_supply_air_fan_frequency",
+            "AHU_raw_temp_chwr",
+            "AHU_raw_temp_chws",
+            "AHU_raw_sp_return_air_co2",
+            "AHU_raw_filter_status",
+            "AHU_raw_operation_mode",
+            "AHU_raw_sp_return_air_temp",
+            "AHU_raw_supply_air_fan_speed_command",
+            "AHU_raw_valve_position",
+            "AHU_raw_oa_damper_position",
+            "AHU_raw_sp_static_pressure",
+            "AHU_raw_return_air_temp",
+            "AHU_raw_supply_air_fan_frequency_command",
+            "AHU_raw_cooling_demand",
+            "AHU_raw_sp_oa_damper_position",
+            "AHU_raw_hw_valve_position",
+            "AHU_raw_supply_air_temp",
+            "AHU_raw_supply_air_fan_speed",
+            "AHU_raw_return_air_fan_frequency",
+            "AHU_opt_step",
+            "AHU_opt_sp_supply_air_temp",
+            "AHU_high_sap_energy_waste_5min",
+            "AHU_write_sp_return_air_temp",
+            "AHU_raw_on_off_command",
+            "AHU_write_sp_static_pressure",
+            "AHU_opt_sp_return_air_temp",
+            "AHU_stat_device_on_off",
+            "AHU_write_ra_damper_position",
+            "AHU_write_on_off_command",
+            "AHU_write_sp_oa_damper_position",
+            "AHU_opt_sp_static_pressure",
+            "AHU_write_sp_return_air_co2",
+            "AHU_raw_air_flow",
+            "AHU_write_sp_supply_air_temp",
+            "AHU_raw_mix_air_velocity2",
+            "AHU_raw_mix_air_velocity1",
+            "AHU_raw_mix_air_velocity4",
+            "AHU_raw_mix_air_velocity3",
+            "AHU_raw_power_active_total",
+            "AHU_raw_outside_air_temp",
+            "AHU_write_sp_supply_air_co2",
+            "AHU_write_cooling_heating_mode_command",
+            "AHU_raw_filter_delta_pressure",
+            "AHU_schedule_output",
+            "AHU_raw_sp_supply_air_co2",
+            "AHU_write_fan_speed",
+            "AHU_ai_opt_auto_ctrl",
+            "AHU_raw_sp_offcoil_temp",
+            "AHU_write_sp_offcoil_temp",
+            "AHU_raw_room_temp",
+            "AHU_raw_return_air_temp_humidity",
+            "AHU_raw_supply_air_humidity",
+            "AHU_raw_off_coil_temp",
+            "AHU_raw_sp_off_coil_temp",
+            "AHU_ai_opt_sp_static_pressure",
+            "AHU_ai_opt_sp_supply_air_temp",
+            "AHU_write_sp_off_coil_temp",
+            "AHU_raw_sp_room_air_temp"
+        ]
+    },
+    "Fan Coil Unit": {
+        "shortName": "FCU",
+        "parent": "HVAC",
+        "enos_model": "EnOS_HVAC_FCU",
+        "points": [
+            "FCU_raw_chw_valve_status",
+            "FCU_raw_cooling_heating_mode",
+            "FCU_raw_cooling_heating_mode_command",
+            "FCU_raw_energy_active_total",
+            "FCU_raw_fan_speed",
+            "FCU_raw_fan_speed_command",
+            "FCU_raw_hw_valve_status", 
+            "FCU_raw_local_mode",
+            "FCU_raw_local_mode_command",
+            "FCU_raw_on_off_command",
+            "FCU_raw_power_active_total",
+            "FCU_raw_sp_supply_air_co2",
+            "FCU_raw_sp_zone_air_temp",
+            "FCU_raw_status",
+            "FCU_raw_trip",
+            "FCU_raw_valve_status",
+            "FCU_raw_zone_air_temp",
+            "FCU_raw_zone_occupancy",
+            "FCU_write_cooling_heating_mode_command",
+            "FCU_write_fan_speed",
+            "FCU_write_fan_speed_command",
+            "FCU_write_local_mode_command",
+            "FCU_write_on_off_command",
+            "FCU_write_sp_supply_air_co2",
+            "FCU_write_sp_zone_air_temp",
+            "FCU_write_sp_zone_air_temp_command"
+        ]
+        
+    }
 }
-```
-"""
+    """
     
     # Define quality score thresholds
     QUALITY_EXCELLENT = 0.9
@@ -211,9 +529,8 @@ BMS Points:
                         "type": "object",
                         "properties": {
                             "enos_point": {
-                                "type": "string",
-                                "description": "The mapped EnOS point name following the DEVICE_TYPE_CATEGORY_MEASUREMENT_TYPE_POINT format"
-                            }
+                                "type": "string"
+                                }
                         },
                         "required": ["enos_point"]
                     }
@@ -1081,6 +1398,10 @@ BMS Points:
             logger.warning("Empty EnOS point name")
             return False
             
+        # Special case: 'unknown' is always valid
+        if enos_point == 'unknown':
+            return True
+            
         parts = enos_point.split('_')
         if len(parts) < 3:
             logger.warning(f"EnOS point has too few parts: {enos_point}")
@@ -1101,18 +1422,54 @@ BMS Points:
             return False
             
         # Check category (usually 'raw')
-        if parts[1] not in {'raw', 'calc'}:
+        if parts[1] not in {'raw', 'calc', 'write', 'opt', 'stat', 'high', 'ai'}:
             logger.warning(f"Invalid EnOS point category: {parts[1]}")
             return False
             
-        # Expanded list of measurement types
+        # Check if the enos_point exists in the schema for the given device type
+        if hasattr(self, 'enos_schema') and self.enos_schema and device_type:
+            # Normalize device type for schema lookup
+            device_type_normalized = self._normalize_device_type(device_type)
+            
+            if device_type_normalized in self.enos_schema:
+                device_points = self.enos_schema[device_type_normalized].get('points', {})
+                
+                # Direct check if the entire point name exists in schema
+                if enos_point in device_points:
+                    return True
+                
+                # If the point is not found directly in the schema, log a warning
+                logger.warning(f"EnOS point '{enos_point}' not found in schema for device type '{device_type_normalized}'")
+                
+                # Even if not in schema, we'll still do basic validation below for backward compatibility
+            
+        # Fallback validation using measurement types
+        # This is backward compatible with the old method but less restrictive
         valid_measurements = {
             'temp', 'power', 'status', 'speed', 'pressure', 'flow', 'humidity', 'position',
             'energy', 'current', 'voltage', 'frequency', 'level', 'occupancy', 'setpoint',
-            'mode', 'command', 'alarm', 'damper', 'valve', 'state', 'volume'
+            'mode', 'command', 'alarm', 'damper', 'valve', 'state', 'volume', 'co2',
+            'trip', 'sp', 'head', 'load', 'air', 'water', 'delta', 'offcoil', 'off_coil',
+            'step', 'waste', 'demand', 'velocity', 'cooling', 'chilled', 'room', 'fan',
+            'filter', 'hw', 'ra', 'oa', 'chwr', 'chws', 'cwr', 'cws', 'cwe', 'cwl',
+            'evap', 'cond', 'fla', 'ctrl', 'auto', 'header', 'building', 'zone'
         }
         
-        if parts[2] not in valid_measurements:
+        # For point names with multiple parts after the category (e.g., return_air_co2),
+        # we need a more flexible approach
+        measurement_valid = False
+        
+        # Check the third part directly
+        if parts[2] in valid_measurements:
+            measurement_valid = True
+        # If it's a compound measurement, it might contain valid sub-parts
+        elif '_' in parts[2]:
+            sub_parts = parts[2].split('_')
+            # Check if at least one sub-part is valid
+            if any(sub_part in valid_measurements for sub_part in sub_parts):
+                measurement_valid = True
+                
+        if not measurement_valid:
             logger.warning(f"Invalid EnOS point measurement type: {parts[2]}")
             return False
             

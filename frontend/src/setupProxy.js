@@ -637,6 +637,97 @@ module.exports = function(app) {
     });
   });
   
+  // Add handler for v1 map-points API to avoid 405 errors
+  app.options('/api/v1/map-points', (req, res) => {
+    console.log('Handling OPTIONS preflight for v1 map-points');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-key, x-secret-key, AccessKey, SecretKey, Access-Control-Allow-Origin');
+    res.status(200).end();
+  });
+  
+  // Add a mock map-points endpoint that matches the exact API path
+  app.post('/api/v1/map-points', (req, res) => {
+    console.log('Mock api/v1/map-points endpoint called with data:');
+    console.log('Number of points:', req.body.points?.length || 0);
+    
+    // Generate a task ID for async processing
+    const taskId = 'mock-task-' + Date.now();
+    
+    // Return an immediate response with task ID
+    setTimeout(() => {
+      res.status(200).json({
+        success: true,
+        status: 'processing',
+        taskId: taskId,
+        batchMode: true,
+        totalBatches: 1,
+        completedBatches: 0,
+        progress: 0.0,
+        message: `Processing ${req.body.points?.length || 0} points`
+      });
+    }, 500); // Small delay to simulate network
+  });
+  
+  // Add a mock endpoint for status checks
+  app.get('/api/v1/map-points/:taskId', (req, res) => {
+    console.log(`Mock status check for task ${req.params.taskId}`);
+    
+    // Get the task ID from the URL
+    const taskId = req.params.taskId;
+    
+    // Check if this is the first status check (simulate processing)
+    const mockProgress = Math.random();
+    const isComplete = mockProgress > 0.7;
+    
+    if (isComplete) {
+      // Return completed status with mock mappings
+      res.status(200).json({
+        success: true,
+        status: 'completed',
+        taskId: taskId,
+        batchMode: true,
+        totalBatches: 1,
+        completedBatches: 1,
+        progress: 1.0,
+        mappings: Array(10).fill(0).map((_, i) => ({
+          original: {
+            pointName: `Mock-Point-${i}`,
+            deviceType: 'AHU',
+            deviceId: 'AHU-01',
+            pointType: 'Temperature',
+            unit: '°C',
+            value: 22.5
+          },
+          mapping: {
+            pointId: `point-${i}`,
+            enosPoint: 'AHU_raw_temp_zone',
+            status: 'mapped'
+          }
+        })),
+        stats: {
+          total: 10,
+          mapped: 9,
+          errors: 1,
+          deviceCount: 3,
+          deviceTypes: 2
+        }
+      });
+    } else {
+      // Return processing status
+      res.status(200).json({
+        success: true,
+        status: 'processing',
+        taskId: taskId,
+        batchMode: true,
+        totalBatches: 1,
+        completedBatches: 0,
+        progress: mockProgress,
+        message: `Processing batch 1 of 1 (${Math.round(mockProgress * 100)}% complete)`
+      });
+    }
+  });
+  
   // Handle preflight OPTIONS requests directly for any other routes
   app.use((req, res, next) => {
     if (req.method === 'OPTIONS') {

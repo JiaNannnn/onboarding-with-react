@@ -1,0 +1,5428 @@
+{
+  "success": true,
+  "status": "completed",
+  "taskId": "4fb8f07c-1d84-4f28-b63a-95ebef398826",
+  "batchMode": true,
+  "totalBatches": 1,
+  "completedBatches": 1,
+  "progress": 1.0,
+  "totalPoints": 773,
+  "mappings": [
+    {
+      "pointName": "ChillerPlant",
+      "deviceType": "",
+      "enosPoint": "_raw_value_chillerplant",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ModeStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DriverCH-SYS-1.CH.RunStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_driverch-sys-1.ch.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Fcu",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU.FCU_01_25.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu.fcu_01_25.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.TripStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.FailStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWV.OvrMode",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-1.chwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_1.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_1.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWV.OpenStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-1.chwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_1.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_1.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_2.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_2.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.ModeStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_2.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_2.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.RunStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.TripStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_3.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_3.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.FailStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CH_3.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ch_3.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_1.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_1.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.ModeStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.RunStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_1.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_1.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_2.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_2.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.TripStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.FailStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_2.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_2.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_3.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_3.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.ATCS.RunStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-1.atcs.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CHWP_3.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_chwp_3.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.ATCS.TripStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-1.atcs.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.ATCS.ModeStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-1.atcs.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_1.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_1.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_1.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_1.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.ATCS.FailStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-1.atcs.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.ATCS.Enabled",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-1.atcs.enabled",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_2.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_2.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_2.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_2.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.RunCmd",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.runcmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ModeStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_3.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_3.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.RunStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CWP_3.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_cwp_3.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_1.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_1.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.TripStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_1.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_1.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.FailStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.ModeStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_2.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_2.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.RunStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_2.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_2.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_01_33.34_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_3.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_3.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.TripStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.FailStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_3.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_3.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_4.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_4.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWV.CloseStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-1.chwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_01_35_1.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_CT_4.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_ct_4.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWV.ModeStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-1.chwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWV.FailStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-1.chwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_MKWP.kWh",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_mkwp.kwh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.OvrMode",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "DPM_MKWP.kW",
+      "deviceType": "",
+      "enosPoint": "_raw_value_dpm_mkwp.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_01_35_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.OpenCmd",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.opencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.OpenStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_01_1.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.CloseStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.ModeStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWV.FailStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-1.cwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.OvrMode",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_01_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.OpenCmd",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.opencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.OpenStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_01_3.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.CloseStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.ModeStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWV.FailStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-2.chwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.VSD.Hz",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.VSD.kW",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_01_4.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.OvrMode",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.OpenCmd",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.opencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.VSD.Volt",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.VSD.Amp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.OpenStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.CloseStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.VSD.Hz",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.VSD.kW",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.ModeStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWV.FailStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-2.cwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.VSD.Volt",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.ModeStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CWP.VSD.Amp",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-1.cwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.RunStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.TripStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.FailStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.RunCmd",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.runcmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ModeStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.RunStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.TripStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_04.05_1.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.FailStatus",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.OvrMode",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_04.05_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.OpenCmd",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.opencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.ChwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.chwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.OpenStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CH.CwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-2.ch.cwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.CloseStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.ChwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.chwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.ModeStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CH.CwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-1.ch.cwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWV.FailStatus",
+      "deviceType": "Chilled Water Valve",
+      "enosPoint": "Chilled Water Valve_raw_value_ch-sys-3.chwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.OvrMode",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_06_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.VSD.Hz",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.VSD.kW",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.OpenCmd",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.opencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.VSD.Volt",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.OpenStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.openstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.VSD.Amp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_06_3.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.CloseStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.closestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.ModeStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CHWP.Dp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-2.chwp.dp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWV.FailStatus",
+      "deviceType": "Condenser Water Valve",
+      "enosPoint": "Condenser Water Valve_raw_value_ch-sys-3.cwv.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.VSD.Hz",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.VSD.kW",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.ModeStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_06_4.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.VSD.Volt",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.RunStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.TripStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.CWP.VSD.Amp",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-2.cwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.FailStatus",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-1.CHWP.Dp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-1.chwp.dp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.ModeStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.RunStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.TripStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.FailStatus",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_07_3.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwSt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.ATCS.RunStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-3.atcs.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwRt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwDt",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.ATCS.TripStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-3.atcs.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_07_4.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.ATCS.Enabled",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-2.atcs.enabled",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.ATCS.ModeStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-3.atcs.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwFls",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.ATCS.FailStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-3.atcs.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwFgpm",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.ATCS.RunStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-2.atcs.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_08_1.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.ChwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.chwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.ATCS.TripStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-2.atcs.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.ATCS.ModeStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-2.atcs.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CH.CwStrainerDp",
+      "deviceType": "Chiller",
+      "enosPoint": "Chiller_raw_value_ch-sys-3.ch.cwstrainerdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-2.ATCS.FailStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-2.atcs.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.VSD.Hz",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_08_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.VSD.kW",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.ATCS.Enabled",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ch-sys-3.atcs.enabled",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.VSD.Volt",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "BoosterPump-1.ModeStatus",
+      "deviceType": "Booster Pump",
+      "enosPoint": "Booster Pump_raw_value_boosterpump-1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "BoosterPump-1.RunStatus",
+      "deviceType": "Booster Pump",
+      "enosPoint": "Booster Pump_raw_value_boosterpump-1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_08_3.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.VSD.Amp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CHWP.Dp",
+      "deviceType": "Chilled Water Pump",
+      "enosPoint": "Chilled Water Pump_raw_value_ch-sys-3.chwp.dp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "BoosterPump-1.TripStatus",
+      "deviceType": "Booster Pump",
+      "enosPoint": "Booster Pump_raw_value_boosterpump-1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.VSD.Hz",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "BoosterPump-2.ModeStatus",
+      "deviceType": "Booster Pump",
+      "enosPoint": "Booster Pump_raw_value_boosterpump-2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "BoosterPump-2.RunStatus",
+      "deviceType": "Booster Pump",
+      "enosPoint": "Booster Pump_raw_value_boosterpump-2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.VSD.kW",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.VSD.Volt",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.OvrMode",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.ModeStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CH-SYS-3.CWP.VSD.Amp",
+      "deviceType": "Cooling Tower Pump",
+      "enosPoint": "Cooling Tower Pump_raw_value_ch-sys-3.cwp.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.RunStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwSt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.TripStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwRt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.FailStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.ModeStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwDt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.WaterLevelHigh",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.waterlevelhigh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwFls",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.CTL_FanSpeed",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.ctl_fanspeed",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.WaterLevelLow",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.waterlevellow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwFgpm",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.B2_L4.ChwDp",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.b2_l4.chwdp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.OvrMode",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_cmo_1.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.L4_L5.ChwSt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.l4_l5.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.ModeStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.RunStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.L4_L5.ChwRt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.l4_l5.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_cmo_2.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.L4_L5.ChwDt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.l4_l5.chwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.TripStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.FailStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.L4_L5.ChwFls",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.l4_l5.chwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.L4_L5.ChwFgpm",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.l4_l5.chwfgpm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.WaterLevelHigh",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.waterlevelhigh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.ChwSt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.chwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.FanSpeedStatus",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu_05_cmo_3.fanspeedstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.WaterLevelLow",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.waterlevellow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.OvrMode",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.ChwRt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.chwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.ModeStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.BpValveOpenStatus",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.bpvalveopenstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHW-Header.BpValveOpenCmd",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_chw-header.bpvalveopencmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.RunStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CW-Header.CwSt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_cw-header.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.TripStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Header.CW-Header.CwRt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_header.cw-header.cwrt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.FailStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.WaterLevelHigh",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.waterlevelhigh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CW-Header.CwDt",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_cw-header.cwdt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CW-Header.CwFls",
+      "deviceType": "Header",
+      "enosPoint": "Header_raw_value_cw-header.cwfls",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.WaterLevelLow",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.waterlevellow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.FailDisplay",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ct_3.faildisplay",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "MakeupWater.MKT_3B_FM.Flow",
+      "deviceType": "",
+      "enosPoint": "_raw_value_makeupwater.mkt_3b_fm.flow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.OvrMode",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.ovrmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "MakeupWater.DailyWaterUsage",
+      "deviceType": "",
+      "enosPoint": "_raw_value_makeupwater.dailywaterusage",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH_1.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch_1.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.ModeStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.modestatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.RunStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH_1.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch_1.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH_2.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch_2.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.TripStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH_2.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch_2.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.FailStatus",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.failstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.WaterLevelHigh",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.waterlevelhigh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_1.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_1.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.WaterLevelLow",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.waterlevellow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_1.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_1.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_2.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_2.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS.Flow",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts.flow",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_2.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_2.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "ChillerExpensionTank.High_Level_Alarm",
+      "deviceType": "Chiller Expansion Tank",
+      "enosPoint": "Chiller Expansion Tank_raw_value_chillerexpensiontank.high_level_alarm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "ChillerExpensionTank.Low_Level_Alarm",
+      "deviceType": "Chiller Expansion Tank",
+      "enosPoint": "Chiller Expansion Tank_raw_value_chillerexpensiontank.low_level_alarm",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_3.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_3.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CHWP_3.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.chwp_3.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_1.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_1.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_1.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_1.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_2.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_2.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_2.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_2.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_3.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_3.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CWP_3.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.cwp_3.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH-3.Z_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch-3.z_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "VibrationSensor.CH-3.X_Axis_RMS_Velocity",
+      "deviceType": "Vibration Sensor",
+      "enosPoint": "Vibration Sensor_raw_value_vibrationsensor.ch-3.x_axis_rms_velocity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.VSD.Hz",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.VSD.kW",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.VSD.Volt",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.VSD.Amp",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.CWST",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.APT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.apt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.AVGAPT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.avgapt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.CWST_Cell_1",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.cwst_cell_1",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.CWST_Cell_2",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.cwst_cell_2",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1.CWST_Cell_3",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_1.cwst_cell_3",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.VSD.Hz",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.VSD.kW",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.VSD.Volt",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.VSD.Amp",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.CWST",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.APT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.apt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.AVGAPT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.avgapt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.CWST_Cell_1",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.cwst_cell_1",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.CWST_Cell_2",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.cwst_cell_2",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2.CWST_Cell_3",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_2.cwst_cell_3",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.VSD.Hz",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.VSD.kW",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.VSD.Volt",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.VSD.Amp",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.CWST",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.APT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.apt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.AVGAPT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.avgapt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.CWST_Cell_1",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.cwst_cell_1",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3.CWST_Cell_2",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_3.cwst_cell_2",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWST_Cell_3",
+      "deviceType": "",
+      "enosPoint": "_raw_value_cwst_cell_3",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.VSD.Hz",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.vsd.hz",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.VSD.kW",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.vsd.kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.VSD.Volt",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.vsd.volt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.VSD.Amp",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.vsd.amp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.CWST",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.cwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.APT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.apt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.AVGAPT",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.avgapt",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4.CWST_Cell_1",
+      "deviceType": "Cooling Tower",
+      "enosPoint": "Cooling Tower_raw_value_ct_4.cwst_cell_1",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_1.DryBulbTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_1.drybulbtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_1.RH",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_1.rh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_1.WetBulbTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_1.wetbulbtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_1.DewPointTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_1.dewpointtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_2.DryBulbTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_2.drybulbtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_2.RH",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_2.rh",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_2.WetBulbTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_2.wetbulbtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WST_2.DewPointTemp",
+      "deviceType": "Weather Station",
+      "enosPoint": "Weather Station_raw_value_wst_2.dewpointtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS_1.PH",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts_1.ph",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS_1.TDS",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts_1.tds",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "PH",
+      "deviceType": "",
+      "enosPoint": "_raw_value_ph",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS.TDS",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts.tds",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS.Conductivity",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts.conductivity",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "WTS.ORP",
+      "deviceType": "Water Treatment System",
+      "enosPoint": "Water Treatment System_raw_value_wts.orp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU.FCU_05_01_4.ValveOutput",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu.fcu_05_01_4.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU.FCU_05_01_4.FanOutput",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu.fcu_05_01_4.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_4.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_4.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_5.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_5.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_6.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_6.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_7.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_7.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU.FCU_05_01_8.RoomTemp",
+      "deviceType": "",
+      "enosPoint": "_raw_value_fcu.fcu_05_01_8.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_8.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_8.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_01_9.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_01_9.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_04.05_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_04.05_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.TripStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.tripstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.CVControlMode",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.cvcontrolmode",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.RunStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.runstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_25.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_25.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_06_4.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_06_4.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_26.27_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_26.27_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_28.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_28.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_29.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_29.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_2.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_2.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_30.31_3.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_30.31_3.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_32.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_32.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_07_4.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_07_4.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_1.CTL_RunStop",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_1.ctl_runstop",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_33.34_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_33.34_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_1.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_1.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_01_35_2.ControllerStatus",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_01_35_2.controllerstatus",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "PlantControl_PlantRunCmd",
+      "deviceType": "Plant Control",
+      "enosPoint": "Plant Control_raw_value_plantcontrol_plantruncmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_08_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_08_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_11_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_11_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_13_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_13_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_1.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_1.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_2.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_2.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.RoomTemp",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.roomtemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.ValveOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.valveoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.FanOutput",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.fanoutput",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.CTL_CoolingValve",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.ctl_coolingvalve",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "FCU_05_CMO_3.TempSetpoint",
+      "deviceType": "Fan Coil Unit",
+      "enosPoint": "Fan Coil Unit_raw_value_fcu_05_cmo_3.tempsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_1_CoolingLCWSetpoint",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_1_coolinglcwsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_1_BaseDemandLimit",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_1_basedemandlimit",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_2_CoolingLCWSetpoint",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_2_coolinglcwsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_2_BaseDemandLimit",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_2_basedemandlimit",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_3_CoolingLCWSetpoint",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_3_coolinglcwsetpoint",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HL_CH_3_BaseDemandLimit",
+      "deviceType": "Heat Load",
+      "enosPoint": "Heat Load_raw_value_hl_ch_3_basedemandlimit",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_AllCwpDtSp",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_allcwpdtsp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_1_VSD_HeatSinkTemp",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_1_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_2_VSD-HeatSinkTemp",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_2_vsd-heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_3_VSD_HeatSinkTemp",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_3_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_3_DT_SP",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_3_dt_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_2_DT_SP",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_2_dt_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CWP_1_DT_SP",
+      "deviceType": "Chilled Water Pump Setpoint",
+      "enosPoint": "Chilled Water Pump Setpoint_raw_value_cwp_1_dt_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_Cwst_Sp",
+      "deviceType": "Cooling Tower Setpoint",
+      "enosPoint": "Cooling Tower Setpoint_raw_value_ct_cwst_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_1_VSD_HeatSinkTemp",
+      "deviceType": "Cooling Tower VSD",
+      "enosPoint": "Cooling Tower VSD_raw_value_ct_1_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_2_VSD_HeatSinkTemp",
+      "deviceType": "Cooling Tower VSD",
+      "enosPoint": "Cooling Tower VSD_raw_value_ct_2_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_3_VSD_HeatSinkTemp",
+      "deviceType": "Cooling Tower VSD",
+      "enosPoint": "Cooling Tower VSD_raw_value_ct_3_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CT_4_VSD_HeatSinkTemp",
+      "deviceType": "Cooling Tower VSD",
+      "enosPoint": "Cooling Tower VSD_raw_value_ct_4_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "StageControl_S1_ChwHdrDp_Sp",
+      "deviceType": "Stage Control",
+      "enosPoint": "Stage Control_raw_value_stagecontrol_s1_chwhdrdp_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "StageControl_S2_ChwHdrDp_Sp",
+      "deviceType": "Stage Control",
+      "enosPoint": "Stage Control_raw_value_stagecontrol_s2_chwhdrdp_sp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHWP_1_VSD_HeatSinkTemp",
+      "deviceType": "Chilled Water Pump VSD",
+      "enosPoint": "Chilled Water Pump VSD_raw_value_chwp_1_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHWP_2_VSD_HeatSinkTemp",
+      "deviceType": "Chilled Water Pump VSD",
+      "enosPoint": "Chilled Water Pump VSD_raw_value_chwp_2_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "CHWP_3_VSD_HeatSinkTemp",
+      "deviceType": "Chilled Water Pump VSD",
+      "enosPoint": "Chilled Water Pump VSD_raw_value_chwp_3_vsd_heatsinktemp",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalChwTon",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalchwton",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalCwTon",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalcwton",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_ChEnergyEfficiency",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_chenergyefficiency",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_ChwpEnergyEfficiency",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_chwpenergyefficiency",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_CwpEnergyEfficiency",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_cwpenergyefficiency",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_CtEnergyEfficiency",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_ctenergyefficiency",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_SystemEnergyEfficiency",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_systemenergyefficiency",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalChiller_Elec_kW",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalchiller_elec_kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalChwp_Elec_kW",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalchwp_elec_kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalCwp_Elec_kW",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalcwp_elec_kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_TotalCt_Elec_kW",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_totalct_elec_kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_ChPlant_Elec_kW",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_chplant_elec_kw",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "Energy_HeatBalance",
+      "deviceType": "Energy",
+      "enosPoint": "Energy_raw_value_energy_heatbalance",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "PlantControl_StageControlCmd",
+      "deviceType": "Plant Control",
+      "enosPoint": "Plant Control_raw_value_plantcontrol_stagecontrolcmd",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "PlantControl_hdrChwst",
+      "deviceType": "Plant Control",
+      "enosPoint": "Plant Control_raw_value_plantcontrol_hdrchwst",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    },
+    {
+      "pointName": "HGM_10102",
+      "deviceType": "Miscellaneous",
+      "enosPoint": "Miscellaneous_raw_value_hgm_10102",
+      "confidence": 0.95,
+      "mapping_reason": "Mock implementation for testing"
+    }
+  ],
+  "stats": {
+    "total": 773,
+    "mapped": 773,
+    "errors": 0
+  }
+}
