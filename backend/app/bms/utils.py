@@ -6,6 +6,10 @@ import re
 import traceback
 import pandas as pd
 from typing import Dict, List, Any, Optional
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Import poseidon if available
 try:
@@ -305,4 +309,101 @@ class BMSParser:
     @staticmethod
     def normalize_point_id(point_id):
         """Normalize a point ID by removing special characters"""
-        return re.sub(r'[^\w\d-]', '', point_id.upper()) 
+        return re.sub(r'[^\w\d-]', '', point_id.upper())
+
+def export_mapped_data_to_csv(mapped_data: Dict, filename: Optional[str] = None) -> Optional[str]:
+    """
+    Exports the mapped point data to a CSV file.
+
+    Args:
+        mapped_data: The dictionary returned by EnOSMapper.map_points.
+        filename: Optional filename for the CSV. If None, a default name is generated.
+
+    Returns:
+        The absolute path to the saved CSV file, or None if an error occurred.
+    """
+    if not mapped_data or "mappings" not in mapped_data:
+        logger.error("Invalid or empty mapped data provided for export.")
+        return None
+
+    mappings = mapped_data.get("mappings", [])
+    if not mappings:
+        logger.warning("No mappings found in the data to export.")
+        # Return None or path to an empty file? Returning None for now.
+        return None
+
+    # Define the directory to save the export file
+    try:
+        # Assumes utils.py is in backend/app/bms
+        base_dir = Path(__file__).parent.parent.parent # Should point to backend/
+        export_dir = base_dir / 'tmp' / 'exports' / 'mappings'
+        export_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Export directory determined: {export_dir.resolve()}")
+    except Exception as e:
+        logger.error(f"Error creating export directory: {e}")
+        return None
+
+    # Generate filename if not provided
+    if filename is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"mapping_export_{timestamp}.csv"
+
+    # Ensure filename has .csv extension
+    if not filename.lower().endswith(".csv"):
+        filename += ".csv"
+
+    output_path = export_dir / filename
+
+    # Flatten the data structure
+    flat_data = []
+    for item in mappings:
+        original = item.get("original", {})
+        mapping = item.get("mapping", {})
+        reflection = item.get("reflection", {}) # Include reflection data
+
+        flat_item = {
+            "BMS_Point_ID": original.get("pointId"),
+            "BMS_Point_Name": original.get("pointName"),
+            "Device_Type": original.get("deviceType"),
+            "Device_ID": original.get("deviceId"),
+            "BMS_Point_Type": original.get("pointType"),
+            "BMS_Unit": original.get("unit"),
+            "EnOS_Point": mapping.get("enosPoint"),
+            "Mapping_Status": mapping.get("status"),
+            "Mapping_Confidence": mapping.get("confidence"), # Use confidence from mapping dict
+            "Mapping_Source": mapping.get("source"),
+            "Mapping_Error": mapping.get("error"),
+            "Quality_Score": reflection.get("quality_score"), # From reflection
+            "Mapping_Reason": reflection.get("reason"),
+            "Mapping_Explanation": reflection.get("explanation"),
+            "Mapping_Success": reflection.get("success")
+        }
+        flat_data.append(flat_item)
+
+    if not flat_data:
+         logger.warning("No data could be flattened for export.")
+         return None
+
+    # Create DataFrame
+    try:
+        df = pd.DataFrame(flat_data)
+
+        # Select and order columns for clarity
+        columns_order = [
+            "BMS_Point_ID", "BMS_Point_Name", "Device_Type", "Device_ID",
+            "BMS_Point_Type", "BMS_Unit", "EnOS_Point", "Mapping_Status",
+            "Mapping_Confidence", "Mapping_Source", "Mapping_Error",
+            "Quality_Score", "Mapping_Reason", "Mapping_Explanation", "Mapping_Success"
+        ]
+        # Ensure only existing columns are selected and handle potential missing columns
+        df = df[[col for col in columns_order if col in df.columns]]
+
+        # Save to CSV
+        df.to_csv(output_path, index=False, encoding='utf-8-sig') # Use utf-8-sig for Excel compatibility
+        logger.info(f"Successfully exported {len(df)} mapped points to: {output_path.resolve()}")
+        return str(output_path.resolve()) # Return absolute path
+
+    except Exception as e:
+        logger.error(f"Failed to export mapped data to CSV at {output_path}: {str(e)}")
+        logger.error(traceback.format_exc())
+        return None 
