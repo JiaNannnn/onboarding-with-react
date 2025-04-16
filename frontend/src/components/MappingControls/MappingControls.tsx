@@ -11,6 +11,7 @@ export interface MappingControlsProps {
   onMapPoints: () => void;
   onImproveMapping: () => void;
   onExportMapping: () => void;
+  onExportToEnOS?: () => void;
   
   // State indicators
   isLoading: boolean;
@@ -64,6 +65,7 @@ const MappingControls: React.FC<MappingControlsProps> = ({
   onMapPoints,
   onImproveMapping,
   onExportMapping,
+  onExportToEnOS,
   
   // State indicators
   isLoading,
@@ -129,6 +131,16 @@ const MappingControls: React.FC<MappingControlsProps> = ({
           >
             {isExporting ? 'Exporting...' : 'Export Mappings'}
           </button>
+          
+          {onExportToEnOS && (
+            <button
+              className={`mapping-button export-to-enos-button ${buttonSizeClass}`}
+              onClick={onExportToEnOS}
+              disabled={isLoading || isProcessing}
+            >
+              Export to EnOS
+            </button>
+          )}
         </div>
         
         <div className="advanced-options-toggle">

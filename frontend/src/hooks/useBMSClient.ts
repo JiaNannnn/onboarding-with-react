@@ -11,7 +11,7 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { 
-  createBMSClient,
+  BMSClient,
   BMSClientConfig, 
   NetworkInterface,
   PointMapping,
@@ -56,7 +56,7 @@ export function useBMSClient(config: BMSClientConfig = defaultConfig) {
   });
 
   // Create memoized BMS client instance
-  const client = useMemo(() => createBMSClient(config), [config]);
+  const client = useMemo(() => new BMSClient(config), [config]);
 
   /**
    * General state management for async operations
@@ -144,7 +144,7 @@ export function useBMSClient(config: BMSClientConfig = defaultConfig) {
           // Transform result if needed for backward compatibility
           if (response.success && response.mappings) {
             // If mappings have nested structure, flatten them for compatibility
-            const transformedMappings = response.mappings.map(mapping => {
+            const transformedMappings = response.mappings.map((mapping: any) => {
               // Handle the new nested format
               if (mapping.original && mapping.mapping) {
                 return {
@@ -214,7 +214,7 @@ export function useBMSClient(config: BMSClientConfig = defaultConfig) {
           if (originalMapping.mappings && originalMapping.mappings.length > 0) {
             console.log(`Analyzing ${originalMapping.mappings.length} mappings for device types...`);
             
-            originalMapping.mappings.forEach(mapping => {
+            originalMapping.mappings.forEach((mapping: any) => {
               // Handle both nested and flat structures
               const deviceType = (mapping.original?.deviceType || mapping.deviceType || "").toString();
               const deviceId = (mapping.original?.deviceId || mapping.deviceId || "").toString();
@@ -335,7 +335,7 @@ export function useBMSClient(config: BMSClientConfig = defaultConfig) {
           // Transform result if needed for backward compatibility
           if (responseData.success && responseData.mappings) {
             // If mappings have nested structure, flatten them for compatibility
-            const transformedMappings = responseData.mappings.map(mapping => {
+            const transformedMappings = responseData.mappings.map((mapping: any) => {
               // Handle the new nested format
               if (mapping.original && mapping.mapping) {
                 return {

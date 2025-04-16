@@ -1,72 +1,45 @@
 openapi: 3.1.0
 info:
   title: BMS Points API
-  description: API for managing Building Management System (BMS) points, mapping, grouping, and reflection.
-  version: 1.0.0
+  description: API for managing Building Management System (BMS) points, mapping, grouping, and interaction with AI services.
+  version: 1.0.1 # Incremented version
 servers:
   - url: http://localhost:5000
     description: Local development server
 paths:
+  # --- BMS Service Endpoints (from bms/routes.py) ---
   /api/bms/fetch-points:
     post:
-      summary: Fetch BMS points
-      description: Endpoint to fetch BMS points
+      summary: Initiate fetching BMS points for multiple devices
+      description: Starts an asynchronous task to fetch points for specified devices. Returns a task ID.
       tags:
-        - BMS
+        - BMS Tasks
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - asset_id
-                - device_instances
-              properties:
-                asset_id:
-                  type: string
-                  description: Asset identifier
-                device_instances:
-                  type: array
-                  items:
-                    type: integer
-                  description: List of device instances to fetch points for
-                protocol:
-                  type: string
-                  default: bacnet
-                  description: Communication protocol
+              $ref: '#/components/schemas/FetchPointsRequest'
       responses:
         '202':
-          description: Points search initiated
+          description: Points search initiated successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  task_id:
-                    type: string
-                  status:
-                    type: string
+                $ref: '#/components/schemas/TaskInitiationResponse'
         '400':
-          description: Bad request - missing parameters
+          description: Bad request - invalid parameters
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  code:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
   
   /api/bms/fetch-points/{task_id}:
     get:
-      summary: Check status of a points search task
-      description: Returns the status and result of a points search task
+      summary: Check status of a bulk points fetch task
+      description: Returns the status and result (point count, etc.) of a points search task initiated via /api/bms/fetch-points.
       tags:
-        - BMS
+        - BMS Tasks
       parameters:
         - name: task_id
           in: path
@@ -80,23 +53,22 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [pending, processing, completed, failed]
-                  message:
-                    type: string
-                  result:
-                    type: object
-                    description: Result data (present only when status is completed)
-  
+                $ref: '#/components/schemas/PointsSearchStatusResponse' # Refined schema
+        '404':
+           description: Task not found
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+
   /api/bms/device-points/{asset_id}/{device_instance}:
+    # This endpoint seems deprecated or less used in favor of /api/bms/fetch-points?
+    # Keeping it for now but might need verification.
     get:
-      summary: Fetch points for a specific device
-      description: Returns points for a specific device by asset ID and device instance
+      summary: Fetch points for a specific device (Task-based)
+      description: Initiates a task to fetch points for a single device. Returns a task ID.
       tags:
-        - BMS
+        - BMS Tasks
       parameters:
         - name: asset_id
           in: path
@@ -108,21 +80,20 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: integer # Assuming integer based on older definition
           description: Device instance number
         - name: address
           in: query
           required: false
           schema:
             type: string
-          description: Device address
-          default: unknown-ip
+          description: Device address (optional)
         - name: protocol
           in: query
           required: false
           schema:
             type: string
-          description: Communication protocol
+          description: Communication protocol (e.g., bacnet)
           default: bacnet
       responses:
         '202':
@@ -130,31 +101,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  task_id:
-                    type: string
-                  status:
-                    type: string
+                $ref: '#/components/schemas/TaskInitiationResponse'
         '400':
           description: Bad request - invalid parameters
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  code:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
   
   /api/bms/device-points/status/{task_id}:
     get:
-      summary: Check status of a device points fetch task
+      summary: Check status of a single device points fetch task
       tags:
-        - BMS
+        - BMS Tasks
       parameters:
         - name: task_id
           in: path
@@ -168,60 +127,40 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [pending, processing, success, failed]
-                  message:
-                    type: string
-                  result:
-                    type: object
-                    description: Result data (present only when status is success)
-  
-  /api/bms/network-config/{asset_id}:
+                $ref: '#/components/schemas/DevicePointsStatusResponse' # Refined schema
+        '404':
+           description: Task not found
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bms/network-config: # Removed {asset_id}, assuming it might be implicit or handled differently now
     get:
-      summary: Retrieve network configuration for device discovery
+      summary: Initiate retrieval of network configuration (Task-based)
+      description: Starts a task to get available network interfaces. Returns a task ID.
       tags:
-        - BMS
-      parameters:
-        - name: asset_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Asset identifier
+        - BMS Tasks
+      # Removed asset_id parameter based on task import signature
       responses:
         '202':
           description: Network configuration retrieval initiated
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  task_id:
-                    type: string
-                  status:
-                    type: string
+                $ref: '#/components/schemas/TaskInitiationResponse'
         '400':
-          description: Bad request - missing asset_id
+          description: Bad request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  code:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
   
   /api/bms/network-config/status/{task_id}:
     get:
       summary: Check status of a network configuration task
       tags:
-        - BMS
+        - BMS Tasks
       parameters:
         - name: task_id
           in: path
@@ -235,77 +174,45 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [pending, processing, success, failed]
-                  message:
-                    type: string
-                  networks:
-                    type: array
-                    items:
-                      type: object
-                    description: List of networks (present only when status is success)
+                $ref: '#/components/schemas/NetworkConfigStatusResponse' # Refined schema
+        '404':
+           description: Task not found
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
   
   /api/bms/discover-devices:
     post:
-      summary: Initiate device discovery on selected networks
+      summary: Initiate device discovery on selected networks (Task-based)
+      description: Starts a task to discover devices on the specified networks. Returns a task ID.
       tags:
-        - BMS
+        - BMS Tasks
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - asset_id
-                - networks
-              properties:
-                asset_id:
-                  type: string
-                  description: Asset identifier
-                networks:
-                  type: array
-                  items:
-                    type: object
-                  description: List of networks to scan
-                protocol:
-                  type: string
-                  default: bacnet
-                  description: Communication protocol
+              $ref: '#/components/schemas/DiscoverDevicesRequest' # New schema
       responses:
         '202':
           description: Device discovery initiated
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  task_id:
-                    type: string
-                  status:
-                    type: string
+                $ref: '#/components/schemas/TaskInitiationResponse'
         '400':
           description: Bad request - missing parameters
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  code:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
   
   /api/bms/discover-devices/status/{task_id}:
     get:
       summary: Check status of a device discovery task
       tags:
-        - BMS
+        - BMS Tasks
       parameters:
         - name: task_id
           in: path
@@ -319,348 +226,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [pending, processing, success, failed]
-                  message:
-                    type: string
-                  devices:
-                    type: array
-                    items:
-                      type: object
-                    description: List of discovered devices (present only when status is success)
-                  count:
-                    type: integer
-                    description: Number of discovered devices (present only when status is success)
-
-  /api/bms/reflection/stats:
-    get:
-      summary: Get reflection system statistics
-      tags:
-        - Reflection
-      responses:
-        '200':
-          description: Reflection statistics
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reflection/analyze:
-    post:
-      summary: Analyze mappings
-      tags:
-        - Reflection
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mappings
-              properties:
-                mappings:
-                  type: array
-                  items:
-                    type: object
-      responses:
-        '200':
-          description: Analysis results
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reflection/suggest:
-    post:
-      summary: Suggest mapping
-      tags:
-        - Reflection
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - point_name
-              properties:
-                point_name:
-                  type: string
-                context:
-                  type: object
-      responses:
-        '200':
-          description: Mapping suggestion
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reflection/patterns:
-    post:
-      summary: Extract patterns
-      tags:
-        - Reflection
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mappings
-              properties:
-                mappings:
-                  type: array
-                  items:
-                    type: object
-      responses:
-        '200':
-          description: Extracted patterns
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reflection/quality:
-    post:
-      summary: Assess quality
-      tags:
-        - Reflection
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mappings
-              properties:
-                mappings:
-                  type: array
-                  items:
-                    type: object
-      responses:
-        '200':
-          description: Quality assessment
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/map-with-reasoning:
-    post:
-      summary: Map points with reasoning
-      tags:
-        - Points
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - points
-              properties:
-                points:
-                  type: array
-                  items:
-                    type: object
-                device_type:
-                  type: string
-                  description: Optional device type to use for mapping
-      responses:
-        '200':
-          description: Mapping results with reasoning chains
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/reflect-and-remap/{point_id}:
-    post:
-      summary: Reflect on and remap a single point
-      tags:
-        - Points
-      parameters:
-        - name: point_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: ID of the point to remap
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - point_name
-                - current_mapping
-              properties:
-                point_name:
-                  type: string
-                current_mapping:
-                  type: string
-                feedback:
-                  type: string
-                  description: Optional user feedback
-      responses:
-        '200':
-          description: Remapping results
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/reflect-and-remap-batch:
-    post:
-      summary: Reflect on and remap multiple points in batch
-      tags:
-        - Points
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - points
-              properties:
-                points:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - id
-                      - name
-                      - current_mapping
-                    properties:
-                      id:
-                        type: string
-                      name:
-                        type: string
-                      current_mapping:
-                        type: string
-                      feedback:
-                        type: string
-      responses:
-        '200':
-          description: Batch remapping results
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/progress/{operation_id}:
-    get:
-      summary: Get progress for a specific operation
-      tags:
-        - Operations
-      parameters:
-        - name: operation_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Operation identifier
-      responses:
-        '200':
-          description: Operation progress information
-          content:
-            application/json:
-              schema:
-                type: object
+                $ref: '#/components/schemas/DeviceDiscoveryStatusResponse' # Refined schema
         '404':
-          description: Operation not found
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/progress-dashboard:
-    get:
-      summary: Progress dashboard
-      tags:
-        - Operations
-      responses:
-        '200':
-          description: Dashboard data
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/ai-grouping:
+           description: Task not found
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bms/points/ai-grouping: # Keeping original path, updating based on mock code
     post:
-      summary: Group points using AI
+      summary: Group points using AI (Simulated)
+      description: Groups points by device type and ID using AI methods (currently simulated based on patterns).
       tags:
-        - Points
+        - BMS Points
       requestBody:
         required: true
         content:
@@ -673,11 +252,13 @@ paths:
                 points:
                   type: array
                   items:
-                    type: string
-                    description: Point names to group
-                options:
-                  type: object
-                  description: Optional grouping options
+                    oneOf: # Points can be strings or objects
+                      - type: string
+                      - type: object 
+                        properties:
+                          pointName: 
+                            type: string
+                  description: Array of point names or point objects to group
       responses:
         '200':
           description: Grouping results
@@ -685,324 +266,275 @@ paths:
             application/json:
               schema:
                 type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/group-with-reasoning:
-    post:
-      summary: Group points with reasoning
-      tags:
-        - Points
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - points
-              properties:
-                points:
-                  type: array
-                  items:
+                properties:
+                  success:
+                    type: boolean
+                  grouped_points:
                     type: object
-                    description: Points to group
-      responses:
-        '200':
-          description: Grouping results with reasoning
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/points/verify-groups:
-    post:
-      summary: Verify point groups
-      tags:
-        - Points
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - groups
-              properties:
-                groups:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - device_type
-                      - points
-                    properties:
-                      device_type:
-                        type: string
-                      points:
+                    additionalProperties: # Device Type
+                      type: object 
+                      additionalProperties: # Device ID
                         type: array
-                        items:
-                          type: object
-      responses:
-        '200':
-          description: Group verification results
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reasoning_log:
-    get:
-      summary: Get reasoning log for a specific point
-      tags:
-        - Logs
-      parameters:
-        - name: point_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: Point identifier
-      responses:
-        '200':
-          description: Reasoning log
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing point_id
-          content:
-            application/json:
-              schema:
-                type: object
-        '404':
-          description: Log not found
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/reflection_log:
-    get:
-      summary: Get reflection log for a specific point
-      tags:
-        - Logs
-      parameters:
-        - name: point_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: Point identifier
-      responses:
-        '200':
-          description: Reflection log
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing point_id
-          content:
-            application/json:
-              schema:
-                type: object
-        '404':
-          description: Log not found
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/operation_progress:
-    get:
-      summary: Get progress for a specific operation
-      tags:
-        - Operations
-      parameters:
-        - name: operation_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: Operation identifier
-      responses:
-        '200':
-          description: Operation progress information
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: Bad request - missing operation_id
-          content:
-            application/json:
-              schema:
-                type: object
-        '404':
-          description: Operation not found
-          content:
-            application/json:
-              schema:
-                type: object
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-  
-  /api/bms/group_points_llm:
-    post:
-      summary: Group points from a CSV file using LLM
-      description: Groups points from a specified CSV file using LLM (simulated).
-      tags:
-        - BMS
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - file_path
-              properties:
-                file_path:
-                  type: string
-                  description: Path to the CSV file relative to the backend directory
-                  example: "data_test/points_5xkIipSH_10102_192.168.10.102_47808_20250312_173540.csv"
-                point_column:
-                  type: string
-                  description: Name of the column containing point names
-                  default: "pointName"
-                  example: "pointName"
-                chunk_size:
-                  type: integer
-                  description: Number of points to process per LLM request chunk
-                  default: 100
-                  minimum: 1
-                  maximum: 1000
-                  example: 70
-      responses:
-        '200':
-          description: Successfully grouped and mapped points
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Nested dictionary with systems, components, points, and mappings
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-
-  /api/v1/map-points:
-    post:
-      summary: Map BMS points to EnOS points using AI
-      description: Map BMS points to EnOS points using AI-powered mapping
-      tags:
-        - API
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - points
-              properties:
-                points:
-                  type: array
-                  items:
+                        items: 
+                          type: string # Point Name
+                  stats:
                     type: object
                     properties:
-                      id:
-                        type: string
-                      name:
-                        type: string
-                      description:
-                        type: string
-                      unit:
-                        type: string
-                    required:
-                      - name
-                  description: Points to map
-      responses:
-        '200':
-          description: Mapping results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MappingResult'
+                      total: 
+                        type: integer
+                      grouped:
+                        type: integer
+                      errors:
+                        type: integer
         '400':
-          description: Bad request - missing parameters
+          description: Bad request - missing or invalid parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+  /api/bms/points/group-with-reasoning: # New endpoint from bms/routes.py
+    post:
+      summary: Group points using AI with reasoning
+      description: Groups points by device type using chain-of-thought reasoning.
+      tags:
+        - BMS Points
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PointInput' # Define a basic point input schema
+              description: List of point objects to group
+      responses:
+        '200':
+          description: Grouping results with reasoning chains
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: # Device Type
+                  type: object
+                  properties:
+                    points:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/PointInput' 
+                    reasoning:
+                      type: array
+                      items:
+                        type: string # Assuming reasoning steps are strings
+        '400':
+          description: Bad request - invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during grouping
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bms/points/verify-groups: # New endpoint from bms/routes.py
+    post:
+      summary: Verify point groups and calculate confidence
+      description: Verifies point groupings and calculates confidence scores.
+      tags:
+        - BMS Points
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: # Device Type
+                type: object
+                required:
+                  - points
+                properties:
+                  points:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PointInput'
+                  reasoning: # Optional original reasoning
+                     type: array
+                     items:
+                       type: string
+              description: Dictionary of groups to verify, keyed by device type
+      responses:
+        '200':
+          description: Group verification results with confidence scores
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: # Device Type
+                  type: object
+                  properties:
+                    points:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/PointInput'
+                    confidence:
+                      type: number
+                      format: float
+                    confidence_details: # Assuming details are provided
+                      type: object 
+                    reasoning: # Optional reasoning
+                       type: array
+                       items:
+                         type: string
+        '400':
+          description: Bad request - invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during verification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bms/group_points_llm: # New endpoint from bms/routes.py
+    post:
+      summary: Group points from a CSV file using LLM (simulated)
+      description: Groups points from a specified CSV file using LLM (simulated).
+      tags:
+        - BMS Points
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupPointsLLMRequest'
+      responses:
+        '200':
+          description: Successfully grouped and mapped points
+          content:
+            application/json:
+              schema:
+                type: object # Needs more definition based on LLMGrouper output
+                description: Nested dictionary with systems, components, points, and mappings
+        '400':
+          description: Bad request - missing parameters or invalid chunk size
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bms/export-mapping: # New endpoint from bms/routes.py
+    post:
+      summary: Export mapping data to EnOS format (CSV or JSON)
+      description: Exports processed mapping data, including unmapped points, to CSV or JSON.
+      tags:
+        - BMS IO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportMappingRequest'
+      responses:
+        '200':
+          description: Exported mapping data (JSON or CSV file attachment)
+          content:
+            application/json: # JSON response structure
+              schema:
+                type: object
+                properties:
+                   success: 
+                     type: boolean
+                   data:
+                     type: array
+                     items: 
+                       $ref: '#/components/schemas/EnOSExportRecord'
+                   stats:
+                     type: object
+                     properties:
+                       total: 
+                         type: integer
+                       mapped: 
+                         type: integer
+                       unmapped: 
+                         type: integer
+            text/csv: # CSV response structure
+              schema:
+                type: string
+                format: binary # Indicates file download
+          headers:
+            Content-Disposition: # For CSV download
+              schema:
+                type: string
+                example: attachment; filename=enos_export.csv
+            Content-Type:
+              schema:
+                type: string
+                example: text/csv
+        '400':
+          description: Bad request - invalid request format or no data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during export
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # --- V1 API Endpoints (from api/routes.py) ---
+  /api/v1/map-points:
+    post:
+      summary: Map BMS points to EnOS points using AI
+      description: Initiates an asynchronous task to map BMS points to EnOS points using AI. Returns a task ID for status checking.
+      tags:
+        - API V1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapPointsRequest' # Renamed for clarity
+      responses:
+        '200': # Changed from 202, as the code returns 200 with task ID
+          description: Mapping task initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingTaskInitiationResponse' # More specific response
+        '400':
+          description: Bad request - missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during mapping initiation
           content:
             application/json:
               schema:
@@ -1010,7 +542,57 @@ paths:
     options:
       summary: CORS preflight for map-points endpoint
       tags:
-        - API
+        - API V1
+      responses:
+        '200':
+          description: CORS preflight response allowing POST, GET, OPTIONS etc.
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+  
+  /api/v1/map-points/{task_id}: # New endpoint from api/routes.py
+    get:
+      summary: Get the status and results of a mapping task
+      description: Retrieves the results of a completed mapping task initiated via POST /api/v1/map-points.
+      tags:
+        - API V1
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the mapping task
+      responses:
+        '200':
+          description: Mapping task results
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/MapPointsToEnOSResponse' # Use the detailed response schema
+        '404':
+           description: Task not found
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+           description: Internal server error retrieving task status
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+    options:
+      summary: CORS preflight for map-points status endpoint
+      tags:
+        - API V1
       responses:
         '200':
           description: CORS preflight response
@@ -1025,89 +607,516 @@ paths:
               schema:
                 type: string
 
+  /api/v1/map-points/improve: # New endpoint based on client usage
+    post:
+      summary: Improve mapping results using AI
+      description: Initiates a task to improve existing mapping results based on quality filters. Returns a task ID.
+      tags:
+        - API V1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImproveMappingRequest'
+      responses:
+        '200': # Assuming similar pattern to map-points
+          description: Mapping improvement task initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MappingTaskInitiationResponse' # Reusing task response
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during improvement initiation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    # options: # Add OPTIONS if CORS is needed for this endpoint too
+    #   summary: CORS preflight for improve mapping endpoint
+    #   tags:
+    #     - API V1
+    #   responses:
+    #     '200':
+    #       description: CORS preflight response
+    #       headers: ...
+
 components:
   schemas:
-    Point:
+    # --- Request Schemas ---
+    FetchPointsRequest:
       type: object
+      required:
+        - asset_id
+        - device_instances
       properties:
-        id:
+        asset_id:
           type: string
-          description: Unique identifier for the point
-        name:
-          type: string
-          description: Point name
-        type:
-          type: string
-          description: Point type
-        unit:
-          type: string
-          description: Point unit
-        description:
-          type: string
-          description: Point description
-    
-    Group:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Group identifier
-        device_type:
-          type: string
-          description: Device type
-        points:
+          description: Asset identifier
+        device_instances:
           type: array
           items:
-            $ref: '#/components/schemas/Point'
-    
-    MappingResult:
+            type: integer
+          description: List of device instances to fetch points for
+        protocol:
+          type: string
+          default: bacnet
+          description: Communication protocol
+          
+    DiscoverDevicesRequest:
+      type: object
+      required:
+        - asset_id
+        - networks
+      properties:
+        asset_id:
+          type: string
+          description: Asset identifier
+        networks:
+          type: array
+          items:
+            type: object # Assuming network objects, might need refinement
+            properties:
+              name: 
+                type: string
+              # Add other network properties if known
+          description: List of networks to scan
+        protocol:
+          type: string
+          default: bacnet
+          description: Communication protocol
+
+    GroupPointsLLMRequest:
+      type: object
+      required:
+        - file_path
+      properties:
+        file_path:
+          type: string
+          description: Path to the CSV file relative to the backend directory
+          example: "data_test/points_5xkIipSH_10102_192.168.10.102_47808_20250312_173540.csv"
+        point_column:
+          type: string
+          description: Name of the column containing point names
+          default: "pointName"
+          example: "pointName"
+        chunk_size:
+          type: integer
+          description: Number of points to process per LLM request chunk
+          default: 100
+          minimum: 1
+          maximum: 1000
+          example: 70
+
+    ExportMappingRequest:
+       type: object
+       required:
+         - mappings
+       properties:
+         mappings:
+           type: array
+           items:
+             $ref: '#/components/schemas/MappingResultItem' # Referencing the detailed mapping item
+           description: Array of mapping results (from /api/v1/map-points/{task_id})
+         includeUnmapped:
+           type: boolean
+           default: true
+           description: Whether to include points that were not successfully mapped
+         exportFormat:
+           type: string
+           enum: [json, csv]
+           default: json
+           description: Desired export format
+           
+    MapPointsRequest:
+       type: object
+       required:
+         - points
+       properties:
+         points:
+           type: array
+           items:
+             $ref: '#/components/schemas/PointInput' # Use the simplified point input
+           description: Points to map
+         mappingConfig:
+           $ref: '#/components/schemas/MappingConfig' # Referencing MappingConfig schema
+
+    ImproveMappingRequest:
+      type: object
+      required:
+        - original_mapping_id
+        - filter_quality
+      properties:
+        original_mapping_id:
+          type: string
+          description: The task ID of the original mapping result to improve.
+        filter_quality:
+          type: string
+          enum: [poor, unacceptable, below_fair, all]
+          default: below_fair
+          description: Filter for mappings to improve based on quality assessment.
+        mappingConfig:
+          $ref: '#/components/schemas/MappingConfig' # Reusing MappingConfig schema
+
+    # --- Response Schemas ---
+    TaskInitiationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Confirmation message
+        task_id:
+          type: string
+          description: ID of the initiated background task
+        status:
+          type: string
+          description: Initial status of the task (e.g., pending, accepted)
+          
+    PointsSearchStatusResponse: # Refined based on BMSClient interfaces
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, processing, success, failed]
+        message:
+          type: string
+          description: Status message
+        result:
+          type: object
+          properties:
+            status:
+              type: string
+            message:
+              type: string
+            device_tasks:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  task_id:
+                    type: string
+                  status:
+                    type: string
+                  point_count:
+                    type: integer
+        pointCount:
+           type: integer
+        samplePoints:
+           type: array
+           items:
+             type: object
+             properties:
+                name: 
+                  type: string
+                value: {} # any type
+                units: 
+                  type: string
+
+    DevicePointsStatusResponse: # Refined based on BMSClient interfaces
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, processing, success, failed]
+        message:
+           type: string
+        point_count:
+           type: integer
+        pointCount: # Alternative naming seen
+           type: integer
+        file_path:
+           type: string
+        sample_points: # Alternative naming seen
+           type: array
+           items:
+             type: object
+             properties:
+                pointId: 
+                  type: string
+                pointName: 
+                  type: string
+                pointType: 
+                  type: string
+                description: 
+                  type: string
+        samplePoints: # Alternative naming seen
+           type: array
+           items:
+             type: object
+             properties:
+                name: 
+                  type: string
+                value: {} # any type
+                units: 
+                  type: string
+
+    NetworkConfigStatusResponse: # Refined based on BMSClient interfaces
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, processing, success, failed]
+        message:
+          type: string
+        networks: # Present on success
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterface'
+
+    DeviceDiscoveryStatusResponse: # Refined based on BMSClient interfaces
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, processing, success, failed]
+        message:
+          type: string
+        result: # Present on success
+          type: object
+          properties:
+            code:
+              type: integer
+            all_devices: # One possible structure
+              type: array
+              items:
+                type: object
+                properties:
+                   otDeviceInst:
+                     type: integer
+                   deviceName:
+                     type: string
+                   address:
+                     type: string
+            devices: # Another possible structure
+              type: array
+              items:
+                type: object
+                properties:
+                   instanceNumber:
+                     type: integer
+                   name:
+                     type: string
+                   address:
+                     type: string
+                   model:
+                     type: string
+                   vendor:
+                     type: string
+            count:
+              type: integer
+        count: # Alternative structure
+          type: integer
+
+    EnOSExportRecord:
+      type: object
+      properties:
+        pointId:
+          type: string
+        pointName:
+          type: string
+        deviceId:
+          type: string
+        deviceType:
+          type: string
+        pointType:
+          type: string
+        unit:
+          type: string
+        enosPoint:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [mapped, unmapped, error, unmapped_exported]
+        confidence:
+          type: number
+          format: float
+          nullable: true
+        mapping_reason: # Added based on client/mapper
+          type: string
+          nullable: true
+          
+    MappingTaskInitiationResponse:
       type: object
       properties:
         success:
           type: boolean
-          description: Whether the mapping was successful
+        status:
+          type: string
+          description: Initial status, likely 'processing' or 'accepted'
+          example: 'completed' # As seen in route code's immediate response
+        taskId:
+          type: string
+          description: ID of the mapping task
+        batchMode:
+          type: boolean
+          description: Indicates if batch processing is used
+        totalBatches:
+          type: integer
+          description: Total number of batches if applicable
+        completedBatches:
+          type: integer
+          description: Number of completed batches if applicable
+        progress:
+          type: number
+          format: float
+          description: Overall progress (0.0 to 1.0)
+        message:
+          type: string
+          description: Informational message
+
+    MapPointsToEnOSResponse: # Based on BMSClient interface
+      type: object
+      properties:
+        success:
+          type: boolean
         mappings:
           type: array
           items:
-            type: object
-            properties:
-              bms_point:
-                $ref: '#/components/schemas/Point'
-              enos_point:
-                type: string
-              confidence:
-                type: number
-                format: float
+            $ref: '#/components/schemas/MappingResultItem' # Reference the detailed item schema
         stats:
-          type: object
-          properties:
-            total:
-              type: integer
-            mapped:
-              type: integer
-            errors:
-              type: integer
-    
-    ReasoningChain:
-      type: object
-      properties:
-        steps:
-          type: array
-          items:
-            type: object
-            properties:
-              step_name:
-                type: string
-              reasoning:
-                type: string
-              conclusion:
-                type: string
-        final_output:
+          $ref: '#/components/schemas/MappingStats'
+        error:
           type: string
-        confidence:
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+          nullable: true
+        taskId:
+          type: string
+          nullable: true
+        targetSchema:
+          type: string
+          nullable: true
+        # Batch processing fields
+        batchMode:
+          type: boolean
+          nullable: true
+        totalBatches:
+          type: integer
+          nullable: true
+        completedBatches:
+          type: integer
+          nullable: true
+        progress:
           type: number
           format: float
-    
+          nullable: true
+
+    MappingResultItem: # Detailed mapping result structure
+      type: object
+      properties:
+        original: # Original BMS point data
+          type: object
+          properties:
+            pointId:
+              type: string
+            pointName:
+              type: string
+            deviceType:
+              type: string
+            deviceId:
+              type: string
+            pointType:
+              type: string
+            unit:
+              type: string
+            value: {} # Any type
+        mapping: # Mapping result details
+          type: object
+          properties:
+            pointId:
+              type: string
+            enosPoint:
+              type: string
+              nullable: true
+            status:
+              type: string
+              enum: [mapped, error]
+            error:
+              type: string
+              nullable: true
+            confidence: # Added based on route code
+               type: number
+               format: float
+               nullable: true
+            explanation: # Added based on route code
+               type: string
+               nullable: true
+        # --- Backward compatibility fields (flat structure) ---
+        pointId:
+          type: string
+          description: (Deprecated) Flat structure point ID
+        pointName:
+          type: string
+          description: (Deprecated) Flat structure point name
+        pointType:
+          type: string
+          description: (Deprecated) Flat structure point type
+        enosPoint:
+          type: string
+          nullable: true
+          description: (Deprecated) Flat structure EnOS point
+        status:
+          type: string
+          enum: [mapped, error]
+          description: (Deprecated) Flat structure status
+        # --- Additional fields from enhanced implementation ---
+        deviceType:
+          type: string
+          description: (Deprecated) Flat structure device type
+        deviceId:
+          type: string
+          description: (Deprecated) Flat structure device ID
+        unit:
+          type: string
+          description: (Deprecated) Flat structure unit
+        pointCategory:
+          type: string
+          nullable: true
+        mappingSource:
+          type: string
+          nullable: true
+        confidence: # Added based on client/mapper
+          type: number
+          format: float
+          nullable: true
+        mapping_reason: # Added based on client/mapper
+          type: string
+          nullable: true
+
+    MappingStats: # Extracted stats schema
+      type: object
+      properties:
+        total:
+          type: integer
+        mapped:
+          type: integer
+        errors:
+          type: integer
+        deviceCount:
+          type: integer
+          nullable: true
+        deviceTypes:
+          type: integer
+          nullable: true
+        timeouts:
+          type: integer
+          nullable: true
+        unmapped:
+          type: integer
+          nullable: true
+
     ErrorResponse:
       type: object
       properties:
@@ -1116,5 +1125,103 @@ components:
           default: false
         error:
           type: string
+          description: Detailed error message
         code:
           type: string 
+          nullable: true
+          description: Optional error code
+
+    # --- Common/Reused Schemas ---
+    PointInput: # Basic point structure for input
+      type: object
+      properties:
+        id: 
+          type: string
+        pointName:
+          type: string
+        pointType:
+          type: string
+        unit:
+          type: string
+        description:
+          type: string
+        # Add other relevant fields from BMSPoint/BMSPointRaw if needed for context
+      required:
+        - pointName # Assuming name is the minimum required input
+
+    NetworkInterface: # Based on BMSClient interface
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ipAddress:
+          type: string
+        macAddress:
+          type: string
+        isActive:
+          type: boolean
+
+    MappingConfig: # Based on BMSClient interface
+      type: object
+      properties:
+        targetSchema:
+          type: string
+          nullable: true
+          description: Target EnOS schema version or name.
+        transformationRules:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+          description: Rules for transforming point names or values.
+        matchingStrategy:
+          type: string
+          enum: [strict, fuzzy, ai]
+          nullable: true
+          description: Strategy used for matching points.
+        includeDeviceContext:
+          type: boolean
+          nullable: true
+          description: Whether to include device context in mapping logic.
+        deviceTypes:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: Filter mapping based on specific device types.
+        includeSuggestions:
+          type: boolean
+          nullable: true
+          description: Whether the mapping result should include suggestions for unmapped points.
+        prioritizeFailedPatterns:
+          type: boolean
+          nullable: true
+          description: Give priority to re-mapping points that failed previous pattern matching.
+        includeReflectionData:
+          type: boolean
+          nullable: true
+          description: Include reflection or reasoning data in the mapping process/result.
+        batchMode: # Added based on route code usage
+          type: boolean
+          nullable: true
+        batchSize: # Added based on route code usage
+          type: integer
+          nullable: true
+        groupByDevice: # Added based on client hook usage
+           type: boolean
+           nullable: true
+
+# Adding Tags Description (Optional but good practice)
+tags:
+  - name: BMS Tasks
+    description: Endpoints related to initiating and checking status of asynchronous BMS operations (discovery, point fetching).
+  - name: BMS Points
+    description: Endpoints for processing and managing BMS points (grouping, verifying).
+  - name: BMS IO
+    description: Endpoints for importing/exporting BMS data (CSV, EnOS format).
+  - name: API V1
+    description: Version 1 of the core mapping and related APIs. 

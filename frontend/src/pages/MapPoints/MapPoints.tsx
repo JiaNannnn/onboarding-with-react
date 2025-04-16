@@ -472,6 +472,155 @@ const MapPoints: React.FC = () => {
     }
   };
 
+  // Export all points to EnOS format, including unmapped ones
+  const exportToEnOS = () => {
+    if (points.length === 0) {
+      setError('No points available to export.');
+      return;
+    }
+    
+    setIsExporting(true);
+    
+    try {
+      // Format points for EnOS export with mappings
+      const enosExportData = points.map(point => {
+        // Check if this point has a mapping
+        const isMapped = point.enosPoint && point.status === "mapped";
+        
+        if (isMapped) {
+          // Use the existing mapping
+          return {
+            "pointId": point.id || "",
+            "pointName": point.pointName || "",
+            "deviceId": point.deviceId || "",
+            "deviceType": point.deviceType || "UNKNOWN",
+            "pointType": point.pointType || "",
+            "unit": point.unit || "",
+            "enosPoint": point.enosPoint || "",
+            "status": "mapped",
+            "confidence": 0.9 // Use high confidence for mapped points
+          };
+        } else {
+          // Create fallback mapping for unmapped points
+          
+          // Determine EnOS point name based on device type and point name
+          let enosPointName = "";
+          let mappingStatus = "unmapped";
+          
+          // Get device type prefix
+          const deviceType = (point.deviceType || "").toUpperCase();
+          let prefix = "UNKNOWN";
+          
+          // Map common device types to prefixes
+          const prefixMap: {[key: string]: string} = {
+            "AHU": "AHU",
+            "FCU": "FCU", 
+            "FAN COIL UNIT": "FCU",
+            "FANCOIL": "FCU",
+            "FAN COIL": "FCU",
+            "FANCOILUNIT": "FCU",
+            "CHILLER": "CH",
+            "CH": "CH",
+            "PUMP": "PUMP",
+            "CWP": "PUMP",
+            "CHWP": "PUMP",
+            "HWP": "PUMP",
+            "CT": "CT",
+            "COOLING TOWER": "CT",
+            "VAV": "VAV",
+            "VRF": "VRF"
+          };
+          
+          // Get prefix or use fallback
+          if (deviceType in prefixMap) {
+            prefix = prefixMap[deviceType];
+          } else if (deviceType) {
+            // Use first 3 chars if available, ensuring uppercase
+            prefix = deviceType.substring(0, 3);
+          }
+          
+          // Create a point suffix based on point name
+          const pointName = (point.pointName || "").toString();
+          let pointSuffix = pointName
+            .replace(/[\s.]/g, '_')          // Replace spaces and dots with underscores
+            .replace(/[^a-zA-Z0-9_]/g, '')   // Remove non-alphanumeric characters
+            .toLowerCase();                   // Convert to lowercase
+          
+          // Trim if too long
+          if (pointSuffix.length > 30) {
+            pointSuffix = pointSuffix.substring(0, 30);
+          }
+          
+          // Generate EnOS point name
+          if (prefix && pointSuffix) {
+            enosPointName = `${prefix}_raw_${pointSuffix}`;
+            mappingStatus = "unmapped_exported";
+          }
+          
+          return {
+            "pointId": point.id || "",
+            "pointName": point.pointName || "",
+            "deviceId": point.deviceId || "",
+            "deviceType": point.deviceType || "UNKNOWN",
+            "pointType": point.pointType || "",
+            "unit": point.unit || "",
+            "enosPoint": enosPointName,
+            "status": mappingStatus,
+            "confidence": 0.1 // Low confidence for fallback mappings
+          };
+        }
+      });
+      
+      // Create CSV header for EnOS format
+      const enosColumns = [
+        "pointId", "pointName", "deviceId", "deviceType", 
+        "pointType", "unit", "enosPoint", "status", "confidence"
+      ];
+      
+      let csvContent = enosColumns.join(',') + '\n';
+      
+      // Add rows
+      enosExportData.forEach(record => {
+        const row = enosColumns.map(columnKey => {
+          const value = record[columnKey as keyof typeof record];
+          // Handle values that might contain commas or quotes
+          if (value === null || value === undefined) return '';
+          const stringValue = String(value);
+          return stringValue.includes(',') || stringValue.includes('"') ? 
+            `"${stringValue.replace(/"/g, '""')}"` : stringValue;
+        });
+        csvContent += row.join(',') + '\n';
+      });
+      
+      // Create downloadable link
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      
+      // Set filename with date
+      const date = new Date().toISOString().split('T')[0];
+      const filename = `enos-export-${date}.csv`;
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      
+      link.click();
+      
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      // Show success message
+      console.log(`Exported ${enosExportData.length} points to EnOS format`);
+    } catch (err) {
+      console.error('EnOS Export error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to export data to EnOS format');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="map-points-page">
       <h1>Map BMS Points to EnOS</h1>
@@ -515,6 +664,7 @@ const MapPoints: React.FC = () => {
               onMapPoints={handleMapPoints}
               onImproveMapping={handleImproveMapping}
               onExportMapping={exportMappingsToCSV}
+              onExportToEnOS={exportToEnOS}
               
               // State indicators
               isLoading={isLoading}

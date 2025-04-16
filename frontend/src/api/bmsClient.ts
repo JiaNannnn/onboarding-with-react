@@ -11,10 +11,7 @@
  * and enforces the localhost:5000 base URL policy.
  */
 
-import { 
-  APIClient, 
-  createApiClient 
-} from './core/apiClient';
+import { api } from './apiClient';
 import { 
   BMSPoint,
   BMSPointRaw,
@@ -23,6 +20,16 @@ import {
 
 // Define the versioned API base path
 const API_V1_PATH = '/api/v1';
+
+// Define the type for the api object methods we use
+type ApiMethods = {
+  get: <T>(url: string, params?: Record<string, any>, config?: any) => Promise<T>;
+  post: <T>(url: string, data?: any, config?: any) => Promise<T>;
+  put: <T>(url: string, data?: any, config?: any) => Promise<T>;
+  delete: <T>(url: string, config?: any) => Promise<T>;
+  // Add index signature to allow accessing properties like 'baseURL', 'assetId', 'orgId' if needed for config
+  [key: string]: any; 
+};
 
 /**
  * Unified configuration interface for BMS API operations
@@ -385,20 +392,14 @@ export interface ExportMappingResponse {
  * BMS Client that handles all BMS API operations
  */
 export class BMSClient {
-  private apiClient: APIClient;
+  private apiClient: ApiMethods; // Use the defined type
   
   /**
    * Create a new BMS client instance
    */
   constructor(config: BMSClientConfig) {
     // Create API client for BMS operations with the provided configuration
-    this.apiClient = createApiClient({
-      apiGateway: config.apiGateway || config.apiUrl, // Support both naming conventions
-      accessKey: config.accessKey,
-      secretKey: config.secretKey,
-      assetId: ensureString(config.assetId),
-      orgId: ensureString(config.orgId)
-    });
+    this.apiClient = api;
   }
   
   /**
@@ -434,7 +435,7 @@ export class BMSClient {
         const response = await this.apiClient.post<{ status: string, networks: string[] }>('/api/network-config', {});
         
         // Convert legacy format to new format
-        return (response.networks || []).map((network, index) => ({
+        return (response.networks || []).map((network: string, index: number) => ({
           id: `network-${index}`,
           name: network,
           description: `Network interface ${network}`,
@@ -743,19 +744,15 @@ export class BMSClient {
       };
     }
   }
-
-  /**
+  /**con
    * Update client configuration
    */
   updateConfig(config: Partial<BMSClientConfig>): void {
-    // Create a new API client with the updated configuration
-    this.apiClient = this.apiClient.withConfig({
-      apiGateway: config.apiGateway || config.apiUrl,
-      accessKey: config.accessKey,
-      secretKey: config.secretKey,
-      assetId: ensureString(config.assetId),
-      orgId: ensureString(config.orgId)
-    });
+    // Note: The base 'api' object is a singleton and cannot be reconfigured per instance this way.
+    // Configuration like assetId/orgId should ideally be passed per request or handled differently.
+    console.warn("BMSClient.updateConfig cannot reconfigure the shared API client instance.");
+    // Store config values locally if needed for specific requests
+    // e.g., this.orgId = ensureString(config.orgId);
   }
 
   /**
@@ -791,54 +788,47 @@ export class BMSClient {
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
     try {
-      console.log(`Starting mapping of ${points.length} points to EnOS`);
-      
-      // Make a direct POST request to the endpoint with explicit URL
-      const response = await this.apiClient.post<MapPointsToEnOSResponse>(
-        `/api/v1/map-points`, // Make sure URL is exactly as expected by the backend
-        {
-          points,
-          mappingConfig
-        }
-      );
-      
+      console.log(`Starting mapping of ${points.length} points to EnOS with config:`, mappingConfig);
+      // Get base URL from the API client configuration if possible, otherwise default
+      const baseURL = (this.apiClient as any)['baseURL'] || 'http://localhost:5000'; 
+      const url = `${baseURL}${API_V1_PATH}/map-points`; // Construct full URL
+
+      const response = await this.apiClient.post<MapPointsToEnOSResponse>(url, {
+        points,
+        mappingConfig,
+      });
+
+      // Check response structure
       if (!response.success) {
         console.error("Mapping response indicates failure:", response);
         throw new Error(response.error || 'Mapping operation failed');
       }
       
-      if (!response.taskId) {
-        console.error("No task ID returned from mapping operation:", response);
-        throw new Error('No task ID returned from mapping operation');
+      // If taskId is present, poll for completion
+      if (response.taskId) {
+        console.log(`Mapping task started with ID: ${response.taskId}`);
+        return await this.pollUntilComplete<MapPointsToEnOSResponse>(
+          () => this.checkPointsMappingStatus(response.taskId!),
+          (statusResponse) => statusResponse.status !== 'processing',
+          5000, // Check every 5 seconds
+          120   // Allow up to 120 attempts (10 minutes)
+        );
+      } else {
+         // If no taskId, assume immediate completion (older API versions?)
+         console.log("Mapping completed immediately (no task ID returned).");
+         return response; 
       }
-      
-      console.log(`Mapping task started with ID: ${response.taskId}`);
-      
-      // Step 2: Poll the task status until it completes
-      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
-        () => this.apiClient.get<MapPointsToEnOSResponse>(`/api/v1/map-points/${response.taskId}`),
-        (response) => {
-          // Task is complete if it doesn't have a "processing" status
-          return !response.status || response.status !== 'processing';
-        },
-        20000, // Check every 20 seconds
-        120    // Allow up to 120 attempts (40 minutes total)
-      );
-      
-      return result;
     } catch (error) {
       console.error('Error mapping points to EnOS:', error);
-      
-      // Return a formatted error response
+      // Return a consistent error response format
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
-        mappings: [],
-        stats: { total: points.length, mapped: 0, errors: points.length }
+        error: error instanceof Error ? error.message : 'Unknown error occurred during mapping',
+        stats: { total: points.length, mapped: 0, errors: points.length },
       };
     }
   }
-  
+
   /**
    * Improve mapping results with a second round of AI mapping
    * This targets specific points that had poor quality mappings
@@ -849,91 +839,44 @@ export class BMSClient {
     mappingConfig: MappingConfig = {}
   ): Promise<MapPointsToEnOSResponse> {
     try {
-      // Step 1: Start the mapping improvement task
-      const enhancedConfig = {
-        ...mappingConfig,
-        prioritizeFailedPatterns: true,
-        includeReflectionData: true
-      };
+      // Implementation requires backend endpoint and logic
+      console.log('Improve mapping called with:', originalTaskId, qualityFilter, mappingConfig);
+      // Placeholder: Simulate calling an improvement endpoint
+      const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
+      const url = `${baseURL}${API_V1_PATH}/map-points/improve`; // Hypothetical endpoint
       
-      // Check if original mapping task exists and has data
-      try {
-        const originalMapping = await this.apiClient.get<MapPointsToEnOSResponse>(
-          `/api/v1/map-points/${originalTaskId}`
-        );
-        
-        if (!originalMapping.success) {
-          throw new Error(`Original mapping task ${originalTaskId} not found or failed`);
-        }
-        
-        // Check if there are mappings to improve
-        if (!originalMapping.mappings || originalMapping.mappings.length === 0) {
-          console.warn(`Original mapping task ${originalTaskId} has no mappings to improve`);
-          return {
-            success: false,
-            error: "No mappings found in the original task to improve",
-            stats: { total: 0, mapped: 0, errors: 1 }
-          };
-        }
-        
-        console.log(`Found ${originalMapping.mappings.length} mappings in original task to potentially improve`);
-      } catch (checkError) {
-        console.error(`Error checking original mapping task: ${checkError}`);
-        // Continue with the improvement request anyway
+      const response = await this.apiClient.post<MapPointsToEnOSResponse>(url, {
+        original_mapping_id: originalTaskId,
+        filter_quality: qualityFilter,
+        mappingConfig: {
+           ...mappingConfig,
+           prioritizeFailedPatterns: true,
+           includeReflectionData: true
+         }
+      });
+
+      if (!response.success) {
+         throw new Error(response.error || 'Improvement task failed');
       }
-      
-      // Start the improvement task
-      const startResponse = await this.apiClient.post<{success: boolean, taskId: string, status: string}>(
-        `/api/v1/map-points`,
-        {
-          original_mapping_id: originalTaskId,
-          filter_quality: qualityFilter,
-          mappingConfig: enhancedConfig
-        }
-      );
-      
-      if (!startResponse.success || !startResponse.taskId) {
-        throw new Error('Failed to start mapping improvement task');
+
+      if (response.taskId) {
+         console.log(`Improvement task started: ${response.taskId}`);
+         return await this.pollUntilComplete<MapPointsToEnOSResponse>(
+           () => this.checkPointsMappingStatus(response.taskId!),
+           (statusResponse) => statusResponse.status !== 'processing',
+           5000, 120
+         );
+      } else {
+         console.warn("Improvement endpoint did not return a task ID.");
+         return response;
       }
-      
-      console.log(`Mapping improvement task started with ID: ${startResponse.taskId}`);
-      
-      // Step 2: Poll the task status until it completes with extended timeout
-      const result = await this.pollUntilComplete<MapPointsToEnOSResponse>(
-        () => this.apiClient.get<MapPointsToEnOSResponse>(`/api/v1/map-points/${startResponse.taskId}`),
-        (response) => {
-          // Log progress information
-          if (response.status === 'processing') {
-            // Safely check batch processing status using optional chaining
-            if (response.batchMode && response.totalBatches && response.totalBatches > 0) {
-              console.log(`Processing ${response.completedBatches || 0} of ${response.totalBatches} batches (${Math.round((response.progress || 0) * 100)}%)`);
-            } else {
-              console.log('Task is processing, but no batch information available yet');
-            }
-            return false; // Not complete yet
-          }
-          // Complete if status is not 'processing'
-          return true;
-        },
-        5000, // Check every 5 seconds
-        120   // Allow up to 120 attempts (10 minutes total)
-      );
-      
-      // Verify we have mappings in the result
-      if (!result.mappings || result.mappings.length === 0) {
-        console.warn('Improvement task completed but no mappings were returned');
-        
-        if (result.success) {
-          // The task was successful but returned no mappings - may be normal if no points needed improvement
-          const resultWithMessage = result as MapPointsToEnOSResponse & { message?: string };
-          resultWithMessage.message = resultWithMessage.message || 'No points required improvement based on quality filter';
-        }
-      }
-      
-      return result;
     } catch (error) {
       console.error('Error improving mapping results:', error);
-      throw error;
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error improving mapping', 
+        stats: { total: 0, mapped: 0, errors: 1 }
+      };
     }
   }
 
@@ -945,23 +888,16 @@ export class BMSClient {
     filename?: string
   ): Promise<SaveMappingResponse> {
     try {
-      // Get base URL from the API client
       const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
-      const url = `${baseURL}/api/points/save-mapping`;
-      
-      // Use the API client for the request
+      const url = `${baseURL}/api/bms/save-mapping`; // Adjusted endpoint
       const response = await this.apiClient.post<SaveMappingResponse>(url, {
         mapping,
         filename
       });
-      
       return response;
     } catch (error) {
       console.error('Error saving mapping to CSV:', error);
-      if (error instanceof Error) {
-        throw new Error(`Failed to save mapping: ${error.message}`);
-      }
-      throw new Error('Failed to save mapping');
+      return { success: false, error: error instanceof Error ? error.message : 'Failed to save mapping' };
     }
   }
 
@@ -970,20 +906,13 @@ export class BMSClient {
    */
   async listSavedMappingFiles(): Promise<ListFilesResponse> {
     try {
-      // Get base URL from the API client
       const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
       const url = `${baseURL}/api/bms/list-saved-files`;
-      
-      // Use the API client for the request
       const response = await this.apiClient.get<ListFilesResponse>(url);
-      
       return response;
     } catch (error) {
       console.error('Error listing saved mapping files:', error);
-      if (error instanceof Error) {
-        throw new Error(`Failed to list saved mappings: ${error.message}`);
-      }
-      throw new Error('Failed to list saved mappings');
+      return { success: false, error: error instanceof Error ? error.message : 'Failed to list saved mappings' };
     }
   }
 
@@ -992,22 +921,13 @@ export class BMSClient {
    */
   async loadMappingFromCSV(filepath: string): Promise<LoadCSVResponse> {
     try {
-      // Get base URL from the API client
       const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
       const url = `${baseURL}/api/bms/load-csv`;
-      
-      // Use the API client for the request
-      const response = await this.apiClient.post<LoadCSVResponse>(url, {
-        filepath
-      });
-      
+      const response = await this.apiClient.post<LoadCSVResponse>(url, { filepath });
       return response;
     } catch (error) {
       console.error('Error loading mapping from CSV:', error);
-      if (error instanceof Error) {
-        throw new Error(`Failed to load mapping: ${error.message}`);
-      }
-      throw new Error('Failed to load mapping');
+       return { success: false, error: error instanceof Error ? error.message : 'Failed to load mapping' };
     }
   }
 
@@ -1015,7 +935,6 @@ export class BMSClient {
    * Generate download URL for a file
    */
   getFileDownloadURL(filepath: string): string {
-    // Get base URL from the API client
     const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
     return `${baseURL}/api/bms/download-file?filepath=${encodeURIComponent(filepath)}`;
   }
@@ -1025,30 +944,13 @@ export class BMSClient {
    */
   async exportMappingToEnOS(mapping: MappingData[]): Promise<ExportMappingResponse> {
     try {
-      // Get base URL from the API client
       const baseURL = this.apiClient['apiGateway'] || 'http://localhost:5000';
       const url = `${baseURL}/api/bms/export-mapping`;
-      
-      // Use the API client for the request
-      const response = await this.apiClient.post<ExportMappingResponse>(url, {
-        mapping
-      });
-      
+      const response = await this.apiClient.post<ExportMappingResponse>(url, { mapping });
       return response;
     } catch (error) {
       console.error('Error exporting mapping to EnOS:', error);
-      if (error instanceof Error) {
-        throw new Error(`Failed to export mapping: ${error.message}`);
-      }
-      throw new Error('Failed to export mapping');
+       return { success: false, error: error instanceof Error ? error.message : 'Failed to export mapping' };
     }
   }
 }
-
-// Helper function to create a new client instance
-export function createBMSClient(config: BMSClientConfig): BMSClient {
-  return new BMSClient(config);
-}
-
-// Default export - singleton instance
-export default BMSClient;

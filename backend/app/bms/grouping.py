@@ -81,7 +81,7 @@ class DeviceGrouper:
         # Initialize OpenAI client with API key from environment
         api_key = os.getenv("OPENAI_API_KEY")
         self.client = OpenAI(api_key=api_key)
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4.1")
         self.max_retries = 3
         
         # For debugging purposes, log if we're using a placeholder key
@@ -378,7 +378,7 @@ You are an expert in HVAC systems and BMS point naming conventions. I need you t
 
 IMPORTANT: Look beyond just the prefix of a point name. Many points start with measurement prefixes (DPM, VSD, etc.) 
 but actually refer to specific equipment. For example:
-- "DPM_CWP_2.kW" should be grouped as a Chilled Water Pump (CWP), not as "DPM"
+- "DPM_CWP_2.kW" should be grouped as a Condenser Water Pump (CWP), not as "DPM"
 - "VSD_AHU3_Speed" should be grouped as an Air Handling Unit (AHU), not as "VSD"
 - "CT_4.TripStatus" should be grouped as a Cooling Tower (CT), not by its first letter only
 
@@ -387,7 +387,8 @@ Common device types in HVAC:
 - VAV: Variable Air Volume box
 - FCU: Fan Coil Unit 
 - CWP: Chilled Water Pump
-- CHW: Chilled Water
+- CHWP: Chilled Water Pump
+- CHPL: Chiller Plant
 - CT: Cooling Tower
 - CH: Chiller
 - HWP: Hot Water Pump
@@ -395,6 +396,8 @@ Common device types in HVAC:
 - BLR: Boiler
 - FAN: Fan
 - ZONE: Zone/Room sensor
+- PMT: Power Meter
+- WST: Weather Station
 
 POINT LIST:
 {point_list}

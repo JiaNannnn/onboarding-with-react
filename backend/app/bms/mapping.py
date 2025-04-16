@@ -15,6 +15,8 @@ from ..bms.grouping import performance_monitor
 from ..bms.reflection import ReflectionSystem, MappingMemorySystem, PatternAnalysisEngine, QualityAssessmentFramework, StrategySelectionSystem
 import traceback
 import re # Import re for regular expressions
+import uuid
+import io
 
 logger = logging.getLogger(__name__)
 
@@ -186,7 +188,6 @@ Below is the EnOS schema:
             "AHU_write_sp_supply_air_co2",
             "AHU_write_cooling_heating_mode_command",
             "AHU_raw_filter_delta_pressure",
-            "AHU_schedule_output",
             "AHU_raw_sp_supply_air_co2",
             "AHU_write_fan_speed",
             "AHU_ai_opt_auto_ctrl",
@@ -236,6 +237,22 @@ Below is the EnOS schema:
             "FCU_write_sp_zone_air_temp_command"
         ]
         
+    },
+    "Power Meter": {
+        "shortName": "PMT",
+        "enos_model": "EnOS_CITY_PMT",
+        "points": [
+            "PMT_raw_power_active_total",
+            "PMT_raw_energy_active_total"
+        ]
+    },
+    "Weather Station": {
+        "shortName": "WST",
+        "enos_model": "EnOS_CITY_WST",
+        "points": [
+            "WST_raw_outside_air_temp",
+            "WST_raw_outside_air_humidity"
+        ]
     }
 }
 """
@@ -473,11 +490,58 @@ class EnOSMapper:
     REASON_INFERRED = "inferred"
     REASON_FALLBACK = "fallback"
 
+    # Revise the mapping with clearer naming
+    CANONICAL_TO_PREFIX_MAP = {
+        'FCU': 'FCU',
+        'AHU': 'AHU',
+        'VAV': 'VAV',
+        'CHILLER': 'CH',
+        'BOILER': 'BOIL',
+        'CONDENSER WATER PUMP': 'PUMP',
+        'CHILLED WATER PUMP': 'PUMP',  # Note: CHWP should map to PUMP prefix
+        'HEATER WATER PUMP': 'PUMP',
+        'PUMP': 'PUMP',
+        'COOLING TOWER': 'CT',
+        'RTU': 'RTU',
+        'METER': 'METER',
+        'EXHAUST_FAN': 'EF',
+        'OTHER': 'UNKNOWN',
+        'UNKNOWN': 'UNKNOWN'
+    }
+
+    def _get_expected_prefix_for_type(self, canonical_device_type: str) -> str:
+        """Gets the expected EnOS prefix for a normalized/canonical device type."""
+        if not canonical_device_type:
+            logger.warning("Empty canonical device type passed to _get_expected_prefix_for_type")
+            return 'UNKNOWN'
+            
+        # Ensure canonical_device_type is uppercase for lookup consistency
+        canonical_upper = canonical_device_type.upper()
+        
+        # Debug log the lookup attempt
+        logger.debug(f"Looking up prefix for canonical device type: '{canonical_upper}'")
+        
+        # Direct lookup in the map
+        prefix = self.CANONICAL_TO_PREFIX_MAP.get(canonical_upper)
+        
+        if prefix:
+            logger.debug(f"Found prefix '{prefix}' for canonical type '{canonical_upper}'")
+            return prefix
+        
+        # Special case handling for pumps
+        if 'PUMP' in canonical_upper or 'CWP' in canonical_upper or 'CHWP' in canonical_upper or 'HWP' in canonical_upper:
+            logger.debug(f"Special case: '{canonical_upper}' contains pump identifier, mapping to 'PUMP'")
+            return 'PUMP'
+            
+        # If we can't find a match, log and return UNKNOWN
+        logger.warning(f"No prefix mapping found for canonical device type: '{canonical_upper}'")
+        return 'UNKNOWN'
+
     def __init__(self):
         # Initialize OpenAI client with API key from environment
         api_key = os.getenv("OPENAI_API_KEY")
         self.client = OpenAI(api_key=api_key)
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4.1")
         self.enos_schema = self._load_enos_schema()
         self.max_retries = 5
         self.confidence_threshold = 0.4
@@ -903,38 +967,101 @@ class EnOSMapper:
         }
     
     def _normalize_device_type(self, device_type: str) -> str:
-        """Normalize device type to match expected EnOS schema keys"""
-        # Map of common abbreviations to their schema names
+        """Normalize device type to match expected EnOS schema keys."""
+        if not device_type:
+            return 'UNKNOWN'
+
+        # Cleaning and normalization
+        device_type_clean = device_type.upper().strip()
+        
+        # Debug log
+        logger.debug(f"Normalizing device type: '{device_type}' -> '{device_type_clean}'")
+        
+        # Direct mapping for common device types - exact matches first
+        # Map of common abbreviations/variations to their canonical names
         type_mapping = {
-            'FCU': 'FCU',
+            # Air handlers
             'AHU': 'AHU',
-            'VAV': 'VAV',
+            'AIR HANDLING UNIT': 'AHU',
+            
+            # Fan coil units
+            'FCU': 'FCU',
+            'FAN COIL UNIT': 'FCU',
+            
+            # Chillers
             'CHILLER': 'CHILLER',
-            'CH': 'CHILLER',
-            'CHPL': 'CHILLER',
+            
+            # Boilers
             'BOILER': 'BOILER',
             'BOIL': 'BOILER',
-            'CWP': 'PUMP',
-            'CHWP': 'PUMP',
-            'HWP': 'PUMP',
+            
+            # Pumps - critical for prefix mapping
             'PUMP': 'PUMP',
-            'CT': 'COOLING_TOWER',
+            'CWP': 'CONDENSER WATER PUMP',
+            'CONDENSER WATER PUMP': 'CONDENSER WATER PUMP',
+            'CHWP': 'CHILLED WATER PUMP',  # This is the critical mapping
+            'CHILLED WATER PUMP': 'CHILLED WATER PUMP',
+            'HWP': 'HEATER WATER PUMP',
+            'HEATER WATER PUMP': 'HEATER WATER PUMP',
+            
+            # Cooling towers
+            'CT': 'COOLING TOWER',
+            'COOLING TOWER': 'COOLING TOWER',
+            
+            # Other common types
             'RTU': 'RTU',
             'METER': 'METER',
             'DPM': 'METER',
             'EF': 'EXHAUST_FAN',
-            'UNKNOWN': 'OTHER'
+            'EXHAUST_FAN': 'EXHAUST_FAN',
         }
         
-        # Try to match the device type to a known key
-        device_type_upper = device_type.upper()
-        for key, value in type_mapping.items():
-            if key in device_type_upper:
-                return value
+        # 1. Exact match lookup - most reliable
+        if device_type_clean in type_mapping:
+            result = type_mapping[device_type_clean]
+            logger.debug(f"Exact match found for '{device_type_clean}' -> '{result}'")
+            return result
+            
+        # 2. Handle important special cases to prevent mismatches
+        # Explicitly check for pump types to avoid confusion with other types
+        if device_type_clean.startswith('CHWP'):
+            logger.debug(f"CHWP special case for '{device_type_clean}' -> 'CHILLED WATER PUMP'")
+            return 'CHILLED WATER PUMP'
+            
+        if device_type_clean.startswith('CWP'):
+            logger.debug(f"CWP special case for '{device_type_clean}' -> 'CONDENSER WATER PUMP'")
+            return 'CONDENSER WATER PUMP'
+            
+        if device_type_clean.startswith('HWP'):
+            logger.debug(f"HWP special case for '{device_type_clean}' -> 'HEATER WATER PUMP'")
+            return 'HEATER WATER PUMP'
+            
+        # Critical to prevent AHU from matching CH
+        if device_type_clean == 'CH' or device_type_clean.startswith('CH-'):
+            logger.debug(f"CH special case for '{device_type_clean}' -> 'CHILLER'")
+            return 'CHILLER'
+
+        # 3. Pattern matching for the rest - now with more careful containment checks
+        # This is potentially less reliable, so we log clearly
+        for pattern, canonical in [
+            ('PUMP', 'PUMP'),
+            ('COOLING TOWER', 'COOLING TOWER'),
+            ('CT', 'COOLING TOWER'),
+            ('CHILLER', 'CHILLER'),
+            ('BOILER', 'BOILER'),
+            ('AHU', 'AHU'),
+            ('FCU', 'FCU'),
+            ('VAV', 'VAV'),
+        ]:
+            # Word boundary would be better, but simple containment for now
+            if pattern in device_type_clean:
+                logger.debug(f"Pattern match '{pattern}' in '{device_type_clean}' -> '{canonical}'")
+                return canonical
         
-        # If no match, return the original device type
-        return device_type
-    
+        # No match found - return as is but normalized
+        logger.warning(f"No pattern match for device type '{device_type}' -> returning '{device_type_clean}'")
+        return device_type_clean
+        
     @performance_monitor
     def _map_with_ai(self, raw_point: str, device_type: str) -> Optional[str]:
         """Use rule-based mapping instead of GPT-4o to map a BMS point to EnOS schema"""
@@ -966,7 +1093,7 @@ class EnOSMapper:
             
             # Special handling for energy meters and power monitoring points
             if "energy" in point_lowercase or "power" in point_lowercase or "kw" in point_lowercase or "kwh" in point_lowercase or device_type.upper() == "ENERGY":
-                if "pump" in point_lowercase or "cwp" in point_lowercase:
+                if "pump" in point_lowercase or "cwp" in point_lowercase or "chwp" in point_lowercase or "hwp" in point_lowercase:
                     point_mapping = "pumpPower"
                 elif "fan" in point_lowercase:
                     point_mapping = "fanPower"
@@ -1042,7 +1169,7 @@ class EnOSMapper:
             elif "status" in point_lowercase or "state" in point_lowercase:
                 if "fan" in point_lowercase:
                     point_mapping = "fanStatus"
-                elif "pump" in point_lowercase:
+                elif "pump" in point_lowercase or "cwp" in point_lowercase or "chwp" in point_lowercase or "hwp" in point_lowercase:
                     point_mapping = "pumpStatus"
                 elif "alarm" in point_lowercase or "fault" in point_lowercase:
                     point_mapping = "alarmStatus"
@@ -1348,50 +1475,25 @@ class EnOSMapper:
         )
 
     def _get_expected_enos_prefix(self, device_type: str) -> str:
-        """Convert device type to expected EnOS point prefix."""
-        # Map of device types to their EnOS point prefixes
-        prefix_mapping = {
-            'FCU': 'FCU',
-            'AHU': 'AHU',
-            'VAV': 'VAV',
-            'CHILLER': 'CH',
-            'CH': 'CH',
-            'CHPL': 'CH',
-            'BOILER': 'BOIL',
-            'BOIL': 'BOIL',
-            'CWP': 'CWP',
-            'CHWP': 'CHWP',
-            'HWP': 'HWP',
-            'PUMP': 'PUMP',
-            'CT': 'CT',
-            'COOLING_TOWER': 'CT',
-            'RTU': 'RTU',
-            'METER': 'METER',
-            'DPM': 'DPM',
-            'EF': 'EF',
-            'EXHAUST_FAN': 'EF',
-            'PAU': 'PAU',
-            'WST': 'WST',
-            'ENERGY': 'ENERGY',
-            'POWER': 'ENERGY',
-            'OTHER': 'OTHER',
-            'UNKNOWN': 'UNKNOWN'
-        }
+        """Get the expected EnOS prefix for a device type"""
+        if not device_type:
+            return 'UNKNOWN'
+            
+        # Special explicit handling for CHWP to guarantee correct mapping
+        if device_type.upper().strip() == 'CHWP' or 'CHWP' in device_type.upper().strip():
+            logger.debug(f"Direct CHWP handling in _get_expected_enos_prefix for '{device_type}' -> 'PUMP'")
+            return 'PUMP'
+            
+        # First normalize the device type to its canonical form
+        normalized_type = self._normalize_device_type(device_type)
+        logger.debug(f"Normalized '{device_type}' to '{normalized_type}'")
         
-        device_type_upper = device_type.upper()
-        # First check for exact match
-        if device_type_upper in prefix_mapping:
-            return prefix_mapping[device_type_upper]
+        # Then use the mapping to get the correct prefix
+        prefix = self._get_expected_prefix_for_type(normalized_type)
+        logger.debug(f"Final prefix for '{device_type}' via '{normalized_type}' -> '{prefix}'")
         
-        # Then check for partial match
-        for key, value in prefix_mapping.items():
-            if key in device_type_upper:
-                return value
+        return prefix
         
-        # If no match, return the input as fallback
-        logger.warning(f"No prefix mapping found for device type: {device_type}")
-        return device_type_upper
-
     def _validate_enos_format(self, enos_point: str, device_type: str = None) -> bool:
         """Validate that the EnOS point name follows the correct format and matches device type."""
         if not enos_point:
@@ -1481,7 +1583,24 @@ class EnOSMapper:
         This method tries multiple approaches to extract valid JSON from potentially malformed responses.
         """
         if not response:
-            return "{}"  # Return empty object for empty responses
+            return '{"fallback_mapping": {}}'  # Return empty object for empty responses
+            
+        # First, check if this is an error response that already has a valid JSON structure
+        try:
+            parsed = json.loads(response)
+            if isinstance(parsed, dict):
+                # If it's already valid JSON with error or status fields, just return it
+                if "error" in parsed or "status" in parsed:
+                    # Ensure it has the fallback_mapping field for consistency
+                    if "fallback_mapping" not in parsed:
+                        parsed["fallback_mapping"] = {}
+                    return json.dumps(parsed)
+                
+                # If it's a valid dictionary with mappings, return as is
+                return response
+        except json.JSONDecodeError:
+            # Not valid JSON, proceed with cleaning
+            pass
             
         try:
             # Remove any leading/trailing whitespace
@@ -1519,6 +1638,16 @@ class EnOSMapper:
                 
             # 5. Handle escaped quotes within JSON strings
             response = re.sub(r'(?<!\\)\\(?!\\)"', '\\"', response)
+            
+            # 6. Check for "Connection error" text and create a structured error
+            if "connection error" in response.lower() or "network error" in response.lower():
+                logger.warning(f"Detected connection error in response: {response}")
+                error_resp = {
+                    "error": "Connection error detected in response",
+                    "status": "connection_error",
+                    "fallback_mapping": {}
+                }
+                return json.dumps(error_resp)
             
             # Try to parse as-is to check if it's valid
             json.loads(response)
@@ -1587,8 +1716,14 @@ class EnOSMapper:
                         logger.info(f"Constructed JSON from extracted value: {constructed_json}")
                         return constructed_json
             
-            # Return the original, will be handled as an error in the calling function
-            return response
+            # When all else fails, create a fallback error response the system can handle
+            logger.error(f"Unable to parse or extract valid JSON from response: {response}")
+            return json.dumps({
+                "error": "Failed to extract valid JSON from response",
+                "status": "parsing_error",
+                "fallback_mapping": {},
+                "original_response": response[:200]  # Include part of the original for debugging
+            })
     
     def _evaluate_mapping_quality(self, enos_point: str, point: Dict) -> tuple:
         """
@@ -2064,7 +2199,7 @@ class EnOSMapper:
         stats = {"total": 0, "mapped": 0, "unmapped": 0, "errors": 0} # Added unmapped
         all_mappings_results = [] # Changed name for clarity
         pattern_insights = [] # Renamed for clarity
-        BATCH_SIZE_LIMIT = 50 # Define a max number of points per LLM call
+        BATCH_SIZE_LIMIT = 100 # Define a max number of points per LLM call
 
         # Ensure schema is loaded once before processing points
         if not hasattr(self, 'enos_schema') or not self.enos_schema: # Corrected check
@@ -2135,43 +2270,86 @@ class EnOSMapper:
                     batch_number = (i // BATCH_SIZE_LIMIT) + 1
                     logger.info(f"  Processing batch {batch_number} for device {device_key} ({len(batch_points)} points)")
                     stats["total"] += len(batch_points) # Increment total stat here per batch
-
-                    # Normalize device type for schema lookup
+                    
+                    # Get device type from the first point for consistency within the batch
+                    # Ensure device_type is treated as string
+                    device_type = str(batch_points[0]['deviceType']) if batch_points else 'UNKNOWN'
+                    device_id_val = str(batch_points[0]['deviceId']) if batch_points else 'UNKNOWN_DEVICE_ID'
+                    
+                    # Normalize device type for schema lookup and prompt context
                     device_type_normalized = self._normalize_device_type(device_type)
+                    logger.debug(f"Normalized device type for batch {device_key}-{batch_number}: '{device_type}' -> '{device_type_normalized}'")
 
-                    # --- Construct Batch Prompt --- 
+                    # --- Construct Batch Prompt ---
                     prompt_lines = [
-                        f"Device Type: {device_type_normalized}",
-                        f"Device ID: {device_id_val}" # Include Device ID in context
+                        f"Device Type: {device_type_normalized}", # Use normalized type
+                        f"Device ID: {device_id_val}"
                     ]
 
-                    # Add Reference EnOS Points section
+                    # Add Reference EnOS Points section - Get the correct prefix for this type
+                    expected_prefix = self._get_expected_prefix_for_type(device_type_normalized)
                     reference_points_added = False
                     candidate_points_list = []
-                    if self.enos_schema and device_type_normalized in self.enos_schema:
-                        schema_device_entry = self.enos_schema[device_type_normalized]
+
+                    # Find the schema entry matching the normalized type OR the expected prefix
+                    # This helps find points even if normalization isn't perfect
+                    schema_device_entry = None
+                    if self.enos_schema:
+                         if device_type_normalized in self.enos_schema:
+                             schema_device_entry = self.enos_schema[device_type_normalized]
+                         else:
+                             # Fallback: Try finding a schema entry by expected prefix if direct normalized match fails
+                             # (e.g., if normalized type is 'CHILLED WATER PUMP' but schema only has 'PUMP')
+                             # This part might need refinement based on exact schema structure
+                             for name, entry in self.enos_schema.items():
+                                  # Check if canonical name or shortName matches expected prefix logic
+                                  canonical_prefix = self._get_expected_prefix_for_type(name)
+                                  short_name = entry.get("shortName", "").upper()
+                                  short_name_prefix = self._get_expected_prefix_for_type(short_name) if short_name else 'UNKNOWN'
+
+                                  if canonical_prefix == expected_prefix or short_name_prefix == expected_prefix:
+                                      logger.debug(f"Using schema entry '{name}' as reference for prefix '{expected_prefix}'")
+                                      schema_device_entry = entry
+                                      break # Use the first match based on prefix
+
+                    if schema_device_entry:
                         candidate_points_dict = schema_device_entry.get("points", {})
                         candidate_points_list = list(candidate_points_dict.keys())
                         if candidate_points_list:
-                            prompt_lines.append("\nReference EnOS Points (map ONLY to one of these or 'unknown', each can be used only ONCE per batch):")
-                            prompt_lines.extend([f"- {p}" for p in candidate_points_list]) # Provide full list
+                            prompt_lines.append(f"\\nReference EnOS Points for {device_type_normalized} (prefix: {expected_prefix}):")
+                            prompt_lines.append("(Map relevant BMS points to ONE of these standard points OR 'unknown'. Multiple BMS points CAN map to the same reference point if appropriate.)") # Relaxed uniqueness
+                            prompt_lines.extend([f"- {p}" for p in candidate_points_list])
                             reference_points_added = True
-                    if not reference_points_added:
-                        prompt_lines.append("\nNo Reference EnOS Points found in schema for this device type. All mappings must be 'unknown'.")
+                        else:
+                            logger.warning(f"Schema entry found for '{device_type_normalized}', but it has no 'points'.")
 
-                    # Add BMS Points section
-                    prompt_lines.append("\nBMS Points to Map:")
+                    if not reference_points_added:
+                         prompt_lines.append(f"\\nNo relevant Reference EnOS Points found in schema for Device Type '{device_type_normalized}' (Expected Prefix: '{expected_prefix}'). Map all points to 'unknown'.")
+
+
+                    # Add BMS Points section with more context
+                    prompt_lines.append("\\nBMS Points to Map:")
                     bms_points_for_prompt = []
                     for p in batch_points:
-                         point_info = {k: v for k, v in p.items() if v is not None} # Include non-None values
-                         bms_points_for_prompt.append(point_info)
+                         # Include relevant details for better semantic matching
+                         point_info = {
+                             "pointId": p.get("pointId"),
+                             "pointName": p.get("pointName"),
+                             "pointType": p.get("pointType"),
+                             "unit": p.get("unit"),
+                             "description": p.get("description", "")[:100], # Limit description length
+                             # Optional: Include presentValue if it helps semantic meaning (e.g., for binary status)
+                             # "presentValue": str(p.get("presentValue"))[:50]
+                         }
+                         # Filter out None values explicitly
+                         bms_points_for_prompt.append({k: v for k, v in point_info.items() if v is not None})
                     prompt_lines.append(json.dumps(bms_points_for_prompt, indent=2)) # Add points as JSON list
-                    
-                    # Final Instruction
-                    prompt_lines.append("\nBased ONLY on the Reference EnOS Points and the Uniqueness Rule, provide the mapping. Respond ONLY with a single JSON object where keys are input 'pointId's and values are the mapped EnOS points (or 'unknown').")
 
-                    prompt = "\n".join(prompt_lines)
-                    # --- End Batch Prompt Construction --- 
+                    # Final Instruction - emphasize mapping to reference points or unknown
+                    prompt_lines.append("\\nBased on the BMS Point details and the Reference EnOS Points, provide the mapping. Respond ONLY with a single JSON object where keys are input 'pointId's and values are the mapped Reference EnOS points (or 'unknown' if no suitable reference point exists).")
+
+                    prompt = "\\n".join(prompt_lines)
+                    # --- End Batch Prompt Construction ---
                     
                     # --- AI Call for Batch --- 
                     batch_mappings = {} # To store results like {"pointId1": "enosPoint1", "pointId2": "unknown", ...}
@@ -2194,12 +2372,59 @@ class EnOSMapper:
                             "device_key": device_key, "batch_number": batch_number
                         })
                         
+                        # Check if response contains a connection error
+                        try:
+                            parsed_response = json.loads(content)
+                            if isinstance(parsed_response, dict) and parsed_response.get("status") == "connection_error":
+                                logger.warning(f"Connection error detected in agent response: {parsed_response.get('error')}")
+                                ai_call_failed = True
+                                error_message = f"Connection error: {parsed_response.get('error', 'Unknown connection issue')}"
+                                batch_mappings = {p['pointId']: "unknown" for p in batch_points}
+                                # Skip further processing since we detected a connection error
+                                raise ValueError(error_message)
+                        except json.JSONDecodeError:
+                            # Not a JSON error response, continue normal processing
+                            pass
+                        
                         # Clean and parse the batch response (expects a dict)
                         cleaned_content = self._clean_json_response(content)
-                        batch_mappings = json.loads(cleaned_content)
-                        if not isinstance(batch_mappings, dict):
-                             raise ValueError("LLM response was not a dictionary as expected.")
-                             
+                        try:
+                            parsed_content = json.loads(cleaned_content)
+                            
+                            # Check if this is an error response with fallback_mapping
+                            if isinstance(parsed_content, dict) and "status" in parsed_content:
+                                if parsed_content.get("status") in ["connection_error", "parsing_error"]:
+                                    logger.warning(f"Error status in response: {parsed_content.get('status')} - {parsed_content.get('error')}")
+                                    ai_call_failed = True
+                                    error_message = parsed_content.get('error', 'Unknown error in response')
+                                    
+                                    # Check if there's a fallback mapping we can use
+                                    if "fallback_mapping" in parsed_content and isinstance(parsed_content["fallback_mapping"], dict):
+                                        batch_mappings = parsed_content["fallback_mapping"]
+                                        # If empty, create default unknown mappings for all points
+                                        if not batch_mappings:
+                                            batch_mappings = {p['pointId']: "unknown" for p in batch_points}
+                                    else:
+                                        # Default to unknown for all points
+                                        batch_mappings = {p['pointId']: "unknown" for p in batch_points}
+                                    
+                                    # Skip further processing for this batch
+                                    raise ValueError(error_message)
+                                # If it's a valid mapping response, use it directly
+                                else:
+                                    batch_mappings = parsed_content
+                            else:
+                                # Normal case - parsed content is the mappings
+                                batch_mappings = parsed_content
+                                
+                            if not isinstance(batch_mappings, dict):
+                                raise ValueError("LLM response was not a dictionary as expected.")
+                        except json.JSONDecodeError as je:
+                            logger.error(f"JSON decoding error in batch {device_key}-{batch_number}: {str(je)}")
+                            ai_call_failed = True
+                            error_message = f"JSON parsing failed: {str(je)}"
+                            batch_mappings = {p['pointId']: "unknown" for p in batch_points}
+
                     except Exception as ai_call_error:
                         logger.error(f"Error during AI call or initial parsing for batch {device_key}-{batch_number}: {str(ai_call_error)}\n{traceback.format_exc()}")
                         ai_call_failed = True
@@ -2415,15 +2640,14 @@ class EnOSMapper:
             "AHU": "AHU",
             "VAV": "VAV",
             "CH": "CH-SYS",
-            "CHL": "CH-SYS",
+            "CHPL": "CHILLER PLANT",
             "CHILLER": "CH-SYS",
             "FCU": "FCU",
             "HX": "HEATEXCHANGER",
-            "PUMP": "PUMP",
-            "CWP": "PUMP",
-            "HWP": "PUMP",
-            "CT": "CT",
-            "CLG-TWR": "CT",
+            "CWP": "CONDENSER WATER PUMP",
+            "HWP": "HEATER WATER PUMP",
+            "CHWP": "CHILLED WATER PUMP",
+            "CT": "COOLING TOWER",
             "COOLING-TOWER": "CT",
             "BLR": "BOILER",
             "BOILER": "BOILER",
@@ -2469,10 +2693,10 @@ class EnOSMapper:
                 "FCU": "FCU",
                 "CHILLER": "CH-SYS",
                 "CH": "CH-SYS",
-                "CWP": "PUMP",
-                "HWP": "PUMP",
-                "PUMP": "PUMP",
-                "CT": "CT"
+                "CWP": "CONDENSER WATER PUMP",
+                "HWP": "HEATER WATER PUMP",
+                "CHWP": "CHILLED WATER PUMP",
+                "CT": "COOLING TOWER"
             }
             
             for prefix, device_type in device_map.items():
@@ -2494,10 +2718,10 @@ class EnOSMapper:
                 "FCU": "FCU",
                 "CHILLER": "CH-SYS",
                 "CH": "CH-SYS",
-                "CWP": "PUMP",
-                "HWP": "PUMP",
-                "PUMP": "PUMP",
-                "CT": "CT"
+                "CWP": "CONDENSER WATER PUMP",
+                "HWP": "HEATER WATER PUMP",
+                "CHWP": "CHILLED WATER PUMP",
+                "CT": "COOLING TOWER"
             }
             
             for prefix, device_type in device_map.items():
@@ -2510,3 +2734,113 @@ class EnOSMapper:
         
         # If no pattern matches, return empty string
         return ""
+        
+    def export_mappings(self, mappings_data: List[Dict], include_unmapped: bool = True) -> List[Dict]:
+        """
+        Export mappings to a standard format for EnOS, including unmapped points with fallback names.
+        
+        This method processes both mapped and unmapped points for export. For unmapped points,
+        it creates standardized fallback names based on device type and point name patterns.
+        
+        Args:
+            mappings_data: List of mapping entries from map_points output
+            include_unmapped: Whether to include unmapped points in the export
+            
+        Returns:
+            List of export-ready mapping records
+        """
+        if not mappings_data:
+            return []
+            
+        # Format for EnOS export
+        export_data = []
+        unmapped_export_data = []
+        
+        # Process each mapping entry
+        for entry in mappings_data:
+            try:
+                # Skip invalid entries
+                if not isinstance(entry, dict) or "original" not in entry or "mapping" not in entry:
+                    logger.warning(f"Skipping invalid mapping entry: {entry}")
+                    continue
+                    
+                original = entry.get("original", {})
+                mapping = entry.get("mapping", {})
+                status = mapping.get("status", "unmapped")
+                
+                # Basic validation
+                if not original.get("pointId") or not original.get("pointName"):
+                    logger.warning(f"Skipping entry with missing pointId or pointName: {original}")
+                    continue
+                
+                # Create export record
+                export_record = {
+                    "pointId": original.get("pointId", ""),
+                    "pointName": original.get("pointName", ""),
+                    "deviceId": original.get("deviceId", ""),
+                    "deviceType": original.get("deviceType", "UNKNOWN"),
+                    "pointType": original.get("pointType", ""),
+                    "unit": original.get("unit", ""),
+                    "enosPoint": mapping.get("enosPoint", ""),
+                    "status": status,
+                    "confidence": mapping.get("confidence", 0)
+                }
+                
+                # Add to appropriate list
+                if status == "mapped" and export_record["enosPoint"]:
+                    export_data.append(export_record)
+                elif include_unmapped:
+                    # For unmapped points, set a default EnOS point name if empty
+                    if not export_record["enosPoint"]:
+                        # Get device type prefix
+                        device_type = original.get("deviceType", "").upper()
+                        prefix = self._get_expected_enos_prefix(device_type)
+                        
+                        if not prefix or prefix == "UNKNOWN":
+                            # Try to extract from point name if device type is unknown
+                            extracted_type = self._extract_device_type_from_name(original.get("pointName", ""))
+                            if extracted_type:
+                                prefix = self._get_expected_enos_prefix(extracted_type)
+                        
+                        # Final fallback to UNKNOWN
+                        if not prefix:
+                            prefix = "UNKNOWN"
+                            
+                        # Create a fallback mapping based on point name and device type
+                        point_name = original.get("pointName", "")
+                        
+                        # Clean up the point name
+                        # First remove device prefix if present (e.g., "AHU1." from "AHU1.SupplyTemp")
+                        point_suffix = point_name
+                        pattern = re.match(r'^[A-Za-z]+-?\d+\.(.+)$', point_name)
+                        if pattern:
+                            point_suffix = pattern.group(1)
+                        
+                        # Then normalize the remaining point name
+                        point_suffix = point_suffix.replace(" ", "_").replace(".", "_").replace("-", "_").lower()
+                        
+                        # Limit length and ensure valid characters
+                        point_suffix = re.sub(r'[^a-z0-9_]', '', point_suffix)
+                        if len(point_suffix) > 30:
+                            point_suffix = point_suffix[:30]
+                        
+                        # Create the fallback mapping
+                        export_record["enosPoint"] = f"{prefix}_raw_{point_suffix}"
+                        export_record["status"] = "unmapped_exported"
+                        export_record["confidence"] = 0.1  # Low confidence for fallback mappings
+                        
+                    unmapped_export_data.append(export_record)
+            except Exception as entry_error:
+                logger.warning(f"Error processing export entry: {str(entry_error)}\n{traceback.format_exc()}")
+                continue
+        
+        # Combine mapped and unmapped data
+        if include_unmapped:
+            all_export_data = export_data + unmapped_export_data
+        else:
+            all_export_data = export_data
+            
+        # Log export stats
+        logger.info(f"Export complete. Total: {len(all_export_data)}, Mapped: {len(export_data)}, Unmapped: {len(unmapped_export_data)}")
+            
+        return all_export_data

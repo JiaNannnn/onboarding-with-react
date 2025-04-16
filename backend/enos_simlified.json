@@ -40,7 +40,8 @@
             "PUMP_raw_on_off_command",
             "PUMP_raw_delta_pressure",
             "PUMP_raw_sp_delta_pressure",
-            "PUMP_raw_frequency_command"
+            "PUMP_raw_frequency_command",
+            "PUMP_raw_frequency"
         ]
     },
     "Condenser Water Pump":{
@@ -60,7 +61,6 @@
             "PUMP_raw_delta_pressure",
             "PUMP_raw_sp_delta_pressure",
             "PUMP_raw_frequency_command",
-            "PUMP_raw_power_active_total",
             "PUMP_raw_frequency"
         ]
     },
@@ -204,5 +204,21 @@
             "FCU_write_sp_zone_air_temp_command"
         ]
         
+    },
+    "Power Meter": {
+        "shortName": "PMT",
+        "enos_model": "EnOS_CITY_PMT",
+        "points": [
+            "PMT_raw_power_active_total",
+            "PMT_raw_energy_active_total"
+        ]
+    },
+    "Weather Station": {
+        "shortName": "WST",
+        "enos_model": "EnOS_CITY_WST",
+        "points": [
+            "WST_raw_outside_air_temp",
+            "WST_raw_outside_air_humidity"
+        ]
     }
 }

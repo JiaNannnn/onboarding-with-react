@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { HttpMethod } from '../../types/apiTypes';
-import { request } from '../../api/apiClient';
+import { api } from '../../api/apiClient';
 import './ProtectedRoute.css';
 
 interface ProtectedRouteProps {
@@ -49,29 +49,22 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         }
         
         // Verify the token with the server
-        const response = await request<AuthCheckResponse>({
-          url: '/api/auth/verify',
-          method: HttpMethod.GET,
+        const response = await api.get<AuthCheckResponse>('/auth/verify', {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        
-        setIsAuthenticated(response.data?.authenticated || false);
-        setUserRole(response.data?.user?.role || null);
+        setIsAuthenticated(response.authenticated || false);
+        setUserRole(response.user?.role || null);
       } catch (error) {
-        console.error('Auth check error:', error);
         setIsAuthenticated(false);
         setUserRole(null);
-        
-        // Clear the token if it's invalid
         localStorage.removeItem('authToken');
       }
     };
-    
     checkAuth();
   }, []);
-  
+
   // Still checking authentication
   if (isAuthenticated === null) {
     return (
@@ -81,12 +74,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       </div>
     );
   }
-  
+
   // Not authenticated, redirect to login
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
-  
+
   // Check role-based access
   if (requiredRoles.length > 0 && (!userRole || !requiredRoles.includes(userRole))) {
     return (
@@ -97,9 +90,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       </div>
     );
   }
-  
+
   // Authenticated and has required roles, render the children
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

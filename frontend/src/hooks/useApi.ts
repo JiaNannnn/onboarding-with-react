@@ -5,7 +5,18 @@ import { useState, useCallback, useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { HttpMethod } from '../types/apiTypes';
 import { AppError } from '../types/errorTypes';
-import { api, APIClient } from '../api/core/apiClient';
+import { api } from '../api/apiClient';
+
+// Define the expected structure of an API client for the hooks
+interface ApiClientInterface {
+  get: <T>(url: string, params?: Record<string, any>, config?: any) => Promise<T>;
+  post: <T>(url: string, data?: any, config?: any) => Promise<T>;
+  put: <T>(url: string, data?: any, config?: any) => Promise<T>;
+  delete: <T>(url: string, config?: any) => Promise<T>;
+  // Removed patch and request as they are not on the base 'api' object
+  // patch?: <T>(url: string, data?: any, config?: any) => Promise<T>;
+  // request?: <T>(config: any) => Promise<T>; 
+}
 
 /**
  * Hook result interface
@@ -69,11 +80,9 @@ export function useApi<TData = unknown>(
           response = await api.put<TData>(url, config.data, config);
         } else if (method === HttpMethod.DELETE) {
           response = await api.delete<TData>(url, config);
-        } else if (method === HttpMethod.PATCH) {
-          response = await api.patch<TData>(url, config.data, config);
         } else {
-          // Fallback for other methods
-          response = await api.request<TData>(config);
+          // Removed patch and request calls
+          throw new Error(`Unsupported HTTP method: ${method}`);
         }
 
         setData(response);
@@ -149,7 +158,7 @@ export function useDelete<TData = unknown>(
 /**
  * Create a API hook factory that uses a custom APIClient instance
  */
-export function createApiHooks(client: APIClient) {
+export function createApiHooks(client: ApiClientInterface) {
   // Implement a custom api hook with this client
   function useClientApi<TData = unknown>(
     url: string,
@@ -191,11 +200,9 @@ export function createApiHooks(client: APIClient) {
             response = await client.put<TData>(url, config.data, config);
           } else if (method === HttpMethod.DELETE) {
             response = await client.delete<TData>(url, config);
-          } else if (method === HttpMethod.PATCH) {
-            response = await client.patch<TData>(url, config.data, config);
           } else {
-            // Fallback for other methods
-            response = await client.request<TData>(config);
+            // Removed patch and request calls
+            throw new Error(`Unsupported HTTP method: ${method}`);
           }
   
           setData(response);

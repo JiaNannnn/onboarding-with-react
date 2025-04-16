@@ -2,7 +2,7 @@
 import os
 import argparse
 from app import celery, create_app
-from app.config import DevelopmentConfig, ProductionConfig, TestingConfig
+from config import DevelopmentConfig, ProductionConfig, TestingConfig
 
 # Configuration mapping
 config_map = {

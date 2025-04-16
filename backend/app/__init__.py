@@ -1,32 +1,33 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_swagger_ui import get_swaggerui_blueprint
+from celery import Celery
 
 try:
     from flask_celery_helper import make_celery
     celery = make_celery()
 except ImportError:
-    from celery import Celery
-    celery = Celery()
+    celery = Celery(__name__)
     print("WARNING: flask_celery_helper not found, using regular Celery for testing")
 
-def create_app(config_class=None):
+def create_app(config_object=None):
+    """Create and configure the Flask application."""
     app = Flask(__name__)
     
-    # Load configuration
-    if config_class is None:
-        # Default to development config if none specified
+    # Configure the app
+    if config_object is None:
+        # Default to development config
         from config import DevelopmentConfig
         app.config.from_object(DevelopmentConfig)
-    elif isinstance(config_class, str):
-        # Load by string reference (e.g. "config.DevelopmentConfig")
-        app.config.from_object(config_class)
+    elif isinstance(config_object, str):
+        # If passed as string, assume it's a module path
+        app.config.from_object(config_object)
     else:
-        # Load directly from class
-        app.config.from_object(config_class)
+        # Otherwise assume it's a config object
+        app.config.from_object(config_object)
     
     # Configure logging
     log_dir = 'logs'
@@ -67,20 +68,25 @@ def create_app(config_class=None):
     app.logger.setLevel(logging.INFO)
     app.logger.info('API startup - logging configured')
     
-    # Enable CORS for all routes with proper preflight support
-    CORS(app, 
-         resources={
-             r"/*": {
-                 "origins": ["http://localhost:3000", "http://10.230.80.86:3000"],
-                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                 "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin", 
-                                 "x-access-key", "x-secret-key", "AccessKey", "SecretKey", "Content-Length"],
-                 "expose_headers": ["Content-Type", "Authorization"],
-                 "supports_credentials": True,
-                 "send_wildcard": False,
-                 "max_age": 3600
-             }
-         })
+    # --- Replace complex CORS setup ---
+    # # Enable CORS for all routes with proper preflight support
+    # CORS(app, 
+    #      resources={
+    #          r"/*": {
+    #              "origins": ["http://localhost:3000", "http://10.230.80.86:3000"],
+    #              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    #              "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin", 
+    #                              "x-access-key", "x-secret-key", "AccessKey", "SecretKey", "Content-Length"],
+    #              "expose_headers": ["Content-Type", "Authorization"],
+    #              "supports_credentials": True,
+    #              "send_wildcard": False,
+    #              "max_age": 3600
+    #          }
+    #      })
+
+    # --- With simpler global CORS setup ---
+    CORS(app, origins=["http://localhost:3000", "http://10.230.80.86:3000"], supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Access-Control-Allow-Origin", "x-access-key", "x-secret-key", "AccessKey", "SecretKey", "Content-Length"])
+    app.logger.info(f"CORS configured globally for origins: {app.config.get('CORS_ORIGINS', '* (default)')}") # Logging applied origins
 
     # Register the request logging middleware
     try:
@@ -164,8 +170,8 @@ def create_app(config_class=None):
     app.logger.info('API ready - blueprints registered')
 
     # Add a route to handle OPTIONS requests globally
-    @app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
-    @app.route('/<path:path>', methods=['OPTIONS'])
+    @app.route('/', defaults={'path': ''}, methods=['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'])
+    @app.route('/<path:path>', methods=['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'])
     def handle_options(path):
         response = app.make_default_options_response()
         return response

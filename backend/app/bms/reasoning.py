@@ -227,7 +227,7 @@ class ReasoningEngine:
             # Check if first component matches known equipment type patterns
             if any(eq_type in components[0].upper() for eq_type in 
                   ["CHWP", "CWP", "FCU", "AHU", "VAV", "CH", "CT", "VSD"]):
-            return components[0]
+                return components[0]
         
         return None
 
@@ -845,13 +845,13 @@ Output format:
                             return "CH"
                         elif "CT" in component:
                             return "CT"
-            return "CH-SYS"
+                    return "CH-SYS"
                 elif "AHU" in system_id.upper():
-            return "AHU"
+                    return "AHU"
                 elif "VAV" in system_id.upper():
-            return "VAV"
+                    return "VAV"
                 elif "FCU" in system_id.upper():
-            return "FCU"
+                    return "FCU"
         
         # Heuristic patterns for specific device types
         if any(term in point_name for term in ["chwp", "chw pump", "chilled water pump"]):

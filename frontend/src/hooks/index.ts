@@ -3,5 +3,4 @@
  */
 
 export * from './useApi';
-export * from './useBMSDiscovery';
-export * from './useBMSClient'; // New hook for BMS operations
+export * from './useBMSClient'; 

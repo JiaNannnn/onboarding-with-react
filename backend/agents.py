@@ -120,7 +120,14 @@ class Runner:
             
         except Exception as e:
             print(f"Error in run_sync: {str(e)}")
-            # Return a minimal valid JSON response in case of error
-            return type('Response', (), {'final_output': '{"error": "' + str(e).replace('"', '\\"') + '"}'})
+            # Return a proper fallback JSON for the mapping system to handle
+            error_message = str(e).replace('"', '\\"')
+            # Include a structured JSON response with error information
+            fallback_json = json.dumps({
+                "error": error_message,
+                "status": "connection_error",
+                "fallback_mapping": {}  # Empty mapping dictionary for safe processing
+            })
+            return type('Response', (), {'final_output': fallback_json})
 
 print("Using real OpenAI Agents SDK implementation") 

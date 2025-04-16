@@ -88,8 +88,7 @@ def main():
         host=args.host,
         port=args.port,
         debug=args.debug or args.env == "development",
-        threaded=True,
-        request_timeout=600  # 10 minutes timeout for requests
+        threaded=True
     )
 
 if __name__ == "__main__":

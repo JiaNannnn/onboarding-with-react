@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "status": "completed",
+  "taskId": "75036257-83e8-4e65-9029-fa375c0779b3",
+  "batchMode": true,
+  "totalBatches": 1,
+  "completedBatches": 1,
+  "progress": 1.0,
+  "totalPoints": 2512,
+  "mappings": [],
+  "stats": {
+    "total": 0,
+    "mapped": 0,
+    "unmapped": 0,
+    "errors": 2512
+  }
+}

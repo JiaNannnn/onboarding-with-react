@@ -62,6 +62,14 @@
   background-color: #388E3C;
 }
 
+.export-to-enos-button {
+  background-color: #673AB7;
+}
+
+.export-to-enos-button:hover:not(:disabled) {
+  background-color: #512DA8;
+}
+
 /* Button sizes */
 .button-small {
   padding: 6px 12px;

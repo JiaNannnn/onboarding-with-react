@@ -6,7 +6,7 @@ import type { GridSettings } from 'handsontable/settings';
 import 'handsontable/dist/handsontable.full.css';
 import './GroupPoints.css';
 import { BMSPointRaw } from '../../types/apiTypes';
-import { api } from '../../api/core/apiClient';
+import { api } from '../../api/apiClient';
 
 // Register all Handsontable modules
 registerAllModules();
@@ -179,8 +179,8 @@ const GroupPoints: React.FC = () => {
     });
   };
 
-  const getColumns = () => {
-    const priorityColumns = [
+  const getColumnsArray = (): string[] => {
+    return [
       'pointName',
       'pointType',
       'objectType',
@@ -202,12 +202,21 @@ const GroupPoints: React.FC = () => {
       'deviceType',
       'deviceId'
     ];
+  };
 
+  const getColumns = () => {
+    const priorityColumns = getColumnsArray();
     return priorityColumns.map(key => ({
-      data: key,
+      data: key as keyof Point,
       title: key.charAt(0).toUpperCase() + key.slice(1),
       width: key === 'objectIdentifier' ? 180 : undefined,
     }));
+  };
+
+  const paginate = (items: any[], page: number, pageSize: number) => {
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, items.length);
+    return items.slice(startIndex, endIndex);
   };
 
   const totalPages = Math.ceil(points.length / pageSize);
@@ -245,25 +254,20 @@ const GroupPoints: React.FC = () => {
   };
 
   const exportToCSV = () => {
-    if (points.length === 0) {
-      setError('Please upload and group points data first');
-      return;
-    }
-
     try {
       setIsExporting(true);
       setError(null);
-
-      // Get column headers
-      const columns = getColumns().map(col => col.data);
       
-      // Create CSV header row
-      let csvContent = columns.join(',') + '\n';
+      // Get column headers as strings
+      const columnHeaders = getColumnsArray();
       
-      // Create CSV data rows
+      // Create CSV header
+      let csvContent = columnHeaders.join(',') + '\n';
+      
+      // Add rows
       points.forEach(point => {
-        const row = columns.map(column => {
-          const value = point[column as keyof Point];
+        const row = columnHeaders.map(columnKey => {
+          const value = point[columnKey as keyof Point];
           // Handle values that might contain commas or quotes
           if (value === null || value === undefined) return '';
           const stringValue = String(value);
@@ -272,7 +276,6 @@ const GroupPoints: React.FC = () => {
         });
         csvContent += row.join(',') + '\n';
       });
-      
       // Create downloadable link
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -299,6 +302,171 @@ const GroupPoints: React.FC = () => {
     }
   };
 
+  /**
+   * Exports point data to EnOS format with appropriate device-specific prefixes
+   * Generates point names in format: PREFIX_raw_pointname
+   * Example: PUMP_raw_status_value
+   */
+  const exportToEnOS = () => {
+    try {
+      setIsExporting(true);
+      setError(null);
+      
+      // Format points for EnOS export with mappings
+      const enosExportData = points.map(point => {
+        // Initialize variables with safe defaults
+        let enosPointName = "";
+        let mappingStatus = "unmapped";
+        
+        // Extract and normalize device type (safely handle undefined)
+        const deviceType = (point.deviceType || "").toUpperCase().trim();
+        let prefix = "UNKNOWN";
+        
+        // Standard device type to prefix mapping
+        // This ensures consistent naming across the application
+        const prefixMap: {[key: string]: string} = {
+          // Air handling units
+          "AHU": "AHU",
+          
+          // Fan coil units
+          "FCU": "FCU", 
+          "FAN COIL UNIT": "FCU",
+          
+          // Chillers - standardized to CHI prefix
+          "CHILLER": "CHI",
+          "CH": "CHI",
+          
+          // All pump types - standardized to PUMP prefix
+          "PUMP": "PUMP",
+          "CWP": "PUMP",
+          "CHWP": "PUMP",
+          "CHILLED WATER PUMP": "PUMP",
+          "HWP": "PUMP",
+          "HOT WATER PUMP": "PUMP",
+          "CONDENSER WATER PUMP": "PUMP",
+          
+          // Cooling towers
+          "CT": "CT",
+          "COOLING TOWER": "CT",
+          
+          // Other standard device types
+          "VAV": "VAV",
+          "VRF": "VRF"
+        };
+        
+        // Hierarchical prefix determination logic:
+        // 1. First try exact match in the prefixMap
+        // 2. Then check for partial string matches for key device types
+        // 3. Finally fall back to a substring approach
+        if (prefixMap[deviceType]) {
+          // Direct match from the mapping table
+          prefix = prefixMap[deviceType];
+        } else {
+          // Pattern matching for known device types that might have variations
+          // For example: "CHWP-01" or "Primary CHWP" should map to "PUMP"
+          const isPump = /(PUMP|CWP|CHWP|HWP)/i.test(deviceType);
+          const isChiller = /(CHILL|CH-)/i.test(deviceType);
+          
+          if (isPump) {
+            prefix = "PUMP";
+          } else if (isChiller) {
+            prefix = "CHI";
+          } else if (deviceType.length > 0) {
+            // Last resort: use first 3 chars if available
+            // Safely handle shorter strings with Math.min
+            prefix = deviceType.substring(0, Math.min(3, deviceType.length));
+          }
+        }
+        
+        // Safe handling of point name
+        const pointName = (point.pointName || "").toString();
+        
+        // Normalize point name for use as suffix:
+        // 1. Replace spaces and dots with underscores
+        // 2. Remove any non-alphanumeric characters
+        // 3. Convert to lowercase for consistency
+        let pointSuffix = pointName
+          .replace(/[\s.]/g, '_')
+          .replace(/[^a-zA-Z0-9_]/g, '')
+          .toLowerCase();
+        
+        // Prevent excessively long point names
+        const MAX_SUFFIX_LENGTH = 30;
+        if (pointSuffix.length > MAX_SUFFIX_LENGTH) {
+          pointSuffix = pointSuffix.substring(0, MAX_SUFFIX_LENGTH);
+        }
+        
+        // Only create a valid EnOS point name if we have both prefix and suffix
+        if (prefix && pointSuffix) {
+          enosPointName = `${prefix}_raw_${pointSuffix}`;
+          mappingStatus = "unmapped_exported";
+        }
+        
+        // Create export record with validated fields
+        return {
+          "pointId": point.pointId || "",
+          "pointName": point.pointName || "",
+          "deviceId": point.deviceId || "",
+          "deviceType": point.deviceType || "UNKNOWN",
+          "pointType": point.pointType || "",
+          "unit": point.unit || "",
+          "enosPoint": enosPointName,
+          "status": mappingStatus,
+          "confidence": 0.1
+        };
+      });
+      
+      // Create CSV header for EnOS format
+      const enosColumns = [
+        "pointId", "pointName", "deviceId", "deviceType", 
+        "pointType", "unit", "enosPoint", "status", "confidence"
+      ];
+      
+      let csvContent = enosColumns.join(',') + '\n';
+      
+      // Add rows
+      enosExportData.forEach(record => {
+        const row = enosColumns.map(columnKey => {
+          const value = record[columnKey as keyof typeof record];
+          // Handle values that might contain commas or quotes
+          if (value === null || value === undefined) return '';
+          const stringValue = String(value);
+          return stringValue.includes(',') || stringValue.includes('"') ? 
+            `"${stringValue.replace(/"/g, '""')}"` : stringValue;
+        });
+        csvContent += row.join(',') + '\n';
+      });
+      
+      // Create downloadable link
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      
+      // Set filename with date
+      const date = new Date().toISOString().split('T')[0];
+      const filename = `enos-export-${date}.csv`;
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      
+      link.click();
+      
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      // Show success message
+      console.log(`Exported ${enosExportData.length} points to EnOS format`);
+      
+    } catch (err) {
+      console.error('EnOS Export error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to export data to EnOS format');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   const handleAIGrouping = async () => {
     if (points.length === 0) {
       setError('Please upload points data first');
@@ -313,7 +481,7 @@ const GroupPoints: React.FC = () => {
       const pointNames = points.map(point => point.pointName);
 
       // Use the API client with the correct endpoint path
-      const serverResponse = await api.post<AIGroupingResponse>('/api/bms/points/ai-grouping', { points: pointNames });
+      const serverResponse = await api.post<AIGroupingResponse>('api/bms/ai-grouping', { points: pointNames });
       console.log('Server response:', serverResponse);
 
       if (serverResponse.success && serverResponse.grouped_points) {
@@ -418,6 +586,20 @@ const GroupPoints: React.FC = () => {
                   </>
                 ) : (
                   'Export CSV'
+                )}
+              </button>
+              <button
+                onClick={exportToEnOS}
+                disabled={isExporting || points.length === 0}
+                className="export-button"
+              >
+                {isExporting ? (
+                  <>
+                    <span className="spinner"></span>
+                    Exporting to EnOS...
+                  </>
+                ) : (
+                  'Export to EnOS'
                 )}
               </button>
             </div>

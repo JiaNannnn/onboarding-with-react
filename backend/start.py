@@ -5,7 +5,7 @@ import time
 import argparse
 import subprocess
 import multiprocessing
-from app.config import DevelopmentConfig, ProductionConfig, TestingConfig
+from config import DevelopmentConfig, ProductionConfig, TestingConfig
 
 # Configuration mapping
 config_map = {
