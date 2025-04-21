@@ -73,6 +73,7 @@ htmlcov/
 temp/
 cleanup_temp/
 */.DS_Store
+backend/tmp/
 
 # Project specific
 uploads/
