@@ -1,0 +1,4124 @@
+{
+  "thingModelId": "ProjectName_HVAC_CH",
+  "ou": "o15520323695671",
+  "thingModelName": {
+    "defaultValue": "ProjectName_HVAC_CH",
+    "i18nValue": {}
+  },
+  "thingModelDesc": "",
+  "thingModelCatagory": "",
+  "thingAttributeMap": {
+    "EQUIP_manufacture": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_manufacture",
+      "name": {
+        "defaultValue": "Manufacturer",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Manufacturer\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Manufacturer\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606640",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_service_supplier": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_service_supplier",
+      "name": {
+        "defaultValue": "Service Supplier",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Service Supplier\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Service Supplier\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606641",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_weekday_period": {
+      "minLength": 0,
+      "maxLength": 3999,
+      "defaultValue": "{ \"Equip_weekday_startTime\": \"\",  \"Equip_weekday_endTime\": \"\",  \"Equip_weekend_startTime\": \"\",  \"Equip_weekend_endTime\": \"\" }",
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_weekday_period",
+      "name": {
+        "defaultValue": "EQUIP_weekday_period",
+        "i18nValue": {}
+      },
+      "desc": "[Description] For ERM Energy Diagnostics \n[Function] ERM\n[Value Range]",
+      "i18nDesc": {
+        "defaultValue": "[Description] For ERM Energy Diagnostics \n[Function] ERM\n[Value Range]",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606641",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_need_diagnostic": {
+      "trueDesc": "need diagnostic",
+      "falseDesc": "no need diagnostic",
+      "defaultValue": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_need_diagnostic",
+      "name": {
+        "defaultValue": "equipment diagnostic judge",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Judge whether the equipment need energy diagnostic\n[Function] Energy Diagnostic\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Judge whether the equipment need energy diagnostic\n[Function] Energy Diagnostic\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606642",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLBoolAttribute"
+    },
+    "EQUIP_floor_install": {
+      "specsMap": {
+        "44": "{\"defaultValue\":\"Floor 44\",\"i18nValue\":{}}",
+        "45": "{\"defaultValue\":\"Floor 45\",\"i18nValue\":{}}",
+        "46": "{\"defaultValue\":\"Floor 46\",\"i18nValue\":{}}",
+        "47": "{\"defaultValue\":\"Floor 47\",\"i18nValue\":{}}",
+        "48": "{\"defaultValue\":\"Floor 48\",\"i18nValue\":{}}",
+        "49": "{\"defaultValue\":\"Floor 49\",\"i18nValue\":{}}",
+        "50": "{\"defaultValue\":\"Floor 50\",\"i18nValue\":{}}",
+        "10": "{\"defaultValue\":\"Floor 10\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "11": "{\"defaultValue\":\"Floor 11\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "12": "{\"defaultValue\":\"Floor 12\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "13": "{\"defaultValue\":\"Floor 13\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "14": "{\"defaultValue\":\"Floor 14\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "15": "{\"defaultValue\":\"Floor 15\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "-1": "{\"defaultValue\":\"B1\",\"i18nValue\":{}}",
+        "16": "{\"defaultValue\":\"Floor 16\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "-2": "{\"defaultValue\":\"B2\",\"i18nValue\":{}}",
+        "17": "{\"defaultValue\":\"Floor 17\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "-3": "{\"defaultValue\":\"B3\",\"i18nValue\":{}}",
+        "18": "{\"defaultValue\":\"Floor 18\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "-4": "{\"defaultValue\":\"B4\",\"i18nValue\":{}}",
+        "19": "{\"defaultValue\":\"Floor 19\",\"i18nValue\":{}}",
+        "1": "{\"defaultValue\":\"Floor 1\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "2": "{\"defaultValue\":\"Floor 2\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "3": "{\"defaultValue\":\"Floor 3\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "4": "{\"defaultValue\":\"Floor 4\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "5": "{\"defaultValue\":\"Floor 5\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "6": "{\"defaultValue\":\"Floor 6\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "7": "{\"defaultValue\":\"Floor 7\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "8": "{\"defaultValue\":\"Floor 8\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "9": "{\"defaultValue\":\"Floor 9\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "20": "{\"defaultValue\":\"Floor 20\",\"i18nValue\":{}}",
+        "21": "{\"defaultValue\":\"Floor 21\",\"i18nValue\":{}}",
+        "22": "{\"defaultValue\":\"Floor 22\",\"i18nValue\":{}}",
+        "23": "{\"defaultValue\":\"Floor 23\",\"i18nValue\":{}}",
+        "24": "{\"defaultValue\":\"Floor 24\",\"i18nValue\":{}}",
+        "25": "{\"defaultValue\":\"Floor 25\",\"i18nValue\":{}}",
+        "26": "{\"defaultValue\":\"Floor 26\",\"i18nValue\":{}}",
+        "27": "{\"defaultValue\":\"Floor 27\",\"i18nValue\":{}}",
+        "28": "{\"defaultValue\":\"Floor 28\",\"i18nValue\":{}}",
+        "29": "{\"defaultValue\":\"Floor 29\",\"i18nValue\":{}}",
+        "30": "{\"defaultValue\":\"Floor 30\",\"i18nValue\":{}}",
+        "31": "{\"defaultValue\":\"Floor 31\",\"i18nValue\":{}}",
+        "32": "{\"defaultValue\":\"Floor 32\",\"i18nValue\":{}}",
+        "33": "{\"defaultValue\":\"Floor 33\",\"i18nValue\":{}}",
+        "34": "{\"defaultValue\":\"Floor 34\",\"i18nValue\":{}}",
+        "35": "{\"defaultValue\":\"Floor 35\",\"i18nValue\":{}}",
+        "36": "{\"defaultValue\":\"Floor 36\",\"i18nValue\":{}}",
+        "37": "{\"defaultValue\":\"Floor 37\",\"i18nValue\":{}}",
+        "38": "{\"defaultValue\":\"Floor 38\",\"i18nValue\":{}}",
+        "39": "{\"defaultValue\":\"Floor 39\",\"i18nValue\":{}}",
+        "100": "{\"defaultValue\":\"Rooftop\",\"i18nValue\":{}}",
+        "40": "{\"defaultValue\":\"Floor 40\",\"i18nValue\":{}}",
+        "41": "{\"defaultValue\":\"Floor 41\",\"i18nValue\":{}}",
+        "42": "{\"defaultValue\":\"Floor 42\",\"i18nValue\":{}}",
+        "43": "{\"defaultValue\":\"Floor 43\",\"i18nValue\":{}}"
+      },
+      "valueType": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_floor_install",
+      "name": {
+        "defaultValue": "Floor Installed",
+        "i18nValue": {}
+      },
+      "desc": "[Description] each device location\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] each device location\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606646",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLEnumAttribute"
+    },
+    "EQUIP_device_install_date": {
+      "minimum": "0",
+      "maximum": "9223372036854775807",
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_device_install_date",
+      "name": {
+        "defaultValue": "Device Installation date",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Device Installation date\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Device Installation date\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTimestampAttribute"
+    },
+    "EQUIP_equip_type": {
+      "specsMap": {
+        "44": "{\"defaultValue\":\"REFRIGERATION\",\"i18nValue\":{}}",
+        "110": "{\"defaultValue\":\"FIRE_HP\",\"i18nValue\":{}}",
+        "111": "{\"defaultValue\":\"CARPARK\",\"i18nValue\":{}}",
+        "112": "{\"defaultValue\":\"FIRE_SP\",\"i18nValue\":{}}",
+        "113": "{\"defaultValue\":\"FIRE_JP\",\"i18nValue\":{}}",
+        "114": "{\"defaultValue\":\"FIRE_SP_TANK\",\"i18nValue\":{}}",
+        "115": "{\"defaultValue\":\"FIRE_JP_TANK\",\"i18nValue\":{}}",
+        "116": "{\"defaultValue\":\"TRASH\",\"i18nValue\":{}}",
+        "117": "{\"defaultValue\":\"TOILET\",\"i18nValue\":{}}",
+        "91": "{\"defaultValue\":\"WST\",\"i18nValue\":{}}",
+        "118": "{\"defaultValue\":\"GMT\",\"i18nValue\":{}}",
+        "92": "{\"defaultValue\":\"GENSET\",\"i18nValue\":{}}",
+        "119": "{\"defaultValue\":\"TREE\",\"i18nValue\":{}}",
+        "51": "{\"defaultValue\":\"MV_SUPPLY_FAN\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "52": "{\"defaultValue\":\"MV_EXHAUST_FAN\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "11": "{\"defaultValue\":\"CHPL\",\"i18nValue\":{}}",
+        "99": "{\"defaultValue\":\"OTHER\",\"i18nValue\":{}}",
+        "12": "{\"defaultValue\":\"CH\",\"i18nValue\":{}}",
+        "13": "{\"defaultValue\":\"CHWP\",\"i18nValue\":{}}",
+        "14": "{\"defaultValue\":\"CWP\",\"i18nValue\":{}}",
+        "15": "{\"defaultValue\":\"CT\",\"i18nValue\":{}}",
+        "16": "{\"defaultValue\":\"CT_FAN\",\"i18nValue\":{}}",
+        "17": "{\"defaultValue\":\"CWV\",\"i18nValue\":{}}",
+        "18": "{\"defaultValue\":\"CHWV\",\"i18nValue\":{}}",
+        "19": "{\"defaultValue\":\"OPT_CHPL\",\"i18nValue\":{}}",
+        "120": "{\"defaultValue\":\"FIRE_HP_TANK\",\"i18nValue\":{}}",
+        "121": "{\"defaultValue\":\"BTU\",\"i18nValue\":{}}",
+        "1": "{\"defaultValue\":\"PMT\",\"i18nValue\":{}}",
+        "122": "{\"defaultValue\":\"Carbon\",\"i18nValue\":{}}",
+        "123": "{\"defaultValue\":\"Relay\",\"i18nValue\":{}}",
+        "NA": "{\"defaultValue\":\"NA\",\"i18nValue\":{}}",
+        "61": "{\"defaultValue\":\"VRV_INDOOR\",\"i18nValue\":{}}",
+        "62": "{\"defaultValue\":\"VRV_OUTDOOR\",\"i18nValue\":{}}",
+        "71": "{\"defaultValue\":\"WATER_METER\",\"i18nValue\":{}}",
+        "72": "{\"defaultValue\":\"ENOS_WATER_SUPPLY \",\"i18nValue\":{}}",
+        "73": "{\"defaultValue\":\"WATER_DRAINAGE\",\"i18nValue\":{}}",
+        "31": "{\"defaultValue\":\"AHU\",\"i18nValue\":{}}",
+        "32": "{\"defaultValue\":\"PAU\",\"i18nValue\":{}}",
+        "33": "{\"defaultValue\":\"FCU\",\"i18nValue\":{}}",
+        "34": "{\"defaultValue\":\"VAV\",\"i18nValue\":{}}",
+        "35": "{\"defaultValue\":\"FCU_DX\",\"i18nValue\":{}}",
+        "36": "{\"defaultValue\":\"AHU_OPT\",\"i18nValue\":{}}",
+        "37": "{\"defaultValue\":\"VAV_OPT\",\"i18nValue\":{}}",
+        "38": "{\"defaultValue\":\"FAU\",\"i18nValue\":{}}",
+        "39": "{\"defaultValue\":\"DAMPER\",\"i18nValue\":{}}",
+        "102": "{\"defaultValue\":\"LIFT\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "103": "{\"defaultValue\":\"ESCR\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "107": "{\"defaultValue\":\"AEV\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "81": "{\"defaultValue\":\"IAQ\",\"i18nValue\":{}}",
+        "108": "{\"defaultValue\":\"CRAC\",\"i18nValue\":{}}",
+        "82": "{\"defaultValue\":\"SS_OCC\",\"i18nValue\":{}}",
+        "109": "{\"defaultValue\":\"FIRE_MAP\",\"i18nValue\":{}}",
+        "40": "{\"defaultValue\":\"CAV\",\"i18nValue\":{}}",
+        "41": "{\"defaultValue\":\"PUBLIC_LIGHTING\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "42": "{\"defaultValue\":\"NIGHT_LIGHTING\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}"
+      },
+      "valueType": false,
+      "required": true,
+      "accessMode": true,
+      "identifier": "EQUIP_equip_type",
+      "name": {
+        "defaultValue": "Equipment Type",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Equipment Type\n[Function] HVAC Optimization,Energy Diagnostic\n[Value Range] As data definition",
+      "i18nDesc": {
+        "defaultValue": "[Description] Equipment Type\n[Function] HVAC Optimization,Energy Diagnostic\n[Value Range] As data definition",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLEnumAttribute"
+    },
+    "EQUIP_equipment_model": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_equipment_model",
+      "name": {
+        "defaultValue": "Equipment Model",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Equipment Model\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Equipment Model\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_non_operate_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 0.0,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_non_operate_limit",
+      "name": {
+        "defaultValue": "Equipment non operating limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Equipment non operating limit\n[Function] Energy Diagnostic\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Equipment non operating limit\n[Function] Energy Diagnostic\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "EQUIP_operate_schedule": {
+      "minLength": 0,
+      "maxLength": 1000,
+      "defaultValue": "{ \"Equip_weekday_startTime\": \"\",  \"Equip_weekday_endTime\": \"\",  \"Equip_weekend_startTime\": \"\",  \"Equip_weekend_endTime\": \"\" }",
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_operate_schedule",
+      "name": {
+        "defaultValue": "Equipment operate schedule",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Equipment operate schedule\n[Function] Energy Diagnostic\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Equipment operate schedule\n[Function] Energy Diagnostic\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_serial_number": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_serial_number",
+      "name": {
+        "defaultValue": "Serial No.",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Serial No.\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Serial No.\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_service_supplier_tel": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_service_supplier_tel",
+      "name": {
+        "defaultValue": "Service Supplier Telephone",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Service Supplier Telephone\n[Function] \n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Service Supplier Telephone\n[Function] \n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "EQUIP_system_type": {
+      "specsMap": {
+        "1008": "{\"defaultValue\":\"CRAC\",\"i18nValue\":{}}",
+        "1007": "{\"defaultValue\":\"Fire Alarm\",\"i18nValue\":{}}",
+        "1006": "{\"defaultValue\":\"MV\",\"i18nValue\":{}}",
+        "1005": "{\"defaultValue\":\"Escalator\",\"i18nValue\":{}}",
+        "1004": "{\"defaultValue\":\"Lift\",\"i18nValue\":{}}",
+        "1003": "{\"defaultValue\":\"Lighting\",\"i18nValue\":{}}",
+        "1002": "{\"defaultValue\":\"HVAC\",\"i18nValue\":{}}",
+        "1001": "{\"defaultValue\":\"Whole System\",\"i18nValue\":{}}",
+        "9999": "{\"defaultValue\":\"Others\",\"i18nValue\":{}}"
+      },
+      "valueType": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_system_type",
+      "name": {
+        "defaultValue": "Equipment System type",
+        "i18nValue": {}
+      },
+      "desc": "[Description] device belong to which system\n[Function] FDD\n[Value Range]1001-9999",
+      "i18nDesc": {
+        "defaultValue": "[Description] device belong to which system\n[Function] FDD\n[Value Range]1001-9999",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606649",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLEnumAttribute"
+    },
+    "EQUIP_energy_slope_max": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 10.0,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_energy_slope_max",
+      "name": {
+        "defaultValue": "EQUIP_energy_slope_max",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Energy slope max used on streamset template to aviod spike value\n[Function] HVAC and Diagnostic\n[Remark] The recommended value is the device designed power, or twice the maximum hourly energy consumption",
+      "i18nDesc": {
+        "defaultValue": "[Description] Energy slope max used on streamset template to aviod spike value\n[Function] HVAC and Diagnostic\n[Remark] The recommended value is the device designed power, or twice the maximum hourly energy consumption",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422651331",
+      "priority": 1,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chiller_designed_capacity": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 1000.0,
+      "hasQuality": false,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_chiller_designed_capacity",
+      "name": {
+        "defaultValue": "CH_chiller_designed_capacity",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Capacity\n[Function] Optimization algorithm; FDD\n[Value Range] [0,+∞) ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Capacity\n[Function] Optimization algorithm; FDD\n[Value Range] [0,+∞) ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164389",
+      "priority": 5,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_temp_sensor_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 16.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_temp_sensor_high_limit",
+      "name": {
+        "defaultValue": "CH_chws_temp_sensor_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller chilled water supply temp sensor high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller chilled water supply temp sensor high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933358169",
+      "priority": 10,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_temp_sensor_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 4.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_temp_sensor_low_limit",
+      "name": {
+        "defaultValue": "CH_chws_temp_sensor_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller chilled water supply temp sensor low limit \n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller chilled water supply temp sensor low limit \n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933483776",
+      "priority": 11,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chwr_temp_sensor_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 18.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chwr_temp_sensor_high_limit",
+      "name": {
+        "defaultValue": "CH_chwr_temp_sensor_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller chilled water return temp sensor high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller chilled water return temp sensor high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933511019",
+      "priority": 12,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chwr_temp_sensor_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 8.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chwr_temp_sensor_low_limit",
+      "name": {
+        "defaultValue": "CH_chwr_temp_sensor_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller chilled water return temp sensor low limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller chilled water return temp sensor low limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933529636",
+      "priority": 13,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_water_temp_sensor_iota_variation": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 0.01,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_water_temp_sensor_iota_variation",
+      "name": {
+        "defaultValue": "CH_water_temp_sensor_iota_variation",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller water temp sensor iota variation\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller water temp sensor iota variation\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933632310",
+      "priority": 18,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_fla_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 90.0,
+      "unit": {
+        "unitId": "%",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_fla_high_limit",
+      "name": {
+        "defaultValue": "CH_fla_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FLA(Full Load Ampere) high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FLA(Full Load Ampere) high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933695046",
+      "priority": 19,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_fla_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 25.0,
+      "unit": {
+        "unitId": "%",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_fla_low_limit",
+      "name": {
+        "defaultValue": "CH_fla_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FLA(Full Load Ampere) low limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FLA(Full Load Ampere) low limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933717637",
+      "priority": 20,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_flow_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 0.6,
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_flow_low_limit",
+      "name": {
+        "defaultValue": "CH_chws_flow_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chilled water flow low limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chilled water flow low limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933752932",
+      "priority": 21,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_cwr_temp_sensor_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 45.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cwr_temp_sensor_high_limit",
+      "name": {
+        "defaultValue": "CH_cwr_temp_sensor_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller cooling water return temp sensor high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller cooling water return temp sensor high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933592271",
+      "priority": 26,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_cwr_temp_sensor_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 15.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cwr_temp_sensor_low_limit",
+      "name": {
+        "defaultValue": "CH_cwr_temp_sensor_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller cooling water return temp sensor low limit \n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller cooling water return temp sensor low limit \n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933610796",
+      "priority": 27,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_cws_temp_sensor_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 37.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cws_temp_sensor_high_limit",
+      "name": {
+        "defaultValue": "CH_cws_temp_sensor_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller cooling water supply temp sensor high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller cooling water supply temp sensor high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164389",
+      "priority": 28,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_cws_temp_sensor_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 12.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cws_temp_sensor_low_limit",
+      "name": {
+        "defaultValue": "CH_cws_temp_sensor_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller cooling water supply temp sensor low limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller cooling water supply temp sensor low limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164389",
+      "priority": 29,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_temp_sp_tolerance": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 0.5,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_temp_sp_tolerance",
+      "name": {
+        "defaultValue": "CH_chws_temp_sp_tolerance",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chilled water supply temp setpoint tolerance\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chilled water supply temp setpoint tolerance\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609987926462",
+      "priority": 30,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_temp_sp_low_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 5.6,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_temp_sp_low_limit",
+      "name": {
+        "defaultValue": "CH_chws_temp_sp_low_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chilled water supply temp setpoint low limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chilled water supply temp setpoint low limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609987951315",
+      "priority": 31,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_temp_sp_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 14.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_temp_sp_high_limit",
+      "name": {
+        "defaultValue": "CH_chws_temp_sp_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chilled water supply temp setpoint high limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chilled water supply temp setpoint high limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609987968714",
+      "priority": 32,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chws_evap_delta_temp_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 2.5,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chws_evap_delta_temp_high_limit",
+      "name": {
+        "defaultValue": "CH_chws_evap_delta_temp_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller chilled water supply evaporating delta temp\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller chilled water supply evaporating delta temp\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172968974",
+      "priority": 33,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_cwr_cond_delta_temp_high_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 3.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cwr_cond_delta_temp_high_limit",
+      "name": {
+        "defaultValue": "CH_cwr_cond_delta_temp_high_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller cooling water return condsening delta temp\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller cooling water return condsening delta temp\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172990929",
+      "priority": 34,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chwr_chws_delta_temp_lowflow_design_limit": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "defaultValue": 8.0,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_chwr_chws_delta_temp_lowflow_design_limit",
+      "name": {
+        "defaultValue": "CH_chwr_chws_delta_temp_lowflow_design_limit",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chilled return supply water delta temp lowflow design limit\n[Function] FDD\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chilled return supply water delta temp lowflow design limit\n[Function] FDD\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610173743765",
+      "priority": 35,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chiller_type": {
+      "specsMap": {
+        "1": "{\"defaultValue\":\"Fixed speed Centrifugal Chiller\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "2": "{\"defaultValue\":\"Variable speed Centrifugal Chiller\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "3": "{\"defaultValue\":\"Fixed speed Screw Chiller\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}",
+        "4": "{\"defaultValue\":\"Variable speed Screw Chiller\",\"i18nValue\":{\"en_US\":\"\",\"zh_CN\":\"\"}}"
+      },
+      "valueType": true,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_chiller_type",
+      "name": {
+        "defaultValue": "CH_chiller_type",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller Type\n[Function] \n[Value Range] [1,2,3,4]",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller Type\n[Function] \n[Value Range] [1,2,3,4]",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200795",
+      "priority": 36,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLEnumAttribute"
+    },
+    "CH_chiller_designed_power": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kW",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_chiller_designed_power",
+      "name": {
+        "defaultValue": "CH_chiller_designed_power",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Power\n[Function] Optimization algorithm\n[Value Range] [0,+∞)",
+      "i18nDesc": {
+        "defaultValue": "[Description] Power\n[Function] Optimization algorithm\n[Value Range] [0,+∞)",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200795",
+      "priority": 37,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chiller_designed_CHWST": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_chiller_designed_CHWST",
+      "name": {
+        "defaultValue": "CH_chiller_designed_CHWST",
+        "i18nValue": {}
+      },
+      "desc": "[Description] CHWST\n[Function] Optimization algorithm\n[Value Range] [3,12]",
+      "i18nDesc": {
+        "defaultValue": "[Description] CHWST\n[Function] Optimization algorithm\n[Value Range] [3,12]",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200795",
+      "priority": 38,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_chiller_designed_CWST": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "hasQuality": false,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_chiller_designed_CWST",
+      "name": {
+        "defaultValue": "CH_chiller_designed_CWST",
+        "i18nValue": {}
+      },
+      "desc": "[Description] CWST\n[Function] Optimization algorithm\n[Value Range] [25,35]",
+      "i18nDesc": {
+        "defaultValue": "[Description] CWST\n[Function] Optimization algorithm\n[Value Range] [25,35]",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200795",
+      "priority": 39,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLDoubleAttribute"
+    },
+    "CH_fd_source": {
+      "minLength": 0,
+      "maxLength": 1024,
+      "defaultValue": "{   \"low_chwst_sp\": \"CH_cal_sp_temp_chws\",   \"low_chwst\": [     \"CH_cal_temp_chws\",     \"CH_cal_fla\",     \"CH_cal_sp_temp_chws\"   ],   \"ch_non_oper_hours\": [     \"CH_raw_status\",     \"CH_schedule_output\"   ] }",
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_fd_source",
+      "name": {
+        "defaultValue": "CH_fd_source",
+        "i18nValue": {}
+      },
+      "desc": "[Description] FDD tracking\n[Function] Energy Diagnostic\n[Value Range] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] FDD tracking\n[Function] Energy Diagnostic\n[Value Range] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924908",
+      "priority": 40,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLTextAttribute"
+    },
+    "CH_opt_enable": {
+      "trueDesc": "ON",
+      "falseDesc": "OFF",
+      "defaultValue": true,
+      "required": true,
+      "accessMode": true,
+      "identifier": "CH_opt_enable",
+      "name": {
+        "defaultValue": "CH_opt_enable",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller optimization switch\n[Function] Energy Saving Estimation\n[Value Range] [true,false]",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller optimization switch\n[Function] Energy Saving Estimation\n[Value Range] [true,false]",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924908",
+      "priority": 41,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.attribute.TSLBoolAttribute"
+    }
+  },
+  "thingMeasurepointMap": {
+    "EQUIP_cal_active_alert_log": {
+      "struct": {
+        "eventId": {
+          "innerType": {
+            "required": false,
+            "accessMode": true,
+            "name": {
+              "i18nValue": {}
+            },
+            "i18nDesc": {
+              "i18nValue": {}
+            },
+            "tags": {
+              "tagMap": {}
+            },
+            "createTime": "1673422606655",
+            "priority": 0,
+            "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+          },
+          "required": true,
+          "accessMode": true,
+          "identifier": "eventId",
+          "name": {
+            "defaultValue": "eventId",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1673422606655",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLArray"
+        },
+        "hitRuleId": {
+          "innerType": {
+            "required": false,
+            "accessMode": true,
+            "name": {
+              "i18nValue": {}
+            },
+            "i18nDesc": {
+              "i18nValue": {}
+            },
+            "tags": {
+              "tagMap": {}
+            },
+            "createTime": "1673422606655",
+            "priority": 0,
+            "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+          },
+          "required": true,
+          "accessMode": true,
+          "identifier": "hitRuleId",
+          "name": {
+            "defaultValue": "hitRuleId",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1673422606655",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLArray"
+        },
+        "occurTime": {
+          "innerType": {
+            "minimum": -1.7976931348623157E308,
+            "maximum": 1.7976931348623157E308,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false,
+            "hasQuality": false,
+            "required": false,
+            "accessMode": true,
+            "name": {
+              "i18nValue": {}
+            },
+            "desc": "",
+            "i18nDesc": {
+              "i18nValue": {}
+            },
+            "tags": {
+              "tagMap": {}
+            },
+            "createTime": "1673422606655",
+            "priority": 0,
+            "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLDouble"
+          },
+          "required": true,
+          "accessMode": true,
+          "identifier": "occurTime",
+          "name": {
+            "defaultValue": "occurTime",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1673422606655",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLArray"
+        },
+        "delayTime": {
+          "innerType": {
+            "minimum": -1.7976931348623157E308,
+            "maximum": 1.7976931348623157E308,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false,
+            "hasQuality": false,
+            "required": false,
+            "accessMode": true,
+            "name": {
+              "i18nValue": {}
+            },
+            "desc": "",
+            "i18nDesc": {
+              "i18nValue": {}
+            },
+            "tags": {
+              "tagMap": {}
+            },
+            "createTime": "1673422606655",
+            "priority": 0,
+            "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLDouble"
+          },
+          "required": true,
+          "accessMode": true,
+          "identifier": "delayTime",
+          "name": {
+            "defaultValue": "delayTime",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1673422606655",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLArray"
+        }
+      },
+      "tslStructType": "COMMON",
+      "allowAdditionalItem": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_cal_active_alert_log",
+      "name": {
+        "defaultValue": "Active Alerts Log",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Active Alerts Log\n[Function] FDD and Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Active Alerts Log\n[Function] FDD and Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606653",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLStructMeasurepoint"
+    },
+    "EQUIP_cal_status_device": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_cal_status_device",
+      "name": {
+        "defaultValue": "Device Status",
+        "i18nValue": {
+          "en_US": "Device Status",
+          "zh_CN": "运行状态"
+        }
+      },
+      "desc": "[Description] BT defined device status.\n0(NAN)/1(Run)/11(Stop)/21(No data)\n[Function] HVAC Optimization, Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] BT defined device status.\n0(NAN)/1(Run)/11(Stop)/21(No data)\n[Function] HVAC Optimization, Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606653",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "EQUIP_cal_status_alert": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_cal_status_alert",
+      "name": {
+        "defaultValue": "Alert Status",
+        "i18nValue": {
+          "en_US": "Alert Status",
+          "zh_CN": "告警状态"
+        }
+      },
+      "desc": "[Description] BT defined Alert Status.\n0(NAN)/1(No Alert)/11(Low)/21(Medium)/31(High)\n[Function] FDD and Alert center\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] BT defined Alert Status.\n0(NAN)/1(No Alert)/11(Low)/21(Medium)/31(High)\n[Function] FDD and Alert center\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606656",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "EQUIP_stat_device_on_off": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "EQUIP_stat_device_on_off",
+      "name": {
+        "defaultValue": "Device Status Raw",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Native Device On Off Status Signal\n[Function] Control Center\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Native Device On Off Status Signal\n[Function] Control Center\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1673422606656",
+      "priority": 0,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_chws",
+      "name": {
+        "defaultValue": "CH_raw_temp_chws",
+        "i18nValue": {
+          "zh_CN": "冷冻水供水温度"
+        }
+      },
+      "desc": "[Description] Raw actual chilled water supply temperature\n[Function] \n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual chilled water supply temperature\n[Function] \n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 19,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_chwr": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_chwr",
+      "name": {
+        "defaultValue": "CH_raw_temp_chwr",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual chilled water return temperature \n[Function]\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual chilled water return temperature \n[Function]\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 20,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_chws",
+      "name": {
+        "defaultValue": "CH_cal_temp_chws",
+        "i18nValue": {
+          "en_US": "CHWST",
+          "zh_CN": "冷冻水供水温度"
+        }
+      },
+      "desc": "[Description] Actual chilled water supply temperature\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual chilled water supply temperature\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 21,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_chwr": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_chwr",
+      "name": {
+        "defaultValue": "CH_cal_temp_chwr",
+        "i18nValue": {
+          "en_US": "CHWRT",
+          "zh_CN": "冷冻水回水温度"
+        }
+      },
+      "desc": "[Description] Actual chilled water return temperature \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual chilled water return temperature \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 22,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_fla": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "%",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_fla",
+      "name": {
+        "defaultValue": "CH_raw_fla",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual Chiller FLA(Full Load Ampere)\n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual Chiller FLA(Full Load Ampere)\n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609932973461",
+      "priority": 27,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_fla": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "%",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_fla",
+      "name": {
+        "defaultValue": "CH_cal_fla",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual Chiller FLA(Full Load Ampere)\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual Chiller FLA(Full Load Ampere)\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933021553",
+      "priority": 28,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_flow_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_flow_chws",
+      "name": {
+        "defaultValue": "CH_raw_flow_chws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual Chilled water supply flow\n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual Chilled water supply flow\n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933184037",
+      "priority": 29,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_flow_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_flow_chws",
+      "name": {
+        "defaultValue": "CH_cal_flow_chws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual Chilled water supply flow\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual Chilled water supply flow\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933211433",
+      "priority": 30,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_sp_temp_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_sp_temp_chws",
+      "name": {
+        "defaultValue": "CH_raw_sp_temp_chws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual Chilled water supply temp setpoint\n[Function]FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual Chilled water supply temp setpoint\n[Function]FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933233186",
+      "priority": 31,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_sp_temp_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_sp_temp_chws",
+      "name": {
+        "defaultValue": "CH_cal_sp_temp_chws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual Chilled water supply temp setpoint\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual Chilled water supply temp setpoint\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1609933249389",
+      "priority": 32,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_cwr": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_cwr",
+      "name": {
+        "defaultValue": "CH_raw_temp_cwr",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual cooling water return temperature \n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual cooling water return temperature \n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 33,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_cwr": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_cwr",
+      "name": {
+        "defaultValue": "CH_cal_temp_cwr",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual cooling water renturn temperature \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual cooling water renturn temperature \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 34,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_cws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_cws",
+      "name": {
+        "defaultValue": "CH_raw_temp_cws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual cooling water supply temperature\n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual cooling water supply temperature\n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 35,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_cws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_cws",
+      "name": {
+        "defaultValue": "CH_cal_temp_cws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual cooling water supply temperature\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual cooling water supply temperature\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610002164430",
+      "priority": 36,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_001": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_001",
+      "name": {
+        "defaultValue": "CH_ech_fd_001",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.1 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.1 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077133497",
+      "priority": 37,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_002": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_002",
+      "name": {
+        "defaultValue": "CH_ech_fd_002",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.2 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.2 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077153458",
+      "priority": 38,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_003": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_003",
+      "name": {
+        "defaultValue": "CH_ech_fd_003",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.3 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.3 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077169306",
+      "priority": 39,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_004": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_004",
+      "name": {
+        "defaultValue": "CH_ech_fd_004",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.4 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.4 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077195375",
+      "priority": 40,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_005": {
+      "struct": {
+        "datapoint_source": {
+          "maxLength": 1024,
+          "required": true,
+          "accessMode": true,
+          "identifier": "datapoint_source",
+          "name": {
+            "defaultValue": "datapoint_source",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1667445924944",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        "trigger_value": {
+          "minimum": -1.7976931348623157E308,
+          "maximum": 1.7976931348623157E308,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "hasQuality": false,
+          "required": true,
+          "accessMode": true,
+          "identifier": "trigger_value",
+          "name": {
+            "defaultValue": "trigger_value",
+            "i18nValue": {}
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1667445924944",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLDouble"
+        }
+      },
+      "tslStructType": "COMMON",
+      "allowAdditionalItem": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_005",
+      "name": {
+        "defaultValue": "CH_ech_fd_005",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.5 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.5 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077210994",
+      "priority": 41,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLStructMeasurepoint"
+    },
+    "CH_ech_fd_006": {
+      "struct": {
+        "datapoint_source": {
+          "maxLength": 1024,
+          "required": true,
+          "accessMode": true,
+          "identifier": "datapoint_source",
+          "name": {
+            "defaultValue": "datapoint_source",
+            "i18nValue": {}
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1667445924944",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        "trigger_value": {
+          "minimum": -1.7976931348623157E308,
+          "maximum": 1.7976931348623157E308,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "hasQuality": false,
+          "required": true,
+          "accessMode": true,
+          "identifier": "trigger_value",
+          "name": {
+            "defaultValue": "trigger_value",
+            "i18nValue": {}
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1667445924944",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLDouble"
+        }
+      },
+      "tslStructType": "COMMON",
+      "allowAdditionalItem": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_006",
+      "name": {
+        "defaultValue": "CH_ech_fd_006",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.6 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.6 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077225323",
+      "priority": 42,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLStructMeasurepoint"
+    },
+    "CH_ech_fd_007": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_007",
+      "name": {
+        "defaultValue": "CH_ech_fd_007",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.7 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.7 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077241288",
+      "priority": 43,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_008": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_008",
+      "name": {
+        "defaultValue": "CH_ech_fd_008",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.8 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.8 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610077259465",
+      "priority": 44,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_evap": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_evap",
+      "name": {
+        "defaultValue": "CH_raw_temp_evap",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual Chiller evaporating temp\n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual Chiller evaporating temp\n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172821270",
+      "priority": 45,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_temp_cond": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_temp_cond",
+      "name": {
+        "defaultValue": "CH_raw_temp_cond",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual Chiller condensing temp\n[Function]FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual Chiller condensing temp\n[Function]FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172839667",
+      "priority": 46,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_evap": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_evap",
+      "name": {
+        "defaultValue": "CH_cal_temp_evap",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual Chiller evaporating temp\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual Chiller evaporating temp\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172861029",
+      "priority": 47,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_temp_cond": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_temp_cond",
+      "name": {
+        "defaultValue": "CH_cal_temp_cond",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual Chiller condensing temp\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual Chiller condensing temp\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610172881241",
+      "priority": 48,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_009": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_009",
+      "name": {
+        "defaultValue": "CH_ech_fd_009",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.9 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.9 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610341073778",
+      "priority": 49,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_010": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_010",
+      "name": {
+        "defaultValue": "CH_ech_fd_010",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller FDD No.10 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller FDD No.10 rules output point\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1610341099674",
+      "priority": 50,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_power_active_total": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kW",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_power_active_total",
+      "name": {
+        "defaultValue": "CH_raw_power_active_total",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw total Active Power of each chiller\n[Function] Optimization algorithm\n[Remark] Must-have",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw total Active Power of each chiller\n[Function] Optimization algorithm\n[Remark] Must-have",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 51,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_trip": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_trip",
+      "name": {
+        "defaultValue": "CH_raw_trip",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw alarm trip of each chiller\n[Function] Diagnostic\n[Remark] Optional; Must-have when having diagnostic module",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw alarm trip of each chiller\n[Function] Diagnostic\n[Remark] Optional; Must-have when having diagnostic module",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 52,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_raw_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_status",
+      "name": {
+        "defaultValue": "CH_raw_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw running status of each chiller\n[Function] ; Optimization algorithm\n[Remark] No need for data onboarding by edge.ice-to-have; Must-have when existing on the site",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw running status of each chiller\n[Function] ; Optimization algorithm\n[Remark] No need for data onboarding by edge.ice-to-have; Must-have when existing on the site",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 53,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_raw_load_chiller": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_load_chiller",
+      "name": {
+        "defaultValue": "CH_raw_load_chiller",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw each chiller load\n[Function]Optimization algorithm\n[Remark] No need for data onboarding by edge.ice-to-have; Must-have when existing on the site",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw each chiller load\n[Function]Optimization algorithm\n[Remark] No need for data onboarding by edge.ice-to-have; Must-have when existing on the site",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 54,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_power_active_total": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kW",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_power_active_total",
+      "name": {
+        "defaultValue": "CH_cal_power_active_total",
+        "i18nValue": {
+          "en_US": "Real Time Power",
+          "zh_CN": "实时功率"
+        }
+      },
+      "desc": "[Description] Total Active Power of each chiller\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Total Active Power of each chiller\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 55,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_trip": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_trip",
+      "name": {
+        "defaultValue": "CH_cal_trip",
+        "i18nValue": {
+          "en_US": "Trip",
+          "zh_CN": "故障"
+        }
+      },
+      "desc": "[Description] Alarm trip of each chiller\n[Function] Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Alarm trip of each chiller\n[Function] Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 56,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_cal_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_status",
+      "name": {
+        "defaultValue": "CH_cal_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] The running status of each chiller\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] The running status of each chiller\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 57,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_cal_load_chiller": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_load_chiller",
+      "name": {
+        "defaultValue": "CH_cal_load_chiller",
+        "i18nValue": {
+          "en_US": "Chiller Load",
+          "zh_CN": "冷机负荷"
+        }
+      },
+      "desc": "[Description] Each chiller load\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Each chiller load\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 58,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_eff_chiller": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_eff_chiller",
+      "name": {
+        "defaultValue": "CH_cal_eff_chiller",
+        "i18nValue": {
+          "en_US": "Chiller Efficiency",
+          "zh_CN": "冷机效率"
+        }
+      },
+      "desc": "[Description] Each chiller efficiency\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Each chiller efficiency\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 59,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_energy_active_total": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "Wh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_energy_active_total",
+      "name": {
+        "defaultValue": "CH_raw_energy_active_total",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw total Active Energy of each chiller\n[Function]Optimization algorithm\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw total Active Energy of each chiller\n[Function]Optimization algorithm\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 60,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_energy_active_total": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_energy_active_total",
+      "name": {
+        "defaultValue": "CH_cal_energy_active_total",
+        "i18nValue": {
+          "en_US": "Energy in 5min",
+          "zh_CN": "冷机五分钟能耗"
+        }
+      },
+      "desc": "[Description] Final Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Final Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 61,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_energy_kWh_P300S": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_energy_kWh_P300S",
+      "name": {
+        "defaultValue": "CH_cal_energy_kWh_P300S",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 62,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_power_kWh_P300S": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_power_kWh_P300S",
+      "name": {
+        "defaultValue": "CH_cal_power_kWh_P300S",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Total Active Energy of each chiller in 5mins\n[Function] Optimization algorithm\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 63,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_power_kWh_P24h": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_power_kWh_P24h",
+      "name": {
+        "defaultValue": "CH_cal_power_kWh_P24h",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Total Active Energy of each chiller in 24h\n[Function] PMT template must-have output\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Total Active Energy of each chiller in 24h\n[Function] PMT template must-have output\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 64,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_energy_kWh_P24h": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "PI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_energy_kWh_P24h",
+      "name": {
+        "defaultValue": "CH_cal_energy_kWh_P24h",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Total Active Energy of each chiller in 24h\n[Function] PMT template must-have output\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Total Active Energy of each chiller in 24h\n[Function] PMT template must-have output\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1611571200833",
+      "priority": 65,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_low_chwst_sp_energy_waste_5min": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_low_chwst_sp_energy_waste_5min",
+      "name": {
+        "defaultValue": "CH_low_chwst_sp_energy_waste_5min",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Low Chiller CHWST SP every 5mins energy waste\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Low Chiller CHWST SP every 5mins energy waste\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1615458355241",
+      "priority": 66,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_low_chwst_energy_waste_5min": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_low_chwst_energy_waste_5min",
+      "name": {
+        "defaultValue": "CH_low_chwst_energy_waste_5min",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Low Chiller CHWST every 5mins energy waste\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Low Chiller CHWST every 5mins energy waste\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1615458394030",
+      "priority": 67,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_chilled_valve_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "UNKNOWN",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_chilled_valve_status",
+      "name": {
+        "defaultValue": "CH_cal_chilled_valve_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual chilled water valve status\n[Function] Chiller Plant Monitoring\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual chilled water valve status\n[Function] Chiller Plant Monitoring\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631597270751",
+      "priority": 68,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_raw_chilled_valve_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_chilled_valve_status",
+      "name": {
+        "defaultValue": "CH_raw_chilled_valve_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual chilled water valve status\n[Function] ; \n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual chilled water valve status\n[Function] ; \n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631597292321",
+      "priority": 69,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_cal_cooling_valve_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "UNKNOWN",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_cooling_valve_status",
+      "name": {
+        "defaultValue": "CH_cal_cooling_valve_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual cooling water valve status\n[Function] Chiller Plant Monitoring\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual cooling water valve status\n[Function] Chiller Plant Monitoring\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631597311645",
+      "priority": 70,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_raw_cooling_valve_status": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_cooling_valve_status",
+      "name": {
+        "defaultValue": "CH_raw_cooling_valve_status",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Raw actual cooling water valve1 status\n[Function]\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] Raw actual cooling water valve1 status\n[Function]\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631597326751",
+      "priority": 71,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_raw_chilled_water_flow": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_chilled_water_flow",
+      "name": {
+        "defaultValue": "CH_raw_chilled_water_flow",
+        "i18nValue": {}
+      },
+      "desc": "[Description] raw chilled water flow\n[Function]\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] raw chilled water flow\n[Function]\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631865413687",
+      "priority": 72,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_chilled_water_flow": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_chilled_water_flow",
+      "name": {
+        "defaultValue": "CH_cal_chilled_water_flow",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Actual chilled water flow\n[Function] \n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Actual chilled water flow\n[Function] \n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631865441708",
+      "priority": 73,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_raw_cooling_water_flow": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_raw_cooling_water_flow",
+      "name": {
+        "defaultValue": "CH_raw_cooling_water_flow",
+        "i18nValue": {}
+      },
+      "desc": "[Description] raw cooling water flow\n[Function]\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] raw cooling water flow\n[Function]\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631865484984",
+      "priority": 74,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_cal_cooling_water_flow": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_cal_cooling_water_flow",
+      "name": {
+        "defaultValue": "CH_cal_cooling_water_flow",
+        "i18nValue": {}
+      },
+      "desc": "[Description] actual cooling water flow\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] actual cooling water flow\n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1631865510102",
+      "priority": 75,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_write_sp_temp_chws": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "°C",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_write_sp_temp_chws",
+      "name": {
+        "defaultValue": "CH_write_sp_temp_chws",
+        "i18nValue": {}
+      },
+      "desc": "[Description] CHWST setpoints\n[Function] Optimization algorithm\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] CHWST setpoints\n[Function] Optimization algorithm\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1640072675096",
+      "priority": 76,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_1001": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_1001",
+      "name": {
+        "defaultValue": "CH_ech_fd_1001",
+        "i18nValue": {}
+      },
+      "desc": "[Description] \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] \n[Function] FDD\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 77,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_non_oper_hours_energy_waste_5min": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_non_oper_hours_energy_waste_5min",
+      "name": {
+        "defaultValue": "CH_non_oper_hours_energy_waste_5min",
+        "i18nValue": {}
+      },
+      "desc": "[Description] energy waste in 5mins due to CH operating in non-operating hours\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] energy waste in 5mins due to CH operating in non-operating hours\n[Function] Energy Diagnostic\n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 78,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_schedule_output": {
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "DI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_schedule_output",
+      "name": {
+        "defaultValue": "CH_schedule_output",
+        "i18nValue": {}
+      },
+      "desc": "[Description] \n[Function] FDD\n[Remark] ",
+      "i18nDesc": {
+        "defaultValue": "[Description] \n[Function] FDD\n[Remark] ",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 79,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLIntMeasurepoint"
+    },
+    "CH_est_energy_baseline": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_est_energy_baseline",
+      "name": {
+        "defaultValue": "CH_est_energy_baseline",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller baseline energy\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller baseline energy\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 80,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_est_energy_opt": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kWh",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_est_energy_opt",
+      "name": {
+        "defaultValue": "CH_est_energy_opt",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller optimized energy\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller optimized energy\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 81,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_est_power_baseline": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kW",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_est_power_baseline",
+      "name": {
+        "defaultValue": "CH_est_power_baseline",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller baseline power\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller baseline power\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 82,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_est_power_opt": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "unit": {
+        "unitId": "kW",
+        "multiplier": "ONE"
+      },
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_est_power_opt",
+      "name": {
+        "defaultValue": "CH_est_power_opt",
+        "i18nValue": {}
+      },
+      "desc": "[Description] Chiller optimized power\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+      "i18nDesc": {
+        "defaultValue": "[Description] Chiller optimized power\n[Function] Energy Saving Estimation \n[Remark] No need for data onboarding by edge.",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1667445924944",
+      "priority": 83,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "CH_ech_fd_2002": {
+      "minimum": -1.7976931348623157E308,
+      "maximum": 1.7976931348623157E308,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false,
+      "signalType": "AI",
+      "hasQuality": false,
+      "required": false,
+      "accessMode": true,
+      "identifier": "CH_ech_fd_2002",
+      "name": {
+        "defaultValue": "CH_ech_fd_2002",
+        "i18nValue": {}
+      },
+      "desc": "Used for EDM rule 'Low Chilled Water Supply Temperature' to trigger alert",
+      "i18nDesc": {
+        "defaultValue": "Used for EDM rule 'Low Chilled Water Supply Temperature' to trigger alert",
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1700447208807",
+      "priority": 84,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDoubleMeasurepoint"
+    },
+    "mpdate": {
+      "required": false,
+      "accessMode": true,
+      "identifier": "mpdate",
+      "name": {
+        "defaultValue": "mpdate",
+        "i18nValue": {}
+      },
+      "i18nDesc": {
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1739956267674",
+      "priority": 85,
+      "$class": "com.envisioniot.enos.model_service.share.data.tsl.measurepoint.TSLDateMeasurepoint"
+    }
+  },
+  "thingServiceMap": {
+    "opModEnergize": {
+      "outputData": [
+        {
+          "specsMap": {
+            "true": "{\"defaultValue\":\"The request was successfully received\",\"i18nValue\":{}}",
+            "false": "{\"defaultValue\":\"The request was denied\",\"i18nValue\":{}}"
+          },
+          "valueType": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "returnValue",
+          "name": {
+            "defaultValue": "返回值",
+            "i18nValue": {
+              "en_US": "Return Value",
+              "zh_CN": "返回值"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLEnum"
+        }
+      ],
+      "inputData": [
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "duration",
+          "name": {
+            "defaultValue": "有效时间",
+            "i18nValue": {
+              "en_US": "Effective Time",
+              "zh_CN": "有效时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "start",
+          "name": {
+            "defaultValue": "开始时间",
+            "i18nValue": {
+              "en_US": "Start Time",
+              "zh_CN": "开始时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "feedbackPointId",
+          "name": {
+            "defaultValue": "反校点ID",
+            "i18nValue": {
+              "en_US": "Feedback Point ID",
+              "zh_CN": "反校点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 32,
+          "required": false,
+          "accessMode": true,
+          "identifier": "source",
+          "name": {
+            "defaultValue": "控制源",
+            "i18nValue": {
+              "en_US": "Control Source",
+              "zh_CN": "控制源"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlPointId",
+          "name": {
+            "defaultValue": "控制点ID",
+            "i18nValue": {
+              "en_US": "Control Point ID",
+              "zh_CN": "控制点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "specsMap": {
+            "0": "{\"defaultValue\":\"关机\",\"i18nValue\":{\"en_US\":\"De-energize\",\"zh_CN\":\"关机\"}}",
+            "1": "{\"defaultValue\":\"开机\",\"i18nValue\":{\"en_US\":\"Energize\",\"zh_CN\":\"开机\"}}"
+          },
+          "valueType": true,
+          "required": false,
+          "accessMode": true,
+          "identifier": "value",
+          "name": {
+            "defaultValue": "控制值",
+            "i18nValue": {
+              "en_US": "Control Value",
+              "zh_CN": "控制值"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLEnum"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlAssetId",
+          "name": {
+            "defaultValue": "控制资产ID",
+            "i18nValue": {
+              "en_US": "Control Asset ID",
+              "zh_CN": "控制资产ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806113",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        }
+      ],
+      "required": false,
+      "callType": "ASYNC",
+      "identifier": "opModEnergize",
+      "stdElementId": "urn:enos:modelelement:std:opModEnergize:1.0",
+      "name": {
+        "defaultValue": "开机/关机",
+        "i18nValue": {
+          "en_US": "Energize/De-energize",
+          "zh_CN": "开机/关机"
+        }
+      },
+      "i18nDesc": {
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1693805806113",
+      "priority": 1
+    },
+    "setFloatParameter": {
+      "outputData": [
+        {
+          "specsMap": {
+            "true": "{\"defaultValue\":\"The request was successfully received\",\"i18nValue\":{}}",
+            "false": "{\"defaultValue\":\"The request was denied\",\"i18nValue\":{}}"
+          },
+          "valueType": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "returnValue",
+          "name": {
+            "defaultValue": "返回值",
+            "i18nValue": {
+              "en_US": "Return Value",
+              "zh_CN": "返回值"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLEnum"
+        }
+      ],
+      "inputData": [
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "duration",
+          "name": {
+            "defaultValue": "有效时间",
+            "i18nValue": {
+              "en_US": "Effective Time",
+              "zh_CN": "有效时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "start",
+          "name": {
+            "defaultValue": "开始时间",
+            "i18nValue": {
+              "en_US": "Start Time",
+              "zh_CN": "开始时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "feedbackPointId",
+          "name": {
+            "defaultValue": "反校点ID",
+            "i18nValue": {
+              "en_US": "Feedback Point ID",
+              "zh_CN": "反校点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 32,
+          "required": false,
+          "accessMode": true,
+          "identifier": "source",
+          "name": {
+            "defaultValue": "控制源",
+            "i18nValue": {
+              "en_US": "Control Source",
+              "zh_CN": "控制源"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlPointId",
+          "name": {
+            "defaultValue": "控制点ID",
+            "i18nValue": {
+              "en_US": "Control Point ID",
+              "zh_CN": "控制点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "minimum": -1.7976931348623157E308,
+          "maximum": 1.7976931348623157E308,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "value",
+          "name": {
+            "defaultValue": "控制值",
+            "i18nValue": {
+              "en_US": "Control Value",
+              "zh_CN": "控制值"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLDouble"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlAssetId",
+          "name": {
+            "defaultValue": "控制资产ID",
+            "i18nValue": {
+              "en_US": "Control Asset ID",
+              "zh_CN": "控制资产ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806123",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        }
+      ],
+      "required": false,
+      "callType": "ASYNC",
+      "identifier": "setFloatParameter",
+      "stdElementId": "urn:enos:modelelement:std:setFloatParameter:1.0",
+      "name": {
+        "defaultValue": "设置浮点型参数",
+        "i18nValue": {
+          "en_US": "Float Parameter Setting",
+          "zh_CN": "设置浮点型参数"
+        }
+      },
+      "i18nDesc": {
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1693805806123",
+      "priority": 2
+    },
+    "opModOperationalMode": {
+      "outputData": [
+        {
+          "specsMap": {
+            "true": "{\"defaultValue\":\"The request was successfully received\",\"i18nValue\":{}}",
+            "false": "{\"defaultValue\":\"The request was denied\",\"i18nValue\":{}}"
+          },
+          "valueType": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "returnValue",
+          "name": {
+            "defaultValue": "返回值",
+            "i18nValue": {
+              "en_US": "Return Value",
+              "zh_CN": "返回值"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLEnum"
+        }
+      ],
+      "inputData": [
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "duration",
+          "name": {
+            "defaultValue": "有效时间",
+            "i18nValue": {
+              "en_US": "Effective Time",
+              "zh_CN": "有效时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "unit": {
+            "unitId": "s",
+            "multiplier": "ONE"
+          },
+          "hasQuality": false,
+          "required": false,
+          "accessMode": true,
+          "identifier": "start",
+          "name": {
+            "defaultValue": "开始时间",
+            "i18nValue": {
+              "en_US": "Start Time",
+              "zh_CN": "开始时间"
+            }
+          },
+          "desc": "",
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLInt"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "feedbackPointId",
+          "name": {
+            "defaultValue": "反校点ID",
+            "i18nValue": {
+              "en_US": "Feedback Point ID",
+              "zh_CN": "反校点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 32,
+          "required": false,
+          "accessMode": true,
+          "identifier": "source",
+          "name": {
+            "defaultValue": "控制源",
+            "i18nValue": {
+              "en_US": "Control Source",
+              "zh_CN": "控制源"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlPointId",
+          "name": {
+            "defaultValue": "控制点ID",
+            "i18nValue": {
+              "en_US": "Control Point ID",
+              "zh_CN": "控制点ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        },
+        {
+          "specsMap": {
+            "0": "{\"defaultValue\":\"本地\",\"i18nValue\":{\"en_US\":\"Local\",\"zh_CN\":\"本地\"}}",
+            "1": "{\"defaultValue\":\"远方\",\"i18nValue\":{\"en_US\":\"Remote\",\"zh_CN\":\"远方\"}}"
+          },
+          "valueType": true,
+          "required": false,
+          "accessMode": true,
+          "identifier": "value",
+          "name": {
+            "defaultValue": "控制值",
+            "i18nValue": {
+              "en_US": "Control Value",
+              "zh_CN": "控制值"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLEnum"
+        },
+        {
+          "maxLength": 64,
+          "required": false,
+          "accessMode": true,
+          "identifier": "controlAssetId",
+          "name": {
+            "defaultValue": "控制资产ID",
+            "i18nValue": {
+              "en_US": "Control Asset ID",
+              "zh_CN": "控制资产ID"
+            }
+          },
+          "i18nDesc": {
+            "i18nValue": {}
+          },
+          "tags": {
+            "tagMap": {}
+          },
+          "createTime": "1693805806107",
+          "priority": 0,
+          "$class": "com.envisioniot.enos.model_service.share.data.tsl.datapoint.TSLText"
+        }
+      ],
+      "required": false,
+      "callType": "ASYNC",
+      "identifier": "opModOperationalMode",
+      "stdElementId": "urn:enos:modelelement:std:opModOperationalMode:1.0",
+      "name": {
+        "defaultValue": "设置运行模式",
+        "i18nValue": {
+          "en_US": "Operational Mode Setting",
+          "zh_CN": "设置运行模式"
+        }
+      },
+      "i18nDesc": {
+        "i18nValue": {}
+      },
+      "tags": {
+        "tagMap": {}
+      },
+      "createTime": "1693805806107",
+      "priority": 3
+    }
+  },
+  "thingEventMap": {},
+  "tag": {
+    "tagMap": {
+      "auth_unit": true,
+      "bd_type": "/thing_device/device_equip/devicetype_chiller"
+    }
+  },
+  "allowAdditionalAttribute": false,
+  "allowAdditionalMeasurepoint": false,
+  "inheritedAttributeIds": [
+    "CH_cwr_temp_sensor_low_limit",
+    "EQUIP_manufacture",
+    "CH_chws_flow_low_limit",
+    "CH_chiller_designed_power",
+    "EQUIP_weekday_period",
+    "EQUIP_service_supplier",
+    "EQUIP_need_diagnostic",
+    "CH_chiller_designed_capacity",
+    "EQUIP_non_operate_limit",
+    "EQUIP_equip_type",
+    "CH_cwr_cond_delta_temp_high_limit",
+    "CH_cws_temp_sensor_low_limit",
+    "CH_water_temp_sensor_iota_variation",
+    "EQUIP_device_install_date",
+    "EQUIP_serial_number",
+    "CH_chwr_temp_sensor_high_limit",
+    "CH_fla_low_limit",
+    "CH_chws_temp_sp_tolerance",
+    "CH_chiller_type",
+    "CH_opt_enable",
+    "CH_fla_high_limit",
+    "CH_chwr_chws_delta_temp_lowflow_design_limit",
+    "CH_chws_evap_delta_temp_high_limit",
+    "EQUIP_energy_slope_max",
+    "CH_chwr_temp_sensor_low_limit",
+    "CH_chiller_designed_CWST",
+    "CH_fd_source",
+    "EQUIP_floor_install",
+    "CH_chws_temp_sp_high_limit",
+    "CH_cwr_temp_sensor_high_limit",
+    "EQUIP_service_supplier_tel",
+    "CH_chws_temp_sp_low_limit",
+    "EQUIP_operate_schedule",
+    "CH_cws_temp_sensor_high_limit",
+    "EQUIP_equipment_model",
+    "CH_chws_temp_sensor_high_limit",
+    "CH_chws_temp_sensor_low_limit",
+    "CH_chiller_designed_CHWST",
+    "EQUIP_system_type"
+  ],
+  "inheritedMeasurepointIds": [
+    "CH_write_sp_temp_chws",
+    "CH_raw_sp_temp_chws",
+    "CH_cal_power_kWh_P24h",
+    "CH_raw_temp_cws",
+    "CH_ech_fd_010",
+    "mpdate",
+    "CH_raw_temp_cwr",
+    "CH_raw_temp_chws",
+    "CH_raw_temp_chwr",
+    "CH_low_chwst_energy_waste_5min",
+    "CH_cal_cooling_water_flow",
+    "EQUIP_cal_status_alert",
+    "CH_ech_fd_007",
+    "CH_ech_fd_2002",
+    "CH_ech_fd_006",
+    "CH_ech_fd_009",
+    "CH_ech_fd_008",
+    "CH_ech_fd_003",
+    "CH_low_chwst_sp_energy_waste_5min",
+    "CH_ech_fd_002",
+    "CH_ech_fd_005",
+    "CH_schedule_output",
+    "CH_est_energy_opt",
+    "CH_ech_fd_004",
+    "CH_raw_trip",
+    "CH_cal_flow_chws",
+    "CH_cal_chilled_water_flow",
+    "CH_cal_temp_cws",
+    "CH_cal_power_active_total",
+    "CH_cal_temp_cwr",
+    "CH_cal_fla",
+    "CH_cal_power_kWh_P300S",
+    "CH_cal_cooling_valve_status",
+    "CH_raw_fla",
+    "CH_raw_temp_evap",
+    "CH_raw_status",
+    "CH_ech_fd_001",
+    "CH_cal_status",
+    "CH_raw_temp_cond",
+    "CH_est_energy_baseline",
+    "CH_ech_fd_1001",
+    "CH_raw_chilled_valve_status",
+    "CH_raw_flow_chws",
+    "CH_raw_cooling_water_flow",
+    "EQUIP_cal_status_device",
+    "CH_raw_power_active_total",
+    "CH_cal_chilled_valve_status",
+    "CH_raw_energy_active_total",
+    "CH_raw_chilled_water_flow",
+    "CH_cal_temp_chwr",
+    "CH_est_power_opt",
+    "CH_cal_temp_chws",
+    "CH_cal_energy_active_total",
+    "CH_cal_eff_chiller",
+    "EQUIP_stat_device_on_off",
+    "CH_cal_energy_kWh_P24h",
+    "CH_cal_trip",
+    "CH_est_power_baseline",
+    "CH_raw_load_chiller",
+    "EQUIP_cal_active_alert_log",
+    "CH_cal_temp_evap",
+    "CH_cal_temp_cond",
+    "CH_raw_cooling_valve_status",
+    "CH_cal_energy_kWh_P300S",
+    "CH_cal_load_chiller",
+    "CH_non_oper_hours_energy_waste_5min",
+    "CH_cal_sp_temp_chws"
+  ],
+  "inheritedServiceIds": [
+    "opModEnergize",
+    "opModOperationalMode",
+    "setFloatParameter"
+  ],
+  "inheritedEventIds": [],
+  "parentModelId": "EnOS_HVAC_CH",
+  "extraInfo": {
+    "createBy": "OnboardingTool",
+    "createTime": "1745203592335",
+    "updateBy": "OnboardingTool",
+    "updateTime": "1745203592335",
+    "ns": "o15520323695671"
+  }
+}

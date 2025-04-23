@@ -1035,29 +1035,16 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: 'http://localhost:5000',
       changeOrigin: true,
-      secure: false,
       pathRewrite: {
         '^/api': '/api'
       },
-      // Remove the filter to allow all API endpoints
-      onProxyReq: function(proxyReq, req, res) {
-        // Log the request for debugging
-        console.log('Proxying request:', req.method, req.path);
-        // Remove the Access-Control-Allow-Origin header from the request as it's invalid
-        proxyReq.removeHeader('Access-Control-Allow-Origin');
-      },
-      onProxyRes: function (proxyRes, req, res) {
-        // Add CORS headers to all responses
-        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-        proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
-        proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, x-access-key, x-secret-key, AccessKey, SecretKey, Access-Control-Allow-Origin';
-        proxyRes.headers['Access-Control-Max-Age'] = '3600';
-      },
-      onError: function(err, req, res) {
+      logLevel: 'debug',
+      onError: (err, req, res) => {
         console.error('Proxy error:', err);
         res.status(500).json({
           success: false,
-          error: `Backend connection failed: ${err.message}`
+          error: 'Backend server connection error',
+          message: 'Unable to connect to backend service'
         });
       }
     })
