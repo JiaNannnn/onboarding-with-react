@@ -1,0 +1,5 @@
+requests>=2.25.1
+poseidon>=0.1.0
+pycrypto>=2.6.1
+PyJWT>=2.0.0
+python-dotenv>=0.15.0 

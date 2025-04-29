@@ -1,0 +1,25 @@
+# FastAPI and ASGI server
+fastapi==0.95.1
+uvicorn==0.22.0
+pydantic==1.10.7
+
+# HTTP and API tools
+requests==2.28.0
+python-dotenv==0.21.1
+python-multipart==0.0.6
+
+# Utilities
+Jinja2==3.1.2
+
+# Testing
+pytest==7.3.1
+pytest-asyncio==0.21.0
+httpx==0.24.0
+
+# Existing requirements
+flask==2.0.1
+flask-cors==3.0.10
+werkzeug==2.0.1
+pandas==1.4.0
+numpy==1.22.0
+flasgger==0.9.5

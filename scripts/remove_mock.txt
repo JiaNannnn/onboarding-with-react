@@ -1,0 +1,10 @@
+To replace the mock EnOSMapper implementation with the real one:
+
+1. Edit file: backend/app/api/routes.py
+
+2. Find the mock implementation section starting around line 65:
+   # For debugging - create a simplified response without using actual mapper
+
+3. Replace that section with the real EnOSMapper implementation described in the next line
+
+4. Save the file and restart the server

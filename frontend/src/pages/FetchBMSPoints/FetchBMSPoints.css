@@ -1,0 +1,33 @@
+.fetch-bms-points-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.settings-card {
+  margin-bottom: 24px;
+}
+
+.ant-upload {
+  width: 100%;
+}
+
+.ant-card-extra {
+  display: flex;
+  align-items: center;
+}
+
+.ant-table-wrapper {
+  margin-top: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fetch-bms-points-container {
+    padding: 16px;
+  }
+  
+  .ant-table {
+    overflow-x: auto;
+  }
+} 

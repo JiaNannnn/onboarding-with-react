@@ -1,0 +1,27 @@
+{
+  "code": 0,
+  "msg": "",
+  "subMsg": null,
+  "data": {
+    "record": [
+      {
+        "edgeAssetId": "jt565GLz",
+        "protocol": "bacnet",
+        "otDeviceInst": 102,
+        "otDeviceName": null,
+        "deviceType": null,
+        "deviceModel": null,
+        "address": null,
+        "description": null,
+        "vendorName": null,
+        "systemStatus": null
+      }
+    ],
+    "pageSize": 10,
+    "pageNo": 1,
+    "recordCount": 1,
+    "totalRecordCount": 1,
+    "pageCount": 1
+  },
+  "args": null
+}

@@ -1,0 +1,9 @@
+edgeAssetId,deviceAssetId,modelId,otDeviceInst,identifier,rawPointName,pointType,objectId,baseValue,coefficient,interval,controlPriority,objectName,demand,uploadType,uploadInterval
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_supply_air_temp,AHU01.SupplyTemp,AI,(analog-input,1),0,1,0,16,SupplyTemp,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_return_air_temp,AHU01.ReturnTemp,AI,(analog-input,2),0,1,0,16,ReturnTemp,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_outside_air_temp,AHU01.OutsideTemp,AI,(analog-input,3),0,1,0,16,OutsideTemp,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_static_pressure,AHU01.StaticPressure,AI,(analog-input,4),0,1,0,16,StaticPressure,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_supply_air_fan_speed,AHU01.FanSpeed,AI,(analog-input,5),0,1,0,16,FanSpeed,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_oa_damper_position,AHU01.DamperPosition,AI,(analog-input,6),0,1,0,16,DamperPosition,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_sp_supply_air_temp,AHU01.SupplyTempSetpoint,AO,(analog-output,1),0,1,0,16,SupplyTempSetpoint,false,REALTIME,0
+FyaeJLLi,ahu-device-001,EnOS_HVAC_AHU,1001,AHU_raw_status,AHU01.Status,BI,(binary-input,1),0,1,0,16,Status,false,CHANGE,0

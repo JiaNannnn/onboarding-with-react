@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping Operation Progress Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .progress {
+            height: 30px;
+        }
+        .operation-details {
+            height: 300px;
+            overflow-y: auto;
+        }
+        #operations-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .history-chart-container {
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Mapping Operation Progress Dashboard</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Monitor Operation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input type="text" id="operation-id-input" class="form-control" placeholder="Enter Operation ID">
+                            <button class="btn btn-primary" type="button" id="monitor-btn">Monitor</button>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="auto-refresh" checked>
+                            <label class="form-check-label" for="auto-refresh">
+                                Auto-refresh (every 2 seconds)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Recent Operations</h5>
+                    </div>
+                    <div class="card-body" id="operations-list">
+                        <div class="alert alert-info">
+                            Loading recent operations...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 id="current-operation-heading">Operation Progress</h5>
+                        <span class="badge bg-primary" id="operation-type-badge">Type</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="no-operation" class="alert alert-info">
+                            No operation selected. Enter an operation ID above or select from recent operations.
+                        </div>
+                        
+                        <div id="operation-details" style="display: none;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <strong>Operation ID:</strong> <span id="operation-id"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Status:</strong> <span id="operation-status" class="badge bg-info">Status</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Last Updated:</strong> <span id="last-updated"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="progress">
+                                        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Current</h5>
+                                            <h2 id="current-count">0</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Total</h5>
+                                            <h2 id="total-count">0</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Time Elapsed</h5>
+                                            <h2 id="time-elapsed">0:00</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Progress History</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="history-chart-container">
+                                                <canvas id="progress-chart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Operation Details</h5>
+                                        </div>
+                                        <div class="card-body operation-details">
+                                            <pre id="operation-json">No details available</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global variables
+        let currentOperationId = null;
+        let autoRefreshInterval = null;
+        let progressChart = null;
+        let operationStartTime = null;
+        
+        // DOM elements
+        const operationIdInput = document.getElementById('operation-id-input');
+        const monitorBtn = document.getElementById('monitor-btn');
+        const autoRefreshCheckbox = document.getElementById('auto-refresh');
+        const operationsList = document.getElementById('operations-list');
+        const noOperation = document.getElementById('no-operation');
+        const operationDetails = document.getElementById('operation-details');
+        const operationIdSpan = document.getElementById('operation-id');
+        const operationStatusSpan = document.getElementById('operation-status');
+        const operationTypeBadge = document.getElementById('operation-type-badge');
+        const currentOperationHeading = document.getElementById('current-operation-heading');
+        const lastUpdatedSpan = document.getElementById('last-updated');
+        const progressBar = document.getElementById('progress-bar');
+        const currentCountSpan = document.getElementById('current-count');
+        const totalCountSpan = document.getElementById('total-count');
+        const timeElapsedSpan = document.getElementById('time-elapsed');
+        const operationJsonPre = document.getElementById('operation-json');
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up event listeners
+            monitorBtn.addEventListener('click', startMonitoring);
+            autoRefreshCheckbox.addEventListener('change', toggleAutoRefresh);
+            
+            // Load recent operations
+            loadRecentOperations();
+        });
+        
+        // Function to start monitoring an operation
+        function startMonitoring() {
+            const operationId = operationIdInput.value.trim();
+            if (!operationId) {
+                alert('Please enter an operation ID');
+                return;
+            }
+            
+            currentOperationId = operationId;
+            loadOperationProgress(operationId);
+            
+            // Start auto-refresh if checked
+            if (autoRefreshCheckbox.checked) {
+                startAutoRefresh();
+            }
+        }
+        
+        // Function to toggle auto-refresh
+        function toggleAutoRefresh() {
+            if (autoRefreshCheckbox.checked) {
+                startAutoRefresh();
+            } else {
+                stopAutoRefresh();
+            }
+        }
+        
+        // Function to start auto-refresh
+        function startAutoRefresh() {
+            stopAutoRefresh(); // Clear any existing interval
+            
+            if (currentOperationId) {
+                autoRefreshInterval = setInterval(() => {
+                    loadOperationProgress(currentOperationId);
+                }, 2000);
+            }
+        }
+        
+        // Function to stop auto-refresh
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+        
+        // Function to load recent operations
+        function loadRecentOperations() {
+            // In a real implementation, this would fetch from an API
+            // For now, we'll just show a placeholder
+            operationsList.innerHTML = `
+                <div class="alert alert-warning">
+                    API endpoint for recent operations not implemented yet.
+                </div>
+                <div class="list-group">
+                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="selectOperation('sample-op-1')">
+                        <div>
+                            <strong>Operation: sample-op-1</strong>
+                            <div><small>map_with_reasoning</small></div>
+                        </div>
+                        <span class="badge bg-success">Completed</span>
+                    </button>
+                    <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="selectOperation('sample-op-2')">
+                        <div>
+                            <strong>Operation: sample-op-2</strong>
+                            <div><small>reflect_and_remap_batch</small></div>
+                        </div>
+                        <span class="badge bg-info">Processing</span>
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Function to select an operation from the list
+        function selectOperation(operationId) {
+            operationIdInput.value = operationId;
+            startMonitoring();
+        }
+        
+        // Function to load operation progress
+        function loadOperationProgress(operationId) {
+            // In a real implementation, this would fetch from the /bms/progress/{operationId} endpoint
+            // For now, we'll just use sample data
+            fetch(`/bms/progress/${operationId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load operation progress');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    updateProgressUI(data);
+                })
+                .catch(error => {
+                    console.error('Error loading operation progress:', error);
+                    
+                    // For demo purposes, show sample data
+                    const sampleData = createSampleData(operationId);
+                    updateProgressUI(sampleData);
+                });
+        }
+        
+        // Function to create sample data (for demonstration only)
+        function createSampleData(operationId) {
+            if (!operationStartTime) {
+                operationStartTime = new Date().getTime() - 30000; // Started 30 seconds ago
+            }
+            
+            const elapsed = Math.floor((new Date().getTime() - operationStartTime) / 1000);
+            const total = 100;
+            const current = Math.min(Math.floor(elapsed * 2), total); // Progress at 2 items per second
+            const percentage = (current / total) * 100;
+            
+            let status = 'processing';
+            if (current >= total) {
+                status = 'completed';
+                stopAutoRefresh();
+            }
+            
+            return {
+                operation_id: operationId,
+                operation_type: operationId.startsWith('sample-op-1') ? 'map_with_reasoning' : 'reflect_and_remap_batch',
+                total: total,
+                current: current,
+                percentage: percentage,
+                status: status,
+                last_updated: new Date().toISOString(),
+                history: Array.from({length: 10}, (_, i) => ({
+                    timestamp: new Date(operationStartTime + i * 5000).toISOString(),
+                    current: Math.min(Math.floor(i * 10), total),
+                    status: i < 9 ? 'processing' : status
+                }))
+            };
+        }
+        
+        // Function to update the progress UI
+        function updateProgressUI(data) {
+            // Show operation details
+            noOperation.style.display = 'none';
+            operationDetails.style.display = 'block';
+            
+            // Update operation details
+            operationIdSpan.textContent = data.operation_id;
+            currentOperationHeading.textContent = `Operation Progress: ${data.operation_id}`;
+            operationTypeBadge.textContent = data.operation_type;
+            
+            // Update status
+            operationStatusSpan.textContent = data.status;
+            switch (data.status) {
+                case 'completed':
+                    operationStatusSpan.className = 'badge bg-success';
+                    break;
+                case 'failed':
+                    operationStatusSpan.className = 'badge bg-danger';
+                    break;
+                case 'processing':
+                    operationStatusSpan.className = 'badge bg-info';
+                    break;
+                default:
+                    operationStatusSpan.className = 'badge bg-secondary';
+            }
+            
+            // Update last updated time
+            const lastUpdated = new Date(data.last_updated);
+            lastUpdatedSpan.textContent = lastUpdated.toLocaleTimeString();
+            
+            // Update progress bar
+            const percentage = data.percentage || 0;
+            progressBar.style.width = `${percentage}%`;
+            progressBar.setAttribute('aria-valuenow', percentage);
+            progressBar.textContent = `${percentage.toFixed(1)}%`;
+            
+            // Update counts
+            currentCountSpan.textContent = data.current;
+            totalCountSpan.textContent = data.total;
+            
+            // Update time elapsed
+            if (data.history && data.history.length > 0) {
+                const firstTimestamp = new Date(data.history[0].timestamp);
+                const now = new Date();
+                const elapsed = Math.floor((now - firstTimestamp) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                timeElapsedSpan.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            // Update JSON details
+            operationJsonPre.textContent = JSON.stringify(data, null, 2);
+            
+            // Update progress chart
+            updateProgressChart(data);
+            
+            // Stop auto-refresh if operation is completed or failed
+            if (data.status === 'completed' || data.status === 'failed') {
+                stopAutoRefresh();
+            }
+        }
+        
+        // Function to update the progress chart
+        function updateProgressChart(data) {
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            
+            // Prepare data for the chart
+            const chartData = {
+                labels: [],
+                datasets: [{
+                    label: 'Progress',
+                    data: [],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.4
+                }]
+            };
+            
+            // Add history data if available
+            if (data.history && data.history.length > 0) {
+                data.history.forEach(entry => {
+                    const time = new Date(entry.timestamp).toLocaleTimeString();
+                    chartData.labels.push(time);
+                    chartData.datasets[0].data.push(entry.current);
+                });
+            } else {
+                // Add current point if no history
+                chartData.labels.push(new Date().toLocaleTimeString());
+                chartData.datasets[0].data.push(data.current);
+            }
+            
+            // Destroy existing chart if it exists
+            if (progressChart) {
+                progressChart.destroy();
+            }
+            
+            // Create new chart
+            progressChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: data.total
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

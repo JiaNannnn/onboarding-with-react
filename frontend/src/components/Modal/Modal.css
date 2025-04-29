@@ -1,0 +1,191 @@
+/**
+ * Modal component styles
+ */
+
+/* Modal container - fixed position covering the entire viewport */
+.bms-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Modal overlay styles */
+.bms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}
+
+/* Modal overlay animations */
+.bms-modal-overlay--entering {
+  animation: fadeIn ease-in-out forwards;
+}
+
+.bms-modal-overlay--exiting {
+  animation: fadeOut ease-in-out forwards;
+}
+
+/* Base modal styles */
+.bms-modal {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+/* Modal animations */
+.bms-modal--entering {
+  animation: modalEnter ease-in-out forwards;
+}
+
+.bms-modal--exiting {
+  animation: modalExit ease-in-out forwards;
+}
+
+/* Modal sizes */
+.bms-modal--small {
+  width: 400px;
+}
+
+.bms-modal--medium {
+  width: 600px;
+}
+
+.bms-modal--large {
+  width: 800px;
+}
+
+.bms-modal--full {
+  width: 95vw;
+  height: 95vh;
+}
+
+/* Modal header */
+.bms-modal__header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.bms-modal__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.bms-modal__header-content {
+  margin-right: 16px;
+}
+
+.bms-modal__close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  color: #999;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.bms-modal__close-button:hover {
+  color: #333;
+}
+
+.bms-modal__close-button:focus {
+  outline: none;
+  color: #333;
+}
+
+/* Modal content */
+.bms-modal__content {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Modal footer */
+.bms-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+/* Animations keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes modalEnter {
+  from { 
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalExit {
+  from { 
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to { 
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bms-modal--small,
+  .bms-modal--medium,
+  .bms-modal--large {
+    width: 95vw;
+  }
+  
+  .bms-modal__header,
+  .bms-modal__content,
+  .bms-modal__footer {
+    padding: 12px 16px;
+  }
+  
+  .bms-modal__title {
+    font-size: 16px;
+  }
+}
+
+/* Focus outline for accessibility */
+.bms-modal:focus {
+  outline: none;
+} 

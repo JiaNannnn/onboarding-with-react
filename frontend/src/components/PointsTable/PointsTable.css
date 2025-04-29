@@ -1,0 +1,184 @@
+.points-table {
+  margin-bottom: 1.5rem;
+}
+
+.points-table__toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.points-table__filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.points-table__search {
+  flex: 2;
+  min-width: 200px;
+}
+
+.points-table__search-input {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.points-table__type-filter,
+.points-table__view-filter {
+  flex: 1;
+  min-width: 150px;
+}
+
+.points-table__type-select,
+.points-table__view-select {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.points-table__count {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.points-table__container {
+  width: 100%;
+  overflow: auto;
+}
+
+.points-table__empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.points-table__empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.points-table__empty-message {
+  font-size: 1rem;
+  color: #666;
+  max-width: 400px;
+}
+
+.points-table__draggable {
+  cursor: grab;
+  padding: 0.25rem 0;
+}
+
+.points-table__draggable:active {
+  cursor: grabbing;
+}
+
+.points-table__type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.points-table__unit {
+  font-family: monospace;
+}
+
+.points-table__empty-value {
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+.points-table__description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.points-table__group-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  max-width: fit-content;
+}
+
+.points-table__remove-button {
+  background: none;
+  border: none;
+  color: #d32f2f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.points-table__remove-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.points-table__no-group {
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+.points-table__enos-points {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.points-table__mapping {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.points-table__enos-point {
+  font-family: monospace;
+  padding: 2px 6px;
+  background-color: #f0f7ff;
+  border: 1px solid #d0e3ff;
+  border-radius: 4px;
+  color: #0066cc;
+  font-size: 0.9em;
+}
+
+
+.points-table__empty-value {
+  color: #999;
+  font-style: italic;
+  font-size: 0.9em;
+}

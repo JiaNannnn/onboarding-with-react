@@ -1,0 +1,84 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+
+# Build outputs
+dist/
+build/
+*.pyc
+
+# Cache files
+backend/cache/
+.cache/
+.pytest_cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test data
+backend/data_test/
+
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+ENV/
+
+# Testing
+test_*.py
+*_test.py
+*_test_results.txt
+tests/
+test_output/
+.coverage
+coverage/
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+temp/
+cleanup_temp/
+*/.DS_Store
+backend/tmp/
+
+# Project specific
+uploads/
+logs/
+data/
+mappings/
+files/
+backend/api_responses/ 

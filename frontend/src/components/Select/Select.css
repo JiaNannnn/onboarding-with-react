@@ -1,0 +1,144 @@
+/**
+ * Select component styles
+ */
+
+/* Base select container */
+.bms-select {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Select label */
+.bms-select__label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Select container */
+.bms-select__select-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Select element */
+.bms-select__select {
+  flex: 1;
+  width: 100%;
+  padding: 10px 12px;
+  padding-right: 32px; /* Space for dropdown icon */
+  font-size: 14px;
+  color: #333;
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Select icon containers */
+.bms-select__start-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  color: #666;
+}
+
+/* Dropdown icon */
+.bms-select__dropdown-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+}
+
+/* Helper text */
+.bms-select__helper-text {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Error state */
+.bms-select--error .bms-select__select-container {
+  border-color: #d32f2f;
+}
+
+.bms-select__helper-text--error {
+  color: #d32f2f;
+}
+
+/* Size variants */
+.bms-select--small .bms-select__select {
+  padding: 6px 10px;
+  padding-right: 28px;
+  font-size: 12px;
+}
+
+.bms-select--large .bms-select__select {
+  padding: 12px 16px;
+  padding-right: 38px;
+  font-size: 16px;
+}
+
+/* Select variants */
+.bms-select--outlined .bms-select__select-container {
+  background-color: transparent;
+}
+
+.bms-select--filled .bms-select__select-container {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #ccc;
+  border-radius: 4px 4px 0 0;
+}
+
+.bms-select--standard .bms-select__select-container {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+
+/* Focus states */
+.bms-select--outlined .bms-select__select-container:focus-within {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.bms-select--filled .bms-select__select-container:focus-within,
+.bms-select--standard .bms-select__select-container:focus-within {
+  border-bottom-color: #1976d2;
+}
+
+/* Disabled state */
+.bms-select__select:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Full width */
+.bms-select--full-width {
+  width: 100%;
+}
+
+/* Remove default focus outline in Firefox */
+.bms-select__select::-moz-focus-inner {
+  border: 0;
+}
+
+/* Hide default arrow in IE10+ */
+.bms-select__select::-ms-expand {
+  display: none;
+} 

@@ -1,0 +1,179 @@
+{
+  "configs": [
+    {
+      "assetId": "FyaeJLLi",
+      "pointMappings": [
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_supply_air_temp",
+          "rawPointName": "AHU01.SupplyTemp",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "1)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "SupplyTemp",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_return_air_temp",
+          "rawPointName": "AHU01.ReturnTemp",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "2)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "ReturnTemp",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_outside_air_temp",
+          "rawPointName": "AHU01.OutsideTemp",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "3)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "OutsideTemp",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_static_pressure",
+          "rawPointName": "AHU01.StaticPressure",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "4)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "StaticPressure",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_supply_air_fan_speed",
+          "rawPointName": "AHU01.FanSpeed",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "5)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "FanSpeed",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_oa_damper_position",
+          "rawPointName": "AHU01.DamperPosition",
+          "pointType": "AI",
+          "objectId": "(analog-input",
+          "baseValue": "6)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "DamperPosition",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_sp_supply_air_temp",
+          "rawPointName": "AHU01.SupplyTempSetpoint",
+          "pointType": "AO",
+          "objectId": "(analog-output",
+          "baseValue": "1)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "SupplyTempSetpoint",
+          "uploadType": "false",
+          "uploadInterval": "REALTIME",
+          "null": [
+            "0"
+          ]
+        },
+        {
+          "edgeAssetId": "FyaeJLLi",
+          "deviceAssetId": "ahu-device-001",
+          "modelId": "EnOS_HVAC_AHU",
+          "otDeviceInst": 1001,
+          "identifier": "AHU_raw_status",
+          "rawPointName": "AHU01.Status",
+          "pointType": "BI",
+          "objectId": "(binary-input",
+          "baseValue": "1)",
+          "coefficient": "0.0",
+          "interval": 1,
+          "controlPriority": 0,
+          "objectName": "16",
+          "demand": "Status",
+          "uploadType": "false",
+          "uploadInterval": "CHANGE",
+          "null": [
+            "0"
+          ]
+        }
+      ]
+    }
+  ],
+  "protocol": "bacnet",
+  "orgId": "o15520323695671"
+}

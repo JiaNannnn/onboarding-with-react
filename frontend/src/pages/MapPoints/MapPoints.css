@@ -1,0 +1,524 @@
+.map-points-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.map-points-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hot-table-wrapper {
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+  margin-top: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.map-points-container h1 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Enhanced mapping components styles */
+.batch-progress-container {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.quality-assessment-container {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.quality-assessment-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-size: 18px;
+}
+
+.quality-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.quality-improvement-note {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.quality-improvement-note p {
+  margin: 0;
+  color: #856404;
+}
+
+.upload-card {
+  margin-bottom: 20px;
+}
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.file-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.file-upload-label:hover {
+  background-color: #2980b9;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #fadbd8;
+  border-radius: 4px;
+}
+
+.points-card {
+  margin-bottom: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.primary-button {
+  padding: 8px 16px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+  background-color: #219653;
+}
+
+.primary-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  padding: 8px 16px;
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.secondary-button:hover {
+  background-color: #d35400;
+}
+
+.secondary-button:disabled {
+  background-color: #f5cba7;
+  cursor: not-allowed;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-controls select {
+  margin: 0 8px;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pagination-button {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e9ecef;
+}
+
+.pagination-button:disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  margin: 0 8px;
+  color: #6c757d;
+}
+
+.table-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+/* HotTable specific styles */
+.htCenter .htCore td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mapping-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.unmapped-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #95a5a6;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.high-confidence {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.medium-confidence {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.low-confidence {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Improve handson table appearance */
+.handsontable .htCore th {
+  background-color: #f5f5f5;
+  color: #2c3e50;
+  font-weight: bold;
+  text-align: center;
+}
+
+.handsontable .htCore tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.handsontable .htCore tbody tr:hover {
+  background-color: #e9f7fe;
+}
+
+/* Mapping table styles */
+.mapped-point {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+  font-weight: 500;
+}
+
+.unmapped {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #feeee8;
+  color: #d93025;
+  font-style: italic;
+}
+
+.confidence-score {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.high-confidence {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.medium-confidence {
+  background-color: #fff7e6;
+  color: #b06000;
+}
+
+.low-confidence {
+  background-color: #feeee8;
+  color: #d93025;
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status-mapped {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.status-error {
+  background-color: #feeee8;
+  color: #d93025;
+}
+
+/* Table header styles */
+.handsontable th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #202124;
+}
+
+/* Alternating row colors */
+.handsontable tr:nth-child(even) td {
+  background-color: #f8f9fa;
+}
+
+/* Cell hover effect */
+.handsontable td:hover {
+  background-color: #f1f3f4 !important;
+}
+
+/* Read-only cells */
+.handsontable td[readonly] {
+  background-color: #f8f9fa;
+}
+
+/* New column styles */
+.error-message-cell {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #feeee8;
+  color: #d93025;
+  font-size: 12px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Column menu styles */
+.column-menu {
+  float: right;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+.column-menu:hover {
+  color: #333;
+  background-color: #e9ecef;
+  border-radius: 2px;
+}
+
+/* Value cell styles */
+.present-value {
+  font-family: monospace;
+  color: #444;
+}
+
+/* Object information styles */
+.object-info {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Improve table header readability */
+.handsontable th {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+  padding: 4px 6px;
+}
+
+/* Column specific widths */
+.handsontable .htCore td.device-type-cell {
+  min-width: 100px;
+}
+
+.handsontable .htCore td.point-name-cell {
+  min-width: 150px;
+}
+
+.handsontable .htCore td.description-cell {
+  min-width: 200px;
+}
+
+.handsontable .htCore td.error-cell {
+  min-width: 200px;
+}
+
+/* Dropdown menu styles */
+.handsontable .htDropdownMenu {
+  padding: 4px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.handsontable .htDropdownMenu .htCore {
+  border: none;
+}
+
+.handsontable .htDropdownMenu .htCore td {
+  padding: 4px 8px;
+  color: #333;
+}
+
+.handsontable .htDropdownMenu .htCore td:hover {
+  background-color: #f1f3f4;
+}
+
+/* Filter indicator styles */
+.handsontable th .htCore .columnSorting.ascending::after {
+  content: '↑';
+  color: #666;
+  margin-left: 4px;
+}
+
+.handsontable th .htCore .columnSorting.descending::after {
+  content: '↓';
+  color: #666;
+  margin-left: 4px;
+}
+
+/* Enforce consistent row height for all data cells */
+.handsontable .htCore tbody tr td {
+  height: 23px; /* Adjust this value based on inspection of .htDimmed or desired height */
+  line-height: 23px; /* Match height for vertical centering */
+  padding-top: 0;
+  padding-bottom: 0;
+  vertical-align: middle; /* Ensure text is centered vertically */
+}
+
+/* Column filter menu styles */
+.column-filter-menu {
+  min-width: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.filter-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 13px;
+}
+
+.filter-option:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-option.clear-filter {
+  border-top: 1px solid #e0e0e0;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.filter-option.clear-filter:hover {
+  background-color: #fef5f5;
+}
+
+/* Active filter indicator */
+.column-menu.has-filter::after {
+  content: '•';
+  color: #3498db;
+  font-size: 18px;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}
+
+/* Improve dropdown positioning */
+.handsontable th {
+  position: relative;
+}
+
+.column-menu {
+  position: relative;
+}
