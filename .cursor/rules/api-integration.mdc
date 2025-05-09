@@ -1,0 +1,55 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# API Integration Guide
+
+## API Structure
+
+The application's API integration is organized in the [api/](mdc:frontend/src/api) directory:
+
+### API Client
+- Base configuration
+- Request/response interceptors
+- Error handling
+- Authentication headers
+
+### API Endpoints
+Organized by feature domain:
+- User management
+- Data operations
+- System configuration
+
+## Data Flow
+
+### Request Pattern
+1. API call initiated from components or services
+2. Request intercepted and modified if needed
+3. Response handled and transformed
+4. Data stored in appropriate state management
+
+### Error Handling
+- Global error interceptors
+- Feature-specific error handling
+- User-friendly error messages
+- Retry mechanisms for failed requests
+
+## State Management Integration
+
+### Data Fetching
+- Custom hooks for API calls
+- Loading and error states
+- Cache management
+- Optimistic updates
+
+### Best Practices
+
+1. Use TypeScript interfaces for API types
+2. Implement proper error boundaries
+3. Handle loading states consistently
+4. Cache responses when appropriate
+5. Use proper HTTP methods
+6. Implement request cancellation
+7. Handle token refresh automatically
+

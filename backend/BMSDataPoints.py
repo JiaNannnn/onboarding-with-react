@@ -29,56 +29,55 @@ if not os.path.exists(results_dir):
     os.makedirs(results_dir, exist_ok=True)
 
 # API Configuration - Get from environment variables or use defaults
-api_url = os.environ.get("ENOS_API_URL", "https://ag-eu2.envisioniot.com")
-accessKey = os.environ.get("ENOS_ACCESS_KEY", "974a84b0-2ec1-44f7-aa3d-5fe01b55b718")
-secretKey = os.environ.get("ENOS_SECRET_KEY", "04cc544f-ffcb-4b97-84fc-d7ecf8c4b8be")
-orgId = os.environ.get("ENOS_ORG_ID", "o16975327606411181")
-assetId = os.environ.get("ENOS_ASSET_ID", "5xkIipSH")
+# These global variables will no longer be the primary source for API calls
+# in the refactored functions, but are kept for now for any parts of the script
+# not yet refactored or for default values if needed elsewhere.
+global_api_url = os.environ.get("ENOS_API_URL", "https://ag-eu2.envisioniot.com")
+global_accessKey = os.environ.get("ENOS_ACCESS_KEY", "974a84b0-2ec1-44f7-aa3d-5fe01b55b718")
+global_secretKey = os.environ.get("ENOS_SECRET_KEY", "04cc544f-ffcb-4b97-84fc-d7ecf8c4b8be")
+global_orgId = os.environ.get("ENOS_ORG_ID", "o16975327606411181")
+global_assetId = os.environ.get("ENOS_ASSET_ID", "5xkIipSH")
 
-def fetchPoints(assetId, device_instance, device_address="unknown-ip"):
+def fetchPoints(org_id_param: str, asset_id_param: str, device_instance_param: str, api_url_param: str, access_key_param: str, secret_key_param: str, device_address="unknown-ip"):
     """
     Fetch points for a specific device.
     
     Args:
-        assetId: The asset ID
-        device_instance: The device instance number to fetch points for
-        device_address: The IP address of the device
+        org_id_param: The Organization ID for the request.
+        asset_id_param: The asset ID.
+        device_instance_param: The device instance number to fetch points for.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
+        device_address: The IP address of the device.
         
     Returns:
-        The API response containing points for the device
+        The API response containing points for the device.
     """
-    url = f"{api_url}/enos-edge/v2.4/discovery/pointResponse"
-    access_key = accessKey
-    secret_key = secretKey
+    url = f"{api_url_param}/enos-edge/v2.4/discovery/pointResponse"
     
     data = {
-        "orgId": orgId,
-        "assetId": assetId,
+        "orgId": org_id_param,
+        "assetId": asset_id_param,
         "protocol": "bacnet",
-        "otDeviceInst": device_instance
+        "otDeviceInst": device_instance_param
     }
     
-    print(f"\nRetrieving points for device instance {device_instance} at address {device_address}...")
+    print(f"\nRetrieving points for device instance {device_instance_param} at address {device_address} (Org: {org_id_param}, Asset: {asset_id_param})...")
     print(f"Requesting points from: {url}")
     print(f"Request data: {json.dumps(data, indent=2)}")
     
-    # Set up polling parameters
-    max_attempts = 30  # Maximum number of polling attempts
+    max_attempts = 30
     poll_interval = 10
     
     try:
-        # First request to initiate the points retrieval
         print(f"Points retrieval request data: {data}")
-        response = poseidon.urlopen(access_key, secret_key, url, data)
+        response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
         print(f"Initial points retrieval response code: {response.get('code', 'Unknown')}")
         
-        # Check if we need to wait for results
         attempt = 1
         while attempt <= max_attempts:
-            # Check if points retrieval is complete with proper structure
             points_data = []
-            
-            # Check for two possible response structures
             if ('data' in response and
                 isinstance(response['data'], dict) and
                 'record' in response['data'] and
@@ -89,95 +88,67 @@ def fetchPoints(assetId, device_instance, device_address="unknown-ip"):
                 points_data = response['data']
             
             if points_data and len(points_data) > 0:
-                print(f"\nPoints retrieval complete for device {device_instance}! Found {len(points_data)} points.")
-                
-                # Display a sample of points (first 5)
+                print(f"\nPoints retrieval complete for device {device_instance_param}! Found {len(points_data)} points.")
                 sample_size = min(5, len(points_data))
-                print(f"\nSample of the first {sample_size} points for device {device_instance}:")
+                print(f"\nSample of the first {sample_size} points for device {device_instance_param}:")
                 for i in range(sample_size):
                     point = points_data[i]
                     point_name = point.get('pointName', 'Unknown')
                     point_type = point.get('pointType', 'Unknown')
                     print(f"{i+1}. {point_name} (Type: {point_type})")
                 
-                # Create a timestamp for the filename
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                
-                # Sanitize the device address for filename
-                sanitized_address = re.sub(r'[^\w\-\.]', '_', device_address)
-                file_name = f"points_{assetId}_{device_instance}_{sanitized_address}_{timestamp}.csv"
+                sanitized_address = re.sub(r'[^\\w\\-\.]', '_', device_address)
+                file_name = f"points_{asset_id_param}_{device_instance_param}_{sanitized_address}_{timestamp}.csv"
                 full_path = os.path.join(results_dir, file_name)
                 
-                # Pre-process the points data to ensure no null values in critical fields
                 for point in points_data:
-                    # Ensure description is not null
                     if 'description' not in point or point['description'] is None:
                         point['description'] = ''
                 
-                # Convert points data to DataFrame and save as CSV
                 df = pd.DataFrame(points_data)
-                
-                # Add metadata as additional columns
-                df['assetId'] = assetId
-                df['deviceInstance'] = device_instance
+                df['assetId'] = asset_id_param
+                df['deviceInstance'] = device_instance_param
                 df['deviceAddress'] = device_address
                 df['timestamp'] = timestamp
                 
-                # Add or rename columns to match what the AI engine expects
-                # Map objectName to pointName if pointName doesn't exist
                 if 'objectName' in df.columns and 'pointName' not in df.columns:
                     df['pointName'] = df['objectName']
                 
-                # Map objectType to pointType if pointType doesn't exist
                 if 'objectType' in df.columns and 'pointType' not in df.columns:
                     df['pointType'] = df['objectType']
                 
-                # Ensure description is not null (AI engine might require this)
                 if 'description' in df.columns:
                     df['description'] = df['description'].fillna('').replace({pd.NA: '', None: ''})
-                    # Double-check that nulls are gone
                     remaining_nulls = df['description'].isnull().sum()
                     if remaining_nulls > 0:
                         print(f"WARNING: Still have {remaining_nulls} null values in description after filling")
-                        # Try a more direct approach
                         for idx in df.index:
                             if pd.isna(df.at[idx, 'description']):
                                 df.at[idx, 'description'] = ''
                 
-                # Add a source column (AI engine might use this for identification)
                 df['source'] = 'bacnet'
                 
-                # Add a pointId column if it doesn't exist (combining device instance and object instance)
                 if 'pointId' not in df.columns and 'objectInst' in df.columns:
-                    df['pointId'] = df.apply(lambda row: f"{device_instance}:{row['objectInst']}", axis=1)
+                    df['pointId'] = df.apply(lambda row: f"{device_instance_param}:{row['objectInst']}", axis=1)
                 
-                # Save to CSV
                 df.to_csv(full_path, index=False)
-                
-                print(f"Points data for device {device_instance} saved to {full_path}")
-                
-                # For compatibility with other functions that expect different structure
+                print(f"Points data for device {device_instance_param} saved to {full_path}")
                 result = {
                     "code": 0,
                     "result": {
                         "objectPropertys": points_data
                     }
                 }
-                
                 return result
             
-            # If not complete or no points found yet
-            print(f"Points retrieval in progress for device {device_instance}... (Attempt {attempt}/{max_attempts})")
+            print(f"Points retrieval in progress for device {device_instance_param}... (Attempt {attempt}/{max_attempts})")
             attempt += 1
-            
             if attempt <= max_attempts:
                 time.sleep(poll_interval)
-                response = poseidon.urlopen(access_key, secret_key, url, data)
+                response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
         
-        # If we get here, polling timed out
-        print(f"Points retrieval for device {device_instance} timed out after {max_attempts * poll_interval} seconds.")
-        
-        # Try to extract any partial results using proper structure check
+        print(f"Points retrieval for device {device_instance_param} timed out after {max_attempts * poll_interval} seconds.")
         points_data = []
         if ('data' in response and
             isinstance(response['data'], dict) and
@@ -189,76 +160,55 @@ def fetchPoints(assetId, device_instance, device_address="unknown-ip"):
             points_data = response['data']
         
         if points_data and len(points_data) > 0:
-            print(f"Partial results for device {device_instance}: Found {len(points_data)} points before timeout.")
-            
-            # Create a timestamp for the filename
+            print(f"Partial results for device {device_instance_param}: Found {len(points_data)} points before timeout.")
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            
-            # Sanitize the device address for filename
-            sanitized_address = re.sub(r'[^\w\-\.]', '_', device_address)
-            file_name = f"points_partial_{assetId}_{device_instance}_{sanitized_address}_{timestamp}.csv"
+            sanitized_address = re.sub(r'[^\\w\\-\.]', '_', device_address)
+            file_name = f"points_partial_{asset_id_param}_{device_instance_param}_{sanitized_address}_{timestamp}.csv"
             full_path = os.path.join(results_dir, file_name)
             
-            # Pre-process the points data to ensure no null values in critical fields
             for point in points_data:
-                # Ensure description is not null
                 if 'description' not in point or point['description'] is None:
                     point['description'] = ''
             
-            # Convert points data to DataFrame and save as CSV
             df = pd.DataFrame(points_data)
-            
-            # Add metadata as additional columns
-            df['assetId'] = assetId
-            df['deviceInstance'] = device_instance
+            df['assetId'] = asset_id_param
+            df['deviceInstance'] = device_instance_param
             df['deviceAddress'] = device_address
             df['timestamp'] = timestamp
             df['status'] = 'partial - timed out'
             
-            # Add or rename columns to match what the AI engine expects
-            # Map objectName to pointName if pointName doesn't exist
             if 'objectName' in df.columns and 'pointName' not in df.columns:
                 df['pointName'] = df['objectName']
             
-            # Map objectType to pointType if pointType doesn't exist
             if 'objectType' in df.columns and 'pointType' not in df.columns:
                 df['pointType'] = df['objectType']
             
-            # Ensure description is not null (AI engine might require this)
             if 'description' in df.columns:
                 df['description'] = df['description'].fillna('').replace({pd.NA: '', None: ''})
-                # Double-check that nulls are gone
                 remaining_nulls = df['description'].isnull().sum()
                 if remaining_nulls > 0:
                     print(f"WARNING: Still have {remaining_nulls} null values in description after filling")
-                    # Try a more direct approach
                     for idx in df.index:
                         if pd.isna(df.at[idx, 'description']):
                             df.at[idx, 'description'] = ''
             
-            # Add a source column (AI engine might use this for identification)
             df['source'] = 'bacnet'
             
-            # Add a pointId column if it doesn't exist (combining device instance and object instance)
             if 'pointId' not in df.columns and 'objectInst' in df.columns:
-                df['pointId'] = df.apply(lambda row: f"{device_instance}:{row['objectInst']}", axis=1)
+                df['pointId'] = df.apply(lambda row: f"{device_instance_param}:{row['objectInst']}", axis=1)
             
-            # Save to CSV
             df.to_csv(full_path, index=False)
+            print(f"Partial points data for device {device_instance_param} saved to {full_path}")
             
-            print(f"Partial points data for device {device_instance} saved to {full_path}")
-            
-            # For compatibility with other functions
             result = {
                 "code": 0,
                 "result": {
                     "objectPropertys": points_data
                 }
             }
-            
             return result
         else:
-            print(f"No points found for device {device_instance} before timeout.")
+            print(f"No points found for device {device_instance_param} before timeout.")
             return {"code": 1, "msg": "Timeout waiting for points"}
     
     except Exception as e:
@@ -266,43 +216,44 @@ def fetchPoints(assetId, device_instance, device_address="unknown-ip"):
         traceback.print_exc()
         return {"code": 1, "msg": str(e)}
 
-def getNetConfig(asset_id=None):
+def getNetConfig(org_id_param: str, asset_id_param: str, api_url_param: str, access_key_param: str, secret_key_param: str):
     """
     Get network configuration from the EnOS API.
     
     Args:
-        asset_id: Optional. Asset ID to use for the request. 
-                If provided, overrides the default assetId.
+        org_id_param: The Organization ID for the request.
+        asset_id_param: Asset ID to use for the request.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
     
     Returns:
         The API response containing network configuration.
     """
-    # Use provided asset_id if available, otherwise use default
-    target_asset_id = asset_id if asset_id else assetId
-    
     # API URL with the appropriate asset ID
-    url = f"{api_url}/enos-edge/v2.4/discovery/getNetConfig?orgId={orgId}&assetId={target_asset_id}"
+    url = f"{api_url_param}/enos-edge/v2.4/discovery/getNetConfig?orgId={org_id_param}&assetId={asset_id_param}"
     
-    # Get access key and secret key from user
-    access_key = accessKey
-    secret_key = secretKey
-    
-    if not access_key or not secret_key:
+    if not access_key_param or not secret_key_param:
         print("Access key and secret key are required. Exiting.")
         return {"code": 1, "msg": "Missing credentials"}
     
     try:
         # Call the API
-        print(f"Fetching network configuration for asset ID: {target_asset_id}")
+        print(f"Fetching network configuration for asset ID: {asset_id_param} using Org ID: {org_id_param}")
         print(f"Request URL: {url}")
-        response = poseidon.urlopen(access_key, secret_key, url)
+        response = poseidon.urlopen(access_key_param, secret_key_param, url)
         
         print("Response from getNetConfig:")
         print(response)
         
+        # Add a check for None response before attempting to access it
+        if response is None:
+            print(f"No response received from API (likely an HTTP error like 404). URL: {url}")
+            return {"code": 1, "msg": "No response from API (e.g., HTTP 404 Not Found)", "data": None}
+        
         # Check if response has data field with options
         if 'data' in response and isinstance(response['data'], list) and len(response['data']) > 0:
-            print(f"\nAvailable network options for asset ID {target_asset_id}:")
+            print(f"\nAvailable network options for asset ID {asset_id_param}:")
             
             # Display the available options
             for i, option in enumerate(response['data']):
@@ -310,10 +261,10 @@ def getNetConfig(asset_id=None):
             
             return response
         else:
-            print(f"No network options found in response data for asset ID {target_asset_id}")
+            print(f"No network options found in response data for asset ID {asset_id_param}")
             return response
     except Exception as e:
-        print(f"Error getting network configuration for asset ID {target_asset_id}: {str(e)}")
+        print(f"Error getting network configuration for asset ID {asset_id_param}: {str(e)}")
         traceback.print_exc()
         return {"code": 1, "msg": str(e)}
 
@@ -338,7 +289,7 @@ def search_devices_on_networks(assetId, networks):
     
     for net in networks:
         print(f"\nSearching for devices on network: {net}")
-        search_result = searchDevice(assetId, net)
+        search_result = searchDevice(orgId, assetId, net, api_url, accessKey, secretKey)
         results[net] = search_result
         
         # Extract devices if available
@@ -356,47 +307,44 @@ def search_devices_on_networks(assetId, networks):
         "count": len(all_devices)
     }
 
-def search_points(assetId, device_instances):
+def search_points(org_id_param: str, asset_id_param: str, device_instances_param: List[str], api_url_param: str, access_key_param: str, secret_key_param: str):
     """
     Search for points on specified devices using the search API endpoint.
     
-    This function initiates the points search process using the /enos-edge/v2.4/discovery/search
-    endpoint with type=point and the list of device instances.
-    
     Args:
-        assetId: The asset ID
-        device_instances: List of device instance numbers
+        org_id_param: The Organization ID for the request.
+        asset_id_param: The asset ID.
+        device_instances_param: List of device instance numbers.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
         
     Returns:
         The API response indicating if the search was initiated successfully
     """
-    url = f"{api_url}/enos-edge/v2.4/discovery/search"
-    access_key = accessKey
-    secret_key = secretKey
+    url = f"{api_url_param}/enos-edge/v2.4/discovery/search"
     
     data = {
-        "orgId": orgId,
-        "assetId": assetId,
+        "orgId": org_id_param,
+        "assetId": asset_id_param,
         "protocol": "bacnet",
         "type": "point",
-        "otDeviceInstList": device_instances
+        "otDeviceInstList": device_instances_param
     }
     
-    print(f"\nInitiating points search for {len(device_instances)} devices...")
+    print(f"\nInitiating points search for {len(device_instances_param)} devices (Org: {org_id_param}, Asset: {asset_id_param})...")
     print(f"Request URL: {url}")
     print(f"Request data: {json.dumps(data, indent=2)}")
     
     try:
-        # Call the API to initiate the points search
-        response = poseidon.urlopen(access_key, secret_key, url, data)
+        response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
         print(f"Points search initiation response: {response}")
         
-        # Check if the search was successfully initiated
         if 'code' in response and response['code'] == 0:
             data_value = response.get('data')
             
             if data_value is True:
-                print(f"Points search initiated successfully for {len(device_instances)} devices")
+                print(f"Points search initiated successfully for {len(device_instances_param)} devices")
                 # Wait a moment for the search to start processing
                 time.sleep(5)
                 return {"code": 0, "msg": "Points search initiated successfully"}
@@ -412,30 +360,29 @@ def search_points(assetId, device_instances):
         traceback.print_exc()
         return {"code": 1, "msg": str(e)}
 
-def fetch_points_for_devices(assetId, devices):
+def fetch_points_for_devices(org_id_param: str, asset_id_param: str, devices_param: List[Dict], api_url_param: str, access_key_param: str, secret_key_param: str):
     """
     Fetch points for specified devices.
     
-    This function follows the correct API flow:
-    1. First call search_points with type=point to initiate the points search
-    2. Then call fetchPoints for each device to retrieve the results
-    
     Args:
-        assetId: The asset ID
-        devices: List of device objects
+        org_id_param: The Organization ID for the request.
+        asset_id_param: The asset ID.
+        devices_param: List of device objects.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
         
     Returns:
         Dictionary of device_instance -> points results
     """
-    if not devices:
+    if not devices_param:
         print("No devices specified. Exiting point fetching.")
         return {"code": 1, "msg": "No devices selected"}
     
-    # Extract device instances for the search API call
     device_instances = []
     device_addresses = {}
     
-    for device in devices:
+    for device in devices_param:
         instance = device.get("otDeviceInst")
         if instance:
             device_instances.append(int(instance))
@@ -445,87 +392,73 @@ def fetch_points_for_devices(assetId, devices):
         print("No valid device instances found. Exiting point fetching.")
         return {"code": 1, "msg": "No valid device instances"}
     
-    # First, initiate the points search using the search API
-    search_result = search_points(assetId, device_instances)
+    search_result = search_points(org_id_param, asset_id_param, device_instances, api_url_param, access_key_param, secret_key_param)
     
     if search_result.get("code") != 0:
         print(f"Failed to initiate points search: {search_result.get('msg', 'Unknown error')}")
         return search_result
     
-    # Now fetch points for each device instance
     results = {}
-    
-    for device_instance in device_instances:
-        device_address = device_addresses.get(str(device_instance), "unknown-ip")
-        device_name = next((device.get("deviceName", "Unknown") for device in devices 
-                           if str(device.get("otDeviceInst")) == str(device_instance)), 
+    for device_instance_str in device_instances: # Ensure we iterate over what search_points used
+        device_instance = str(device_instance_str) # Make sure it's a string for dict key
+        device_address = device_addresses.get(device_instance, "unknown-ip")
+        device_name = next((d.get("deviceName", "Unknown") for d in devices_param 
+                           if str(d.get("otDeviceInst")) == device_instance), 
                           f"Device {device_instance}")
         
         print(f"\nFetching points for {device_name} (Instance: {device_instance})...")
-        points_response = fetchPoints(assetId, device_instance, device_address)
-        results[str(device_instance)] = points_response
+        # Pass all required params to fetchPoints
+        points_response = fetchPoints(org_id_param, asset_id_param, device_instance, api_url_param, access_key_param, secret_key_param, device_address)
+        results[device_instance] = points_response
     
     return {
         "code": 0,
         "point_results": results
     }
 
-def searchDevice(assetId, net=None):
+def searchDevice(org_id_param: str, asset_id_param: str, net_param: str, api_url_param: str, access_key_param: str, secret_key_param: str):
     """
     Initiate a device search on the specified network.
     
     Args:
-        assetId: The asset ID to search
-        net: The network option to use
+        org_id_param: The Organization ID for the request.
+        asset_id_param: The asset ID to search.
+        net_param: The network option to use.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
         
     Returns:
         The API response from the search request
     """
-    # API URL from user
-    url = f"{api_url}/enos-edge/v2.4/discovery/search"
-    
-    # Get access key and secret key from user
-    access_key = accessKey
-    secret_key = secretKey
-    
-    # Use provided assetId and net if available, otherwise use defaults
-    if assetId is None:
-        assetId = "Device is not an Edge Device"
-    
-    if net is None:
-        net = "No Network Card"
+    url = f"{api_url_param}/enos-edge/v2.4/discovery/search"
     
     data = {
-        "orgId": orgId,
-        "assetId": assetId,
-        "net": net,
+        "orgId": org_id_param,
+        "assetId": asset_id_param,
+        "net": net_param,
         "type": "device",
         "protocol": "bacnet"
     }
     
-    if not access_key or not secret_key:
+    if not access_key_param or not secret_key_param:
         print("Access key and secret key are required. Exiting.")
         return {"code": 1, "msg": "Missing credentials"}
     
     try:
-        # Call the API
         print(f"Search request data: {data}")
-        print(f"Initiating device discovery on network {net}...")
+        print(f"Initiating device discovery on network {net_param} for org {org_id_param} asset {asset_id_param}...")
         
-        # Initialize the search and start polling
-        response = poseidon.urlopen(access_key, secret_key, url, data)
+        response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
         print(f"Search response: {response}")
         
-        # Check if the search request was successful
         if 'code' in response and response['code'] == 0:
             data_value = response.get('data')
-            
-            # Check specifically for a boolean True result
             if data_value is True:
                 print("Discovery initiated successfully. Retrieving devices...")
-                # Allow some time for the discovery process to start before checking devices
                 time.sleep(5)
-                return fetchDevice(assetId)
+                # Pass the dynamic parameters to fetchDevice as well
+                return fetchDevice(org_id_param, asset_id_param, api_url_param, access_key_param, secret_key_param)
             else:
                 print(f"Discovery failed or returned unexpected result: {data_value}")
         else:
@@ -538,19 +471,21 @@ def searchDevice(assetId, net=None):
         traceback.print_exc()
         return {"code": 1, "msg": str(e)}
 
-def fetchDevice(assetId):
+def fetchDevice(org_id_param: str, asset_id_param: str, api_url_param: str, access_key_param: str, secret_key_param: str):
     """
     Fetch discovered devices for a specific asset.
     
     Args:
-        assetId: The asset ID to retrieve devices for
+        org_id_param: The Organization ID for the request.
+        asset_id_param: The asset ID to retrieve devices for.
+        api_url_param: The base API URL for EnOS.
+        access_key_param: The Access Key for API authentication.
+        secret_key_param: The Secret Key for API authentication.
         
     Returns:
         The API response containing discovered devices
     """
-    url = f"{api_url}/enos-edge/v2.4/discovery/deviceResponse"
-    access_key = accessKey
-    secret_key = secretKey
+    url = f"{api_url_param}/enos-edge/v2.4/discovery/deviceResponse"
     data = {
         "protocol": "bacnet",
         "pagination": {
@@ -564,19 +499,17 @@ def fetchDevice(assetId):
             "pageSize": 100
         },
         "assetIds": [
-            assetId
+            asset_id_param
         ],
-        "orgId": orgId
+        "orgId": org_id_param
     }
     
-    print(f"Starting BACnet scan for asset {assetId}...")
+    print(f"Starting BACnet scan for asset {asset_id_param} (Org: {org_id_param})...")
     
-    # Set up polling parameters
-    max_attempts = 30  # Maximum number of polling attempts
-    poll_interval = 10  # Time in seconds between polls
+    max_attempts = 30
+    poll_interval = 10
     
-    # First request to initiate the scan
-    response = poseidon.urlopen(access_key, secret_key, url, data)
+    response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
     print(f"Initial scan response: {response}")
     
     # Check if we need to wait for results
@@ -592,7 +525,7 @@ def fetchDevice(assetId):
             if len(devices) > 0:
                 # Save all discovered devices to a JSON file
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                device_file = f"devices_{assetId}_{timestamp}.json"
+                device_file = f"devices_{asset_id_param}_{timestamp}.json"
                 device_file_path = os.path.join(results_dir, device_file)
                 try:
                     with open(device_file_path, "w") as f:
@@ -624,7 +557,7 @@ def fetchDevice(assetId):
             
             if attempt <= max_attempts:
                 time.sleep(poll_interval)
-                response = poseidon.urlopen(access_key, secret_key, url, data)
+                response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
         else:
             # Wait for the scanning to complete
             print(f"Scanning in progress (Attempt {attempt}/{max_attempts})")
@@ -632,9 +565,8 @@ def fetchDevice(assetId):
             
             if attempt <= max_attempts:
                 time.sleep(poll_interval)
-                response = poseidon.urlopen(access_key, secret_key, url, data)
+                response = poseidon.urlopen(access_key_param, secret_key_param, url, data)
     
-    # If we get here, polling timed out
     print(f"Device scan timed out after {max_attempts * poll_interval} seconds")
     return {"code": 1, "msg": "Device scan timed out", "data": response.get('data', {})}
 
@@ -651,14 +583,14 @@ def discover_devices(asset_id=None, network=None):
         Dictionary of results
     """
     if asset_id is None:
-        asset_id = assetId
+        asset_id = global_assetId
     
     if network is None:
         # Just get the network config and return it - let the UI handle selection
-        return getNetConfig()
+        return getNetConfig(global_orgId, asset_id, global_api_url, global_accessKey, global_secretKey)
     else:
         # Use the provided network directly
-        return searchDevice(asset_id, network)
+        return searchDevice(global_orgId, asset_id, network, global_api_url, global_accessKey, global_secretKey)
 
 def discover_devices_on_networks(asset_id=None, networks=None):
     """
@@ -672,7 +604,7 @@ def discover_devices_on_networks(asset_id=None, networks=None):
         Dictionary of results
     """
     if asset_id is None:
-        asset_id = assetId
+        asset_id = global_assetId
     
     if networks is None or not networks:
         # Default to discovering on "No Network Card"
@@ -692,12 +624,12 @@ def get_points_for_devices(asset_id=None, devices=None):
         Dictionary of results
     """
     if asset_id is None:
-        asset_id = assetId
+        asset_id = global_assetId
     
     if devices is None or not devices:
         return {"code": 1, "msg": "No devices specified"}
     
-    return fetch_points_for_devices(asset_id, devices)
+    return fetch_points_for_devices(global_orgId, asset_id, devices, global_api_url, global_accessKey, global_secretKey)
 
 def print_usage():
     """Print usage information for the script."""

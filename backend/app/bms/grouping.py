@@ -429,12 +429,12 @@ Please group these points by:
 
 Format your response as a JSON object with the following structure:
 {{
-  "DEVICE_TYPE_1": {{
-    "DEVICE_ID_1": ["point1", "point2"],
-    "DEVICE_ID_2": ["point3", "point4"]
+  "DEVICE TYPE 1": {{
+    "DEVICE ID 1": ["point1", "point2"],
+    "DEVICE ID 2": ["point3", "point4"]
   }},
-  "DEVICE_TYPE_2": {{
-    "DEVICE_ID_3": ["point5", "point6"]
+  "DEVICE TYPE 2": {{
+    "DEVICE ID 3": ["point5", "point6"]
   }}
 }}
 

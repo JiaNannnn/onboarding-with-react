@@ -2331,13 +2331,18 @@ class EnOSMapper:
                     prompt_lines.append("\\nBMS Points to Map:")
                     bms_points_for_prompt = []
                     for p in batch_points:
+                         # Skip None values
+                         if p is None:
+                             logger.warning("Skipping None point in batch_points")
+                             continue
+                             
                          # Include relevant details for better semantic matching
                          point_info = {
                              "pointId": p.get("pointId"),
                              "pointName": p.get("pointName"),
                              "pointType": p.get("pointType"),
                              "unit": p.get("unit"),
-                             "description": p.get("description", "")[:100], # Limit description length
+                             "description": p.get("description", "")[:100] if p.get("description") is not None else "", # Limit description length
                              # Optional: Include presentValue if it helps semantic meaning (e.g., for binary status)
                              # "presentValue": str(p.get("presentValue"))[:50]
                          }

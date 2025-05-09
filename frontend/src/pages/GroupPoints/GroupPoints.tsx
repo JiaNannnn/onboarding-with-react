@@ -8,6 +8,7 @@ import './GroupPoints.css';
 import { BMSPointRaw } from '../../types/apiTypes';
 import { api } from '../../api/apiClient';
 import { useAppContext } from '../../store/AppContext';
+import { Link } from 'react-router-dom';
 
 // Register all Handsontable modules
 registerAllModules();
@@ -50,6 +51,7 @@ const GroupPoints: React.FC = () => {
   const [isGrouping, setIsGrouping] = React.useState(false);
   const [isExporting, setIsExporting] = React.useState(false);
   const hotTableRef = React.useRef<any>(null);
+  const [success, setSuccess] = React.useState<string | null>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
@@ -471,50 +473,56 @@ const GroupPoints: React.FC = () => {
 
   const handleAIGrouping = async () => {
     if (points.length === 0) {
-      setError('Please upload points data first');
+      setError('No points to group. Please upload a file first.');
       return;
     }
-
+    
+    setIsLoading(true);
+    
     try {
-      setIsGrouping(true);
-      setError(null);
-
-      // Extract point names from the points array
-      const pointNames = points.map(point => point.pointName);
-
-      // Use the API client with the correct endpoint path
-      const serverResponse = await api.post<AIGroupingResponse>('api/bms/ai-grouping', { points: pointNames });
-      console.log('Server response:', serverResponse);
-
-      if (serverResponse.success && serverResponse.grouped_points) {
-        // Transform the grouped points back to our format
-        const transformedPoints = points.map(point => {
-          // Find which group this point belongs to
-          const groupedPoints = serverResponse.grouped_points || {};
-          for (const [deviceType, devices] of Object.entries(groupedPoints)) {
-            for (const [deviceId, devicePoints] of Object.entries(devices)) {
-              if (Array.isArray(devicePoints) && devicePoints.includes(point.pointName)) {
-                return {
-                  ...point,
-                  deviceType,
-                  deviceId
-                };
+      const response = await api.post<AIGroupingResponse>('api/bms/ai-grouping', { points: points.map(point => point.pointName) });
+      
+      if (response.success && response.grouped_points) {
+        // Use our existing points but update with device types from the response
+        const processedPoints = [...points];
+        
+        // Map points to their device types and IDs from the grouped_points response
+        for (const point of processedPoints) {
+          for (const [deviceType, devices] of Object.entries(response.grouped_points)) {
+            let found = false;
+            for (const [deviceId, pointNames] of Object.entries(devices)) {
+              if (Array.isArray(pointNames) && pointNames.includes(point.pointName)) {
+                point.deviceType = deviceType;
+                point.deviceId = deviceId;
+                found = true;
+                break;
               }
             }
+            if (found) break;
           }
-          return point;
-        });
-
-        setPoints(transformedPoints);
+        }
+        
+        // Save processed points to localStorage for use in MapPoints page
+        localStorage.setItem('groupedPoints', JSON.stringify(processedPoints));
+        
+        // Update state with processed points
+        setPoints(processedPoints);
         setCurrentPage(1);
+        
+        // Show success message
+        const deviceTypes = Object.keys(response.grouped_points);
+        console.log(`AI grouping completed. Found ${deviceTypes.length} device types.`);
+        
+        // Optionally show a notification to the user
+        setSuccess('Points grouped successfully! You can now proceed to the Map Points page.');
       } else {
-        throw new Error(serverResponse.error || 'Invalid response format from AI grouping');
+        throw new Error(response.error || 'Grouping operation failed');
       }
-    } catch (err) {
-      console.error('AI Grouping error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to perform AI grouping');
+    } catch (error) {
+      console.error('AI grouping error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to perform AI grouping');
     } finally {
-      setIsGrouping(false);
+      setIsLoading(false);
     }
   };
 
@@ -551,7 +559,22 @@ const GroupPoints: React.FC = () => {
 
   return (
     <div className="group-points-page">
-      <h1>Group Points</h1>
+      <h1>Group BMS Points</h1>
+      
+      {/* Success message */}
+      {success && (
+        <div className="success-message">
+          <p>{success}</p>
+          <div className="success-actions">
+            <Link to="/map-points" className="success-button">
+              Go to Map Points
+            </Link>
+            <button className="dismiss-button" onClick={() => setSuccess(null)}>
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
       
       <Card className="upload-card">
         <h2>Upload Points File</h2>

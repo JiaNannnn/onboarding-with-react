@@ -33,6 +33,7 @@ const MapPoints: React.FC = () => {
   // Reference to track component mounting state
   const isMountedRef = useRef<boolean>(true);
   const hotTableRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Get context and hooks
   const { 
@@ -435,153 +436,26 @@ const MapPoints: React.FC = () => {
     try {
       // Prepare the data for export
       const exportData = mappings.map(mapping => ({
-        enosEntity: mapping.deviceType || 'Unknown',
+        id: mapping.id || '',
+        rawPoint: mapping.rawPoint || mapping.pointName || '',
+        pointName: mapping.pointName || '',
+        deviceType: mapping.deviceType || mapping.enosEntity || '',
+        deviceId: mapping.deviceId || '',
         enosPoint: mapping.enosPoint || '',
-        rawPoint: mapping.pointName || '',
-        rawUnit: mapping.unit || ''
+        status: mapping.status || '',
+        confidence: mapping.confidence || 0
       }));
       
-      // Generate a filename based on the original file and timestamp
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
-      const filename = `${selectedFile?.name.split('.')[0] || 'mapping'}_${timestamp}.csv`;
-      
-      // Call the API to export
-      const result = await bmsClient.saveMappingToCSV(exportData as unknown as PointMapping[], filename);
-      
-      if (result && result.success) {
-        // Get download URL
-        const downloadUrl = bmsClient.getFileDownloadURL(result.filepath || '');
-        
-        // Create a temporary link and trigger download
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        console.log('Export completed successfully');
-      } else {
-        throw new Error(result.error || 'Failed to export mappings');
-      }
-    } catch (error) {
-      console.error('Export error:', error);
-      setError(error instanceof Error ? error.message : 'Error exporting mappings');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  // Export all points to EnOS format, including unmapped ones
-  const exportToEnOS = () => {
-    if (points.length === 0) {
-      setError('No points available to export.');
-      return;
-    }
-    
-    setIsExporting(true);
-    
-    try {
-      // Format points for EnOS export with mappings
-      const enosExportData = points.map(point => {
-        // Check if this point has a mapping
-        const isMapped = point.enosPoint && point.status === "mapped";
-        
-        if (isMapped) {
-          // Use the existing mapping
-          return {
-            "pointId": point.id || "",
-            "pointName": point.pointName || "",
-            "deviceId": point.deviceId || "",
-            "deviceType": point.deviceType || "UNKNOWN",
-            "pointType": point.pointType || "",
-            "unit": point.unit || "",
-            "enosPoint": point.enosPoint || "",
-            "status": "mapped",
-            "confidence": 0.9 // Use high confidence for mapped points
-          };
-        } else {
-          // Create fallback mapping for unmapped points
-          
-          // Determine EnOS point name based on device type and point name
-          let enosPointName = "";
-          let mappingStatus = "unmapped";
-          
-          // Get device type prefix
-          const deviceType = (point.deviceType || "").toUpperCase();
-          let prefix = "UNKNOWN";
-          
-          // Map common device types to prefixes
-          const prefixMap: {[key: string]: string} = {
-            "AHU": "AHU",
-            "FCU": "FCU", 
-            "FAN COIL UNIT": "FCU",
-            "FANCOIL": "FCU",
-            "FAN COIL": "FCU",
-            "FANCOILUNIT": "FCU",
-            "CHILLER": "CH",
-            "CH": "CH",
-            "PUMP": "PUMP",
-            "CWP": "PUMP",
-            "CHWP": "PUMP",
-            "HWP": "PUMP",
-            "CT": "CT",
-            "COOLING TOWER": "CT",
-            "VAV": "VAV",
-            "VRF": "VRF"
-          };
-          
-          // Get prefix or use fallback
-          if (deviceType in prefixMap) {
-            prefix = prefixMap[deviceType];
-          } else if (deviceType) {
-            // Use first 3 chars if available, ensuring uppercase
-            prefix = deviceType.substring(0, 3);
-          }
-          
-          // Create a point suffix based on point name
-          const pointName = (point.pointName || "").toString();
-          let pointSuffix = pointName
-            .replace(/[\s.]/g, '_')          // Replace spaces and dots with underscores
-            .replace(/[^a-zA-Z0-9_]/g, '')   // Remove non-alphanumeric characters
-            .toLowerCase();                   // Convert to lowercase
-          
-          // Trim if too long
-          if (pointSuffix.length > 30) {
-            pointSuffix = pointSuffix.substring(0, 30);
-          }
-          
-          // Generate EnOS point name
-          if (prefix && pointSuffix) {
-            enosPointName = `${prefix}_raw_${pointSuffix}`;
-            mappingStatus = "unmapped_exported";
-          }
-          
-          return {
-            "pointId": point.id || "",
-            "pointName": point.pointName || "",
-            "deviceId": point.deviceId || "",
-            "deviceType": point.deviceType || "UNKNOWN",
-            "pointType": point.pointType || "",
-            "unit": point.unit || "",
-            "enosPoint": enosPointName,
-            "status": mappingStatus,
-            "confidence": 0.1 // Low confidence for fallback mappings
-          };
-        }
-      });
-      
-      // Create CSV header for EnOS format
-      const enosColumns = [
-        "pointId", "pointName", "deviceId", "deviceType", 
-        "pointType", "unit", "enosPoint", "status", "confidence"
+      // Create CSV header
+      const csvColumns = [
+        "id", "rawPoint", "pointName", "deviceType", "deviceId", "enosPoint", "status", "confidence"
       ];
       
-      let csvContent = enosColumns.join(',') + '\n';
+      let csvContent = csvColumns.join(',') + '\n';
       
       // Add rows
-      enosExportData.forEach(record => {
-        const row = enosColumns.map(columnKey => {
+      exportData.forEach(record => {
+        const row = csvColumns.map(columnKey => {
           const value = record[columnKey as keyof typeof record];
           // Handle values that might contain commas or quotes
           if (value === null || value === undefined) return '';
@@ -599,7 +473,7 @@ const MapPoints: React.FC = () => {
       
       // Set filename with date
       const date = new Date().toISOString().split('T')[0];
-      const filename = `enos-export-${date}.csv`;
+      const filename = `mapping-export-${date}.csv`;
       
       link.setAttribute('href', url);
       link.setAttribute('download', filename);
@@ -611,13 +485,92 @@ const MapPoints: React.FC = () => {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
       
-      // Show success message
-      console.log(`Exported ${enosExportData.length} points to EnOS format`);
-    } catch (err) {
-      console.error('EnOS Export error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to export data to EnOS format');
+      console.log(`Exported ${exportData.length} mappings to CSV`);
+    } catch (error) {
+      console.error('CSV Export error:', error);
+      setError(error instanceof Error ? error.message : 'Error exporting mappings');
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  // Export all points to EnOS format, including unmapped ones
+  const exportToEnOS = async () => {
+    if (mappings.length === 0) {
+      setError('No mappings available to export. Please map points first.');
+      return;
+    }
+    
+    setIsExporting(true);
+    
+    try {
+      // Prepare mapping data in the format expected by the API
+      const mappingData = mappings.map(mapping => ({
+        enosEntity: mapping.deviceType || 'Unknown',
+        enosPoint: mapping.enosPoint || '',
+        rawPoint: mapping.pointName || '',
+        rawUnit: mapping.unit || ''
+      }));
+      
+      // Call the API to export to EnOS
+      const result = await bmsClient.exportMappingToEnOS(mappingData);
+      
+      if (result && result.success) {
+        // If export returns a file path, provide download link
+        if (result.filepath) {
+          const downloadUrl = bmsClient.getFileDownloadURL(result.filepath);
+          
+          // Create a temporary link and trigger download
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.download = result.filepath.split('/').pop() || 'enos-export.json';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        
+        console.log('Export to EnOS completed successfully');
+      } else {
+        throw new Error(result.error || 'Failed to export to EnOS');
+      }
+    } catch (err) {
+      console.error('EnOS Export error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to export to EnOS');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  // Load grouped points from local storage
+  const handleLoadGroupedPoints = () => {
+    setError(null);
+    try {
+      const groupedPointsData = localStorage.getItem('groupedPoints');
+      if (!groupedPointsData) {
+        setError('No grouped points found. Please group points first.');
+        return;
+      }
+      
+      setIsLoading(true);
+      
+      const parsedData = JSON.parse(groupedPointsData) as BMSPoint[];
+      
+      // Detect device types from the data
+      const detectedTypes = detectDeviceTypes(parsedData);
+      setDeviceTypesLocal(detectedTypes);
+      setDeviceTypes(detectedTypes);
+
+      setPoints(parsedData);
+      setRawPoints(parsedData);
+      setFilename('grouped-points.json');
+      setMappings([]);
+      
+      console.log(`Loaded ${parsedData.length} points from grouped points`);
+    } catch (error) {
+      console.error("Error loading grouped points:", error);
+      setError(error instanceof Error ? error.message : 'Error loading grouped points');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -625,26 +578,39 @@ const MapPoints: React.FC = () => {
     <div className="map-points-page">
       <h1>Map BMS Points to EnOS</h1>
       
-      <section className="file-upload-section">
-        <Card className="upload-card">
-          <h2>Upload Points File</h2>
-          <p>Select a CSV or JSON file containing BMS point data.</p>
-          
-          <div className="file-input-container">
-            <input
-              type="file"
-              accept=".csv,.json"
-              onChange={handleFileUpload}
+      <Card title="Map BMS Points to EnOS Schema">
+        <div className="file-upload-section">
+          <input 
+            type="file" 
+            accept=".csv,.json" 
+            onChange={handleFileUpload} 
+            id="file-upload" 
+            className="hidden-input"
+            ref={fileInputRef}
+          />
+          <div className="upload-buttons">
+            <button 
+              className="upload-button" 
+              onClick={() => fileInputRef.current?.click()}
               disabled={isLoading || isMapping}
-            />
-            <div className="file-info">
-              {selectedFile && (
-                <span>Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(2)} KB)</span>
-              )}
-            </div>
+            >
+              {isLoading ? 'Loading...' : 'Upload Points File'}
+            </button>
+            <button 
+              className="grouped-points-button" 
+              onClick={handleLoadGroupedPoints}
+              disabled={isLoading || isMapping}
+            >
+              Load Grouped Points
+            </button>
           </div>
-        </Card>
-      </section>
+          {selectedFile && (
+            <div className="file-info">
+              <span>Selected file: {selectedFile.name}</span>
+            </div>
+          )}
+        </div>
+      </Card>
       
       {error && (
         <div className="error-message">

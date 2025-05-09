@@ -25,7 +25,8 @@ import {
   Radio,
   RadioGroup,
   FormControl,
-  FormLabel
+  FormLabel,
+  Container
 } from '@mui/material';
 // @ts-ignore
 import {
@@ -484,325 +485,349 @@ const FetchBMSPoints: React.FC = () => {
   };
 
   return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Fetch BMS Points
-      </Typography>
-      <Typography variant="body1" color="textSecondary" paragraph>
-        Follow the steps to connect to a BMS system and fetch points.
+    <Container maxWidth="xl">
+      <Typography variant="h4" gutterBottom sx={{ mt: 2, mb: 2 }}>
+        BMS Point Management and EnOS Mapping
       </Typography>
 
-      {/* Backend health status */}
-      {healthStatus && (
-        <Alert severity={healthStatus.includes('healthy') ? 'success' : 'warning'} sx={{ mb: 2 }}>
-          {healthStatus}
-        </Alert>
-      )}
-
-      {/* Error and Success notifications */}
-      <Snackbar open={!!error} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-          {error}
-        </Alert>
-      </Snackbar>
-      
-      <Snackbar open={!!success} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
-          {success}
-        </Alert>
-      </Snackbar>
-
-      {/* Stepper */}
-      <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      <Grid container spacing={3}>
-        {/* Multi-step form section */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, height: '100%' }}>
-            {/* Step 1: Connect to API */}
-            {activeStep === 0 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6" gutterBottom>
-                    Step 1: Connect to BMS API
-                  </Typography>
-                  <ApiIcon color="primary" />
-                </Box>
-                <Divider sx={{ mb: 2 }} />
-
-                <form onSubmit={handleConnect}>
-                  <TextField
-                    label="API URL"
-                    fullWidth
-                    margin="normal"
-                    value={apiUrl}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setApiUrl(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Access Key"
-                    fullWidth
-                    margin="normal"
-                    value={accessKey}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAccessKey(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Secret Key"
-                    fullWidth
-                    margin="normal"
-                    type="password"
-                    value={secretKey}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSecretKey(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Organization ID"
-                    fullWidth
-                    margin="normal"
-                    value={orgId}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOrgId(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Asset ID"
-                    fullWidth
-                    margin="normal"
-                    value={assetId}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAssetId(e.target.value)}
-                    required
-                  />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    disabled={loading}
-                    sx={{ mt: 2 }}
-                  >
-                    {loading ? (
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <CircularProgress size={24} sx={{ mr: 1 }} />
-                        Connecting...
-                      </Box>
-                    ) : 'Connect to API'}
-                  </Button>
-                </form>
-              </>
-            )}
-
-            {/* Step 2: Select Network */}
-            {activeStep === 1 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6" gutterBottom>
-                    Step 2: Select Network
-                  </Typography>
-                  <NetworkIcon color="primary" />
-                </Box>
-                <Divider sx={{ mb: 2 }} />
-
-                <FormControl component="fieldset" sx={{ width: '100%' }}>
-                  <FormLabel component="legend">Available Networks</FormLabel>
-                  <RadioGroup 
-                    value={selectedNetwork} 
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNetworkSelect(e.target.value)}
-                  >
-                    {networks.map((network) => (
-                      <FormControlLabel 
-                        key={network} 
-                        value={network} 
-                        control={<Radio />} 
-                        label={network} 
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-                  <Button onClick={handleBack} disabled={loading}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={handleDiscoverDevices}
-                    disabled={!selectedNetwork || loading}
-                  >
-                    {loading ? (
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <CircularProgress size={24} sx={{ mr: 1 }} />
-                        Discovering...
-                      </Box>
-                    ) : 'Discover Devices'}
-                  </Button>
-                </Box>
-              </>
-            )}
-
-            {/* Step 3: Discover Devices */}
-            {activeStep === 2 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6" gutterBottom>
-                    Step 3: Select Devices
-                  </Typography>
-                  <DeviceIcon color="primary" />
-                </Box>
-                <Divider sx={{ mb: 2 }} />
-
-                <Typography variant="body2" sx={{ mb: 2 }}>
-                  Select the devices to fetch points from:
-                </Typography>
-
-                <List sx={{ width: '100%', maxHeight: 300, overflow: 'auto' }}>
-                  {devices.map((device) => (
-                    <ListItem key={device.id}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedDevices.includes(device.id)}
-                            onChange={() => handleDeviceSelect(device.id)}
-                          />
-                        }
-                        label={
-                          <Box>
-                            <Typography variant="body1">{device.name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              Instance: {device.instance}, IP: {device.address}
-                            </Typography>
-                          </Box>
-                        }
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-                  <Button onClick={handleBack} disabled={loading}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={handleFetchPoints}
-                    disabled={selectedDevices.length === 0 || loading}
-                  >
-                    {loading ? (
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <CircularProgress size={24} sx={{ mr: 1 }} />
-                        Fetching...
-                      </Box>
-                    ) : 'Fetch Points'}
-                  </Button>
-                </Box>
-              </>
-            )}
-
-            {/* Step 4: Points Fetched */}
-            {activeStep === 3 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6" gutterBottom>
-                    Step 4: Points Fetched
-                  </Typography>
-                  <PointsIcon color="primary" />
-                </Box>
-                <Divider sx={{ mb: 2 }} />
-
-                <Box sx={{ textAlign: 'center', py: 2 }}>
-                  <Typography variant="h5">
-                    Successfully Fetched {state.points.length} Points
-                  </Typography>
-                  <Typography variant="body1" sx={{ mt: 1 }}>
-                    Your points are now available in the list. You can view them in the panel on the right.
-                  </Typography>
-                </Box>
-
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-                  <Button onClick={handleBack} disabled={loading}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={handleReset}
-                    disabled={loading}
-                  >
-                    Start Over
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={exportPointsToCSV}
-                    disabled={state.points.length === 0}
-                  >
-                    Export Points to CSV
-                  </Button>
-                </Box>
-              </>
-            )}
-          </Paper>
+      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          EnOS Connection Settings
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="API URL"
+              variant="outlined"
+              fullWidth
+              value={apiUrl}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setApiUrl(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Access Key"
+              variant="outlined"
+              fullWidth
+              value={accessKey}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setAccessKey(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Secret Key"
+              variant="outlined"
+              type="password"
+              fullWidth
+              value={secretKey}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setSecretKey(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Organization ID"
+              variant="outlined"
+              fullWidth
+              value={orgId}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setOrgId(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Asset ID (Default/Root for connection)"
+              variant="outlined"
+              fullWidth
+              value={assetId}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setAssetId(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
         </Grid>
+      </Paper>
 
-        {/* Points List Section */}
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">
-                  Available Points ({state.points.length})
-                </Typography>
-                <Box>
-                  <IconButton onClick={handleReset} disabled={loading || activeStep !== 3}>
-                    <RefreshIcon />
-                  </IconButton>
-                  <IconButton onClick={handleClearPoints} disabled={loading || state.points.length === 0}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-              <Divider />
+      <Box>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Fetch BMS Points
+        </Typography>
+        <Typography variant="body1" color="textSecondary" paragraph>
+          Follow the steps to connect to a BMS system and fetch points.
+        </Typography>
 
-              {state.points.length === 0 ? (
-                <Box sx={{ py: 4, textAlign: 'center' }}>
-                  <Typography variant="body1" color="textSecondary">
-                    No points available. Follow the steps to connect to a BMS system and fetch points.
-                  </Typography>
-                </Box>
-              ) : (
-                <List sx={{ maxHeight: 500, overflow: 'auto' }}>
-                  {state.points.map((point: Point) => (
-                    <ListItem
-                      key={point.id}
-                      divider
-                      secondaryAction={
-                        <Typography variant="caption" color="textSecondary">
-                          {point.type}
-                        </Typography>
-                      }
+        {/* Backend health status */}
+        {healthStatus && (
+          <Alert severity={healthStatus.includes('healthy') ? 'success' : 'warning'} sx={{ mb: 2 }}>
+            {healthStatus}
+          </Alert>
+        )}
+
+        {/* Error and Success notifications */}
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+        
+        <Snackbar open={!!success} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
+            {success}
+          </Alert>
+        </Snackbar>
+
+        {/* Stepper */}
+        <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+        <Grid container spacing={3}>
+          {/* Multi-step form section */}
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 3, height: '100%' }}>
+              {/* Step 1: Connect to API */}
+              {activeStep === 0 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" gutterBottom>
+                      Step 1: Connect to BMS API
+                    </Typography>
+                    <ApiIcon color="primary" />
+                  </Box>
+                  <Divider sx={{ mb: 2 }} />
+
+                  <form onSubmit={handleConnect}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                      disabled={loading}
+                      sx={{ mt: 2 }}
                     >
-                      <ListItemText
-                        primary={point.name}
-                        secondary={
-                          <>
-                            {point.description}
-                            <Typography variant="caption" color="textSecondary" display="block">
-                              Source: {point.source}
-                            </Typography>
-                          </>
-                        }
-                      />
-                    </ListItem>
-                  ))}
-                </List>
+                      {loading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <CircularProgress size={24} sx={{ mr: 1 }} />
+                          Connecting...
+                        </Box>
+                      ) : 'Connect to API'}
+                    </Button>
+                  </form>
+                </>
               )}
-            </CardContent>
-          </Card>
+
+              {/* Step 2: Select Network */}
+              {activeStep === 1 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" gutterBottom>
+                      Step 2: Select Network
+                    </Typography>
+                    <NetworkIcon color="primary" />
+                  </Box>
+                  <Divider sx={{ mb: 2 }} />
+
+                  <FormControl component="fieldset" sx={{ width: '100%' }}>
+                    <FormLabel component="legend">Available Networks</FormLabel>
+                    <RadioGroup 
+                      value={selectedNetwork} 
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNetworkSelect(e.target.value)}
+                    >
+                      {networks.map((network) => (
+                        <FormControlLabel 
+                          key={network} 
+                          value={network} 
+                          control={<Radio />} 
+                          label={network} 
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                    <Button onClick={handleBack} disabled={loading}>
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleDiscoverDevices}
+                      disabled={!selectedNetwork || loading}
+                    >
+                      {loading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <CircularProgress size={24} sx={{ mr: 1 }} />
+                          Discovering...
+                        </Box>
+                      ) : 'Discover Devices'}
+                    </Button>
+                  </Box>
+                </>
+              )}
+
+              {/* Step 3: Discover Devices */}
+              {activeStep === 2 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" gutterBottom>
+                      Step 3: Select Devices
+                    </Typography>
+                    <DeviceIcon color="primary" />
+                  </Box>
+                  <Divider sx={{ mb: 2 }} />
+
+                  <Typography variant="body2" sx={{ mb: 2 }}>
+                    Select the devices to fetch points from:
+                  </Typography>
+
+                  <List sx={{ width: '100%', maxHeight: 300, overflow: 'auto' }}>
+                    {devices.map((device) => (
+                      <ListItem key={device.id}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={selectedDevices.includes(device.id)}
+                              onChange={() => handleDeviceSelect(device.id)}
+                            />
+                          }
+                          label={
+                            <Box>
+                              <Typography variant="body1">{device.name}</Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Instance: {device.instance}, IP: {device.address}
+                              </Typography>
+                            </Box>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                    <Button onClick={handleBack} disabled={loading}>
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleFetchPoints}
+                      disabled={selectedDevices.length === 0 || loading}
+                    >
+                      {loading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <CircularProgress size={24} sx={{ mr: 1 }} />
+                          Fetching...
+                        </Box>
+                      ) : 'Fetch Points'}
+                    </Button>
+                  </Box>
+                </>
+              )}
+
+              {/* Step 4: Points Fetched */}
+              {activeStep === 3 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" gutterBottom>
+                      Step 4: Points Fetched
+                    </Typography>
+                    <PointsIcon color="primary" />
+                  </Box>
+                  <Divider sx={{ mb: 2 }} />
+
+                  <Box sx={{ textAlign: 'center', py: 2 }}>
+                    <Typography variant="h5">
+                      Successfully Fetched {state.points.length} Points
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                      Your points are now available in the list. You can view them in the panel on the right.
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                    <Button onClick={handleBack} disabled={loading}>
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleReset}
+                      disabled={loading}
+                    >
+                      Start Over
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      onClick={exportPointsToCSV}
+                      disabled={state.points.length === 0}
+                    >
+                      Export Points to CSV
+                    </Button>
+                  </Box>
+                </>
+              )}
+            </Paper>
+          </Grid>
+
+          {/* Points List Section */}
+          <Grid item xs={12} md={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h6">
+                    Available Points ({state.points.length})
+                  </Typography>
+                  <Box>
+                    <IconButton onClick={handleReset} disabled={loading || activeStep !== 3}>
+                      <RefreshIcon />
+                    </IconButton>
+                    <IconButton onClick={handleClearPoints} disabled={loading || state.points.length === 0}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+                <Divider />
+
+                {state.points.length === 0 ? (
+                  <Box sx={{ py: 4, textAlign: 'center' }}>
+                    <Typography variant="body1" color="textSecondary">
+                      No points available. Follow the steps to connect to a BMS system and fetch points.
+                    </Typography>
+                  </Box>
+                ) : (
+                  <List sx={{ maxHeight: 500, overflow: 'auto' }}>
+                    {state.points.map((point: Point) => (
+                      <ListItem
+                        key={point.id}
+                        divider
+                        secondaryAction={
+                          <Typography variant="caption" color="textSecondary">
+                            {point.type}
+                          </Typography>
+                        }
+                      >
+                        <ListItemText
+                          primary={point.name}
+                          secondary={
+                            <>
+                              {point.description}
+                              <Typography variant="caption" color="textSecondary" display="block">
+                                Source: {point.source}
+                              </Typography>
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 

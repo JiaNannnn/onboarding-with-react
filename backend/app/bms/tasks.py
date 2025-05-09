@@ -1,9 +1,9 @@
-from app import celery
+#from app import celery
 from app.bms.utils import EnOSClient, BMSParser
 import time
 from flask import current_app
 
-@celery.task(bind=True, max_retries=3)
+# @celery.task(bind=True, max_retries=3)
 def search_points_task(self, api_url, access_key, secret_key, org_id, asset_id, device_instances, protocol='bacnet'):
     """Task to search for points across multiple devices"""
     client = EnOSClient(api_url=api_url, access_key=access_key, secret_key=secret_key, org_id=org_id)
@@ -55,7 +55,7 @@ def search_points_task(self, api_url, access_key, secret_key, org_id, asset_id, 
             "code": "INTERNAL_ERROR"
         }
 
-@celery.task(bind=True, max_retries=3)
+# @celery.task(bind=True, max_retries=3)
 def fetch_points_task(self, api_url, access_key, secret_key, org_id, asset_id, device_instance, device_address="unknown-ip", protocol='bacnet'):
     """Task to fetch points for a specific device"""
     client = EnOSClient(api_url=api_url, access_key=access_key, secret_key=secret_key, org_id=org_id)
@@ -86,7 +86,7 @@ def fetch_points_task(self, api_url, access_key, secret_key, org_id, asset_id, d
             "code": "INTERNAL_ERROR"
         }
 
-@celery.task(bind=True, max_retries=3)
+# @celery.task(bind=True, max_retries=3)
 def get_network_config_task(self, api_url, access_key, secret_key, org_id, asset_id):
     """Task to retrieve network configuration options"""
     # Check if we're in development/testing mode
@@ -121,7 +121,7 @@ def get_network_config_task(self, api_url, access_key, secret_key, org_id, asset
             "code": "INTERNAL_ERROR"
         }
 
-@celery.task(bind=True, max_retries=3)
+# @celery.task(bind=True, max_retries=3)
 def discover_devices_task(self, api_url, access_key, secret_key, org_id, asset_id, networks, protocol='bacnet'):
     """Task to discover devices on networks"""
     client = EnOSClient(api_url=api_url, access_key=access_key, secret_key=secret_key, org_id=org_id)
@@ -166,7 +166,7 @@ def discover_devices_task(self, api_url, access_key, secret_key, org_id, asset_i
             "code": "INTERNAL_ERROR"
         }
 
-@celery.task
+# @celery.task
 def group_points_task(raw_points):
     """异步分组任务"""
     from app.bms.grouping import DeviceGrouper

@@ -41,11 +41,12 @@ def create_app(test_config=None):
         pass
     
     # Register blueprints
-    from app.api import networks, devices, points
-    
-    app.register_blueprint(networks.bp)
-    app.register_blueprint(devices.bp)
-    app.register_blueprint(points.bp)
+    from app.api.routes import bp as api_bp
+
+    # app.register_blueprint(networks.bp)
+    # app.register_blueprint(devices.bp)
+    # app.register_blueprint(points.bp)
+    app.register_blueprint(api_bp)
     
     # Initialize Swagger documentation
     swagger = Swagger(app)

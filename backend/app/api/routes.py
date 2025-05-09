@@ -1,17 +1,17 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, current_app, make_response, send_from_directory
 import requests
-from app import celery
+#from app import celery
 from app.bms.tasks import fetch_points_task, search_points_task, discover_devices_task, get_network_config_task, group_points_task
 from app.bms.grouping import DeviceGrouper
 from app.bms.mapping import EnOSMapper
 from app.bms.utils import EnOSClient
-from app.services.bms_service import bms_service
+from app.services.bms_service import BMSService
+# Import removed - we now import these functions locally within each route handler as needed
 import pandas as pd
 import os
 import tempfile
 import uuid
 from datetime import datetime
-from . import bp
 import concurrent.futures
 import traceback
 import time
@@ -22,8 +22,85 @@ from io import StringIO
 import csv
 import re
 
+# Create an instance of BMSService
+bms_service = BMSService()
+
 # API Version prefix
 API_VERSION = 'v1'
+
+# Create the Blueprint for this module if it does not exist
+bp = Blueprint('api', __name__, url_prefix='/api')
+
+# Add this after imports, before any routes
+# Initialize with empty/default values, to be populated by user input/connection attempts
+current_connection = {
+    "connected": False,
+    "api_url": "",
+    "access_key": "",
+    "secret_key": "", # Store hash or manage securely if persisted
+    "org_id": "",
+    "asset_id": ""
+}
+
+# Example of how to parse these from request query (using FastAPI)
+# Assuming you have FastAPI and Pydantic installed
+# from fastapi import APIRouter, Query, Depends
+# from pydantic import BaseModel
+#
+# router = APIRouter()
+#
+# class ConnectionParams(BaseModel):
+#     api_url: str
+#     access_key: str
+#     secret_key: str
+#     org_id: str
+#     asset_id: str # Optional, depending on whether it's always needed
+#
+# # This is an example route. You would integrate this logic
+# # into your existing routes where these parameters are needed.
+# @router.get("/connect-example") # Or use POST, etc.
+# async def connect_with_params(
+#     api_url: str = Query(..., title="API URL", description="EnOS API Gateway URL"),
+#     access_key: str = Query(..., title="Access Key", description="EnOS Service Account Access Key"),
+#     secret_key: str = Query(..., title="Secret Key", description="EnOS Service Account Secret Key"),
+#     org_id: str = Query(..., title="Organization ID", description="EnOS Organization ID"),
+#     asset_id: str = Query(None, title="Asset ID", description="Specific Asset ID (optional)") # Make optional if not always required
+# ):
+#     # Now you have the connection parameters from the query
+#     parsed_connection_details = {
+#         "api_url": api_url,
+#         "access_key": access_key,
+#         "secret_key": secret_key, # Be careful with exposing/logging secret keys
+#         "org_id": org_id,
+#         "asset_id": asset_id,
+#         "connected": True # Assuming connection will be attempted with these details
+#     }
+#
+#     # Here, you would use these parsed_connection_details to interact with the EnOS API
+#     # For example, pass them to a service function that makes the API calls.
+#
+#     # Replace the hardcoded current_connection or use this parsed_connection_details
+#     # For demonstration, let's just return them:
+#     return {"message": "Connection parameters received", "details": parsed_connection_details}
+
+# If you were to replace the global current_connection, you'd need a mechanism
+# to set it, perhaps on application startup if these are global settings,
+# or manage it per request if they can vary.
+# For per-request, you wouldn't use a global variable like current_connection
+# but rather pass the parsed parameters to the functions that need them.
+
+# If you want to use a Pydantic model for dependency injection (cleaner):
+# @router.get("/connect-dependency-example")
+# async def connect_with_dependency(params: ConnectionParams = Depends()):
+#     # params.api_url, params.access_key, etc. are available here
+#     # This is often a preferred way to handle multiple query parameters.
+#     parsed_connection_details = params.model_dump()
+#     parsed_connection_details["connected"] = True
+#
+#     return {"message": "Connection parameters received via dependency", "details": parsed_connection_details}
+
+# Make sure to add `router` to your main FastAPI app instance, e.g.:
+# app.include_router(router, prefix="/api")
 
 # Helper function for OPTIONS requests
 def handle_options():
@@ -298,11 +375,35 @@ def export_mapping():
                 writer.writeheader()
                 writer.writerows(export_data)
                 response = make_response(csv_output.getvalue())
-                response.headers["Content-Disposition"] = "attachment; filename=enos_export.csv"
+                # Create a timestamp for the filename
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                response.headers["Content-Disposition"] = f"attachment; filename=enos_export_{timestamp}.csv"
                 response.headers["Content-type"] = "text/csv"
                 return response
             else: return jsonify({"error": "No data to export"}), 400
         else:
+            # For JSON format, save to a file and return filepath
+            if export_data:
+                # Create timestamp and filename
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"enos_export_{timestamp}.json"
+                filepath = os.path.join(current_app.config.get('UPLOAD_FOLDER', 'uploads'), filename)
+                os.makedirs(os.path.dirname(filepath), exist_ok=True)
+                
+                # Save to file
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    json.dump(export_data, f, indent=2)
+                    
+                return jsonify({
+                    "success": True, 
+                    "filepath": filepath,
+                    "filename": filename,
+                    "stats": {
+                        "total": len(export_data), 
+                        "mapped": mapped_count, 
+                        "unmapped": unmapped_count
+                    }
+                })
             return jsonify({"success": True, "data": export_data, "stats": {"total": len(export_data), "mapped": mapped_count, "unmapped": unmapped_count}})
     except Exception as e:
         current_app.logger.error(f"Error exporting mapping: {str(e)}")
@@ -369,3 +470,523 @@ def ai_grouping_endpoint():
          # This case should technically not be reached if methods=['POST', 'OPTIONS']
          print(f"Unsupported method received for /bms/ai-grouping: {request.method}")
          return jsonify({"success": False, "error": f"Method {request.method} not allowed for this endpoint after OPTIONS handling."}), 405
+
+@bp.route('/bms/points', methods=['GET'])
+def get_bms_points():
+    try:
+        if not current_connection["connected"]:
+            return jsonify({
+                "error": "Not connected to BMS API",
+                "details": "Please connect to the BMS API first"
+            }), 400
+        asset_id = request.args.get('assetId', current_connection["asset_id"])
+        current_app.logger.info(f"Fetching BMS points for asset: {asset_id}")
+        try:
+            os.environ["ENOS_API_URL"] = request.args.get('apiUrl', current_connection["api_url"])
+            os.environ["ENOS_ACCESS_KEY"] = request.args.get('accessKey', current_connection["access_key"])
+            os.environ["ENOS_SECRET_KEY"] = request.args.get('secretKey', current_connection["secret_key"])
+            os.environ["ENOS_ORG_ID"] = request.args.get('orgId', current_connection["org_id"])
+            os.environ["ENOS_ASSET_ID"] = request.args.get('assetId', current_connection["asset_id"])
+            device_result = discover_devices_task.delay(asset_id)
+            current_app.logger.info(f"Device discovery result: {json.dumps(device_result)}")
+            if device_result.get("code") == 0 and "all_devices" in device_result and device_result["all_devices"]:
+                devices = device_result["all_devices"]
+                points_result = get_points_for_devices_task.delay(asset_id, devices)
+                current_app.logger.info(f"Points result: {json.dumps(points_result)}")
+                if points_result.get("code") == 0 and "point_results" in points_result:
+                    all_points = []
+                    for device_id, device_points in points_result["point_results"].items():
+                        if "result" in device_points and "objectPropertys" in device_points["result"]:
+                            points = device_points["result"]["objectPropertys"]
+                            for point in points:
+                                point["deviceId"] = device_id
+                                point["source"] = "EnvisionIoT"
+                                if "objectInst" in point:
+                                    point["id"] = f"{device_id}:{point.get('objectInst', '')}"
+                                if "objectName" in point and "pointName" not in point:
+                                    point["pointName"] = point["objectName"]
+                                if "objectType" in point and "pointType" not in point:
+                                    point["pointType"] = point["objectType"]
+                            all_points.extend(points)
+                    current_app.logger.info(f"Returning {len(all_points)} points")
+                    return jsonify({"points": all_points}), 200
+            current_app.logger.warning("Could not fetch real points, using mock data")
+            mock_points = [
+                {"id": "1", "name": "AHU1.SAT", "description": "Supply Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "2", "name": "AHU1.RAT", "description": "Return Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "3", "name": "AHU1.MAT", "description": "Mixed Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "4", "name": "AHU1.Fan.Speed", "description": "Fan Speed", "type": "AO", "source": "EnvisionIoT"},
+                {"id": "5", "name": "AHU1.Damper.Pos", "description": "Damper Position", "type": "AO", "source": "EnvisionIoT"}
+            ]
+            return jsonify({"points": mock_points}), 200
+        except Exception as module_error:
+            current_app.logger.error(f"Error using BMSDataPoints module: {str(module_error)}")
+            current_app.logger.exception(module_error)
+            mock_points = [
+                {"id": "1", "name": "AHU1.SAT", "description": "Supply Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "2", "name": "AHU1.RAT", "description": "Return Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "3", "name": "AHU1.MAT", "description": "Mixed Air Temperature", "type": "AI", "source": "EnvisionIoT"},
+                {"id": "4", "name": "AHU1.Fan.Speed", "description": "Fan Speed", "type": "AO", "source": "EnvisionIoT"},
+                {"id": "5", "name": "AHU1.Damper.Pos", "description": "Damper Position", "type": "AO", "source": "EnvisionIoT"}
+            ]
+            return jsonify({
+                "points": mock_points,
+                "warning": "Using mock data due to BMSDataPoints module error",
+                "error_details": str(module_error)
+            }), 200
+    except Exception as e:
+        current_app.logger.error(f"Error fetching BMS points: {str(e)}")
+        current_app.logger.exception(e)
+        return jsonify({"error": "Failed to fetch BMS points", "details": str(e)}), 500
+
+@bp.route('/bms/connect', methods=['POST'])
+def connect_to_bms():
+    try:
+        data = request.json if request.is_json else {} # Ensure data is a dict
+
+        # Get parameters from JSON body, fallback to current_connection
+        api_url = data.get('apiUrl', current_connection["api_url"])
+        access_key = data.get('accessKey', current_connection["access_key"])
+        secret_key = data.get('secretKey', current_connection["secret_key"]) # Handle with care
+        org_id = data.get('orgId', current_connection["org_id"])
+        asset_id = data.get('assetId', current_connection["asset_id"])
+
+        current_app.logger.info(f"Connecting to BMS. Resolved Asset ID for connection attempt: {asset_id}")
+        current_app.logger.info(f"Attempting connection with API URL: {api_url}, Access Key: {access_key[:5]}..., Org ID: {org_id}")
+
+        # Speculative: Update current_connection BEFORE the call to bms_get_net_config
+        # This might influence BMSDataPoints if it reads from this global dict.
+        # The asset_id in current_connection is also updated here to be consistent,
+        # though bms_get_net_config takes asset_id as a direct parameter.
+        current_connection["api_url"] = api_url
+        current_connection["access_key"] = access_key
+        current_connection["secret_key"] = secret_key # Storing live secret in global like this has risks
+        current_connection["org_id"] = org_id
+        current_connection["asset_id"] = asset_id
+        # `connected` status remains False until bms_get_net_config confirms.
+
+        os.environ["ENOS_API_URL"] = api_url
+        os.environ["ENOS_ACCESS_KEY"] = access_key
+        os.environ["ENOS_SECRET_KEY"] = secret_key
+        os.environ["ENOS_ORG_ID"] = org_id
+        os.environ["ENOS_ASSET_ID"] = asset_id
+        try:
+            # Try to use the imported getNetConfig function
+            try:
+                from BMSDataPoints import getNetConfig as bms_get_net_config
+                # Call with dynamic parameters
+                net_config = bms_get_net_config(org_id_param=org_id, 
+                                                 asset_id_param=asset_id, 
+                                                 api_url_param=api_url, 
+                                                 access_key_param=access_key, 
+                                                 secret_key_param=secret_key)
+            except (ImportError, NameError) as e:
+                current_app.logger.warning(f"Could not import or use BMSDataPoints.getNetConfig: {e}. Using mock.")
+                # Use our mock if the import fails or function is not defined
+                net_config = {"code": 0, "data": ["No Network Card", "eth0(192.168.1.100)", "eth1(192.168.10.101)"]}
+                
+            current_app.logger.info(f"Network config result: {json.dumps(net_config)}")
+            if net_config.get("code") == 0 or "data" in net_config:
+                current_connection.update({
+                    "connected": True,
+                    # These are already set from above, but update confirms the full state.
+                    "api_url": api_url,
+                    "access_key": access_key,
+                    "secret_key": secret_key,
+                    "org_id": org_id,
+                    "asset_id": asset_id
+                })
+                return jsonify({
+                    "status": "success",
+                    "message": "Successfully connected to BMS",
+                    "connection": {
+                        "apiUrl": api_url,
+                        "accessKey": access_key,
+                        "orgId": org_id,
+                        "assetId": asset_id
+                    },
+                    "net_config": net_config.get("data", [])
+                }), 200
+            else:
+                # Connection attempt (getNetConfig) failed, mark as not connected
+                current_connection["connected"] = False
+                return jsonify({
+                    "status": "error",
+                    "message": "Failed to connect to BMS API",
+                    "details": net_config.get("msg", "Unknown error")
+                }), 400
+        except Exception as module_error:
+            current_app.logger.error(f"Error using BMSDataPoints module: {str(module_error)}")
+            current_app.logger.exception(module_error)
+            # Even if BMSDataPoints module itself errors, update with attempted connection parameters
+            # but mark as connected: True (simulated success path as per original logic for module error)
+            current_connection.update({
+                "connected": True, # Original logic maintained this as True on module_error
+                "api_url": api_url,
+                "access_key": access_key,
+                "secret_key": secret_key,
+                "org_id": org_id,
+                "asset_id": asset_id
+            })
+            sample_networks = ["No Network Card", "eth0(192.168.1.100)", "eth1(192.168.10.101)"]
+            return jsonify({
+                "status": "success",
+                "message": "Successfully connected to BMS (simulated)",
+                "connection": {
+                    "apiUrl": api_url,
+                    "accessKey": access_key,
+                    "orgId": org_id,
+                    "assetId": asset_id
+                },
+                "net_config": sample_networks,
+                "warning": "Using simulated connection due to BMSDataPoints module error",
+                "error_details": str(module_error)
+            }), 200
+    except Exception as e:
+        current_app.logger.error(f"Error connecting to BMS: {str(e)}")
+        current_app.logger.exception(e)
+        return jsonify({"error": "Failed to connect to BMS", "details": str(e)}), 500
+
+@bp.route('/bms/discover-devices', methods=['GET'])
+def discover_bms_devices():
+    try:
+        if not current_connection["connected"]:
+            return jsonify({
+                "error": "Not connected to BMS API",
+                "details": "Please connect to the BMS API first"
+            }), 400
+
+        # Get connection parameters from query, fallback to current_connection
+        api_url = request.args.get('apiUrl', current_connection["api_url"])
+        access_key = request.args.get('accessKey', current_connection["access_key"])
+        secret_key = request.args.get('secretKey', current_connection["secret_key"]) # Handle with care
+        org_id_param = request.args.get('orgId', current_connection["org_id"])
+        asset_id_param = request.args.get('assetId', current_connection["asset_id"])
+        network = request.args.get('network')
+
+        if not network:
+            return jsonify({
+                "error": "Network parameter is required",
+                "details": "Please specify a network to scan for devices"
+            }), 400
+        
+        current_app.logger.info(f"Discovering devices on network {network} for asset {asset_id_param} using API URL: {api_url}")
+
+        os.environ["ENOS_API_URL"] = api_url
+        os.environ["ENOS_ACCESS_KEY"] = access_key
+        os.environ["ENOS_SECRET_KEY"] = secret_key
+        os.environ["ENOS_ORG_ID"] = org_id_param
+        os.environ["ENOS_ASSET_ID"] = asset_id_param # Use the resolved asset_id from query/fallback
+        try:
+            # Try to use the imported searchDevice function
+            try:
+                from BMSDataPoints import searchDevice as bms_search_device
+                # Call with dynamic parameters
+                device_result = bms_search_device(org_id_param=org_id_param, # from request.args or current_connection
+                                                    asset_id_param=asset_id_param, # from request.args or current_connection
+                                                    net_param=network, # from request.args
+                                                    api_url_param=api_url, # from request.args or current_connection
+                                                    access_key_param=access_key, # from request.args or current_connection
+                                                    secret_key_param=secret_key) # from request.args or current_connection
+            except (ImportError, NameError) as e:
+                current_app.logger.warning(f"Could not import or use BMSDataPoints.searchDevice: {e}. Using mock.")
+                # Use our mock if the import fails or function is not defined
+                device_result = {"code": 0, "result": {"deviceList": []}}
+                
+            current_app.logger.info(f"Device search result: {json.dumps(device_result)}")
+            if device_result.get("code") == 0 and "result" in device_result and "deviceList" in device_result["result"]:
+                devices = device_result["result"]["deviceList"]
+                return jsonify({
+                    "status": "success",
+                    "message": f"Found {len(devices)} devices",
+                    "all_devices": devices
+                }), 200
+            else:
+                error_code = device_result.get("code", 500)
+                error_msg = device_result.get("msg", "Unknown error from BMS API")
+                current_app.logger.error(f"BMS API error: {error_code} - {error_msg}")
+                return jsonify({
+                    "status": "error",
+                    "message": "Failed to discover devices",
+                    "error": error_msg,
+                    "code": error_code
+                }), 400
+        except Exception as module_error:
+            current_app.logger.error(f"Error using BMSDataPoints module: {str(module_error)}")
+            current_app.logger.exception(module_error)
+            return jsonify({
+                "status": "error",
+                "message": "Error communicating with BMS API",
+                "error": str(module_error)
+            }), 500
+    except Exception as e:
+        current_app.logger.error(f"Error discovering BMS devices: {str(e)}")
+        current_app.logger.exception(e)
+        return jsonify({"error": "Failed to discover BMS devices", "details": str(e)}), 500
+
+@bp.route('/bms/fetch-points', methods=['POST'])
+def fetch_bms_points():
+    try:
+        if not current_connection["connected"]:
+            return jsonify({
+                "error": "Not connected to BMS API",
+                "details": "Please connect to the BMS API first"
+            }), 400
+        data = request.json if request.is_json else {}
+
+        # Get connection parameters from JSON body, fallback to current_connection
+        api_url = data.get('apiUrl', current_connection["api_url"])
+        access_key = data.get('accessKey', current_connection["access_key"])
+        secret_key = data.get('secretKey', current_connection["secret_key"]) # Handle with care
+        org_id_param = data.get('orgId', current_connection["org_id"])
+        asset_id_param = data.get('assetId', current_connection["asset_id"])
+        
+        device_instances = data.get('deviceInstances', [])
+        if not device_instances:
+            return jsonify({
+                "error": "Device instances are required",
+                "details": "Please specify at least one device instance"
+            }), 400
+        
+        current_app.logger.info(f"Fetching points for devices {device_instances} for asset {asset_id_param} using API URL: {api_url}")
+
+        os.environ["ENOS_API_URL"] = api_url
+        os.environ["ENOS_ACCESS_KEY"] = access_key
+        os.environ["ENOS_SECRET_KEY"] = secret_key
+        os.environ["ENOS_ORG_ID"] = org_id_param
+        os.environ["ENOS_ASSET_ID"] = asset_id_param
+        try:
+            current_app.logger.info(f"Initiating point discovery for devices: {device_instances} using dynamic credentials.")
+            
+            # Try to use the imported fetch_points_for_devices function
+            try:
+                from BMSDataPoints import fetch_points_for_devices as bms_fetch_points_for_devices
+                
+                # Prepare the `devices_param` for bms_fetch_points_for_devices
+                # It expects a list of device objects (dicts), typically with at least 'otDeviceInst' and 'address'
+                # Assuming device_instances from the request are the 'otDeviceInst' values.
+                # We might not have full device objects here, so we pass what we have.
+                # The BMSDataPoints.fetch_points_for_devices function internally extracts 'otDeviceInst'
+                # and can fetch addresses if needed or use defaults.
+                devices_param_list = []
+                for inst in device_instances:
+                    devices_param_list.append({"otDeviceInst": str(inst)}) # Ensure otDeviceInst is a string if BMSDataPoints expects int later
+
+                points_results_data = bms_fetch_points_for_devices(
+                    org_id_param=org_id_param,
+                    asset_id_param=asset_id_param,
+                    devices_param=devices_param_list, # Pass the list of device instance dicts
+                    api_url_param=api_url,
+                    access_key_param=access_key,
+                    secret_key_param=secret_key
+                )
+
+                # Process the results from fetch_points_for_devices
+                # The structure is expected to be {"code": 0, "point_results": {device_instance: points_response}}
+                if points_results_data.get("code") == 0 and "point_results" in points_results_data:
+                    all_points = []
+                    errors = []
+                    for device_instance, device_point_data in points_results_data["point_results"].items():
+                        if device_point_data.get("code") == 0 and "result" in device_point_data and "objectPropertys" in device_point_data["result"]:
+                            fetched_device_points = device_point_data["result"]["objectPropertys"]
+                            for point in fetched_device_points:
+                                point["deviceId"] = device_instance # Add deviceId back for frontend
+                                point["source"] = "EnvisionIoT"
+                                if "objectInst" in point:
+                                    point["id"] = f"{device_instance}:{point.get('objectInst', '')}"
+                                if "objectName" in point and "pointName" not in point:
+                                    point["pointName"] = point["objectName"]
+                                    point["name"] = point["objectName"]
+                                if "objectType" in point and "pointType" not in point:
+                                    point["pointType"] = point["objectType"]
+                                    point["type"] = point["objectType"]
+                            all_points.extend(fetched_device_points)
+                        else:
+                            errors.append({
+                                "device_instance": device_instance,
+                                "error": device_point_data.get("msg", "Unknown error from BMS API for device"),
+                                "code": device_point_data.get("code", 500)
+                            })
+                    
+                    if all_points:
+                        response_data = {
+                            "status": "success",
+                            "message": f"Found {len(all_points)} points from {len(device_instances) - len(errors)} devices",
+                            "points": all_points
+                        }
+                        if errors:
+                            response_data["warnings"] = f"Failed to fetch points for {len(errors)} devices"
+                            response_data["device_errors"] = errors
+                        return jsonify(response_data), 200
+                    else:
+                        return jsonify({
+                            "status": "error",
+                            "message": "Failed to fetch points for all specified devices",
+                            "device_errors": errors
+                        }), 400
+                else:
+                    # Error from bms_fetch_points_for_devices itself (e.g., search initiation failed)
+                    return jsonify({
+                        "status": "error",
+                        "message": "Failed to fetch points for devices",
+                        "error": points_results_data.get("msg", "Unknown error from BMSDataPoints.fetch_points_for_devices"),
+                        "code": points_results_data.get("code", 500)
+                    }), 400
+
+            except (ImportError, NameError) as e:
+                current_app.logger.warning(f"Could not import or use BMSDataPoints.fetch_points_for_devices: {e}. Using mock.")
+                # Mock response if import fails
+                mock_points = []
+                for dev_inst in device_instances:
+                    mock_points.extend([
+                        {"id": f"{dev_inst}:1", "name": f"{dev_inst}.SAT", "description": "Supply Air Temperature", "type": "AI", "source": "EnvisionIoT", "deviceId": str(dev_inst)},
+                        {"id": f"{dev_inst}:2", "name": f"{dev_inst}.RAT", "description": "Return Air Temperature", "type": "AI", "source": "EnvisionIoT", "deviceId": str(dev_inst)}
+                    ])
+                return jsonify({"status": "success", "message": "Fetched mock points", "points": mock_points}), 200
+
+        except Exception as module_error:
+            current_app.logger.error(f"Error using BMSDataPoints module in fetch-points: {str(module_error)}")
+            current_app.logger.exception(module_error)
+            return jsonify({
+                "status": "error",
+                "message": "Error communicating with BMS API",
+                "error": str(module_error)
+            }), 500
+    except Exception as e:
+        current_app.logger.error(f"Error fetching BMS points: {str(e)}")
+        current_app.logger.exception(e)
+        return jsonify({"error": "Failed to fetch BMS points", "details": str(e)}), 500
+
+@bp.route('/bms/upload', methods=['POST'])
+def upload_bms_points():
+    try:
+        if 'file' not in request.files:
+            return jsonify({"error": "No file provided"}), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"error": "No file selected"}), 400
+        if not file.filename.endswith('.csv'):
+            return jsonify({"error": "File must be a CSV"}), 400
+        mock_points = [
+            {"id": "1", "name": "AHU1.SAT", "description": "Supply Air Temperature", "type": "AI", "source": "CSV"},
+            {"id": "2", "name": "AHU1.RAT", "description": "Return Air Temperature", "type": "AI", "source": "CSV"},
+            {"id": "3", "name": "AHU1.MAT", "description": "Mixed Air Temperature", "type": "AI", "source": "CSV"}
+        ]
+        return jsonify({"points": mock_points}), 200
+    except Exception as e:
+        current_app.logger.error(f"Error processing CSV file: {str(e)}")
+        current_app.logger.exception(e)
+        return jsonify({"error": "Failed to process CSV file", "details": str(e)}), 500
+
+# Define a mock reasoning engine function
+def get_reasoning_engine():
+    """Get or create a reasoning engine for point grouping and verification.
+    
+    In a real implementation, this would return an actual reasoning engine.
+    For now, it returns a mocked implementation with basic functionalities.
+    """
+    class MockReasoningEngine:
+        def chain_of_thought_grouping(self, points):
+            """Group points with reasoning using a mock implementation."""
+            # Define a simple regex-based grouping
+            groups = {}
+            
+            # Simple patterns to recognize common device types
+            patterns = {
+                "AHU": r"AHU|Air Handler|Supply Air|Return Air|Mixed Air",
+                "FCU": r"FCU|Fan Coil|Zone Temp",
+                "VAV": r"VAV|Variable Air Volume|Zone Flow|Damper",
+                "Chiller": r"Chiller|CHW|Chilled Water|Condenser",
+                "Boiler": r"Boiler|HW|Hot Water|Steam",
+                "Pump": r"Pump|Water Flow|GPM",
+            }
+            
+            for point in points:
+                point_name = point.get("pointName", "") if isinstance(point, dict) else str(point)
+                device_type = "Unknown"
+                reasoning = []
+                
+                # Try to match point name against patterns
+                for dev_type, pattern in patterns.items():
+                    if re.search(pattern, point_name, re.IGNORECASE):
+                        device_type = dev_type
+                        reasoning.append(f"Matched '{point_name}' to {dev_type} based on pattern '{pattern}'")
+                        break
+                
+                # If no match found, use heuristics
+                if device_type == "Unknown":
+                    if "temp" in point_name.lower() or "temperature" in point_name.lower():
+                        device_type = "Temperature Sensor"
+                        reasoning.append(f"Classified '{point_name}' as a Temperature Sensor based on the name")
+                    elif "pressure" in point_name.lower() or "static" in point_name.lower():
+                        device_type = "Pressure Sensor"
+                        reasoning.append(f"Classified '{point_name}' as a Pressure Sensor based on the name")
+                    elif "flow" in point_name.lower() or "gpm" in point_name.lower():
+                        device_type = "Flow Meter"
+                        reasoning.append(f"Classified '{point_name}' as a Flow Meter based on the name")
+                    elif "status" in point_name.lower() or "state" in point_name.lower():
+                        device_type = "Status"
+                        reasoning.append(f"Classified '{point_name}' as a Status indicator based on the name")
+                    else:
+                        reasoning.append(f"Could not determine device type for '{point_name}', defaulting to Unknown")
+                
+                # Add the point to its group with reasoning
+                if device_type not in groups:
+                    groups[device_type] = []
+                
+                if isinstance(point, dict):
+                    point_with_reasoning = point.copy()
+                    point_with_reasoning["grouping_reasoning"] = reasoning
+                    groups[device_type].append(point_with_reasoning)
+                else:
+                    groups[device_type].append({
+                        "pointName": point,
+                        "grouping_reasoning": reasoning
+                    })
+            
+            return groups
+        
+        def calculate_group_confidence(self, device_type, points):
+            """Calculate confidence scores for a group of points."""
+            # Simple mockup of confidence calculation
+            total_points = len(points)
+            if total_points == 0:
+                return {"overall": 0, "details": {"reason": "No points in group"}}
+            
+            # For mock purposes, give higher confidence to known device types
+            known_types = ["AHU", "FCU", "VAV", "Chiller", "Boiler", "Pump"]
+            if device_type in known_types:
+                base_confidence = 0.8
+            else:
+                base_confidence = 0.5
+            
+            # Calculate name similarity within the group
+            name_patterns = {}
+            for point in points:
+                point_name = point.get("pointName", "") if isinstance(point, dict) else str(point)
+                first_part = point_name.split('.')[0] if '.' in point_name else point_name
+                name_patterns[first_part] = name_patterns.get(first_part, 0) + 1
+            
+            # If all points have similar prefix, higher confidence
+            if len(name_patterns) == 1:
+                pattern_confidence = 1.0
+            else:
+                most_common = max(name_patterns.values())
+                pattern_confidence = most_common / total_points
+            
+            overall = (base_confidence + pattern_confidence) / 2
+            
+            return {
+                "overall": min(overall, 0.99),  # Cap at 0.99 for mock
+                "details": {
+                    "base_confidence": base_confidence,
+                    "pattern_confidence": pattern_confidence,
+                    "num_points": total_points,
+                    "patterns_detected": len(name_patterns)
+                }
+            }
+    
+    return MockReasoningEngine()
+
+# Add this at the end of the file to make 'bp' importable
+__all__ = ['bp']

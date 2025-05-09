@@ -234,10 +234,11 @@ paths:
                schema:
                  $ref: '#/components/schemas/ErrorResponse'
 
-  /api/bms/points/ai-grouping: # Keeping original path, updating based on mock code
+  /api/bms/ai-grouping:
     post:
-      summary: Group points using AI (Simulated)
-      description: Groups points by device type and ID using AI methods (currently simulated based on patterns).
+      summary: Group BMS points by device type and device ID using AI (DeviceGrouper)
+      description: |
+        Groups BMS points by device type and device ID using AI methods (via DeviceGrouper). Accepts a list of point names (strings) or objects with a 'pointName' field. Returns a nested dictionary of grouped points.
       tags:
         - BMS Points
       requestBody:
@@ -252,11 +253,11 @@ paths:
                 points:
                   type: array
                   items:
-                    oneOf: # Points can be strings or objects
+                    oneOf:
                       - type: string
-                      - type: object 
+                      - type: object
                         properties:
-                          pointName: 
+                          pointName:
                             type: string
                   description: Array of point names or point objects to group
       responses:
@@ -271,16 +272,16 @@ paths:
                     type: boolean
                   grouped_points:
                     type: object
-                    additionalProperties: # Device Type
-                      type: object 
-                      additionalProperties: # Device ID
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
                         type: array
-                        items: 
-                          type: string # Point Name
+                        items:
+                          type: string
                   stats:
                     type: object
                     properties:
-                      total: 
+                      total:
                         type: integer
                       grouped:
                         type: integer
@@ -298,7 +299,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+    options:
+      summary: CORS preflight for ai-grouping endpoint
+      tags:
+        - BMS Points
+      responses:
+        '200':
+          description: CORS preflight response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+
   /api/bms/points/group-with-reasoning: # New endpoint from bms/routes.py
     post:
       summary: Group points using AI with reasoning
